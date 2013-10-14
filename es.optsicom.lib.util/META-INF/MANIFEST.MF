@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JMH Util
+Bundle-SymbolicName: es.optsicom.lib.util
+Bundle-Version: 0.9.0.qualifier
+Export-Package: es.optsicom.lib.util,
+ es.optsicom.lib.util.description
+Bundle-Vendor: For Research Group

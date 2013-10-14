@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JMH Approx
+Bundle-SymbolicName: es.optsicom.lib.approx
+Bundle-Version: 0.9.0.qualifier
+Export-Package: es.optsicom.lib.approx,
+ es.optsicom.lib.approx.algorithm,
+ es.optsicom.lib.approx.algorithm.ma,
+ es.optsicom.lib.approx.algorithm.pr,
+ es.optsicom.lib.approx.algorithm.ss,
+ es.optsicom.lib.approx.algorithm.test,
+ es.optsicom.lib.approx.algorithm.vns,
+ es.optsicom.lib.approx.combinator,
+ es.optsicom.lib.approx.constructive,
+ es.optsicom.lib.approx.constructive.test,
+ es.optsicom.lib.approx.diversificator,
+ es.optsicom.lib.approx.experiment,
+ es.optsicom.lib.approx.improvement,
+ es.optsicom.lib.approx.improvement.movement
+Bundle-Vendor: For Research Group
+Require-Bundle: es.optsicom.lib;bundle-version="0.9.0",
+ es.optsicom.lib.analysis;bundle-version="0.9.0",
+ es.optsicom.lib.util;bundle-version="0.9.0"

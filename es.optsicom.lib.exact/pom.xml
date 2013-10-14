@@ -1,0 +1,55 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>es.optsicom.lib.parent</artifactId>
+		<groupId>es.optsicom.lib</groupId>
+		<version>0.10.1-SNAPSHOT</version>
+		<relativePath>../es.optsicom.lib.parent</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>es.optsicom.lib.exact</artifactId>
+	<packaging>jar</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>es.optsicom.lib</groupId>
+			<artifactId>es.optsicom.lib</artifactId>
+			<version>0.10.1-SNAPSHOT</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>es.optsicom.lib</groupId>
+			<artifactId>es.optsicom.lib.analysis</artifactId>
+			<version>0.10.1-SNAPSHOT</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.cplex</groupId> -->
+<!-- 			<artifactId>cplex</artifactId> -->
+<!-- 			<version>9.0.0</version> -->
+<!-- 		</dependency> -->
+		<dependency>
+			<groupId>com.gurobi</groupId>
+			<artifactId>gurobi</artifactId>
+			<version>4.6.0</version>
+		</dependency>
+		<dependency>
+			<groupId>es.optsicom.lib</groupId>
+			<artifactId>es.optsicom.lib.util</artifactId>
+			<version>0.10.1-SNAPSHOT</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<!-- This dependency comes from CplexFormulation, which contains an attribute 
+			of type ApproxMethod -->
+		<dependency>
+			<groupId>es.optsicom.lib</groupId>
+			<artifactId>es.optsicom.lib.approx</artifactId>
+			<version>0.10.1-SNAPSHOT</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+</project>

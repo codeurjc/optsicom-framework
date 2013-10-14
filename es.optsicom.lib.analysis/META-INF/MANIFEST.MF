@@ -1,0 +1,29 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JMH Analysis
+Bundle-SymbolicName: es.optsicom.lib.analysis
+Bundle-Version: 0.9.0.qualifier
+Export-Package: 
+ es.optsicom.lib.analysis.table.test,
+ es.optsicom.lib.analyzer,
+ es.optsicom.lib.analyzer.report.table,
+ es.optsicom.lib.analyzer.tablecreator,
+ es.optsicom.lib.analyzer.tablecreator.atttable,
+ es.optsicom.lib.analyzer.tablecreator.filter,
+ es.optsicom.lib.analyzer.tablecreator.pr,
+ es.optsicom.lib.analyzer.tablecreator.statisticcalc,
+ es.optsicom.lib.experiment.analysis.test,
+ es.optsicom.lib.experiment.db,
+ es.optsicom.lib.expresults,
+ es.optsicom.lib.expresults.db,
+ es.optsicom.lib.expresults.manager,
+ es.optsicom.lib.expresults.model,
+ es.optsicom.lib.expresults.saver,
+ es.optsicom.lib.expresults.util,
+ es.optsicom.lib.tablecreator.filter.test,
+ es.optsicom.lib.tablecreator.test,
+ javax.persistence
+Bundle-Vendor: For Research Group
+Require-Bundle: es.optsicom.lib.util;bundle-version="0.9.0",
+ org.junit;bundle-version="4.8.1"
+
