@@ -2,7 +2,7 @@
 	<parent>
 		<artifactId>es.optsicom.lib.parent</artifactId>
 		<groupId>es.optsicom.lib</groupId>
-		<version>0.11.0-SNAPSHOT</version>
+		<version>0.12.0-SNAPSHOT</version>
 		<relativePath>../es.optsicom.lib.parent</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
@@ -119,7 +119,7 @@
 		<dependency>
 			<groupId>es.optsicom.lib</groupId>
 			<artifactId>es.optsicom.lib.util</artifactId>
-			<version>0.11.0-SNAPSHOT</version>
+			<version>0.12.0-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
