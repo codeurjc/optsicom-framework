@@ -10,13 +10,6 @@
  * **************************************************************************** */
 package es.optsicom.lib.util;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class RandomManager {
@@ -31,6 +24,20 @@ public class RandomManager {
 		//System.out.println("RI:"+nextInt);
 		//randomNumbers.add(nextInt);
 		return nextInt;
+	}
+	
+	/**
+	 * Next random int between begin and end, both inclusive
+	 * @param begin
+	 * @param end
+	 * @return int
+	 */
+	public static int nextInt(int begin, int end) {
+		if (end - begin == 0) {
+			return end;
+		}
+		int nextInt = nextInt(end - begin + 1);
+		return nextInt + begin;
 	}
 	
 	public static double nextDouble() {
