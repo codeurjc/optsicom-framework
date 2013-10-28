@@ -169,18 +169,19 @@ public class FusionerReportCreator {
 			
 			if (!expMethodConf.methodNames.isEmpty() || instancesFilter != null) {
 				
-				expManager = expManager.createFilteredExperimentManager(instancesFilter,
+				ExperimentManager filteredExpManager = expManager.createFilteredExperimentManager(instancesFilter,
 						expMethodConf.methodNames.toArray(new String[0]));
 				
-				List<MethodDescription> methods = expManager.getMethods();
+				List<MethodDescription> methods = filteredExpManager.getMethods();
 				if (methods.size() == 0) {
 					System.out
 							.println("WARNING: Filtering mehtods in experiment \""
 									+ expMethodConf.getExpNameOrId()
 									+ "\" gives no methods");
-					System.out.println("  Original methods: "
-							+ expManager.getMethods());
-					System.out.println("  Filtered method names: "
+					System.out.println("  Methods before filtering: " + expManager.getMethods());
+					System.out.println("  Methods after filtering: "
+							+ filteredExpManager.getMethods());
+					System.out.println("  Method names looked for: "
 							+ expMethodConf.methodNames);
 				}
 			}

@@ -1,4 +1,4 @@
-package es.optsicom.lib.experiment.db;
+package es.optsicom.lib.analyzer.helper;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
