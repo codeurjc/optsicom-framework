@@ -10,6 +10,7 @@
  * **************************************************************************** */
 package es.optsicom.lib.util;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class RotateListView<T> implements Iterable<T> {
 		private boolean hasNext = true;
 
 		public IteratorRotate() {
-			initialCounter = actualCounter;
+			initialCounter = startCounter;
 		}
 		
 		public boolean hasNext() {
@@ -29,9 +30,9 @@ public class RotateListView<T> implements Iterable<T> {
 		}
 
 		public T next() {
-			T elem = list.get(actualCounter); 
-			actualCounter = (actualCounter + 1) % list.size();
-			hasNext = (actualCounter != initialCounter);
+			T elem = list.get(startCounter); 
+			startCounter = (startCounter + 1) % list.size();
+			hasNext = (startCounter != initialCounter);
 			return elem;
 		}
 
@@ -42,16 +43,23 @@ public class RotateListView<T> implements Iterable<T> {
 	}
 	
 	private List<? extends T> list;
-	int actualCounter;
+	int startCounter;
 		
 	public RotateListView(List<? extends T> list) {
+		this(list, RandomManager.nextInt(list.size()));
+	}
+	
+	public RotateListView(List<? extends T> list, int startIndex) {
 		this.list = list;
+		this.startCounter = startIndex;
 	}
 
 	public Iterator<T> iterator() {
 		return new IteratorRotate();
 	}
 	
-	
+	public static <T> RotateListView<T> create(List<T> list) {
+		return new RotateListView<T>(list);
+	}
 	
 }
