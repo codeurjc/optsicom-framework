@@ -66,6 +66,10 @@ public class RandomManager {
 //			}
 //			numRandoms++;
 //		}
-	}	
+	}
+
+	public static boolean nextBoolean() {
+		return RandomManager.nextInt(1) == 1? true: false;
+	}
 
 }
