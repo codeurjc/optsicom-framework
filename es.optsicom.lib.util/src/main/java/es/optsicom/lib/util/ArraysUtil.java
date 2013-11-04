@@ -153,6 +153,27 @@ public abstract class ArraysUtil {
 		return position;
 	}
 
+	/**
+	 * Returns the position of the maximun value of the array. If there are more
+	 * than one values that conforms to be the maximun then the first one is
+	 * returned.
+	 * 
+	 * @param values
+	 *            The array
+	 * @return the first of the values that conforms to be the maximun
+	 */
+	public static int indexOfMax(int[] values) {
+		int max = Integer.MIN_VALUE;
+		int position = -1;
+		for (int index = 0; index < values.length; index++) {
+			if (values[index] > max) {
+				position = index;
+				max = values[index];
+			}
+		}
+		return position;
+	}
+
 	public static double sum(double[] values) {
 		double sum = 0;
 		for (double value : values) {
