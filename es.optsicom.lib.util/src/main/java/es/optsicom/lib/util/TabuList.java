@@ -31,6 +31,10 @@ public class TabuList<T extends Comparable<T>> {
 		this.tabuTenure = tabuTenure;
 	}
 
+	public void setTabuTenure(int tabuTenure) {
+		this.tabuTenure = tabuTenure;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -43,7 +47,8 @@ public class TabuList<T extends Comparable<T>> {
 			return;
 		}
 		tabuElements.add(-(index + 1), e);
-		generationsInTabuList.put(e, 0);
+		// 0 to (tabuTenure - 1) iterations 
+		generationsInTabuList.put(e, tabuTenure - 1);
 	}
 
 	public boolean contains(T e) {
@@ -62,10 +67,10 @@ public class TabuList<T extends Comparable<T>> {
 	public void finishIteration() {
 		List<T> toDelete = new ArrayList<T>();
 		for (Entry<T, Integer> entry : generationsInTabuList.entrySet()) {
-			if (entry.getValue() >= tabuTenure) {
+			if (entry.getValue() <= 0) {
 				toDelete.add(entry.getKey());
 			} else {
-				entry.setValue(entry.getValue() + 1);
+				entry.setValue(entry.getValue() - 1);
 			}
 		}
 
