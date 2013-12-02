@@ -1,14 +1,12 @@
 package es.optsicom.lib.multiobjective;
 
-import es.optsicom.lib.AbstractMethod;
 import es.optsicom.lib.Instance;
-import es.optsicom.lib.Solution;
 import es.optsicom.lib.SolutionFactory;
 import es.optsicom.lib.util.Id;
 import es.optsicom.lib.util.description.DescriptiveHelper;
 import es.optsicom.lib.util.description.Properties;
 
-public abstract class MOAbstractMethod<S extends MultiObjectiveSolution, I extends Instance> implements MultiObjectiveMethod<S, I> {
+public abstract class MOAbstractMethod<S extends MultiObjectiveSolution<I>, I extends Instance> implements MultiObjectiveMethod<S, I> {
 
 	protected SolutionFactory<S, I> factory;
 	

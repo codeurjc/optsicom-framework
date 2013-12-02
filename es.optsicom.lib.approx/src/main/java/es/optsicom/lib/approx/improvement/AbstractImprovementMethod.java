@@ -38,6 +38,9 @@ public abstract class AbstractImprovementMethod<S extends Solution<I>, I extends
 
 	public final boolean improveSolution(S solution, long duration) {
 
+		double value = solution.getWeight();
+//		System.out.print("Value=" + value);
+		
 		lastImprovVisitedSolutions = 0;
 		
 		this.improveApplied = false;
@@ -50,6 +53,12 @@ public abstract class AbstractImprovementMethod<S extends Solution<I>, I extends
 		try {
 			this.improveApplied = internalImproveSolution(solution, duration);
 		} catch(TimeLimitException e){}
+		
+//		if(solution.getWeight() > value) {
+//			throw new Error("WTF, empeora....");
+//		}
+		
+//		System.out.println(" New value=" + solution.getWeight());
 		
 		return this.improveApplied;
 	}
