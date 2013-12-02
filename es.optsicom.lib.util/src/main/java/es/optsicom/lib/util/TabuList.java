@@ -48,7 +48,7 @@ public class TabuList<T extends Comparable<T>> {
 		}
 		tabuElements.add(-(index + 1), e);
 		// 0 to (tabuTenure - 1) iterations 
-		generationsInTabuList.put(e, tabuTenure - 1);
+		generationsInTabuList.put(e, tabuTenure);
 	}
 
 	public boolean contains(T e) {
