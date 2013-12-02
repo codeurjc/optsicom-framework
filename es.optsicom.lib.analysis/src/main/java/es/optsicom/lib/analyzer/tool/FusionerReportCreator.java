@@ -190,7 +190,9 @@ public class FusionerReportCreator {
 		}
 		
 		MergedExperimentManager mergedExpManager = new MergedExperimentManager(expRepoManager, expManagers);
-		this.reportConf = new DefaultReportConf();
+		if(this.reportConf == null) {
+			this.reportConf = new DefaultReportConf();
+		}
 		reportConf.buildReport(mergedExpManager);
 
 		File resultsDir = new File("reports");

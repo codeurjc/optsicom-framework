@@ -119,7 +119,10 @@ public class FastExperimentExecutor {
 		FusionerReportCreator reportCreator = new FusionerReportCreator(approxExpConf.getProblem().getName(), experimentId + ".xlsx" , dbManager);
 		
 		reportCreator.addExperimentMethod(experimentId);		
-		reportCreator.addExperimentMethods(expMethodConfs);		
+		reportCreator.addExperimentMethods(expMethodConfs);
+		if(this.reportConf != null) {
+			reportCreator.setReportConf(reportConf);
+		}
 		
 		reportCreator.createReportAndShow();
 	}
