@@ -19,7 +19,8 @@ public abstract class AbstractImprovementMethod<S extends Solution<I>, I extends
         ImprovementMethod<S, I> {
 
 	private ImprovementMethodListener<S,I> listener;
-	private boolean improveApplied = false;
+	//TODO: improvedApplied pasa de ser private a protected por que uno de los MDP así lo requería
+	protected boolean improveApplied = false;
 	protected int lastImprovVisitedSolutions = 0;
 	protected long duration = -1;
 	protected long timeLimit = -1;
