@@ -47,6 +47,11 @@ public class RandomManager {
 		return nextDouble;
 	}
 	
+	public static float nextFloat() {
+		float nextFloat = random.nextFloat();
+		return nextFloat;
+	}
+	
 	public static void setSeed(long seed) {
 		System.out.println("Using seed: " + seed);
 		random = new Random(seed);
