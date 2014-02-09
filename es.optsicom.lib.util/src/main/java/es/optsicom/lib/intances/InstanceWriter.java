@@ -28,7 +28,7 @@ public class InstanceWriter {
 		writer.println(instanceDistances.length);
 		for (int i = 0; i < instanceDistances.length - 1; i++) {
 			for (int j = i + 1; j < instanceDistances.length; j++) {
-				writer.println((i + 1) + " " + (j + 1) + " " + instanceDistances[i][j]);
+				writer.println(i + " " + j + " " + instanceDistances[i][j]);
 			}
 		}
 		writer.close();
