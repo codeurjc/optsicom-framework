@@ -10,25 +10,18 @@
  * **************************************************************************** */
 package es.optsicom.lib.approx;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import es.optsicom.lib.AbstractMethod;
 import es.optsicom.lib.Instance;
-import es.optsicom.lib.Problem;
 import es.optsicom.lib.Solution;
 import es.optsicom.lib.approx.experiment.ApproxExecResult;
 import es.optsicom.lib.approx.improvement.ImprovementMethod;
 import es.optsicom.lib.approx.improvement.ImprovementMethodListener;
-import es.optsicom.lib.experiment.CurrentExperiment;
 import es.optsicom.lib.experiment.ExecLogger;
 import es.optsicom.lib.experiment.ExecutionResult;
 import es.optsicom.lib.experiment.StopMethodException;
 import es.optsicom.lib.expresults.model.DBProperties;
 import es.optsicom.lib.expresults.model.MethodDescription;
 import es.optsicom.lib.util.BestMode;
-import es.optsicom.lib.util.description.DescriptiveHelper;
-import es.optsicom.lib.util.description.Properties;
 
 /**
  * 
@@ -129,7 +122,7 @@ public abstract class AbstractApproxMethod<S extends Solution<I>, I extends Inst
 	}
 
 	@SuppressWarnings("unchecked")
-	protected void setIfBestSolution(S solution) {
+	protected boolean setIfBestSolution(S solution) {
 
 		if (bestSolution == null || solution.isBetterThan(bestSolution)) {
 
@@ -143,6 +136,10 @@ public abstract class AbstractApproxMethod<S extends Solution<I>, I extends Inst
 			}
 			
 			System.out.println(" > "+bestSolutionWeight);
+			
+			return true;
+		} else {
+			return false;
 		}
 	}
 
