@@ -47,4 +47,5 @@ public abstract class MovementImprovementMethod<S extends Solution<I>, I extends
 	public MovementGenerator<S, I> getMovementGenerator() {
 		return movementGenerator;
 	}
+		
 }

@@ -2,6 +2,7 @@ package es.optsicom.lib.approx.improvement.movement;
 
 import es.optsicom.lib.Instance;
 import es.optsicom.lib.Solution;
+import es.optsicom.lib.approx.improvement.TimeLimitException;
 import es.optsicom.lib.util.ArraysUtil;
 import es.optsicom.lib.util.BestMode;
 import es.optsicom.lib.util.Id;
@@ -82,7 +83,11 @@ public class TabuImprovementMethod<S extends Solution<I>, I extends Instance>
 				break;
 			}
 
-			checkFinishByTime();
+			try{
+				checkFinishByTime();
+			} catch(TimeLimitException e) {
+				break;
+			}
 
 		} while (true);
 
@@ -212,6 +217,11 @@ public class TabuImprovementMethod<S extends Solution<I>, I extends Instance>
 	@Id
 	public float getMaxIterWoImpr() {
 		return maxIterWoImpr;
+	}
+	
+	@Override
+	public boolean canTestMovement(Object movementAttributes) {
+		return true;
 	}
 
 }
