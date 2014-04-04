@@ -112,9 +112,6 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 			itersWoImpr++;
 		}		
 
-		tabuAdapter.markAsTabu(memory, movementAttributes, numIteration,
-				tenureAdapter.getTenure(solution, movementAttributes, numIteration, itersWoImpr));
-
 		// if(!bestMode.isImprovement(bestIncrement)){
 		// System.out.println(".");
 		// }
@@ -122,6 +119,9 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 		//double originalWeight = solutionWeight;
 		movementGenerator.applyMovement(movementAttributes);
 		
+		tabuAdapter.markAsTabu(memory, movementAttributes, numIteration,
+				tenureAdapter.getTenure(solution, movementAttributes, numIteration, itersWoImpr));
+
 		//System.out.println("---- New Solution: " + solution.getWeight());
 		
 		// System.out.print(".");
