@@ -157,6 +157,7 @@ public abstract class AbstractApproxMethod<S extends Solution<I>, I extends Inst
 					bestSolutionWeight)) {
 				bestSolutionWeight = newBestSolution.getWeight();
 				approxMethodListener.solutionImproved(this, newBestSolution);
+				System.out.println(" > "+bestSolutionWeight);
 			}
 		}
 	}

@@ -74,6 +74,8 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 			}
 
 			numIteration++;
+			
+			tenureAdapter.finishIteration(solution, numIteration, itersWoImpr);
 
 			// if(solution.getWeight() != bestSolution.getWeight()){
 			// System.out.println("NumIterations Wo Impr: "+itersWoImpr+" limit="+maxItersWoImprInt);
@@ -87,6 +89,8 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 
 		} while (true);
 
+		System.out.println("Iterations: " + numIteration + "; ItersWoImp: " + itersWoImpr);
+		
 		solution.asSolution(bestSolution);
 	}
 
@@ -154,7 +158,7 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 				movementAttributes, numIteration);
 
 		boolean aspirationCriteria = false;
-
+		
 		if (tabuMovement) {
 			aspirationCriteria = bestMode.isBetterThan(
 					increment + solutionWeight, bestSolution.getWeight());
@@ -185,7 +189,7 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 					throw new FinishGeneratingMovementsException();
 				}
 			}
-		}
+		} 
 	}
 
 	@Override
@@ -208,6 +212,11 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 	@Id
 	public TabuProblemAdapter<S, I> getTabuAdapter() {
 		return tabuAdapter;
+	}
+	
+	@Id
+	public TenureProblemAdapter<S, I> getTenureAdapter() {
+		return tenureAdapter;
 	}
 
 	@Id
