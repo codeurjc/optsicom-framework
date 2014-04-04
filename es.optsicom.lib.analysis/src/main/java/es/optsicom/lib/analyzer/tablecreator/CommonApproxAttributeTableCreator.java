@@ -2,8 +2,8 @@ package es.optsicom.lib.analyzer.tablecreator;
 
 import es.optsicom.lib.analyzer.report.table.NumericFormat.NumberType;
 import es.optsicom.lib.analyzer.tablecreator.atttable.AttributedTable;
+import es.optsicom.lib.analyzer.tablecreator.pr.FirtsOfSameValueAsLastEventRP;
 import es.optsicom.lib.analyzer.tablecreator.pr.LastEventRP;
-import es.optsicom.lib.analyzer.tablecreator.pr.LastEventRP.Source;
 import es.optsicom.lib.analyzer.tablecreator.statisticcalc.FeasAllDevStatisticCalc;
 import es.optsicom.lib.analyzer.tablecreator.statisticcalc.FeasDevStatisticCalc;
 import es.optsicom.lib.analyzer.tablecreator.statisticcalc.DevStatisticCalc;
@@ -57,15 +57,15 @@ public class CommonApproxAttributeTableCreator extends AttributedTableCreator {
 
 			addStatisticGroup(StatisticGroup.createMultipleStatisticGroup(
 					new LastEventRP(Event.FINISH_TIME_EVENT)
-							.setSource(Source.TIMESTAMP),
+							.setSource(LastEventRP.Source.TIMESTAMP),
 					new Statistic[] { new Statistic(
 							new NonRelativizerStatisticCalc(
 									SummarizeMode.AVERAGE, NumberType.DECIMAL,
 									BestMode.MIN_IS_BEST), "Time") }));
 
 			addStatisticGroup(StatisticGroup.createMultipleStatisticGroup(
-					new LastEventRP(Event.OBJ_VALUE_EVENT)
-							.setSource(Source.TIMESTAMP),
+					new FirtsOfSameValueAsLastEventRP(Event.OBJ_VALUE_EVENT)
+							.setSource(FirtsOfSameValueAsLastEventRP.Source.TIMESTAMP),
 					new Statistic[] { new Statistic(
 							new NonRelativizerStatisticCalc(
 									SummarizeMode.AVERAGE, NumberType.DECIMAL,
