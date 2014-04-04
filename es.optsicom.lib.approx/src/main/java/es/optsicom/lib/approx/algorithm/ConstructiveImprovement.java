@@ -11,15 +11,12 @@
 package es.optsicom.lib.approx.algorithm;
 
 import es.optsicom.lib.Instance;
-
 import es.optsicom.lib.Method;
 import es.optsicom.lib.Solution;
 import es.optsicom.lib.approx.AbstractApproxMethod;
 import es.optsicom.lib.approx.constructive.Constructive;
-import es.optsicom.lib.approx.improvement.AbstractImprovementMethod;
 import es.optsicom.lib.approx.improvement.ImprovementMethod;
 import es.optsicom.lib.experiment.CurrentExperiment;
-import es.optsicom.lib.experiment.ExperimentExecution;
 import es.optsicom.lib.util.Id;
 import es.optsicom.lib.util.description.DescriptiveHelper;
 import es.optsicom.lib.util.description.Properties;
@@ -99,6 +96,10 @@ public class ConstructiveImprovement<S extends Solution<I>, I extends Instance> 
 
 				setIfBestSolution(solution);
 				iterationsPerformed++;
+				
+				if(iterationsPerformed == iterations){
+					break;
+				}
 
 			//} while (iterationsPerformed < iterations && System.currentTimeMillis() < finishTime);
 			} while (System.currentTimeMillis() < finishTime);
