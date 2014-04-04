@@ -127,6 +127,18 @@ public class Execution {
 
 		return event;
 	}
+	
+	public List<Event> getEventsWithValue(String eventName, Object value) {
+		
+		List<Event> newEvents = new ArrayList<Event>();
+		for (Event event : events) {
+			if (event.getValue().equals(value)) {
+				newEvents.add(event);
+			}
+		}
+
+		return newEvents;
+	}
 
 	public void addFinishEvents(double weight, Object infoToSave, long executionTime, Execution exec) {
 		// TODO Auto-generated method stub
