@@ -112,7 +112,7 @@ public class FastExperimentExecutor {
 
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-		String docname = formatter.format(new Date()) + " " + name + " - id: " + experimentId;
+		String docname = formatter.format(new Date()) + " " + name + " - id " + experimentId;
 		FusionerReportCreator reportCreator = new FusionerReportCreator(approxExpConf.getProblem().getName(), docname,
 				dbManager);
 
