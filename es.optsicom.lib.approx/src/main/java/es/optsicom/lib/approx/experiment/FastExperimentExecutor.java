@@ -48,7 +48,7 @@ public class FastExperimentExecutor {
 	private boolean localExecution = true;
 	private DBManager dbManager;
 
-	private String name;
+	private String name = "";
 
 	public FastExperimentExecutor(ApproxExpConf approxExpConf) {
 		this.approxExpConf = approxExpConf;
@@ -112,7 +112,7 @@ public class FastExperimentExecutor {
 
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-		String docname = formatter.format(new Date()) + " " + name;
+		String docname = formatter.format(new Date()) + " " + name + " - id: " + experimentId;
 		FusionerReportCreator reportCreator = new FusionerReportCreator(approxExpConf.getProblem().getName(), docname,
 				dbManager);
 
