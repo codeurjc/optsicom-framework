@@ -98,4 +98,10 @@ public class BasicImprovementMethod<S extends Solution<I>, I extends Instance>
 	public Mode getMode() {
 		return mode;
 	}
+	
+	@Override
+	public boolean canTestMovement(Object movementAttributes) {
+		return true;
+	}
+	
 }

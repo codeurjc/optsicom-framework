@@ -5,6 +5,8 @@ public interface MovementManager {
 	void testMovement(double weight, Object movementAttributes);
 
 	void finishMovementGroup();
+
+	boolean canTestMovement(Object movementAttributes);
 	
 
 }

@@ -2,6 +2,7 @@ package es.optsicom.lib.approx.improvement.movement;
 
 import es.optsicom.lib.Instance;
 import es.optsicom.lib.Solution;
+import es.optsicom.lib.approx.improvement.TimeLimitException;
 import es.optsicom.lib.util.ArraysUtil;
 import es.optsicom.lib.util.BestMode;
 import es.optsicom.lib.util.Id;
@@ -30,6 +31,8 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 	private TenureProblemAdapter<S, I> tenureAdapter;
 
 	private double solutionWeight;
+
+	private boolean testTabuMovements = true;
 
 	public TabuVariableTenureImprovementMethod(MovementGenerator<S, I> movementGenerator,
 			Mode mode, float maxIterWoImpr, float tabuTenure,
@@ -85,7 +88,11 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 				break;
 			}
 
-			checkFinishByTime();
+			try{
+				checkFinishByTime();
+			} catch(TimeLimitException e) {
+				break;
+			}
 
 		} while (true);
 
@@ -134,6 +141,7 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 		if (newBestSolutionFound) {
 			//System.out.println("New solution found: "+solution.getWeight());
 			bestSolution = (S) solution.createCopy();
+			System.out.println(">> "+bestSolution.getWeight());
 		}
 
 		// TODO Correct implementation test. We need to found a good way
@@ -223,5 +231,18 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 	public float getMaxIterWoImpr() {
 		return maxIterWoImpr;
 	}
+	
+	public TabuVariableTenureImprovementMethod<S, I> setTestTabuMovements(boolean testTabuMovements) {
+		this.testTabuMovements = testTabuMovements;
+		return this;
+	}
 
+	@Override
+	public boolean canTestMovement(Object movementAttributes) {
+		if(testTabuMovements){
+			return true;
+		} else {
+			return !tabuAdapter.isMarkedAsTabu(memory, movementAttributes, numIteration);
+		}
+	}
 }
