@@ -132,7 +132,7 @@ public class Execution {
 		
 		List<Event> newEvents = new ArrayList<Event>();
 		for (Event event : events) {
-			if (event.getValue().equals(value)) {
+			if (event != null && value.equals(event.getValue())) {
 				newEvents.add(event);
 			}
 		}

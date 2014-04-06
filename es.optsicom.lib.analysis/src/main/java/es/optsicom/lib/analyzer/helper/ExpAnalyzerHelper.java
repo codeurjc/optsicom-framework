@@ -22,6 +22,25 @@ import es.optsicom.lib.expresults.model.MethodDescription;
 
 public class ExpAnalyzerHelper {
 
+	public static void showDefaultReport(String derbyDir, long id) {
+		try {
+			ExperimentRepositoryManager expRepoManager = createExperimentRepositoryManager(derbyDir);
+
+			ExperimentManager expManager = expRepoManager
+					.findExperimentManagerById(id);
+
+			expManager = expManager.createFilteredExperimentManager(null,
+					(ElementFilter)null);
+			
+			//showExperimentContents(expManager);
+			
+			createReportAndOpenExcel(expManager.getName(), new DefaultReportConf(), expManager);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public static void showDefaultReport(String derbyDir,String experimentName, String problemName) {
 		showDefaultReport(derbyDir,experimentName, problemName, new DefaultReportConf(), null);
 	}
@@ -99,6 +118,7 @@ public class ExpAnalyzerHelper {
 		List<Experiment> experiments = expRepoManager.findExperiments();
 		for (Experiment exp : experiments) {
 			System.out.println("Experiment");
+			System.out.println("   Id:" + exp.getId());
 			System.out.println("   Name:" + exp.getName());
 			System.out.println("   NumExecs:" + exp.getNumExecs());
 			System.out.println("   Date:"
