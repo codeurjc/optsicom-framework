@@ -11,6 +11,7 @@
 package es.optsicom.lib.approx.algorithm.mo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import es.optsicom.lib.AbstractMethod;
@@ -79,4 +80,7 @@ public abstract class AbstractApproxMOMethod<S extends Solution<I>, I extends In
 		this.setIfNonDominated(newBestSolution);
 	};
 	
+	public List<S> getBestSolutions() {
+		return Collections.unmodifiableList(bestSolutions);
+	}
 }
