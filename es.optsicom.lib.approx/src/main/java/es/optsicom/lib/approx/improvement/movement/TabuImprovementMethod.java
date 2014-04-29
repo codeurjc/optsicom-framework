@@ -131,9 +131,11 @@ public class TabuImprovementMethod<S extends Solution<I>, I extends Instance>
 		// TODO This can be optimized making the copy when the first
 		// non-improving
 		// movement is applied
-		if (newBestSolutionFound) {
+//		if (newBestSolutionFound) {
+		if (solution.isBetterThan(bestSolution)) {
 			//System.out.println("New solution found: "+solution.getWeight());
 			bestSolution = (S) solution.createCopy();
+			newBestSolutionFound(bestSolution);
 		}
 
 		// TODO Correct implementation test. We need to found a good way
@@ -146,8 +148,6 @@ public class TabuImprovementMethod<S extends Solution<I>, I extends Instance>
 		// + " and is "
 		// + solution.getWeight());
 		// }
-
-		newBestSolutionFound(bestSolution);
 
 	}
 
@@ -186,6 +186,7 @@ public class TabuImprovementMethod<S extends Solution<I>, I extends Instance>
 
 			if (mode == Mode.FIRST) {
 				if (bestMode.isImprovement(increment)) {
+//					System.out.println("-");
 					throw new FinishGeneratingMovementsException();
 				}
 			}

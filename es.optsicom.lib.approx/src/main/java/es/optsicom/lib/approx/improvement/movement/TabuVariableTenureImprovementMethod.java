@@ -138,9 +138,10 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 		// TODO This can be optimized making the copy when the first
 		// non-improving
 		// movement is applied
-		if (newBestSolutionFound) {
+		if (solution.isBetterThan(bestSolution)) {
 			//System.out.println("New solution found: "+solution.getWeight());
 			bestSolution = (S) solution.createCopy();
+			newBestSolutionFound(bestSolution);
 			System.out.println(">> "+bestSolution.getWeight());
 		}
 
@@ -154,9 +155,7 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 		// + " and is "
 		// + solution.getWeight());
 		// }
-
-		newBestSolutionFound(bestSolution);
-
+		
 	}
 
 	@Override
