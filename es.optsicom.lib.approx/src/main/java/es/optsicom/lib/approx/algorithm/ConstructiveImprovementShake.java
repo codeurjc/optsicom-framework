@@ -20,8 +20,7 @@ import es.optsicom.lib.util.Id;
 import es.optsicom.lib.util.description.DescriptiveHelper;
 import es.optsicom.lib.util.description.Properties;
 
-public class ConstructiveImprovementShake<S extends Solution<I>, I extends Instance>
-		extends AbstractApproxMethod<S, I> {
+public class ConstructiveImprovementShake<S extends Solution<I>, I extends Instance> extends AbstractApproxMethod<S, I> {
 
 	public static final String ITERATIONS_PERFORMED_EVENT = "constructiveImprovement.iterationsPerformed";
 	private Constructive<S, I> constructive;
@@ -29,19 +28,25 @@ public class ConstructiveImprovementShake<S extends Solution<I>, I extends Insta
 	private int iterationsPerformed = 0;
 	private int iterations = 1;
 	private Shaker<S, I> shaker;
+	private boolean resetIterationsIfImprovemnt;
 
-	public ConstructiveImprovementShake(Constructive<S, I> constructive,
-			ImprovementMethod<S, I> improvementMethod, Shaker<S, I> shaker,
-			int iterations) {
+	public ConstructiveImprovementShake(Constructive<S, I> constructive, ImprovementMethod<S, I> improvementMethod,
+			Shaker<S, I> shaker, int iterations, boolean resetIterationsIfImprovemnt) {
 		this.shaker = shaker;
 		this.constructive = constructive;
 		this.improvementMethod = improvementMethod;
 		this.iterations = iterations;
+		this.resetIterationsIfImprovemnt = resetIterationsIfImprovemnt;
 	}
 
-	public ConstructiveImprovementShake(Constructive<S, I> constructive,
-			ImprovementMethod<S, I> improvementMethod, Shaker<S, I> shaker) {
-		this(constructive, improvementMethod, shaker, 100);
+	public ConstructiveImprovementShake(Constructive<S, I> constructive, ImprovementMethod<S, I> improvementMethod,
+			Shaker<S, I> shaker, int iterations) {
+		this(constructive, improvementMethod, shaker, iterations, false);
+	}
+
+	public ConstructiveImprovementShake(Constructive<S, I> constructive, ImprovementMethod<S, I> improvementMethod,
+			Shaker<S, I> shaker) {
+		this(constructive, improvementMethod, shaker, 100, false);
 	}
 
 	@Override
@@ -64,12 +69,14 @@ public class ConstructiveImprovementShake<S extends Solution<I>, I extends Insta
 					improvementMethod.improveSolution(solution);
 				}
 
-				setIfBestSolution(solution);
+				boolean improved = setIfBestSolution(solution);
+				if (improved && resetIterationsIfImprovemnt) {
+					i = 0;
+				}
 
 				shaker.shake(solution);
+				iterationsPerformed++;
 			}
-
-			iterationsPerformed = iterations;
 
 		} else {
 
@@ -87,13 +94,16 @@ public class ConstructiveImprovementShake<S extends Solution<I>, I extends Insta
 				}
 
 				if (improvementMethod != null) {
-					improvementMethod.improveSolution(solution, finishTime
-							- System.currentTimeMillis());
+					improvementMethod.improveSolution(solution, finishTime - System.currentTimeMillis());
 					// System.out.println("I: "+solution);
 				}
 
-				setIfBestSolution(solution);
-				iterationsPerformed++;
+				boolean improved = setIfBestSolution(solution);
+				if (improved && resetIterationsIfImprovemnt) {
+					iterationsPerformed = 0;
+				} else {
+					iterationsPerformed++;
+				}
 
 				if (iterationsPerformed == iterations) {
 					break;
@@ -108,8 +118,7 @@ public class ConstructiveImprovementShake<S extends Solution<I>, I extends Insta
 			this.improvementMethod.setImprovementMethodListener(null);
 		}
 
-		CurrentExperiment.addEvent(ITERATIONS_PERFORMED_EVENT,
-				iterationsPerformed);
+		CurrentExperiment.addEvent(ITERATIONS_PERFORMED_EVENT, iterationsPerformed);
 	}
 
 	@Id
@@ -129,7 +138,7 @@ public class ConstructiveImprovementShake<S extends Solution<I>, I extends Insta
 	public void setImprovingMethod(ImprovementMethod<S, I> improvingMethod) {
 		this.improvementMethod = improvingMethod;
 	}
-	
+
 	@Id
 	public Shaker<S, I> getShaker() {
 		return shaker;
