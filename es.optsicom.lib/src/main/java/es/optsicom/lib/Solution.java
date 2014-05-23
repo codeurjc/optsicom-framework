@@ -70,4 +70,8 @@ public abstract class Solution<I extends Instance> implements IWeighed {
 		return " Weight:"+this.getWeight()+" "+ArraysUtil.toStringObj(getInfoToSave());
 	}
 	
+	public double calculateNaiveWeight(){
+		return -1;
+	}
+	
 }

@@ -48,6 +48,8 @@ import es.optsicom.lib.util.outprocess.OutprocessWithOperations;
 public class ApproxMethodExperiment<S extends Solution<I>, I extends Instance>
 		extends ExperimentExecution<S, I> {
 
+	private static final double EPSILON = 0.001;
+
 	private final List<ApproxMethod<S, I>> methods;
 
 	private int executions;
@@ -198,16 +200,24 @@ public class ApproxMethodExperiment<S extends Solution<I>, I extends Instance>
 					
 					CurrentExperiment.finishExecution();
 					
+					Solution bestSolution = executionResult.getBestSolution();
+					
 					System.out.println();
 					System.out.format("\tTime: %d\t W:%.3f\r\n", execSaver.getExecutionTime(),
-							executionResult.getBestSolution().getWeight());
-					System.out.println("\tSolution: " + executionResult.getBestSolution());
-
+							bestSolution.getWeight());
+					System.out.println("\tSolution: " + bestSolution);
+					
+					double naiveWeight = bestSolution.calculateNaiveWeight();					
+					if(Math.abs(naiveWeight - bestSolution.getWeight()) > EPSILON){
+						System.out.println("\tNaive weight: " + naiveWeight);
+						System.out.println("\tSolution weight: " + bestSolution.getWeight());
+						System.out.println("\tERROR: Naive weight and solution weight are different !!!!!!!!!!!!!");
+					}
+					
 				} catch (Exception e) {
 					System.out.println("\tException: " + e.getClass().getName()+":"+e.getMessage());
 					e.printStackTrace();
-					thrownExceptions.add(new OptsicomException(instance.getInstanceFile(), method, e));
-					
+					thrownExceptions.add(new OptsicomException(instance.getInstanceFile(), method, e));					
 				}
 			}
 			
