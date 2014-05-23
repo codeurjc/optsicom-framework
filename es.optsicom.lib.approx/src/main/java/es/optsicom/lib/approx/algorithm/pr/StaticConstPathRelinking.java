@@ -62,7 +62,7 @@ public class StaticConstPathRelinking<S extends Solution<I>, I extends Instance>
 		//		13. Return xbest.
 
 		if (duration != -1) {
-			throw new RuntimeException("This algorithm is not prepared to be executed by time");
+			System.out.println("WARN: This algorithm is not prepared to be executed by time. Ignoring time limit");
 		}
 
 		this.constructive.setInstance(instance);

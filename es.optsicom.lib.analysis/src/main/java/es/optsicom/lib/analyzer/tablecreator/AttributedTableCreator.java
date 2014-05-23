@@ -72,7 +72,7 @@ public class AttributedTableCreator {
 	private ExperimentManager experimentResults;
 
 	// Very bad logging system :(
-	private boolean showProcessLog = true;
+	private boolean showProcessLog = false;
 
 	protected List<StatisticGroup> statisticGroups = new ArrayList<StatisticGroup>();
 
