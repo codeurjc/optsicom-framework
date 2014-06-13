@@ -6,5 +6,6 @@ public class DefaultReportConf extends ReportConf {
 		addBlockBuilder(new InstancesBlockBuilder());
 		addBlockBuilder(new InstancesSummaryBlockBuilder());
 		addBlockBuilder(new InstancesPropertiesBlockBuilder());
+		addBlockBuilder(new StatisticBlockBuilder());
 	}
 }
