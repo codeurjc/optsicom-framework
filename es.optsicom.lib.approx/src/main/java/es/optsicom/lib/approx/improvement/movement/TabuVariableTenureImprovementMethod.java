@@ -3,42 +3,39 @@ package es.optsicom.lib.approx.improvement.movement;
 import es.optsicom.lib.Instance;
 import es.optsicom.lib.Solution;
 import es.optsicom.lib.approx.improvement.TimeLimitException;
-import es.optsicom.lib.util.ArraysUtil;
 import es.optsicom.lib.util.BestMode;
 import es.optsicom.lib.util.Id;
-import es.optsicom.lib.util.MathUtil;
 
-public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extends Instance>
-		extends MovementImprovementMethod<S, I> implements MovementManager {
+public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extends Instance> extends
+		MovementImprovementMethod<S, I> implements MovementManager {
 
-	private Mode mode;
+	private final Mode mode;
 
 	private double bestIncrement;
 	private Object movementAttributes;
 
 	private BestMode bestMode;
 
-	private float tabuTenure;
-	private float maxIterWoImpr;
+	private final float tabuTenure;
+	private final float maxIterWoImpr;
 	private Object memory;
 
-	private TabuProblemAdapter<S, I> tabuAdapter;
+	private final TabuProblemAdapter<S, I> tabuAdapter;
 
 	private int numIteration;
 	private int itersWoImpr;
 	private S bestSolution;
 
-	private TenureProblemAdapter<S, I> tenureAdapter;
+	private final TenureProblemAdapter<S, I> tenureAdapter;
 
 	private double solutionWeight;
 
 	private boolean testTabuMovements = true;
 
 	private long startTime;
-	
-	public TabuVariableTenureImprovementMethod(MovementGenerator<S, I> movementGenerator,
-			Mode mode, float maxIterWoImpr, float tabuTenure,
-			TabuProblemAdapter<S, I> tabuAdapter,
+
+	public TabuVariableTenureImprovementMethod(MovementGenerator<S, I> movementGenerator, Mode mode,
+			float maxIterWoImpr, float tabuTenure, TabuProblemAdapter<S, I> tabuAdapter,
 			TenureProblemAdapter<S, I> tenureAdapter) {
 		super(movementGenerator);
 		this.mode = mode;
@@ -50,18 +47,17 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 
 	@Override
 	public boolean internalImproveSolution(S solution, long duration) {
-		//Hack to know when algorithm starts
+		// Hack to know when algorithm starts
 		startTime = System.currentTimeMillis();
 		return super.internalImproveSolution(solution, duration);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void moreInternalImproveSolution() {
 
 		this.memory = tabuAdapter.createMemory(solution);
-		int maxItersWoImprInt = tabuAdapter.getMaxItersWoImprInt(solution,
-				maxIterWoImpr);
+		int maxItersWoImprInt = tabuAdapter.getMaxItersWoImprInt(solution, maxIterWoImpr);
 
 		bestMode = instance.getProblem().getMode();
 		numIteration = 1;
@@ -86,7 +82,7 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 			}
 
 			numIteration++;
-			
+
 			tenureAdapter.finishIteration(solution, numIteration, itersWoImpr);
 
 			// if(solution.getWeight() != bestSolution.getWeight()){
@@ -97,53 +93,52 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 				break;
 			}
 
-			try{
+			try {
 				checkFinishByTime();
-			} catch(TimeLimitException e) {
+			} catch (TimeLimitException e) {
 				break;
 			}
 
 		} while (true);
 
 		System.out.println("Iterations: " + numIteration + "; ItersWoImp: " + itersWoImpr);
-		
+
 		solution.asSolution(bestSolution);
 	}
 
 	private void applyMovement() {
 
-		//System.out.println("---- ApplyMovement: " + (solutionWeight + bestIncrement) + "("+ bestIncrement+") "+ArraysUtil.toStringObj(movementAttributes));
-		
+		// System.out.println("---- ApplyMovement: " + (solutionWeight + bestIncrement) + "("+
+		// bestIncrement+") "+ArraysUtil.toStringObj(movementAttributes));
+
 		boolean newBestSolutionFound = false;
-		if (bestMode.isBetterThan(solutionWeight + bestIncrement,
-				bestSolution.getWeight())) {
+		if (bestMode.isBetterThan(solutionWeight + bestIncrement, bestSolution.getWeight())) {
 
 			improvement = true;
 			itersWoImpr = 0;
 			newBestSolutionFound = true;
-			
-			//System.out.println("BestSolFound");
+
+			// System.out.println("BestSolFound");
 
 		} else {
 			itersWoImpr++;
-		}		
+		}
 
 		// if(!bestMode.isImprovement(bestIncrement)){
 		// System.out.println(".");
 		// }
 
-		//double originalWeight = solutionWeight;
+		// double originalWeight = solutionWeight;
 		movementGenerator.applyMovement(movementAttributes);
-		
-		int tenure = tenureAdapter.getTenure(solution, movementAttributes, numIteration, itersWoImpr);
-		
-		System.out.println("    ##-> "+(System.currentTimeMillis()-startTime)+":"+tenure);
-		
-		tabuAdapter.markAsTabu(memory, movementAttributes, numIteration,
-				tenure);
 
-		//System.out.println("---- New Solution: " + solution.getWeight());
-		
+		int tenure = tenureAdapter.getTenure(solution, movementAttributes, numIteration, itersWoImpr);
+
+		// System.out.println("    ##-> "+(System.currentTimeMillis()-startTime)+":"+tenure);
+
+		tabuAdapter.markAsTabu(memory, movementAttributes, numIteration, tenure);
+
+		// System.out.println("---- New Solution: " + solution.getWeight());
+
 		// System.out.print(".");
 
 		// System.out.print(solution.getWeight() + ", ");
@@ -152,10 +147,10 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 		// non-improving
 		// movement is applied
 		if (solution.isBetterThan(bestSolution)) {
-			//System.out.println("New solution found: "+solution.getWeight());
+			// System.out.println("New solution found: "+solution.getWeight());
 			bestSolution = (S) solution.createCopy();
 			newBestSolutionFound(bestSolution);
-			//System.out.println(">> "+bestSolution.getWeight());
+			// System.out.println(">> "+bestSolution.getWeight());
 		}
 
 		// TODO Correct implementation test. We need to found a good way
@@ -168,32 +163,28 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 		// + " and is "
 		// + solution.getWeight());
 		// }
-		
+
 	}
 
 	@Override
 	public void testMovement(double increment, Object movementAttributes) {
 
-		boolean tabuMovement = tabuAdapter.isMarkedAsTabu(memory,
-				movementAttributes, numIteration);
+		boolean tabuMovement = tabuAdapter.isMarkedAsTabu(memory, movementAttributes, numIteration);
 
 		boolean aspirationCriteria = false;
-		
+
 		if (tabuMovement) {
-			aspirationCriteria = bestMode.isBetterThan(
-					increment + solutionWeight, bestSolution.getWeight());
-//			if(aspirationCriteria){
-//				System.out.println("AS: "+(increment + solutionWeight)+" > "+bestSolution.getWeight());
-//			}
+			aspirationCriteria = bestMode.isBetterThan(increment + solutionWeight, bestSolution.getWeight());
+			// if(aspirationCriteria){
+			// System.out.println("AS: "+(increment + solutionWeight)+" > "+bestSolution.getWeight());
+			// }
 		}
 
 		if (!tabuMovement || aspirationCriteria) {
 
-			if (this.movementAttributes == null
-					|| bestMode.isBetterThan(increment, bestIncrement)) {
+			if (this.movementAttributes == null || bestMode.isBetterThan(increment, bestIncrement)) {
 				this.bestIncrement = increment;
-				this.movementAttributes = this.movementGenerator
-						.createCopy(movementAttributes);
+				this.movementAttributes = this.movementGenerator.createCopy(movementAttributes);
 
 				// if(!bestMode.isImprovement(increment)){
 				// System.out.println("Best non-improving movement: "+increment
@@ -209,7 +200,7 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 					throw new FinishGeneratingMovementsException();
 				}
 			}
-		} 
+		}
 	}
 
 	@Override
@@ -233,7 +224,7 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 	public TabuProblemAdapter<S, I> getTabuAdapter() {
 		return tabuAdapter;
 	}
-	
+
 	@Id
 	public TenureProblemAdapter<S, I> getTenureAdapter() {
 		return tenureAdapter;
@@ -243,7 +234,7 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 	public float getMaxIterWoImpr() {
 		return maxIterWoImpr;
 	}
-	
+
 	public TabuVariableTenureImprovementMethod<S, I> setTestTabuMovements(boolean testTabuMovements) {
 		this.testTabuMovements = testTabuMovements;
 		return this;
@@ -251,7 +242,7 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 
 	@Override
 	public boolean canTestMovement(Object movementAttributes) {
-		if(testTabuMovements){
+		if (testTabuMovements) {
 			return true;
 		} else {
 			return !tabuAdapter.isMarkedAsTabu(memory, movementAttributes, numIteration);
