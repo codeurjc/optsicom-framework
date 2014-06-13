@@ -34,6 +34,8 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 
 	private boolean testTabuMovements = true;
 
+	private long startTime;
+	
 	public TabuVariableTenureImprovementMethod(MovementGenerator<S, I> movementGenerator,
 			Mode mode, float maxIterWoImpr, float tabuTenure,
 			TabuProblemAdapter<S, I> tabuAdapter,
@@ -46,6 +48,13 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 		this.maxIterWoImpr = maxIterWoImpr;
 	}
 
+	@Override
+	public boolean internalImproveSolution(S solution, long duration) {
+		//Hack to know when algorithm starts
+		startTime = System.currentTimeMillis();
+		return super.internalImproveSolution(solution, duration);
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void moreInternalImproveSolution() {
@@ -126,8 +135,12 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 		//double originalWeight = solutionWeight;
 		movementGenerator.applyMovement(movementAttributes);
 		
+		int tenure = tenureAdapter.getTenure(solution, movementAttributes, numIteration, itersWoImpr);
+		
+		System.out.println("    ##-> "+(System.currentTimeMillis()-startTime)+":"+tenure);
+		
 		tabuAdapter.markAsTabu(memory, movementAttributes, numIteration,
-				tenureAdapter.getTenure(solution, movementAttributes, numIteration, itersWoImpr));
+				tenure);
 
 		//System.out.println("---- New Solution: " + solution.getWeight());
 		
@@ -142,7 +155,7 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 			//System.out.println("New solution found: "+solution.getWeight());
 			bestSolution = (S) solution.createCopy();
 			newBestSolutionFound(bestSolution);
-			System.out.println(">> "+bestSolution.getWeight());
+			//System.out.println(">> "+bestSolution.getWeight());
 		}
 
 		// TODO Correct implementation test. We need to found a good way
