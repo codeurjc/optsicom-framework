@@ -1,10 +1,14 @@
 package es.optsicom.lib.expresults.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.Map.Entry;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -30,50 +34,50 @@ public class DBProperties implements Properties {
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	private long id;
-	
+
 	private static final String NAME = "name";
-	
+
 	@ElementCollection(fetch = FetchType.LAZY)
-	private Map<String,String> props;
-	
-	@Column(length=32672)
+	private Map<String, String> props;
+
+	@Column(length = 32672)
 	protected String propsAsString;
-	
-	private DBProperties(){
-		//JPA Needed constructor
+
+	private DBProperties() {
+		// JPA Needed constructor
 	}
-	
+
 	@JsonCreator
 	public DBProperties(@JsonProperty("map") Map<String, String> props) {
 		this.props = props;
 		createPropsAsString();
 	}
-	
+
 	public DBProperties(DBProperties properties) {
-		this.props = new HashMap<String,String>(properties.props);
+		this.props = new HashMap<String, String>(properties.props);
 		createPropsAsString();
 	}
 
 	public DBProperties(String name) {
-		this.props = new HashMap<String,String>();
+		this.props = new HashMap<String, String>();
 		setName(name);
 		createPropsAsString();
 	}
 
 	@JsonIgnore
 	public String getName() {
-		return (String)props.get(NAME);
+		return (String) props.get(NAME);
 	}
-	
-	public void setName(String name){
-		props.put(NAME,name);
+
+	public void setName(String name) {
+		props.put(NAME, name);
 	}
 
 	@JsonIgnore
-	public String getPropsAString(){
+	public String getPropsAString() {
 		return propsAsString;
 	}
-	
+
 	private void createPropsAsString() {
 
 		StringBuilder sb = new StringBuilder("{");
@@ -88,7 +92,7 @@ public class DBProperties implements Properties {
 		sb.append("}");
 		this.propsAsString = sb.toString();
 	}
-	
+
 	@Override
 	public String toString() {
 		return this.propsAsString;
@@ -96,14 +100,14 @@ public class DBProperties implements Properties {
 
 	@Override
 	public int compareTo(Properties properties) {
-		return Strings.compareNatural(this.toString(),properties.toString());
-	}	
-	
-	public Set<String> keySet(){
+		return Strings.compareNatural(this.toString(), properties.toString());
+	}
+
+	public Set<String> keySet() {
 		return props.keySet();
 	}
-	
-	public String get(String key){
+
+	public String get(String key) {
 		return props.get(key);
 	}
 
@@ -113,7 +117,7 @@ public class DBProperties implements Properties {
 
 	@Override
 	public void put(String key, Object value) {
-		props.put(key,ArraysUtil.toStringObj(value));		
+		props.put(key, ArraysUtil.toStringObj(value));
 	}
 
 	@Override
@@ -141,5 +145,21 @@ public class DBProperties implements Properties {
 			return false;
 		return true;
 	}
-	
+
+	@Override
+	public List<Entry<String, String>> getSortedProperties() {
+
+		List<Entry<String, String>> props = new ArrayList<Map.Entry<String, String>>(
+				getMap().entrySet());
+		Collections.sort(props, new Comparator<Entry<String, String>>() {
+
+			@Override
+			public int compare(Entry<String, String> o1,
+					Entry<String, String> o2) {
+				return o1.getKey().compareTo(o2.getKey());
+			}
+		});
+		return props;
+	}
+
 }

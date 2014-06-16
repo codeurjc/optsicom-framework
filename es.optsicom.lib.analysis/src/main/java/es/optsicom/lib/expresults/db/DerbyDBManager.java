@@ -115,6 +115,11 @@ public class DerbyDBManager extends DBManager {
 		properties.put("eclipselink.logging.level", "WARNING");
 		properties.put("eclipselink.target-database", "Derby");
 
+//		properties.put("javax.persistence.jdbc.url", "jdbc:derby:"+DATABASE_NAME);
+//		properties.put("javax.persistence.jdbc.driver",
+//				"org.apache.derby.jdbc.EmbeddedDriver");
+//		properties.put("hibernate.dialect", "org.hibernate.dialect.DerbyDialect");
+
 		DbRegenerationMode dbRegenerationModeEnum;
 		if (newDB) {
 			dbRegenerationModeEnum = DbRegenerationMode.CREATE_TABLES;
