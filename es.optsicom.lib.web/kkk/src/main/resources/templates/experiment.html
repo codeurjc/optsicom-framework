@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html layout:decorator="layout/default"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Experiment</title>
+</head>
+<body>
+
+	<div class="container theme-showcase" layout:fragment="content">
+
+		<h1 th:text="${exp.name}">Experiment Name</h1>
+
+		<table class="table table-condensed">
+			<tr>
+				<td>Date:</td>
+				<td th:text="${exp.experiment.date}"></td>
+			</tr>
+			<tr>
+				<td>Id:</td>
+				<td th:text="${exp.experiment.id}"></td>
+			</tr>
+			<tr>
+				<td>Problem Best Mode:</td>
+				<td th:text="${exp.problemBestMode}"></td>
+			</tr>
+			<tr>
+				<td>Time Limit:</td>
+				<td th:text="${exp.timeLimit}"></td>
+			</tr>
+			<tr>
+				<td>Methods:</td>
+				<td>
+
+					<div th:each="method : ${exp.methods}">
+						<span style="font-weight: bold;"
+							th:text="${exp.getExperimentMethodName(method)}"></span>
+						<ul>
+							<li th:each="prop : ${method.properties.sortedProperties}"
+								th:text="${prop}"></li>
+						</ul>
+					</div>
+
+				</td>
+			</tr>
+			<tr>
+				<td>Instances:</td>
+				<td>
+					<table id="instances" class="table table-striped" cellspacing="0"
+						width="100%">
+						<thead>
+							<tr>
+								<th th:each="prop : ${exp.instances[0].properties.map}"
+									th:text="${prop.key}"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="instance : ${exp.instances}">
+								<td th:each="prop : ${instance.properties.map}"
+									th:text="${prop.value}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+
+		</table>
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script
+			src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="js/bootstrap.min.js"></script>
+		<script src="//cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>
+
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$('#instances').dataTable();
+			});
+		</script>
+
+	</div>
+
+</body>
+</html>
