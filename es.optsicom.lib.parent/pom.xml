@@ -13,6 +13,7 @@
 		<module>../es.optsicom.lib.approx</module>
 		<!-- <module>../es.optsicom.lib.exact</module> -->
 		<!-- <module>es.optsicom.lib.simpletool</module> -->
+		<module>../es.optsicom.lib.npst</module>
 	</modules>
 	
 	<properties>
