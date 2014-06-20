@@ -19,9 +19,9 @@ import es.optsicom.lib.expresults.model.Experiment;
 @Component
 public class ExperimentService {
 
-	// private static final String DB_DIR = "derby_exp_repo";
-	private static final String DB_DIR = "/home/mica/Data/Universidad/Investigación/"
-			+ "TesisAnthanhRuben/git/optsicom-diversity/es.optsicom.problem.edp/derby_exp_repo";
+	private static final String DB_DIR = "derby_exp_repo";
+	// private static final String DB_DIR = "/home/mica/Data/Universidad/Investigación/"
+	// + "TesisAnthanhRuben/git/optsicom-diversity/es.optsicom.problem.edp/derby_exp_repo";
 
 	ExperimentRepositoryManager expRepoManager;
 
