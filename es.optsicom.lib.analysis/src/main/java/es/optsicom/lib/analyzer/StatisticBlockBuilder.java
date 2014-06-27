@@ -24,6 +24,7 @@ public class StatisticBlockBuilder extends BlockBuilder {
 		ReportPage page = new ReportPage("Statistics values");
 
 		if (experimentResults.getInstances().size() < 10) {
+			setBlock(new ReportBlock(page));
 			return;
 		}
 
