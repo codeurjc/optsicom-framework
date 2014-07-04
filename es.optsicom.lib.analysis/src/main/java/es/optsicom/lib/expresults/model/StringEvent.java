@@ -6,12 +6,10 @@ import javax.persistence.Entity;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import es.optsicom.lib.expresults.model.Event;
-import es.optsicom.lib.expresults.model.Execution;
-
 @Entity
 public class StringEvent extends Event {
 
+	// @Column(length = 32672, columnDefinition = "blob")
 	@Column(length = 32672)
 	private String value;
 
@@ -20,7 +18,8 @@ public class StringEvent extends Event {
 	}
 
 	@JsonCreator
-	public StringEvent(@JsonProperty("time") long time, @JsonProperty("name") String name, @JsonProperty("value") String value) {
+	public StringEvent(@JsonProperty("time") long time, @JsonProperty("name") String name,
+			@JsonProperty("value") String value) {
 		this(null, time, name, value);
 	}
 
@@ -29,6 +28,7 @@ public class StringEvent extends Event {
 		this.value = value;
 	}
 
+	@Override
 	public String getValue() {
 		return value;
 	}

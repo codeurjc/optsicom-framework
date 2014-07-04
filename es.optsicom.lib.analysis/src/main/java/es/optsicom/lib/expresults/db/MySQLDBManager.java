@@ -23,13 +23,13 @@ public class MySQLDBManager extends DBManager {
 	private static final String DB_HOST = "host";
 	private static final String DB_PORT = "port";
 	private static final String DB_USER = "user";
-	private static final String DB_PASS = "pass";
+	private static final String DB_PASSWORD = "password";
 	private static final String DB_SCHEMA = "schema";
 
 	private final String host;
 	private final int port;
 	private final String user;
-	private final String pass;
+	private final String password;
 
 	private final String database;
 
@@ -55,12 +55,12 @@ public class MySQLDBManager extends DBManager {
 		this(host, port, user, pass, database, false);
 	}
 
-	public MySQLDBManager(String host, int port, String user, String pass, String database, boolean create)
+	public MySQLDBManager(String host, int port, String user, String password, String database, boolean create)
 			throws SQLException {
 		this.host = host;
 		this.port = port;
 		this.user = user;
-		this.pass = pass;
+		this.password = password;
 		this.database = database;
 
 		if (create) {
@@ -77,13 +77,16 @@ public class MySQLDBManager extends DBManager {
 		this.host = pm.getProperty(db + DB_HOST);
 		this.port = Integer.parseInt(pm.getProperty(db + DB_PORT));
 		this.user = pm.getProperty(db + DB_USER);
-		this.pass = pm.getProperty(db + DB_PASS);
+		this.password = pm.getProperty(db + DB_PASSWORD);
 		this.database = (pm.getProperty(db + DB_SCHEMA) != null) ? pm.getProperty(db + DB_SCHEMA)
 				: DB_SCHEMA_DEFAULT_NAME;
 
-		if (create) {
-			createDatabase();
-		}
+		System.out.println(host + ":" + port + ":" + user + ":" + password + ":" + database);
+
+		// TODO: fix this, createDatabase do not work
+		// if (create) {
+		// createDatabase();
+		// }
 
 		connect();
 	}
@@ -101,7 +104,7 @@ public class MySQLDBManager extends DBManager {
 		properties.put("eclipselink.logging.level", "WARNING");
 		properties.put("eclipselink.target-database", "MYSQL");
 		properties.put("eclipselink.jdbc.user", user);
-		properties.put("eclipselink.jdbc.password", pass);
+		properties.put("eclipselink.jdbc.password", password);
 
 		// DbRegenerationMode dbRegenerationModeEnum = DbRegenerationMode.DROP_AND_CREATE_TABLES;
 		DbRegenerationMode dbRegenerationModeEnum = DbRegenerationMode.CREATE_TABLES;
@@ -177,10 +180,10 @@ public class MySQLDBManager extends DBManager {
 		properties.put("eclipselink.logging.level", "WARNING");
 		properties.put("eclipselink.target-database", "MYSQL");
 		properties.put("eclipselink.jdbc.user", user);
-		properties.put("eclipselink.jdbc.password", pass);
+		properties.put("eclipselink.jdbc.password", password);
 
 		// DbRegenerationMode dbRegenerationModeEnum = DbRegenerationMode.DROP_AND_CREATE_TABLES;
-		DbRegenerationMode dbRegenerationModeEnum = DbRegenerationMode.NONE;
+		DbRegenerationMode dbRegenerationModeEnum = DbRegenerationMode.CREATE_TABLES;
 
 		String dbRegenerationMode = getRegenerationModeString(dbRegenerationModeEnum);
 

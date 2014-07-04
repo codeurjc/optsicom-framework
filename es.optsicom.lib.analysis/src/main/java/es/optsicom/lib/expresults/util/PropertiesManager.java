@@ -26,9 +26,14 @@ public class PropertiesManager {
 
 	public String getProperty(String key) {
 		String property = System.getProperty(key);
+
 		if (property == null) {
 			property = properties.getProperty(key);
+			System.out.println("PropertiesManager.file.get." + key + "=" + property);
+		} else {
+			System.out.println("PropertiesManager.system.get." + key + "=" + property);
 		}
+
 		return property;
 	}
 
@@ -36,17 +41,10 @@ public class PropertiesManager {
 		properties = new Properties();
 		try {
 
-			boolean dataLoaded = false;
-
 			// optsicom properties.
 			File userOptsicomFile = new File(PROPERTIES_DIR, PROPERTIES_FILE);
 			if (userOptsicomFile.exists()) {
-				properties.load(new FileReader(new File(PROPERTIES_FILE)));
-				dataLoaded = true;
-			}
-
-			if (!dataLoaded) {
-				throw new Error("No properties files found.");
+				properties.load(new FileReader(new File(PROPERTIES_DIR, PROPERTIES_FILE)));
 			}
 
 		} catch (Exception e) {

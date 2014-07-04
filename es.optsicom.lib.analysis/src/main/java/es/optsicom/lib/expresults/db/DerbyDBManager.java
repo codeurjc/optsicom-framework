@@ -38,35 +38,33 @@ public class DerbyDBManager extends DBManager {
 		CREATE_TABLES
 	}
 
-	private File dbDir = null;
+	private final File dbDir;
 
-	private String dataDir;
+	private final String dataDir;
 
-	private String schema;
+	private final String schema;
 
 	public DerbyDBManager(String db) throws SQLException {
-		if (db == null) {
-			db = "";
-		}
-
-		this.dbDir = new File(
-				PropertiesManager.getInstance().getProperty(db + DB_WORKSPACE) != null ? PropertiesManager
-						.getInstance().getProperty(db + DB_WORKSPACE) : DB_WORKSPACE_DEFAULT);
-		intiProperties(db);
-		connect();
-	}
-
-	private void intiProperties(String db) {
 		PropertiesManager pm = PropertiesManager.getInstance();
 		db += ".";
+
+		this.dbDir = new File(pm.getProperty(db + DB_WORKSPACE) != null ? pm.getProperty(db + DB_WORKSPACE)
+				: DB_WORKSPACE_DEFAULT);
+
 		this.dataDir = pm.getProperty(db + DB_DATA_DIR) != null ? pm.getProperty(db + DB_DATA_DIR)
 				: DB_DATA_DIR_DEFAULT;
+
 		this.schema = pm.getProperty(db + DB_SCHEMA) != null ? pm.getProperty(db + DB_SCHEMA) : DB_SCHEMA_DEFAULT;
+
+		// System.out.println(dbDir + ":" + dataDir + ":" + schema);
+
+		connect();
 	}
 
 	public DerbyDBManager(File dbDir) throws SQLException {
 		this.dbDir = dbDir;
-		intiProperties("");
+		this.dataDir = DB_DATA_DIR_DEFAULT;
+		this.schema = DB_SCHEMA_DEFAULT;
 		connect();
 	}
 

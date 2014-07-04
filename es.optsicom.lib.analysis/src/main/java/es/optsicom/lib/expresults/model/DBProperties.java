@@ -6,13 +6,12 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.Map.Entry;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -23,7 +22,6 @@ import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import es.optsicom.lib.expresults.model.DBProperties;
 import es.optsicom.lib.util.ArraysUtil;
 import es.optsicom.lib.util.Strings;
 import es.optsicom.lib.util.description.Properties;
@@ -40,6 +38,7 @@ public class DBProperties implements Properties {
 	@ElementCollection(fetch = FetchType.LAZY)
 	private Map<String, String> props;
 
+	// @Column(length = 32672, columnDefinition = "blob")
 	@Column(length = 32672)
 	protected String propsAsString;
 
@@ -64,9 +63,10 @@ public class DBProperties implements Properties {
 		createPropsAsString();
 	}
 
+	@Override
 	@JsonIgnore
 	public String getName() {
-		return (String) props.get(NAME);
+		return props.get(NAME);
 	}
 
 	public void setName(String name) {
@@ -107,10 +107,12 @@ public class DBProperties implements Properties {
 		return props.keySet();
 	}
 
+	@Override
 	public String get(String key) {
 		return props.get(key);
 	}
 
+	@Override
 	public Map<String, String> getMap() {
 		return props;
 	}
@@ -124,38 +126,40 @@ public class DBProperties implements Properties {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((propsAsString == null) ? 0 : propsAsString.hashCode());
+		result = prime * result + ((propsAsString == null) ? 0 : propsAsString.hashCode());
 		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		DBProperties other = (DBProperties) obj;
 		if (propsAsString == null) {
-			if (other.propsAsString != null)
+			if (other.propsAsString != null) {
 				return false;
-		} else if (!propsAsString.equals(other.propsAsString))
+			}
+		} else if (!propsAsString.equals(other.propsAsString)) {
 			return false;
+		}
 		return true;
 	}
 
 	@Override
 	public List<Entry<String, String>> getSortedProperties() {
 
-		List<Entry<String, String>> props = new ArrayList<Map.Entry<String, String>>(
-				getMap().entrySet());
+		List<Entry<String, String>> props = new ArrayList<Map.Entry<String, String>>(getMap().entrySet());
 		Collections.sort(props, new Comparator<Entry<String, String>>() {
 
 			@Override
-			public int compare(Entry<String, String> o1,
-					Entry<String, String> o2) {
+			public int compare(Entry<String, String> o1, Entry<String, String> o2) {
 				return o1.getKey().compareTo(o2.getKey());
 			}
 		});
