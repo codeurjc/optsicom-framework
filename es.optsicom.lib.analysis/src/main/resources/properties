@@ -1,0 +1,12 @@
+default = derby_local
+
+derby_local = derby
+derby_local.path = ~/derby
+derby_local.schema = optsicom
+
+mysql_local = mysql
+mysql_local.host = localhost
+mysql_local.port = 3304
+mysql_local.schema = optsicom
+mysql_local.user = root
+mysql_local.password = root
