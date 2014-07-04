@@ -6,7 +6,6 @@ import java.util.Properties;
 
 public class PropertiesManager {
 
-	private static final String PROPERTIES_DIR = "resources";
 	private static final String PROPERTIES_FILE = "properties";
 
 	private static PropertiesManager instance;
@@ -42,9 +41,9 @@ public class PropertiesManager {
 		try {
 
 			// optsicom properties.
-			File userOptsicomFile = new File(PROPERTIES_DIR, PROPERTIES_FILE);
+			File userOptsicomFile = new File(PROPERTIES_FILE);
 			if (userOptsicomFile.exists()) {
-				properties.load(new FileReader(new File(PROPERTIES_DIR, PROPERTIES_FILE)));
+				properties.load(new FileReader(new File(PROPERTIES_FILE)));
 			}
 
 		} catch (Exception e) {

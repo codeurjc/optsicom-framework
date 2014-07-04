@@ -1,6 +1,5 @@
 package es.optsicom.lib.approx.experiment;
 
-import java.io.File;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ import es.optsicom.lib.approx.ApproxMethod;
 import es.optsicom.lib.expresults.DBExperimentRepositoryManagerFactory;
 import es.optsicom.lib.expresults.ExperimentRepositoryFactory;
 import es.optsicom.lib.expresults.db.DBManager;
-import es.optsicom.lib.expresults.db.DerbyDBManager;
+import es.optsicom.lib.expresults.db.DBManagerProvider;
 import es.optsicom.lib.expresults.manager.ExperimentRepositoryManager;
 import es.optsicom.lib.expresults.model.ComputerDescription;
 import es.optsicom.lib.expresults.model.DBProperties;
@@ -43,7 +42,6 @@ public class FastExperimentExecutor {
 	private final List<ExperimentMethodConf> expMethodConfs = new ArrayList<ExperimentMethodConf>();
 	private ReportConf reportConf;
 
-	private String dbDir = "derby_exp_repo";
 	private long experimentId;
 	private boolean localExecution = true;
 	private DBManager dbManager;
@@ -74,11 +72,6 @@ public class FastExperimentExecutor {
 		return this;
 	}
 
-	public FastExperimentExecutor setDBDir(String dbDir) {
-		this.dbDir = dbDir;
-		return this;
-	}
-
 	public FastExperimentExecutor setDBManager(DBManager dbManager) {
 		this.dbManager = dbManager;
 		return this;
@@ -93,9 +86,7 @@ public class FastExperimentExecutor {
 
 		if (dbManager == null) {
 			try {
-				final File DB_DIR = new File(dbDir);
-
-				dbManager = new DerbyDBManager(DB_DIR);
+				dbManager = DBManagerProvider.getDBManager();
 			} catch (SQLException e) {
 				throw new RuntimeException("Error when opening database", e);
 			}
