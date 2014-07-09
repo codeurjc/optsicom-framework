@@ -5,11 +5,14 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.util.Arrays;
 import java.util.List;
 
 import es.optsicom.lib.analyzer.DefaultReportConf;
 import es.optsicom.lib.analyzer.ReportConf;
 import es.optsicom.lib.analyzer.tablecreator.filter.ElementFilter;
+import es.optsicom.lib.analyzer.tool.FusionerReportCreator;
+import es.optsicom.lib.analyzer.tool.FusionerReportCreator.ExperimentMethodConf;
 import es.optsicom.lib.expresults.db.DerbyDBManager;
 import es.optsicom.lib.expresults.manager.ExecutionManager;
 import es.optsicom.lib.expresults.manager.ExperimentManager;
@@ -23,53 +26,88 @@ import es.optsicom.lib.expresults.model.MethodDescription;
 public class ExpAnalyzerHelper {
 
 	public static void showDefaultReport(String derbyDir, long id) {
+		showDefaultReport(derbyDir, id, null);
+	}
+
+	public static void showDefaultReportWithBestValues(String derbyDir,String problemName,
+			long id, FiltersAndAliases fa) {
+
+		try {
+			DerbyDBManager dbManager = new DerbyDBManager(new File(derbyDir));
+
+			FusionerReportCreator reportCreator = new FusionerReportCreator(
+					problemName, "Report", dbManager);
+
+			reportCreator.addExperimentMethod(id);
+			reportCreator.addExperimentMethods(Arrays
+					.asList(new ExperimentMethodConf("predefined",
+							"best_values")));
+			reportCreator.setMethodFilter(fa);
+			reportCreator.createReportAndShow();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void showDefaultReport(String derbyDir, long id,
+			FiltersAndAliases fa) {
 		try {
 			ExperimentRepositoryManager expRepoManager = createExperimentRepositoryManager(derbyDir);
 
 			ExperimentManager expManager = expRepoManager
 					.findExperimentManagerById(id);
 
+			for (MethodDescription method : expManager.getMethods()) {
+				System.out.println(method);
+			}
+
+			ElementFilter methodFilter = fa != null ? fa.getMethodFilter()
+					: null;
 			expManager = expManager.createFilteredExperimentManager(null,
-					(ElementFilter)null);
-			
-			//showExperimentContents(expManager);
-			
-			createReportAndOpenExcel(expManager.getName(), new DefaultReportConf(), expManager);
-			
+					methodFilter);
+
+			createReportAndOpenExcel(expManager.getName(),
+					new DefaultReportConf(), expManager);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public static void showDefaultReport(String derbyDir,String experimentName, String problemName) {
-		showDefaultReport(derbyDir,experimentName, problemName, new DefaultReportConf(), null);
+
+	public static void showDefaultReport(String derbyDir,
+			String experimentName, String problemName) {
+		showDefaultReport(derbyDir, experimentName, problemName,
+				new DefaultReportConf(), null);
 	}
 
-	public static void showDefaultReport(String derbyDir, String experimentName, String problemName,  FiltersAndAliases fa) {
-		showDefaultReport(derbyDir, experimentName, problemName, new DefaultReportConf(), fa);
+	public static void showDefaultReport(String derbyDir,
+			String experimentName, String problemName, FiltersAndAliases fa) {
+		showDefaultReport(derbyDir, experimentName, problemName,
+				new DefaultReportConf(), fa);
 	}
-	
-	public static void showDefaultReport(String derbyDir, String experimentName,
-			String problemName, ReportConf reportConf, FiltersAndAliases fa) {
 
-			
+	public static void showDefaultReport(String derbyDir,
+			String experimentName, String problemName, ReportConf reportConf,
+			FiltersAndAliases fa) {
+
 		try {
 			ExperimentRepositoryManager expRepoManager = createExperimentRepositoryManager(derbyDir);
 
 			ExperimentManager expManager = expRepoManager
 					.findExperimentManagerByName(experimentName, problemName);
 
-			ElementFilter methodFilter = fa!=null?fa.getMethodFilter():null;
+			ElementFilter methodFilter = fa != null ? fa.getMethodFilter()
+					: null;
 			expManager = expManager.createFilteredExperimentManager(null,
 					methodFilter);
-			
-			//showExperimentContents(expManager);
-			
+
+			// showExperimentContents(expManager);
+
 			createReportAndOpenExcel(experimentName, reportConf, expManager);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
+		}
 	}
 
 	private static void createReportAndOpenExcel(String experimentName,
@@ -96,8 +134,8 @@ public class ExpAnalyzerHelper {
 		Desktop.getDesktop().open(excelFile);
 	}
 
-	private static ExperimentRepositoryManager createExperimentRepositoryManager(String derbyDir)
-			throws SQLException {
+	private static ExperimentRepositoryManager createExperimentRepositoryManager(
+			String derbyDir) throws SQLException {
 
 		DerbyDBManager dbManager = new DerbyDBManager(new File(derbyDir));
 
@@ -162,8 +200,8 @@ public class ExpAnalyzerHelper {
 					System.out.println("     Execution:");
 					for (Event event : execution.getEvents()) {
 						System.out.println("       " + event.getTimestamp()
-								+ " > " + /*event.getNumber()+*/": "+event.getName() + ":"
-								+ event.getValue());
+								+ " > " + /* event.getNumber()+ */": "
+								+ event.getName() + ":" + event.getValue());
 					}
 				}
 			}

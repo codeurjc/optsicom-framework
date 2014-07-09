@@ -9,6 +9,7 @@ import java.util.List;
 
 import es.optsicom.lib.analyzer.DefaultReportConf;
 import es.optsicom.lib.analyzer.ReportConf;
+import es.optsicom.lib.analyzer.helper.FiltersAndAliases;
 import es.optsicom.lib.analyzer.tablecreator.filter.ElementFilter;
 import es.optsicom.lib.expresults.DBExperimentRepositoryManagerFactory;
 import es.optsicom.lib.expresults.ExperimentRepositoryFactory;
@@ -67,6 +68,7 @@ public class FusionerReportCreator {
 	private final String reportName;
 	private final String problemName;
 	private ElementFilter instancesFilter;
+	private FiltersAndAliases fa;
 
 	public FusionerReportCreator(String problemName, String reportName, DBManager dbManager) {
 		this.dbManager = dbManager;
@@ -130,15 +132,14 @@ public class FusionerReportCreator {
 	}
 
 	private File createReport() {
+
 		ExperimentRepositoryFactory expRepoFactory = null;
 		expRepoFactory = new DBExperimentRepositoryManagerFactory(dbManager);
-
-		// long experimentId = this.approxExpConf.execExperiment(expRepoFactory);
 
 		ExperimentRepositoryManager expRepoManager = expRepoFactory.createExperimentRepositoryManager();
 
 		List<ExperimentManager> expManagers = new ArrayList<ExperimentManager>();
-		// expManagers.add(expRepoManager.findExperimentManagerById(experimentId));
+
 		for (ExperimentMethodConf expMethodConf : this.expMethodConfs) {
 
 			ExperimentManager expManager;
@@ -147,8 +148,6 @@ public class FusionerReportCreator {
 			} else {
 				expManager = expRepoManager.findExperimentManagerById(expMethodConf.experimentId);
 			}
-
-			// showInfo(expManager);
 
 			if (!expMethodConf.methodNames.isEmpty() || instancesFilter != null) {
 
@@ -168,7 +167,19 @@ public class FusionerReportCreator {
 			expManagers.add(expManager);
 		}
 
-		MergedExperimentManager mergedExpManager = new MergedExperimentManager(expRepoManager, expManagers);
+		ExperimentManager mergedExpManager = new MergedExperimentManager(expRepoManager, expManagers);
+		
+		for (MethodDescription method : mergedExpManager.getMethods()) {
+			System.out.println(method);
+		}
+		
+		ElementFilter methodFilter = fa != null ? fa.getMethodFilter() : null;
+		
+		if(methodFilter != null){
+			mergedExpManager = mergedExpManager.createFilteredExperimentManager(null,
+				methodFilter);
+		}
+		
 		if (this.reportConf == null) {
 			this.reportConf = new DefaultReportConf();
 		}
@@ -203,6 +214,10 @@ public class FusionerReportCreator {
 
 	public void setInstacesFilter(ElementFilter instancesFilter) {
 		this.instancesFilter = instancesFilter;
+	}
+
+	public void setMethodFilter(FiltersAndAliases fa) {
+		this.fa = fa;		
 	}
 
 }
