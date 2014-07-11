@@ -15,11 +15,13 @@ import es.optsicom.lib.analyzer.tablecreator.atttable.AttributedTable;
 import es.optsicom.lib.analyzer.tablecreator.atttable.AttributedTableTitleTableCreator;
 import es.optsicom.lib.analyzer.tablecreator.pr.LastEventRP;
 import es.optsicom.lib.analyzer.tablecreator.pr.LastEventRP.Source;
+import es.optsicom.lib.analyzer.tablecreator.statisticcalc.DevStatisticCalc;
 import es.optsicom.lib.analyzer.tablecreator.statisticcalc.FeasAllDevStatisticCalc;
 import es.optsicom.lib.analyzer.tablecreator.statisticcalc.FeasDevStatisticCalc;
 import es.optsicom.lib.analyzer.tablecreator.statisticcalc.FeasNumBestStatisticCalc;
 import es.optsicom.lib.analyzer.tablecreator.statisticcalc.FeasStatisticCalc;
 import es.optsicom.lib.analyzer.tablecreator.statisticcalc.NonRelativizerStatisticCalc;
+import es.optsicom.lib.analyzer.tablecreator.statisticcalc.NumBestStatisticCalc;
 import es.optsicom.lib.analyzer.tablecreator.statisticcalc.ScoreFeasStatisticCalc;
 import es.optsicom.lib.analyzer.tablecreator.statisticcalc.ScoreStatisticCalc;
 import es.optsicom.lib.expresults.manager.ExperimentManager;
@@ -39,27 +41,26 @@ public class InstancesBlockBuilder extends BlockBuilder {
 						.createMultipleStatisticGroup(new LastEventRP(
 								Event.OBJ_VALUE_EVENT), new Statistic[] {
 							
-// TODO Buscar una mejor forma de configurar los informes al ejecutar los experimentos							
-//								new Statistic(new DevStatisticCalc(bestMode),
-//										"Dev"),
-//								new Statistic(
-//										new NumBestStatisticCalc(bestMode),
-//										"#Best"),
-//								new Statistic(new ScoreStatisticCalc(bestMode),
-//										"Score"),
+								new Statistic(new DevStatisticCalc(bestMode),
+										"Dev"),
+								new Statistic(
+										new NumBestStatisticCalc(bestMode),
+										"#Best"),
+								new Statistic(new ScoreStatisticCalc(bestMode),
+										"Score"),
 
-								new Statistic(new FeasStatisticCalc(
-										bestMode), "Feas"),
-								new Statistic(new FeasDevStatisticCalc(
-										bestMode), "DevFeas"),
-								new Statistic(new FeasAllDevStatisticCalc(
-										bestMode), "DevAllFeas"),
-								new Statistic(new FeasNumBestStatisticCalc(
-										bestMode), "#BestFeas"),
-								new Statistic(new ScoreStatisticCalc(
-										bestMode), "Score"), 
-								new Statistic(new ScoreFeasStatisticCalc(
-										bestMode), "ScoreFeas"),
+//								new Statistic(new FeasStatisticCalc(
+//										bestMode), "Feas"),
+//								new Statistic(new FeasDevStatisticCalc(
+//										bestMode), "DevFeas"),
+//								new Statistic(new FeasAllDevStatisticCalc(
+//										bestMode), "DevAllFeas"),
+//								new Statistic(new FeasNumBestStatisticCalc(
+//										bestMode), "#BestFeas"),
+//								new Statistic(new ScoreStatisticCalc(
+//										bestMode), "Score"), 
+//								new Statistic(new ScoreFeasStatisticCalc(
+//										bestMode), "ScoreFeas"),
 								new Statistic(
 										new NonRelativizerStatisticCalc(
 												SummarizeMode.FIRST,
@@ -87,7 +88,7 @@ public class InstancesBlockBuilder extends BlockBuilder {
 						new Statistic[] { new Statistic(
 								new NonRelativizerStatisticCalc(
 										SummarizeMode.AVERAGE,
-										NumberType.DECIMAL), "#Const") }) };
+										NumberType.INTEGER), "#Const") }) };
 
 		CommonApproxAttributeTableCreator tableCreator = new CommonApproxAttributeTableCreator(
 				statisticGroups);
@@ -114,7 +115,7 @@ public class InstancesBlockBuilder extends BlockBuilder {
 		// }
 		// }
 
-		ReportPage page = new ReportPage("By Instance");
+		ReportPage page = new ReportPage("Detailed by instance");
 		page.addReportElement(tt);
 		// page.addReportElement(desc);
 

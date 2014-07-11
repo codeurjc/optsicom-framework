@@ -21,10 +21,10 @@ import es.optsicom.lib.util.SummarizeMode;
 public class InstancesSummaryBlockBuilder extends BlockBuilder {
 
 	public void buildPages(ExperimentManager expResults) {
-		ReportPage reportPage = new ReportPage("All Instances");
+		ReportPage reportPage = new ReportPage("Summary");
 		reportPage.addReportElement(createAllInstancesTable(expResults));
-		reportPage.addReportElement(createFusionedTableTempEvolution(expResults));	
-		reportPage.addReportElement(createFusionedNumFeasibleTempEvolution(expResults));
+		//reportPage.addReportElement(createFusionedTableTempEvolution(expResults));	
+		//reportPage.addReportElement(createFusionedNumFeasibleTempEvolution(expResults));
 		setBlock(new ReportBlock(reportPage));
 	}
 	

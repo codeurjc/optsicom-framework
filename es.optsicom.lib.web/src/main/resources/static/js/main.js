@@ -1,7 +1,8 @@
 $(document).ready(
 		function() {
 			$('table.display').dataTable({
-				paging : false,
+				"paging" : false,
+				"dom": '<"top">rt<"bottom"flp><"clear">',
 				searching : false
 			});
 

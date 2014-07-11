@@ -35,24 +35,24 @@ public class CommonApproxAttributeTableCreator extends AttributedTableCreator {
 							new Statistic[] {
 
 // TODO Buscar una mejor forma de configurar los informes al ejecutar los experimentos						
-//									new Statistic(
-//											new DevStatisticCalc(bestMode),
-//											"Dev"),
-//									new Statistic(new NumBestStatisticCalc(
-//											bestMode), "#Best"),
-//									new Statistic(new ScoreStatisticCalc(
-//											bestMode), "Score"), 
-						
-									new Statistic(new FeasStatisticCalc(
-											bestMode), "Feas"),
-									new Statistic(new FeasDevStatisticCalc(
-											bestMode), "DevFeas"),
-									new Statistic(new FeasNumBestStatisticCalc(
-											bestMode), "#BestFeas"),
+									new Statistic(
+											new DevStatisticCalc(bestMode),
+											"Dev"),
+									new Statistic(new NumBestStatisticCalc(
+											bestMode), "#Best"),
 									new Statistic(new ScoreStatisticCalc(
 											bestMode), "Score"), 
-									new Statistic(new ScoreFeasStatisticCalc(
-											bestMode), "ScoreFeas"),
+						
+//									new Statistic(new FeasStatisticCalc(
+//											bestMode), "Feas"),
+//									new Statistic(new FeasDevStatisticCalc(
+//											bestMode), "DevFeas"),
+//									new Statistic(new FeasNumBestStatisticCalc(
+//											bestMode), "#BestFeas"),
+//									new Statistic(new ScoreStatisticCalc(
+//											bestMode), "Score"), 
+//									new Statistic(new ScoreFeasStatisticCalc(
+//											bestMode), "ScoreFeas"),
 							}));
 
 			addStatisticGroup(StatisticGroup.createMultipleStatisticGroup(
@@ -76,7 +76,7 @@ public class CommonApproxAttributeTableCreator extends AttributedTableCreator {
 							"constructiveImprovement.iterationsPerformed"),
 					new Statistic[] { new Statistic(
 							new NonRelativizerStatisticCalc(
-									SummarizeMode.AVERAGE, NumberType.DECIMAL),
+									SummarizeMode.AVERAGE, NumberType.INTEGER),
 							"#Const") }));
 
 		} else {

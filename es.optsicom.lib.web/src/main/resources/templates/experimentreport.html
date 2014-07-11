@@ -6,7 +6,7 @@
 
 		<div class="row">
 
-			<div class="col-sm-1 bs-docs-sidebar">
+			<div class="col-sm-2 bs-docs-sidebar">
 				<ul class="nav nav-list bs-docs-sidenav affix">
 					<li class=""
 						th:each="reportBlock, iterBlock : ${report.reportBlocks}"><a
@@ -25,14 +25,21 @@
 					<div th:each="reportPage, iterPage : ${reportBlock.ReportPages}">
 
 						<h2 th:id="'block-'+${iterBlock.index}+'-page-'+${iterPage.index}"
-							th:text="${reportPage.name}">Page name</h2>
+							th:text="${reportPage.name}"
+							th:if="${reportBlock.ReportPages.size()} > 1">Page name</h2>
 
-						<div th:each="reportElement, iterTable : ${reportPage.reportElements}"
-							style="display: block">
-							<button 
-								th:text="${reportElement.columnTitles[iterTitle.index].title}" 
-								th:each="title, iterTitle: ${reportElement.columnTitles}" class="table-col-hide btn btn-small btn-primary" th:attr="data-target='block-'+${iterBlock.index}+'-page-'+${iterPage.index} + '-table-' + ${iterTable.index}">x</button>
-							<table th:id="'block-'+${iterBlock.index}+'-page-'+${iterPage.index} + '-table-' + ${iterTable.index}" class="display table table-striped" style="border: 1px solid grey; margin: 20px">
+						<div
+							th:each="reportElement, iterTable : ${reportPage.reportElements}"
+							style="display: block"
+							th:with="tableId='block-'+${iterBlock.index}+'-page-'+${iterPage.index} + '-table-' + ${iterTable.index}">
+
+							<button
+								th:text="${reportElement.columnTitles[iterTitle.index].title}"
+								th:each="title, iterTitle: ${reportElement.columnTitles}"
+								class="table-col-hide btn btn-xs btn-primary"
+								th:attr="data-target=${tableId}">x</button>
+
+							<table th:id="${tableId}" class="display table table-striped">
 
 								<thead>
 									<tr
@@ -45,8 +52,7 @@
 								<tbody>
 									<tr th:each="rowCells,iter: ${reportElement.cellValues}">
 										<td th:text="${reportElement.rowTitles[iter.index].title}"></td>
-										<td 
-											th:each="cell: ${rowCells}"
+										<td th:each="cell: ${rowCells}"
 											th:class="${cell} != null and ${cell.color} != null? 'highlighted' : ''">
 
 

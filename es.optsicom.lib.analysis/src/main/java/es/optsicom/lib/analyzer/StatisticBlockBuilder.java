@@ -21,7 +21,7 @@ public class StatisticBlockBuilder extends BlockBuilder {
 
 	@Override
 	public void buildPages(ExperimentManager experimentResults) {
-		ReportPage page = new ReportPage("Statistics values");
+		ReportPage page = new ReportPage("Statistical tests");
 
 		if (experimentResults.getInstances().size() < 10) {
 			setBlock(new ReportBlock(page));

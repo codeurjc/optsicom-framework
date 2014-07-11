@@ -95,8 +95,8 @@ public class InstancesPropertiesBlockBuilder extends BlockBuilder {
 					propCombination);
 			reportPage.addReportElement(table);
 			
-			List<Table> tempEvolutionTables = createTempEvolutionTables(experimentResults, propCombination);
-			reportPage.addReportElements(tempEvolutionTables);
+//			List<Table> tempEvolutionTables = createTempEvolutionTables(experimentResults, propCombination);
+//			reportPage.addReportElements(tempEvolutionTables);
 			
 			pages.add(reportPage);
 			
