@@ -8,3 +8,7 @@ table.dataTable tbody th,table.dataTable tbody td,.table>thead>tr>th,.table>tbod
 	{
 	padding: 2px 4px;
 }
+
+.highlighted {
+	background-color: lightblue !important;	
+}

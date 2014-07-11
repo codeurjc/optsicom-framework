@@ -4,39 +4,61 @@
 <body>
 	<div layout:fragment="content">
 
-		<div th:each="reportBlock : ${report.reportBlocks}">
+		<div class="row">
 
-			<h1 th:text="${reportBlock.name}">Report block name</h1>
+			<div class="col-sm-1 bs-docs-sidebar">
+				<ul class="nav nav-list bs-docs-sidenav affix">
+					<li class=""
+						th:each="reportBlock, iterBlock : ${report.reportBlocks}"><a
+						th:href="'#block-'+${iterBlock.index}"><i
+							class="icon-chevron-right"></i><span
+							th:text="${reportBlock.name}"></span></a></li>
+				</ul>
+			</div>
 
-			<div th:each="reportPage : ${reportBlock.ReportPages}">
+			<div class="col-sm-11">
+				<div th:each="reportBlock, iterBlock : ${report.reportBlocks}">
 
-				<h2 th:text="${reportPage.name}">Page name</h2>
+					<h1 th:id="'block-'+${iterBlock.index}"
+						th:text="${reportBlock.name}">Report block name</h1>
 
-				<div th:each="reportElement : ${reportPage.reportElements}"
-					style="display: block">
+					<div th:each="reportPage, iterPage : ${reportBlock.ReportPages}">
 
-					<table style="border: 1px solid grey; margin: 20px">
+						<h2 th:id="'block-'+${iterBlock.index}+'-page-'+${iterPage.index}"
+							th:text="${reportPage.name}">Page name</h2>
 
-						<thead>
-							<tr th:each="i: ${#numbers.sequence(0,reportElement.columnTitles[0].attributes.size()-1)}">
-								<th></th>
-								<th style="border: 1px solid grey; padding: 0.5em"
-									th:each="title: ${reportElement.columnTitles}"
-									th:text="${title.attributes[i].title}"></th>
-							</tr>							
-						</thead>
-						<tbody>
-							<tr th:each="rowCells,iter: ${reportElement.cellValues}">
-								<td style="border: 1px solid grey; font-weight:bold; padding: 0.3em"
-									th:text="${reportElement.rowTitles[iter.index].title}"></td>
-								<td style="border: 1px solid grey; padding: 0.3em"
-									th:each="cell: ${rowCells}"><span th:if="${cell} != null"
-									th:text="${cell.format()}"></span> <span
-									th:unless="${cell} != null">#</span></td>
-							</tr>
-						</tbody>
-					</table>
+						<div th:each="reportElement, iterTable : ${reportPage.reportElements}"
+							style="display: block">
+							<button 
+								th:text="${reportElement.columnTitles[iterTitle.index].title}" 
+								th:each="title, iterTitle: ${reportElement.columnTitles}" class="table-col-hide btn btn-small btn-primary" th:attr="data-target='block-'+${iterBlock.index}+'-page-'+${iterPage.index} + '-table-' + ${iterTable.index}">x</button>
+							<table th:id="'block-'+${iterBlock.index}+'-page-'+${iterPage.index} + '-table-' + ${iterTable.index}" class="display table table-striped" style="border: 1px solid grey; margin: 20px">
 
+								<thead>
+									<tr
+										th:each="i: ${#numbers.sequence(0,reportElement.columnTitles[0].attributes.size()-1)}">
+										<th></th>
+										<th th:each="title: ${reportElement.columnTitles}"
+											th:text="${title.attributes[i].title}"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="rowCells,iter: ${reportElement.cellValues}">
+										<td th:text="${reportElement.rowTitles[iter.index].title}"></td>
+										<td 
+											th:each="cell: ${rowCells}"
+											th:class="${cell} != null and ${cell.color} != null? 'highlighted' : ''">
+
+
+											<span th:if="${cell} != null" th:text="${cell.format()}"></span>
+											<span th:unless="${cell} != null">#</span>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
