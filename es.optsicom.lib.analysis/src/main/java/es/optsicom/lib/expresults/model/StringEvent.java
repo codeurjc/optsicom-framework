@@ -10,7 +10,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public class StringEvent extends Event {
 
 	// @Column(length = 32672, columnDefinition = "blob")
-	@Column(length = 32672)
+	@Column(length = 20000)
 	private String value;
 
 	public StringEvent() {

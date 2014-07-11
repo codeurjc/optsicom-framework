@@ -39,7 +39,7 @@ public class DBProperties implements Properties {
 	private Map<String, String> props;
 
 	// @Column(length = 32672, columnDefinition = "blob")
-	@Column(length = 32672)
+	@Column(length = 20000)
 	protected String propsAsString;
 
 	private DBProperties() {
