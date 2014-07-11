@@ -23,11 +23,12 @@ public class ExperimentService {
 	// + "TesisAnthanhRuben/git/optsicom-diversity/es.optsicom.problem.edp/derby_exp_repo";
 
 	ExperimentRepositoryManager expRepoManager;
+	private DBManager dbManager;
 
 	@PostConstruct
 	public void init() throws SQLException {
 
-		DBManager dbManager = DBManagerProvider.getDBManager();
+		dbManager = DBManagerProvider.getDBManager();
 
 		ExperimentRepositoryFactory expRepoFactory = null;
 		expRepoFactory = new DBExperimentRepositoryManagerFactory(dbManager);
@@ -42,6 +43,10 @@ public class ExperimentService {
 
 	public List<Experiment> findExperiments() {
 		return expRepoManager.findExperiments();
+	}
+
+	public DBManager getDBManager() {
+		return dbManager;
 	}
 
 }

@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html layout:decorator="layout/default"
+	xmlns:th="http://www.thymeleaf.org">
+<body>
+	<div layout:fragment="content">
+
+		<div th:each="reportBlock : ${report.reportBlocks}">
+
+			<h1 th:text="${reportBlock.name}">Report block name</h1>
+
+			<div th:each="reportPage : ${reportBlock.ReportPages}">
+
+				<h2 th:text="${reportPage.name}">Page name</h2>
+
+				<div th:each="reportElement : ${reportPage.reportElements}"
+					style="display: block">
+
+					<table style="border: 1px solid grey; margin: 20px">
+
+						<thead>
+							<tr th:each="i: ${#numbers.sequence(0,reportElement.columnTitles[0].attributes.size()-1)}">
+								<th></th>
+								<th style="border: 1px solid grey; padding: 0.5em"
+									th:each="title: ${reportElement.columnTitles}"
+									th:text="${title.attributes[i].title}"></th>
+							</tr>							
+						</thead>
+						<tbody>
+							<tr th:each="rowCells,iter: ${reportElement.cellValues}">
+								<td style="border: 1px solid grey; font-weight:bold; padding: 0.3em"
+									th:text="${reportElement.rowTitles[iter.index].title}"></td>
+								<td style="border: 1px solid grey; padding: 0.3em"
+									th:each="cell: ${rowCells}"><span th:if="${cell} != null"
+									th:text="${cell.format()}"></span> <span
+									th:unless="${cell} != null">#</span></td>
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

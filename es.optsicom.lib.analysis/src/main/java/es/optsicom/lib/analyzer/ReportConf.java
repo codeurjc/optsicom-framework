@@ -22,7 +22,7 @@ public abstract class ReportConf {
 		blockBuilders.add(block);
 	}
 	
-	public void buildReport(ExperimentManager experimentResults) {
+	public Report buildReport(ExperimentManager experimentResults) {
 		
 		if(experimentResults.getInstances().isEmpty()){
 			throw new RuntimeException("The experimentManager has no instances");
@@ -34,6 +34,8 @@ public abstract class ReportConf {
 			ReportBlock block = blockBuilder.getBlock();
 			report.addReportBlock(block);
 		}
+		
+		return report;
 	}
 	
 	public void exportToExcelFile(File excelFile) throws IOException {

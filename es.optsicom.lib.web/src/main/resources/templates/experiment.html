@@ -7,6 +7,8 @@
 
 		<h1 th:text="${exp.name}">Experiment Name</h1>
 
+		<a class="btn btn-primary" th:href="@{/experimentreport(expId=${expId})}" >Tablas</a>
+
 		<table class="table table-condensed">
 			<tr>
 				<td>Date:</td>

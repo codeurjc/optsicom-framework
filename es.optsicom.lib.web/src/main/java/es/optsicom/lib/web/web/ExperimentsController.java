@@ -22,6 +22,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import es.optsicom.lib.analyzer.report.Report;
+import es.optsicom.lib.analyzer.tool.FusionerReportCreator;
 import es.optsicom.lib.web.service.ExperimentService;
 
 @Controller
@@ -41,8 +43,22 @@ public class ExperimentsController {
 	@RequestMapping("/experiment")
 	public String showExperiment(@RequestParam("expId") long experimentId, ModelMap model) {
 
+		model.addAttribute("expId", experimentId);
 		model.addAttribute("exp", this.experimentService.findExperimentManagerById(experimentId));
 
 		return "experiment";
+	}
+	
+	@RequestMapping("/experimentreport")
+	public String showExperimentReport(@RequestParam("expId") long experimentId, ModelMap model) {
+
+		FusionerReportCreator reportCreator = new FusionerReportCreator(experimentService.getDBManager());
+		reportCreator.addExperimentMethod(experimentId);
+		//reportCreator.addExperimentMethods(Arrays.asList(new ExperimentMethodConf("predefined",	"best_values")));
+		
+		Report report = reportCreator.createReportObject();		
+		model.addAttribute("report",report);
+		
+		return "experimentreport";
 	}
 }

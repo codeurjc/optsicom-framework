@@ -25,7 +25,7 @@ import es.optsicom.lib.analyzer.report.ReportElement;
 
 public class Table implements ReportElement {
 
-	private List<Title> rowsTitles;
+	private List<Title> rowTitles;
 	private List<Title> columnTitles;
 	private Cell[][] cellValues;
 	private Leyend leyend;
@@ -35,7 +35,7 @@ public class Table implements ReportElement {
 
 	public Table(List<Title> rowsTitles, List<Title> columnTitles) {
 		cellValues = new Cell[rowsTitles.size()][columnTitles.size()];
-		this.rowsTitles = rowsTitles;
+		this.rowTitles = rowsTitles;
 		this.columnTitles = columnTitles;
 	}
 
@@ -56,7 +56,7 @@ public class Table implements ReportElement {
 	}
 
 	public List<Title> getRowTitles() {
-		return rowsTitles;
+		return rowTitles;
 	}
 
 	public List<Title> getColumnTitles() {
@@ -68,7 +68,7 @@ public class Table implements ReportElement {
 	}
 
 	public int getNumRows() {
-		return rowsTitles.size();
+		return rowTitles.size();
 	}
 
 	public int getNumColumns() {
@@ -80,7 +80,7 @@ public class Table implements ReportElement {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("Row Titles: \n");
-		for (Title title : rowsTitles) {
+		for (Title title : rowTitles) {
 			sb.append(title).append("\n");
 		}
 		sb.append("\n");
