@@ -56,7 +56,7 @@ public class DerbyDBManager extends DBManager {
 
 		this.schema = pm.getProperty(db + DB_SCHEMA) != null ? pm.getProperty(db + DB_SCHEMA) : DB_SCHEMA_DEFAULT;
 
-		// System.out.println(dbDir + ":" + dataDir + ":" + schema);
+		log.info(dbDir + ":" + dataDir + ":" + schema);
 
 		connect();
 	}

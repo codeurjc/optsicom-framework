@@ -3,9 +3,14 @@ package es.optsicom.lib.expresults.db;
 import java.io.File;
 import java.sql.SQLException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import es.optsicom.lib.expresults.util.PropertiesManager;
 
 public class DBManagerProvider {
+
+	private static final Log log = LogFactory.getLog(DBManagerProvider.class);
 
 	private static final String MYSQL = "mysql";
 	private static final String DERBY = "derby";
@@ -24,16 +29,17 @@ public class DBManagerProvider {
 			String type = PropertiesManager.getInstance().getProperty(db);
 
 			if (MYSQL.equals(type)) {
-				System.out.println("DBManager.MYSQL." + type);
+				log.info("DBManager.MYSQL." + type);
+
 				return new MySQLDBManager(db);
 			} else if (DERBY.equals(type)) {
-				System.out.println("DBManager.DERBY." + type);
+				log.info("DBManager.DERBY." + type);
 				return new DerbyDBManager(db);
 			}
 		}
 
 		// default DBManager
-		System.out.println("DBManager.Default");
+		log.info("DBManager.Default");
 		return new DerbyDBManager(new File("derby_exp_repo"));
 	}
 

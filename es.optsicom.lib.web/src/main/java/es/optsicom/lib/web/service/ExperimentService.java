@@ -1,6 +1,5 @@
 package es.optsicom.lib.web.service;
 
-import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Component;
 import es.optsicom.lib.expresults.DBExperimentRepositoryManagerFactory;
 import es.optsicom.lib.expresults.ExperimentRepositoryFactory;
 import es.optsicom.lib.expresults.db.DBManager;
-import es.optsicom.lib.expresults.db.DerbyDBManager;
+import es.optsicom.lib.expresults.db.DBManagerProvider;
 import es.optsicom.lib.expresults.manager.ExperimentManager;
 import es.optsicom.lib.expresults.manager.ExperimentRepositoryManager;
 import es.optsicom.lib.expresults.model.Experiment;
@@ -28,7 +27,7 @@ public class ExperimentService {
 	@PostConstruct
 	public void init() throws SQLException {
 
-		DBManager dbManager = new DerbyDBManager(new File(DB_DIR));
+		DBManager dbManager = DBManagerProvider.getDBManager();
 
 		ExperimentRepositoryFactory expRepoFactory = null;
 		expRepoFactory = new DBExperimentRepositoryManagerFactory(dbManager);

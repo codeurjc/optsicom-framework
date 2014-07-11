@@ -81,7 +81,7 @@ public class MySQLDBManager extends DBManager {
 		this.database = (pm.getProperty(db + DB_SCHEMA) != null) ? pm.getProperty(db + DB_SCHEMA)
 				: DB_SCHEMA_DEFAULT_NAME;
 
-		System.out.println(host + ":" + port + ":" + user + ":" + password + ":" + database);
+		log.info(host + ":" + port + ":" + user + ":" + password + ":" + database);
 
 		// TODO: fix this, createDatabase do not work
 		// if (create) {
