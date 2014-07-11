@@ -11,9 +11,8 @@
 		<module>../es.optsicom.lib</module>
 		<module>../es.optsicom.lib.analysis</module>
 		<module>../es.optsicom.lib.approx</module>
-		<!-- <module>../es.optsicom.lib.exact</module> -->
-		<!-- <module>es.optsicom.lib.simpletool</module> -->
 		<module>../es.optsicom.lib.npst</module>
+		<module>../es.optsicom.lib.web</module>
 	</modules>
 	
 	<properties>
