@@ -32,8 +32,21 @@ public class ExperimentsController {
 	@Autowired
 	private ExperimentService experimentService;
 
+	@RequestMapping("/login")
+	public String showLogin() {
+		return "login";
+	}
+
 	@RequestMapping("/experiments")
 	public String showExperiments(ModelMap model) {
+
+		model.addAttribute("exps", this.experimentService.findExperiments());
+
+		return "experiments";
+	}
+
+	@RequestMapping("/")
+	public String showIndex(ModelMap model) {
 
 		model.addAttribute("exps", this.experimentService.findExperiments());
 
@@ -48,17 +61,32 @@ public class ExperimentsController {
 
 		return "experiment";
 	}
-	
+
 	@RequestMapping("/experimentreport")
 	public String showExperimentReport(@RequestParam("expId") long experimentId, ModelMap model) {
 
 		FusionerReportCreator reportCreator = new FusionerReportCreator(experimentService.getDBManager());
 		reportCreator.addExperimentMethod(experimentId);
-		//reportCreator.addExperimentMethods(Arrays.asList(new ExperimentMethodConf("predefined",	"best_values")));
-		
-		Report report = reportCreator.createReportObject();		
-		model.addAttribute("report",report);
-		
+		// reportCreator.addExperimentMethods(Arrays.asList(new ExperimentMethodConf("predefined", "best_values")));
+
+		Report report = reportCreator.createReportObject();
+		model.addAttribute("report", report);
+
 		return "experimentreport";
+	}
+
+	@RequestMapping("/experimentreportnew")
+	public String showExperimentReportNew(@RequestParam("expId") long experimentId, ModelMap model) {
+
+		FusionerReportCreator reportCreator = new FusionerReportCreator(experimentService.getDBManager());
+		reportCreator.addExperimentMethod(experimentId);
+		// reportCreator.addExperimentMethods(Arrays.asList(new ExperimentMethodConf("predefined", "best_values")));
+
+		Report report = reportCreator.createReportObject();
+		model.addAttribute("report", report);
+		model.addAttribute("experimentId", experimentId);
+		model.addAttribute("exp", this.experimentService.findExperimentManagerById(experimentId));
+
+		return "experimentreportnew";
 	}
 }

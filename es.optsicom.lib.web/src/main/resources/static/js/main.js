@@ -32,10 +32,9 @@ $(document).ready(
 			$('.table-col-hide').click(
 					function(evt) {
 						var id = $(evt.target).attr('data-target');
-						$(evt.target).toggleClass('col-hide').toggleClass(
-								'btn-primary');
+						$(evt.target).toggleClass('table-col-hidden');
 						show_hide_column(id, $(evt.target).index(), $(
-								evt.target).hasClass('col-hide'));
+								evt.target).hasClass('table-col-hidden'));
 					});
 
 		});
