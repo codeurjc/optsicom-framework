@@ -5,9 +5,16 @@
 
 	<div class="container theme-showcase" layout:fragment="content">
 
+		<ol class="breadcrumb">
+			<li><a href="/">Home</a></li>
+			<li><a href="/experiments">Experiments</a></li>
+			<li class="active" th:text="${exp.name}"></li>
+		</ol>
+
 		<h1 th:text="${exp.name}">Experiment Name</h1>
 
-		<a class="btn btn-primary" th:href="@{/experimentreport(expId=${expId})}" >Tablas</a>
+		<a class="btn btn-primary" th:href="@{/experimentreport(expId=${expId})}" >Report</a>
+		<a class="btn btn-primary" th:href="@{/experimentreportnew(expId=${expId})}" >Report NEW</a>
 
 		<table class="table table-condensed">
 			<tr>
@@ -63,18 +70,6 @@
 			</tr>
 
 		</table>
-		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-		<script
-			src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-		<!-- Include all compiled plugins (below), or include individual files as needed -->
-		<script src="js/bootstrap.min.js"></script>
-		<script src="//cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>
-
-		<script type="text/javascript">
-			$(document).ready(function() {
-				$('#instances').dataTable();
-			});
-		</script>
 
 	</div>
 

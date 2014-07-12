@@ -2,7 +2,14 @@
 <html layout:decorator="layout/default"
 	xmlns:th="http://www.thymeleaf.org">
 <body>
+
 	<div layout:fragment="content">
+		
+		<ol class="breadcrumb">
+			<li><a href="/">Home</a></li>
+			<li class="active">Experiments</li>
+		</ol>
+		
 		<table id="experiments" class="display table table-striped">
 			<thead>
 				<tr>

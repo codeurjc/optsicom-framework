@@ -1,4 +1,3 @@
-
 body {
 	padding-top: 60px;
 	padding-bottom: 40px;
@@ -9,6 +8,24 @@ table.dataTable tbody th,table.dataTable tbody td,.table>thead>tr>th,.table>tbod
 	padding: 2px 4px;
 }
 
-.highlighted {
-	background-color: lightblue !important;	
+.info {
+	background-color: lightblue !important;
+}
+
+.dataTables_wrapper {
+	padding: 20px;
+}
+
+.table-col-hide:before {
+	content: "✓ ";
+}
+
+.table-col-hide.table-col-hidden:before {
+	content: "x ";
+}
+
+@media ( min-width : 768px) {
+	.navbar-nav.navbar-right:last-child {
+		margin-right: 0px;
+	}
 }
