@@ -41,6 +41,10 @@ public class Title {
 	}
 
 	public String getTitle() {
-		return attributes.get(0).getTitle();
+		if(attributes.isEmpty()){
+			return "";
+		} else {
+			return attributes.get(0).getTitle();
+		}
 	}
 }

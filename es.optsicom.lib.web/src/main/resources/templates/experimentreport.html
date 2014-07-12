@@ -17,6 +17,26 @@
 			</div>
 
 			<div class="col-sm-7">
+				
+				<h1>Report configuration</h1>
+				<form method="get" th:action="@{/experimentreport}">
+					<strong>Methods</strong>
+					<input type="hidden" name="expId" th:value="${experimentId}"/>
+					<input type="hidden" name="reportconf" value="reportconf"/>					
+					<ul>
+						<li style="list-style: none;">
+							<input type="checkbox" name="bestValues" value="bestValues"	/>
+							<span>Best Values</span>
+						</li>
+						<li th:each="method : ${exp.methods}" style="list-style: none;">
+							<input type="checkbox" name="methods" th:value="${method.id}" 
+								th:checked="${#lists.contains(methods,''+method.id)}" />
+							<span th:text="${exp.getExperimentMethodName(method)}"> </span>
+						</li>
+					</ul>
+					<input type="submit" value="Update report"/>
+				</form>
+				
 				<div th:each="reportBlock, iterBlock : ${report.reportBlocks}">
 
 					<h1 th:id="'block-'+${iterBlock.index}"

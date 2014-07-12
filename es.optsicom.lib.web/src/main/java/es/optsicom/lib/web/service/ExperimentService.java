@@ -36,6 +36,10 @@ public class ExperimentService {
 	public ExperimentManager findExperimentManagerById(long id) {
 		return expRepoManager.findExperimentManagerById(id);
 	}
+	
+	public Experiment findExperimentById(long id) {
+		return expRepoManager.findExperiment(id);
+	}
 
 	public List<Experiment> findExperiments() {
 		return expRepoManager.findExperiments();

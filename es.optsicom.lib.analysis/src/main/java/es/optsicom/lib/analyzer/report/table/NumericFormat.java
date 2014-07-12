@@ -52,6 +52,10 @@ public class NumericFormat extends CellFormat {
 	@Override
 	public String format(Object value, Locale locale) {
 
+		if(value == null){
+			return "";
+		}
+		
 		if (type == null) {
 			return String.format(locale, "%." + numDecimals + "f", value);
 		} else {
@@ -61,8 +65,8 @@ public class NumericFormat extends CellFormat {
 			case DECIMAL:
 				return String.format(locale, "%." + numDecimals + "f", value);
 			case PERCENT:
-				//return String.format(locale, "%." + numDecimals + "f%%", ((Number) value).doubleValue() * 100);
-				return String.format(locale, "%." + numDecimals + "f", ((Number) value).doubleValue());
+				return String.format(locale, "%." + numDecimals + "f%%", ((Number) value).doubleValue() * 100);
+				//return String.format(locale, "%." + numDecimals + "f", ((Number) value).doubleValue());
 				//return String.format(locale, "%." + numDecimals + "f", ((Number) value).doubleValue() * 100);
 			case TIME:
 

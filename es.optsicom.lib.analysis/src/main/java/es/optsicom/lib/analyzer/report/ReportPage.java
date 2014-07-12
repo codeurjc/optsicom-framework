@@ -64,4 +64,11 @@ public class ReportPage implements Serializable {
 	public void addReportElements(List<? extends ReportElement> elements) {
 		this.elements.addAll(elements);		
 	}
+
+	@Override
+	public String toString() {
+		return "ReportPage [elements=" + elements + ", name=" + name + "]";
+	}
+	
+	
 }

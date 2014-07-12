@@ -104,4 +104,8 @@ public class Report implements Serializable {
 		return reportBlocks;
 	}
 
+	@Override
+	public String toString() {
+		return "Report [reportBlocks=" + reportBlocks + "]";
+	}
 }

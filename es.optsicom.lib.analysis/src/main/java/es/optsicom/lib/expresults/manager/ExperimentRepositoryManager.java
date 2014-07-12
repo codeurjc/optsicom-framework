@@ -259,4 +259,12 @@ public class ExperimentRepositoryManager {
 		return (List<Experiment>)q.getResultList();
 	}
 
+	public Experiment findExperiment(long id) {
+		
+		Query q = em.createQuery("select e from "+ Experiment.class.getSimpleName()+" e where e.id = :id");
+		q.setParameter("id", id);
+		
+		return (Experiment)q.getSingleResult();
+	}
+
 }

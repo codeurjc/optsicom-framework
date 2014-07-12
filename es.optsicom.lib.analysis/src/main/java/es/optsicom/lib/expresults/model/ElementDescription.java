@@ -39,6 +39,10 @@ public abstract class ElementDescription implements Descriptive {
 		this.properties = new DBProperties(name);
 	}
 
+	public long getId() {
+		return id;
+	}
+	
 	@JsonCreator
 	public ElementDescription(@JsonProperty("properties") DBProperties properties) {
 		this.properties = properties;

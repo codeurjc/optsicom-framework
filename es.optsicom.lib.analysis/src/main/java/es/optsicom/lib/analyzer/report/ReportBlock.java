@@ -41,4 +41,10 @@ public class ReportBlock {
 	public List<ReportPage> getReportPages() {
 		return this.pages;
 	}
+
+	@Override
+	public String toString() {
+		return "ReportBlock [name=" + name + ", pages=" + pages + "]";
+	}
+	
 }

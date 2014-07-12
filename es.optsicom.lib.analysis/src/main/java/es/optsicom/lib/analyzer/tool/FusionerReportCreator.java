@@ -28,7 +28,8 @@ public class FusionerReportCreator {
 
 		private String experimentName;
 		private long experimentId;
-		private final ArrayList<String> methodNames = new ArrayList<String>();
+		private List<String> methodNames = new ArrayList<String>();
+		private List<String> methodIds = new ArrayList<String>();
 
 		public ExperimentMethodConf(String experimentName) {
 			super();
@@ -52,9 +53,12 @@ public class FusionerReportCreator {
 			this.methodNames.add(methodName);
 		}
 
-		public ExperimentMethodConf(long experimentId, String... methodNames) {
+		public ExperimentMethodConf(long experimentId,
+				List<String> methodNames, List<String> methodIds) {
+			super();
 			this.experimentId = experimentId;
-			this.methodNames.addAll(Arrays.asList(methodNames));
+			this.methodNames = methodNames;
+			this.methodIds = methodIds;
 		}
 
 		public String getExpNameOrId() {
@@ -118,12 +122,6 @@ public class FusionerReportCreator {
 		this.expMethodConfs.addAll(expMethodConfs);
 	}
 
-	public FusionerReportCreator addExperimentMethods(long experimentId,
-			String... methodNames) {
-		expMethodConfs.add(new ExperimentMethodConf(experimentId, methodNames));
-		return this;
-	}
-
 	public FusionerReportCreator addOptimumExperimentMethod() {
 		addExperimentMethod("predefined", "optimum");
 		return this;
@@ -166,15 +164,17 @@ public class FusionerReportCreator {
 						.findExperimentManagerById(expMethodConf.experimentId);
 			}
 
-			if (!expMethodConf.methodNames.isEmpty() || instancesFilter != null) {
+			if (!expMethodConf.methodNames.isEmpty()
+					|| !expMethodConf.methodIds.isEmpty()
+					|| instancesFilter != null) {
 
 				ExperimentManager filteredExpManager = expManager
 						.createFilteredExperimentManager(instancesFilter,
 								expMethodConf.methodNames
 										.toArray(new String[0]));
 
-				List<MethodDescription> methods = filteredExpManager
-						.getMethods();
+				List<MethodDescription> methods = filteredExpManager.getMethods();
+				
 				if (methods.size() == 0) {
 					System.out
 							.println("WARNING: Filtering mehtods in experiment \""
@@ -187,6 +187,8 @@ public class FusionerReportCreator {
 					System.out.println("  Method names looked for: "
 							+ expMethodConf.methodNames);
 				}
+				
+				expManager = filteredExpManager;
 			}
 
 			expManagers.add(expManager);
