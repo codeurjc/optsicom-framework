@@ -8,6 +8,11 @@ table.dataTable tbody th,table.dataTable tbody td,.table>thead>tr>th,.table>tbod
 	padding: 2px 4px;
 }
 
+.table.dataTable {
+	margin: 0 20px;
+	width: auto;
+}
+
 .info {
 	background-color: lightblue !important;
 }

@@ -38,7 +38,6 @@
 
 					<div
 						th:each="reportElement, iterTable : ${reportPage.reportElements}"
-						style="display: block"
 						th:with="tableId='block-'+${iterBlock.index}+'-page-'+${iterPage.index} + '-table-' + ${iterTable.index}">
 
 						<table th:id="${tableId}" class="display table table-striped">
