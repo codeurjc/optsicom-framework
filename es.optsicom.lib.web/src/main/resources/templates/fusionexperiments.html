@@ -20,11 +20,9 @@
 				
 				<h1>Report configuration</h1>
 				
-				<a class="btn btn-primary" th:href="@{/experiment(expId=${experimentId})}" >Experiment Info</a>
-				
-				<form method="get" th:action="@{/experimentreport}">
+				<form method="get" th:action="@{/fusionexperiments}">
 					<strong>Methods</strong>
-					<input type="hidden" name="expId" th:value="${experimentId}"/>
+					<input type="hidden" th:each="expId : ${expIds}" name="expIds" th:value="${expId}"/>
 					<input type="hidden" name="reportconf" value="reportconf"/>					
 					<ul>
 						<li style="list-style: none;">
@@ -32,10 +30,10 @@
 							th:checked="${bestValues != null}" />
 							<span>Best Values</span>
 						</li>
-						<li th:each="method : ${exp.methods}" style="list-style: none;">
+						<li th:each="method, methodIndex : ${methodObjs}" style="list-style: none;">
 							<input type="checkbox" name="methods" th:value="${method.id}" 
 								th:checked="${#lists.contains(methods,''+method.id)}" />
-							<span th:text="${exp.getExperimentMethodName(method)}"> </span>
+							<span th:text="${methodNames[methodIndex.index]}"> </span>
 						</li>
 					</ul>
 					<input type="submit" value="Update report"/>

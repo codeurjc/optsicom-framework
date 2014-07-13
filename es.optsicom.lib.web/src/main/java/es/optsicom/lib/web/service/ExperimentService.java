@@ -49,4 +49,13 @@ public class ExperimentService {
 		return dbManager;
 	}
 
+	public void removeExperiment(long experimentId) {
+				
+		expRepoManager.beginTx();
+		
+		expRepoManager.removeExperiment(experimentId);
+		
+		expRepoManager.commitTx();
+	}
+
 }
