@@ -74,7 +74,7 @@ public class RandomManager {
 	}
 
 	public static boolean nextBoolean() {
-		return RandomManager.nextInt(1) == 1? true: false;
+		return RandomManager.nextInt(2) == 1? true: false;
 	}
 
 }
