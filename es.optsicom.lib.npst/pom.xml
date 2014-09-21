@@ -15,15 +15,25 @@
 		<version>0.12.0-SNAPSHOT</version>
 		<relativePath>../es.optsicom.lib.parent</relativePath>
 	</parent>
-	
+
 	<build>
 		<plugins>
 			<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<configuration>
-						<encoding>ISO-8859-1</encoding>
-					</configuration>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<encoding>ISO-8859-1</encoding>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

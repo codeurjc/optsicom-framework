@@ -25,11 +25,11 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>com.cplex</groupId> -->
-<!-- 			<artifactId>cplex</artifactId> -->
-<!-- 			<version>9.0.0</version> -->
-<!-- 		</dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>com.cplex</groupId> -->
+		<!-- <artifactId>cplex</artifactId> -->
+		<!-- <version>9.0.0</version> -->
+		<!-- </dependency> -->
 		<dependency>
 			<groupId>com.gurobi</groupId>
 			<artifactId>gurobi</artifactId>
@@ -52,4 +52,19 @@
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+			</plugin>
+
+		</plugins>
+	</build>
 </project>

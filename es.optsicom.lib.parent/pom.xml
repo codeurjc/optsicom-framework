@@ -14,53 +14,63 @@
 		<module>../es.optsicom.lib.npst</module>
 		<module>../es.optsicom.lib.web</module>
 	</modules>
-	
+
 	<properties>
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
+		<github.repo>git@github.com:gortazar/optsicom-framework.git</github.repo>
+		<github.url>https://github.com/gortazar/optsicom-framework</github.url>
 	</properties>
 
 	<name>Optsicom project</name>
-	<url>http://code.sidelab.es/projects/optsicomsuite</url>
+	<description>A framework for building and running optimization algorithms.</description>
+	<url>${github.url}</url>
+	
 	<issueManagement>
-		<system>Redmine</system>
-		<url>https://code.sidelab.es/projects/optsicomsuite/issues</url>
+		<system>Github</system>
+		<url>https://github.com/gortazar/optsicom-framework/issues</url>
 	</issueManagement>
 
 	<scm>
-		<developerConnection>scm:svn:https://code.sidelab.es/svn/optsicomsuite/framework/trunk/es.optsicom.lib.parent</developerConnection>
-		<connection>scm:svn:https://code.sidelab.es/svn/optsicomsuite/framework/trunk/es.optsicom.lib.parent</connection>
-		<url>https://code.sidelab.es/svn/optsicomsuite/framework/trunk/es.optsicom.lib.parent</url>
+		<developerConnection>scm:git:${github.repo}</developerConnection>
+		<connection>scm:git:${github.repo}</connection>
+		<url>${github.url}</url>
 	</scm>
 
 	<organization>
 		<name>Optsicom</name>
 		<url>www.optsicom.es</url>
 	</organization>
-
-	<distributionManagement>
-		<repository>
-			<id>releases</id>
-			<name>Sidelab Releases</name>
-			<url>http://build.sidelab.es:8080/archiva/repository/releases/</url>
-		</repository>
-		<snapshotRepository>
-			<id>snapshots</id>
-			<name>Sidelab Snapshots</name>
-			<url>http://build.sidelab.es:8080/archiva/repository/snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
-
-<!-- 	<repositories> -->
-<!-- 		<repository> -->
-<!-- 			<id>internal</id> -->
-<!-- 			<url>http://build.sidelab.es:8080/archiva/repository/internal/</url> -->
-<!-- 		</repository> -->
-<!-- 		<repository> -->
-<!-- 			<id>libraries</id> -->
-<!-- 			<url>http://build.sidelab.es:8080/archiva/repository/libraries/</url> -->
-<!-- 		</repository> -->
-<!-- 	</repositories> -->
+	
+	<licenses>
+		<license>
+			<name>Eclipse Public License v1.0</name>
+			<url>https://www.eclipse.org/legal/epl-v10.html</url>
+		</license>
+		<license>
+			<name>GNU General Public License v3.0</name>
+			<url>http://www.gnu.org/copyleft/gpl.html</url>
+		</license>
+	</licenses>
+	
+	<developers>
+		<developer>
+			<name>Micael Gallego</name>
+			<url>https://github.com/micaelgallego</url>
+		</developer>
+		<developer>
+			<name>Patxi Gortázar</name>
+			<url>https://github.com/gortazar</url>
+		</developer>
+		<developer>
+			<name>Anthanh Pham Trim</name>
+			<url>https://github.com/anthanh</url>
+		</developer>
+		<developer>
+			<name>Rubén Carrasco</name>
+			<url>https://github.com/rubensegovia</url>
+		</developer>
+	</developers>
 
 	<dependencyManagement>
 		<dependencies>
@@ -94,12 +104,55 @@
 			<plugins>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>attach-sources</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>2.9.1</version>
+					<executions>
+						<execution>
+							<id>attach-javadocs</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-gpg-plugin</artifactId>
+					<version>1.5</version>
+					<executions>
+						<execution>
+							<id>sign-artifacts</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>sign</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-release-plugin</artifactId>
 					<version>2.3.1</version>
 					<configuration>
 						<tagBase>https://code.sidelab.es/svn/optsicomsuite/framework/tags</tagBase>
 					</configuration>
 				</plugin>
+
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>build-helper-maven-plugin</artifactId>
