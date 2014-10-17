@@ -25,9 +25,8 @@ import es.optsicom.lib.util.BestMode;
 
 /**
  * 
- * This an abstract class that contains utility methods for implementing
- * SolutionCalculators. It can be used for maximization and minimization
- * problems.
+ * This an abstract class that contains utility methods for implementing SolutionCalculators. It can be used for
+ * maximization and minimization problems.
  * 
  * Subclasses must implement {@link #internalCalculateSolution(long)}
  * 
@@ -36,9 +35,8 @@ import es.optsicom.lib.util.BestMode;
  * @param <I>
  *            class that represents problem's instances
  */
-public abstract class AbstractApproxMethod<S extends Solution<I>, I extends Instance>
-		extends AbstractMethod<S, I> implements ApproxMethod<S, I>,
-		ImprovementMethodListener<S, I> {
+public abstract class AbstractApproxMethod<S extends Solution<I>, I extends Instance> extends AbstractMethod<S, I>
+		implements ApproxMethod<S, I>, ImprovementMethodListener<S, I> {
 
 	protected S bestSolution;
 	protected double bestSolutionWeight = 0;
@@ -47,31 +45,33 @@ public abstract class AbstractApproxMethod<S extends Solution<I>, I extends Inst
 	protected I instance;
 	private BestMode bestMode;
 
+	@Override
 	public final ExecutionResult execute() {
 		return execute(-1);
 	}
 
+	@Override
 	public final ExecutionResult execute(long timeout) {
 		// startTime = System.currentTimeMillis();
 		if (approxMethodListener != null) {
 			approxMethodListener.calculationStarted(this);
 		}
-		
+
 		try {
 			internalCalculateSolution(timeout);
-		} catch(StopMethodException e) {
+		} catch (StopMethodException e) {
 			// Do nothing.
 		}
-		
+
 		if (approxMethodListener != null) {
 			approxMethodListener.calculationFinished(this);
 		}
-		
+
 		ApproxExecResult execResult = new ApproxExecResult(bestSolution);
-        bestSolution = null;
-        return execResult;
-        
-}
+		bestSolution = null;
+		return execResult;
+
+	}
 
 	/**
 	 * 
@@ -80,39 +80,39 @@ public abstract class AbstractApproxMethod<S extends Solution<I>, I extends Inst
 	 */
 	protected abstract void internalCalculateSolution(long timeout);
 
-//	public List<S> calculateSolutions(int numberSolutions) {
-//		List<S> solutions = new ArrayList<S>();
-//		for (int i = 0; i < numberSolutions; i++) {
-//			solutions.add(execute());
-//		}
-//		return solutions;
-//	}
-//
-//	public List<S> calculateSolutions(int numberSolutions, long milliseconds) {
-//		List<S> solutions = new ArrayList<S>();
-//		for (int i = 0; i < numberSolutions; i++) {
-//			solutions.add(execute(milliseconds));
-//		}
-//		return solutions;
-//	}
+	// public List<S> calculateSolutions(int numberSolutions) {
+	// List<S> solutions = new ArrayList<S>();
+	// for (int i = 0; i < numberSolutions; i++) {
+	// solutions.add(execute());
+	// }
+	// return solutions;
+	// }
+	//
+	// public List<S> calculateSolutions(int numberSolutions, long milliseconds) {
+	// List<S> solutions = new ArrayList<S>();
+	// for (int i = 0; i < numberSolutions; i++) {
+	// solutions.add(execute(milliseconds));
+	// }
+	// return solutions;
+	// }
 
+	@Override
 	public S getBestSolution() {
 		if (bestMode.isBetterThan(bestSolutionWeight, bestSolution.getWeight())) {
-			throw new RuntimeException(
-					"bestSolutionWeight is better than bestSolution.getWeight(). " +
-					"This is produced because an improvement method is executed but " +
-					"not setIfBestSolution is called after that.");
+			throw new RuntimeException("bestSolutionWeight is better than bestSolution.getWeight(). "
+					+ "This is produced because an improvement method is executed but "
+					+ "not setIfBestSolution is called after that.");
 		}
 		return this.bestSolution;
 	}
 
-	public void setSolutionCalculatorListener(
-			ApproxMethodListener<S, I> listener) {
+	@Override
+	public void setSolutionCalculatorListener(ApproxMethodListener<S, I> listener) {
 		this.approxMethodListener = listener;
 	}
 
-	public void removeSolutionCalculatorListener(
-			ApproxMethodListener<S, I> listener) {
+	@Override
+	public void removeSolutionCalculatorListener(ApproxMethodListener<S, I> listener) {
 		this.approxMethodListener = null;
 	}
 
@@ -127,24 +127,24 @@ public abstract class AbstractApproxMethod<S extends Solution<I>, I extends Inst
 		if (bestSolution == null || solution.isBetterThan(bestSolution)) {
 
 			bestSolution = (S) solution.createCopy();
-			bestSolutionWeight = bestSolution.getWeight();
-			
+			bestSolutionWeight = solution.getWeight();
+
 			ExecLogger.newSolutionFound(bestSolution);
 
 			if (approxMethodListener != null) {
 				approxMethodListener.solutionImproved(this, bestSolution);
 			}
-			
-			System.out.println(" > "+bestSolutionWeight);
-			
+
+			System.out.println(" > " + bestSolutionWeight);
+
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	public void newBestSolutionFound(ImprovementMethod<S, I> improvementMethod,
-			S newBestSolution) {
+	@Override
+	public void newBestSolutionFound(ImprovementMethod<S, I> improvementMethod, S newBestSolution) {
 		// This methods are called only by the improvement method. We have
 		// decided to not
 		// copy the solution in this cases by the overhead that this copy. Is
@@ -153,17 +153,16 @@ public abstract class AbstractApproxMethod<S extends Solution<I>, I extends Inst
 		// the improvement method
 		// finish its execution.
 		if (approxMethodListener != null) {
-			if (bestMode.isBetterThan(newBestSolution.getWeight(),
-					bestSolutionWeight)) {
+			if (bestMode.isBetterThan(newBestSolution.getWeight(), bestSolutionWeight)) {
 				bestSolutionWeight = newBestSolution.getWeight();
 				approxMethodListener.solutionImproved(this, newBestSolution);
-				System.out.println(" # "+bestSolutionWeight);
+				System.out.println(" # " + bestSolutionWeight);
 			}
 		}
 	}
 
-	public void newBestSolutionFound(ImprovementMethod<S, I> improvementMethod,
-			double weight) {
+	@Override
+	public void newBestSolutionFound(ImprovementMethod<S, I> improvementMethod, double weight) {
 		// This methods are called only by the improvement method. We have
 		// decided to not
 		// copy the solution in this cases by the overhead that this copy. Is
@@ -179,21 +178,25 @@ public abstract class AbstractApproxMethod<S extends Solution<I>, I extends Inst
 		}
 	}
 
+	@Override
 	public I getInstance() {
 		return instance;
 	}
 
+	@Override
 	public void setInstance(I instance) {
 		initBestSolution();
 		this.instance = instance;
 		this.bestMode = instance.getProblem().getMode();
 	}
 
+	@Override
 	public void removeInstance() {
 		this.instance = null;
 	}
-	
-	public MethodDescription createMethodDescription(){
+
+	@Override
+	public MethodDescription createMethodDescription() {
 		return new MethodDescription(new DBProperties(this.getProperties().getMap()));
 	}
 }
