@@ -26,17 +26,22 @@ import es.optsicom.lib.approx.improvement.ImprovementMethod;
 import es.optsicom.lib.util.BestMode;
 import es.optsicom.lib.util.BiggestInvertSortLimitedList;
 import es.optsicom.lib.util.Id;
+import es.optsicom.lib.util.Log;
 import es.optsicom.lib.util.LowestSortLimitedList;
 import es.optsicom.lib.util.SortedLimitedList;
 
 public class ScatterSearch<S extends Solution<I>, I extends Instance> extends AbstractApproxMethod<S, I> {
 
 	public enum RegenerationMode {
-		GENERATE_AND_SELECT_DIVERSE, GENERATE_NECESSARY, GENERATE_IF_NOT_ENOUGH
+		GENERATE_AND_SELECT_DIVERSE,
+		GENERATE_NECESSARY,
+		GENERATE_IF_NOT_ENOUGH
 	}
 
 	public enum ImpMode {
-		WITH_IMPR, WITHOUT_IMPR, WI_ONLY_BEST
+		WITH_IMPR,
+		WITHOUT_IMPR,
+		WI_ONLY_BEST
 	}
 
 	private int numBestSolutionsToImprove = 5;
@@ -109,11 +114,11 @@ public class ScatterSearch<S extends Solution<I>, I extends Instance> extends Ab
 	public void setNumDiverseSolutions(int diverseSolutions) {
 		this.numDiverseSolutions = diverseSolutions;
 	}
-	
+
 	private SortedLimitedList<S> createSortedLimitedList(int numSolutions) {
-		if(this.instance.getProblem().getMode() == BestMode.MAX_IS_BEST) {
+		if (this.instance.getProblem().getMode() == BestMode.MAX_IS_BEST) {
 			return new BiggestInvertSortLimitedList<S>(numSolutions);
-		} 
+		}
 		return new LowestSortLimitedList<S>(numSolutions);
 	}
 
@@ -181,7 +186,7 @@ public class ScatterSearch<S extends Solution<I>, I extends Instance> extends Ab
 		if (System.currentTimeMillis() > this.finishTime) {
 			return;
 		}
-		
+
 		refSet = createSortedLimitedList(numBestSolutions);
 		// Debug.debugln("created refSet");
 
@@ -224,12 +229,12 @@ public class ScatterSearch<S extends Solution<I>, I extends Instance> extends Ab
 				break;
 			}
 		}
-		
-		System.out.print("%2");		
+
+		System.out.print("%2");
 		if (System.currentTimeMillis() > this.finishTime) {
 			return;
 		}
-		
+
 		// OJO. Esto lo usa Patxi pero yo no.. La idea es que hay soluciones que
 		// se pueden seguir
 		// considerando diversas.
@@ -253,7 +258,7 @@ public class ScatterSearch<S extends Solution<I>, I extends Instance> extends Ab
 		global: while (true) {
 
 			globalIters++;
-			
+
 			// OJO: Hay que incluir el nuevo mecanismo de filtrado de soluciones
 			// q ya están en el RS
 			// refreshRefSetIndexes();
@@ -276,10 +281,10 @@ public class ScatterSearch<S extends Solution<I>, I extends Instance> extends Ab
 
 			do {
 
-				if(globalIters==1){
-					//System.out.print("#"+(numIterations));
+				if (globalIters == 1) {
+					// System.out.print("#"+(numIterations));
 				}
-				
+
 				numIterations++;
 				if (numIterations > maxNumIterations) {
 					break;
@@ -404,7 +409,7 @@ public class ScatterSearch<S extends Solution<I>, I extends Instance> extends Ab
 
 			} while (true);
 
-			//System.out.print("%3");
+			System.out.print("%3");
 			if (System.currentTimeMillis() > this.finishTime) {
 				break global;
 			}
@@ -468,7 +473,7 @@ public class ScatterSearch<S extends Solution<I>, I extends Instance> extends Ab
 			}
 		}
 
-		//		Log.debugln("Iterations " + numIterations);
+		Log.debugln("Iterations " + numIterations);
 
 		if (this.scatterSearchListener != null) {
 			scatterSearchListener.calculationFinished(this);
@@ -504,10 +509,10 @@ public class ScatterSearch<S extends Solution<I>, I extends Instance> extends Ab
 				if (!improvedSolutions.containsKey(solution)) {
 					// long now = System.currentTimeMillis();
 					S original = (S) solution.createCopy();
-					
-					//this.improvingMethod.improveSolution(solution, finishTime - System.currentTimeMillis());
+
+					// this.improvingMethod.improveSolution(solution, finishTime - System.currentTimeMillis());
 					this.improvingMethod.improveSolution(solution);
-					
+
 					// Debug.debugln(solution.getWeight()+" in
 					// "+(System.currentTimeMillis()-now)+" millis");
 					setIfBestSolution(solution);
@@ -525,13 +530,13 @@ public class ScatterSearch<S extends Solution<I>, I extends Instance> extends Ab
 					// break;
 					// }
 					// }
-					//					
+					//
 					// Debug.debugln("Old Solution: "+oldKey);
 
 					numFilteredImprovements++;
 					refSet.add(improvedSolutions.get(solution));
 				}
-				
+
 				if (System.currentTimeMillis() > this.finishTime) {
 					return;
 				}
@@ -545,7 +550,7 @@ public class ScatterSearch<S extends Solution<I>, I extends Instance> extends Ab
 				setIfBestSolution(solution);
 				numSolutions += this.improvingMethod.getLastImprovVisitedSolutions();
 				// Debug.debugln(solution.getWeight());
-				
+
 				if (System.currentTimeMillis() > this.finishTime) {
 					return;
 				}
@@ -732,6 +737,5 @@ public class ScatterSearch<S extends Solution<I>, I extends Instance> extends Ab
 	public void setNumBestSolutionsToImprove(int numBestSolutionsToImprove) {
 		this.numBestSolutionsToImprove = numBestSolutionsToImprove;
 	}
-	
-	
+
 }
