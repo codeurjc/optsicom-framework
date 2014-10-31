@@ -18,6 +18,8 @@
 	<properties>
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<github.repo>git@github.com:gortazar/optsicom-framework.git</github.repo>
 		<github.url>https://github.com/gortazar/optsicom-framework</github.url>
 	</properties>
@@ -25,7 +27,7 @@
 	<name>Optsicom project</name>
 	<description>A framework for building and running optimization algorithms.</description>
 	<url>${github.url}</url>
-	
+
 	<issueManagement>
 		<system>Github</system>
 		<url>https://github.com/gortazar/optsicom-framework/issues</url>
@@ -41,7 +43,7 @@
 		<name>Optsicom</name>
 		<url>www.optsicom.es</url>
 	</organization>
-	
+
 	<licenses>
 		<license>
 			<name>Eclipse Public License v1.0</name>
@@ -52,7 +54,7 @@
 			<url>http://www.gnu.org/copyleft/gpl.html</url>
 		</license>
 	</licenses>
-	
+
 	<developers>
 		<developer>
 			<name>Micael Gallego</name>
@@ -143,7 +145,7 @@
 						</execution>
 					</executions>
 				</plugin>
-				
+
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-release-plugin</artifactId>
