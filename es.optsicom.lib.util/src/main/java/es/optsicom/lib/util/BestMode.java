@@ -26,6 +26,11 @@ public enum BestMode {
 		public boolean isImprovement(double increment) {
 			return increment < 0;
 		}
+
+		@Override
+		public boolean isNoWorseThanPerc(double newWeight, double oldWeight, double percentage) {
+			return newWeight * (1-percentage) < oldWeight;
+		}	
 	},
 	MAX_IS_BEST {
 		@Override
@@ -42,10 +47,17 @@ public enum BestMode {
 		public boolean isImprovement(double increment) {
 			return increment > 0;
 		}
+		
+		@Override
+		public boolean isNoWorseThanPerc(double newWeight, double oldWeight, double percentage) {
+			return newWeight > oldWeight * (1-percentage);
+		}	
 	};
 
 	public abstract boolean isBetterThan(double newWeight, double oldWeight);
-
+	
+	public abstract boolean isNoWorseThanPerc(double newWeight, double oldWeight, double percentage);
+	
 	public abstract boolean isImprovement(double increment);
 	
 }
