@@ -25,6 +25,7 @@ public class MatrixGraph implements Graph {
 	private final List<Node> nodes;
 	private List<Arc> arcs;
 	private String additionalInfo;
+	private float[] nodeWeights;
 
 	class MatrixNode implements Node {
 
@@ -82,7 +83,7 @@ public class MatrixGraph implements Graph {
 		}
 
 		public float getWeight() {
-			return 0;
+			return nodeWeights[index];
 		}
 	}
 
@@ -96,6 +97,7 @@ public class MatrixGraph implements Graph {
 		for (int i = 0; i < totalNodes; i++) {
 			nodes.add(new MatrixNode(Integer.toString(i), i));
 		}
+		this.nodeWeights = new float[nodes.size()];
 	}
 
 	public List<Node> getNodes() {
@@ -275,5 +277,10 @@ public class MatrixGraph implements Graph {
 	@Override
 	public String getAdditionalInfo() {
 		return additionalInfo;
+	}
+	
+	@Override
+	public void setNodeWeights(float[] nodeWeights) {
+		this.nodeWeights = nodeWeights;		
 	}
 }

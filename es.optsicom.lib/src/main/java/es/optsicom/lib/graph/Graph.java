@@ -35,5 +35,7 @@ public interface Graph {
 	int getNumNodes();
 
 	String getAdditionalInfo();
+	
+	void setNodeWeights(float[] nodeWeights);
 
 }

@@ -10,6 +10,7 @@
  * **************************************************************************** */
 package es.optsicom.lib.graph;
 
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -19,6 +20,20 @@ import java.util.List;
  * Preferences - Java - Code Style - Code Templates
  */
 public interface Node extends Comparable<Node> {
+	
+	public static Comparator<Node> WEIGHT_COMPARATOR = new Comparator<Node>() {
+		@Override
+		public int compare(Node o1, Node o2) {
+			return Float.compare(o1.getWeight(), o2.getWeight());
+		}
+	};
+	
+	public static Comparator<Node> WEIGHT_REVERSE_COMPARATOR = new Comparator<Node>() {
+		@Override
+		public int compare(Node o1, Node o2) {
+			return Float.compare(o2.getWeight(), o1.getWeight());
+		}
+	};
 
 	String getIdentifier();
 
