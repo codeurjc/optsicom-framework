@@ -82,7 +82,7 @@ public class FastExperimentExecutor {
 		return this;
 	}
 
-	public void execExperiment() {
+	public long execExperiment() {
 
 		if (dbManager == null) {
 			try {
@@ -114,6 +114,8 @@ public class FastExperimentExecutor {
 		}
 
 		reportCreator.createReportAndShow();
+
+		return experimentId;
 	}
 
 	@SuppressWarnings("unchecked")
