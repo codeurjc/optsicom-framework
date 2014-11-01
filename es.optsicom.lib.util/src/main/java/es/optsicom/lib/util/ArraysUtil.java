@@ -548,6 +548,12 @@ public abstract class ArraysUtil {
 		return naturals;
 	}
 
+	public static boolean[] createFilled(boolean value, int numElems) {
+		boolean[] array = new boolean[numElems];
+		Arrays.fill(array, value);
+		return array;
+	}
+	
 	public static double[] createFilled(double value, int numElems) {
 		double[] array = new double[numElems];
 		Arrays.fill(array, value);
@@ -709,6 +715,14 @@ public abstract class ArraysUtil {
 		int[] result = new int[values.size()];
 		for (int i = 0; i < values.size(); i++) {
 			result[i] = values.get(i);
+		}
+		return result;
+	}
+
+	public static float[] toFloatArray(int[] values) {
+		float[] result = new float[values.length];
+		for (int i = 0; i < values.length; i++) {
+			result[i] = values[i];
 		}
 		return result;
 	}
