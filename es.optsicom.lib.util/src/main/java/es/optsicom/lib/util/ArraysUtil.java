@@ -726,5 +726,21 @@ public abstract class ArraysUtil {
 		}
 		return result;
 	}
+	
+	public static float[] toFloatArray(double[] values) {
+		float[] result = new float[values.length];
+		for (int i = 0; i < values.length; i++) {
+			result[i] = (float)values[i];
+		}
+		return result;
+	}
+
+	public static int[] toIntArray(String[] groups) {
+		int[] result = new int[groups.length];
+		for (int i = 0; i < groups.length; i++) {
+			result[i] = Integer.parseInt(groups[i]);
+		}
+		return result;
+	}
 
 }
