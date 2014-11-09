@@ -52,7 +52,11 @@ public class MatrixGraph implements Graph {
 
 		@Override
 		public String toString() {
-			return identifier;
+			if(nodeWeights != null){
+				return "["+identifier+"|"+getWeight()+"]";
+			} else {
+				return identifier;
+			}
 		}
 
 		public int getIndex() {
@@ -130,10 +134,10 @@ public class MatrixGraph implements Graph {
 		StringBuilder sb = new StringBuilder("Number of Nodes: " + getNumNodes() + "\n");
 		int numFila = 1;
 		for (float[] fila : weights) {
-			sb.append(numFila).append(": ");
+			sb.append("["+numFila+"]").append(": ");
 			int col = 0;
 			for (float valor : fila) {
-				sb.append(valor).append(" ").append("[" + col + "]");
+				sb.append(valor).append("[" + col + "], ");
 				col++;
 			}
 			sb.append("\n");
