@@ -263,4 +263,9 @@ public class UnweightedGraph implements Graph {
 		this.description = description;
 	}
 
+	@Override
+	public void setNodeWeights(float[] nodeWeights) {
+		throw new UnsupportedOperationException();	
+	}
+
 }

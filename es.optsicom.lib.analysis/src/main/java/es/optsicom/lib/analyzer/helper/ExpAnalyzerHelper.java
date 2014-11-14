@@ -10,6 +10,7 @@ import java.util.List;
 
 import es.optsicom.lib.analyzer.DefaultReportConf;
 import es.optsicom.lib.analyzer.ReportConf;
+import es.optsicom.lib.analyzer.TempEvolutionReportConf;
 import es.optsicom.lib.analyzer.tablecreator.filter.ElementFilter;
 import es.optsicom.lib.analyzer.tool.FusionerReportCreator;
 import es.optsicom.lib.analyzer.tool.FusionerReportCreator.ExperimentMethodConf;
@@ -29,6 +30,10 @@ public class ExpAnalyzerHelper {
 		showDefaultReport(derbyDir, id, null);
 	}
 
+	public static void showTempEvolutionReport(String derbyDir, String experimentName, String problemName,  FiltersAndAliases fa, long timeLimit, int numSteps) {
+		showDefaultReport(derbyDir, experimentName, problemName, new TempEvolutionReportConf(timeLimit, numSteps), fa);
+	}
+	
 	public static void showDefaultReportWithBestValues(String derbyDir,String problemName,
 			long id, FiltersAndAliases fa) {
 

@@ -72,7 +72,7 @@ public class AsymmetricMatrixGraph implements Graph {
 		}
 
 		public float getWeight() {
-			return 0;
+			return nodeWeights[index];
 		}
 	}
 
@@ -82,6 +82,7 @@ public class AsymmetricMatrixGraph implements Graph {
 	private final List<Node> nodes;
 	private List<Arc> arcs;
 	private String additionalInfo;
+	private float[] nodeWeights;
 
 	public AsymmetricMatrixGraph(float[][] weights) {
 		this(weights, weights.length);
@@ -259,6 +260,11 @@ public class AsymmetricMatrixGraph implements Graph {
 	@Override
 	public String getAdditionalInfo() {
 		return additionalInfo;
+	}
+	
+	@Override
+	public void setNodeWeights(float[] nodeWeights) {
+		this.nodeWeights = nodeWeights;		
 	}
 	
 }
