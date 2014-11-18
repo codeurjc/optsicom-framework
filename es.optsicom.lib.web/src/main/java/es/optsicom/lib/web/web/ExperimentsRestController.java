@@ -51,14 +51,12 @@ public class ExperimentsRestController {
 	}
 
 	private static final Log LOG = LogFactory.getLog(ExperimentsRestController.class);
-// no valen
-	@RequestMapping("/login")
-	public String showLogin() {
-		return "login";
-	}
 
-	// fin de no valen
-	
+//	@RequestMapping("/login")
+//	public String showLogin() {
+//		return "login";
+//	}
+
 	public long convertStringToLong(String string){
 		if ( (string != null) && (string != "") ){
 			return Long.valueOf(string).longValue();
@@ -66,9 +64,6 @@ public class ExperimentsRestController {
 		return 0;
 		
 	}
-	
-	
-
 	@RequestMapping(value = "/{expId}", method = RequestMethod.GET)
 	public @ResponseBody Experiment getExperimentById(@PathVariable String expId){
 		LOG.info("Recovering experiment: " + expId);
