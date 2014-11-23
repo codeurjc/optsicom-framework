@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
@@ -40,8 +41,12 @@ import org.codehaus.jackson.type.TypeReference;
 
 import java.util.HashMap; 
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 public class ExperimentsRestControllerTests {
 	private static final String EXPID = "1551";
+	private static final long EXPIDLONG = 1551;
 	private static final String SUBSTRING_EXPERIMENT = "\"timeLimit\":0,\"maxTimeLimit\":0,\"problemBestMode\":null,\"problemName\":null,\"recordEvolution\":false,\"name\":\"paco\",\"useCase\":null,\"description\":null,\"numExecs\":0}";
 	@Mock
 	private ExperimentService experimentService;
@@ -52,6 +57,7 @@ public class ExperimentsRestControllerTests {
 	
 	private Experiment experimento;
 	private Experiment experimento2;
+	private Experiment experimento3;
 	private List<Experiment> experimentList;
 	
 	private MockMvc mockMvc;
@@ -68,13 +74,15 @@ public class ExperimentsRestControllerTests {
 		date.setTime(1000);
 		experimento = new Experiment("paco", new Researcher("researcher"), date, new ComputerDescription("computer"));
 		experimento2 = new Experiment("juan", new Researcher("researcher2"), date, new ComputerDescription("computer2"));
+		experimento3 = new Experiment("maria", new Researcher("researcher3"), date, new ComputerDescription("computer3"));
 		experimentList = new ArrayList<Experiment>();
 		experimentList.add(experimento);
 		experimentList.add(experimento2);
+		experimentList.add(experimento3);
 		
 		experimentService = mock(ExperimentService.class);
 		experimentManager = mock(ExperimentManager.class);
-		when(experimentService.findExperimentManagerById(1551)).thenReturn(experimentManager);
+		when(experimentService.findExperimentManagerById(EXPIDLONG)).thenReturn(experimentManager);
 		when(experimentManager.getExperiment()).thenReturn(experimento);
 		when(experimentService.findExperiments()).thenReturn(experimentList);
 		experimentsRestController = new ExperimentsRestController(experimentService);
@@ -84,22 +92,7 @@ public class ExperimentsRestControllerTests {
 		factory = new JsonFactory();
 		mapper = new ObjectMapper(factory);
 	}
-//	@Test
-//	public void getExperimentById() throws Exception{
-//
-//		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(experimentsRestController).build();
-//		String content = mockMvc.perform(MockMvcRequestBuilders.get("/api/" + EXPID)
-//		.accept(MediaType.APPLICATION_JSON))
-//		.andExpect(status().isOk())
-//		.andReturn()
-//		.getResponse()
-//        .getContentAsString();
-//		
-//		assertTrue(content.contains(SUBSTRING_EXPERIMENT));
-//		verify(experimentService).findExperimentManagerById(any(long.class));
-//		
-//	}
-	
+
 	@Test
 	public void getExperimentById() throws Exception {
 		String content = mockMvc
@@ -112,7 +105,6 @@ public class ExperimentsRestControllerTests {
 				content.getBytes("UTF-8")), typeRef);
 		assertTrue(o.get("name").equals(experimento.getName()));
 		verify(experimentService).findExperimentManagerById(any(long.class));
-		//@JsonDeserialize(as=AddressImpl.class)
 	}
 	
 	@Test
@@ -129,29 +121,34 @@ public class ExperimentsRestControllerTests {
 
 		assertTrue(o.get(0).get("name").equals(experimento.getName()));
 		assertTrue(o.get(1).get("name").equals(experimento2.getName()));
+		assertTrue(o.get(2).get("name").equals(experimento3.getName()));
+		assertTrue(o.size() == 3);
 		verify(experimentService).findExperiments();
-		//@JsonDeserialize(as=AddressImpl.class)
+	}
+	@Transactional
+	@Test
+	public void deleteExperimentById() throws Exception { // integration test
+		mockMvc.perform(MockMvcRequestBuilders.delete("/api/" + 10853).accept(
+								MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
+		verify(experimentService).removeExperiment(any(long.class));
 	}
 	
+	@Test
+	public void mergeExperiments() throws Exception { 
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/merge/"+ EXPIDLONG).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+		verify(experimentService).findExperimentManagerById(any(long.class));
+	}
+	
+//	@Test
+//	public void mergeExperiments() throws Exception { 
+//		List<String> listring = new ArrayList<String>();
+//		Gson gson = new Gson();
+//		String json = gson.toJson(listring);
+//		System.out.println("hola " + json); ////////////////////////////////////////////////
+//		mockMvc.perform(MockMvcRequestBuilders.post("/api/merge/").accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON).content(json)).andExpect(status().isOk());
+//		verify(experimentService).findExperimentManagerById(any(long.class));
+//	}
 
-//	public static void main(String[] args)
-//	   {
-//	      Employee employee = null;
-//	      ObjectMapper mapper = new ObjectMapper();
-//	      try
-//	      {
-//	         employee =  mapper.readValue(new File("c://temp/employee.json"), Employee.class);
-//	      } catch (JsonGenerationException e)
-//	      {
-//	         e.printStackTrace();
-//	      } catch (JsonMappingException e)
-//	      {
-//	         e.printStackTrace();
-//	      } catch (IOException e)
-//	      {
-//	         e.printStackTrace();
-//	      }
-//	      System.out.println(employee);
-//	   }
 }
 	

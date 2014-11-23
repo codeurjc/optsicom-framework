@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.janino.MethodDescriptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -64,32 +65,10 @@ public class ExperimentsRestController {
 		return 0;
 		
 	}
-	@RequestMapping(value = "/{expId}", method = RequestMethod.GET)
-	public @ResponseBody Experiment getExperimentById(@PathVariable String expId){
-		LOG.info("Recovering experiment: " + expId);
-		return this.experimentService.findExperimentManagerById(convertStringToLong(expId)).getExperiment();	
-	}
-
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public @ResponseBody List<Experiment> getExperiments(){
-		LOG.info("Recovering experiments (/)");
-		return this.experimentService.findExperiments();
-	}	
-
-	@RequestMapping(value = "/experiments", method = RequestMethod.GET)
-	public @ResponseBody List<Experiment> getExperimentsExplicit(){
-		LOG.info("Recovering experiments (/experiments)");
-		return this.experimentService.findExperiments();
-	}	
-	
-	@RequestMapping(value = "/{expId}", method = RequestMethod.DELETE)
-	public @ResponseBody void deleteExperimentById(@PathVariable String expId){
-		LOG.info("Removing experiment: " + expId);
-		experimentService.removeExperiment(convertStringToLong(expId));
-	}
-	
-	@RequestMapping(value = "/merge", method = RequestMethod.GET)
-	public @ResponseBody List<Experiment> merge(@RequestBody final List<String> expIds) {
+	// http://localhost:8080/api/merge/1551,2401
+//	@RequestMapping(value = "/merge/{expIds}", method = RequestMethod.GET, consumes = "application/json", produces = {"application/json" })
+	@RequestMapping(value = "/merge/{expIds}", method = RequestMethod.GET, produces = {"application/json" })
+	public @ResponseBody List<Experiment> merge(@PathVariable("expIds") final List<String> expIds) {
 		LOG.info("Merging experiments (/merge) : ");
 		List<Experiment> lista = new ArrayList<Experiment>();
 		for (int i = 0;i<expIds.size();i++){
@@ -100,8 +79,38 @@ public class ExperimentsRestController {
 		return lista;
 	}
 	
-	@RequestMapping(value = "/{expId}/report", method = RequestMethod.GET)  // falta implementar la funcionalidad
-	public @ResponseBody Experiment report(@PathVariable String expId, @RequestBody final ReportConfiguration reportConfiguration){
+
+	
+	@RequestMapping(value = "/{expId}", method = RequestMethod.GET, produces = {"application/json" })
+	public @ResponseBody Experiment getExperimentById(@PathVariable String expId){
+		LOG.info("Recovering experiment: " + expId);
+		return this.experimentService.findExperimentManagerById(convertStringToLong(expId)).getExperiment();	
+	}
+
+	@RequestMapping(value = "/", method = RequestMethod.GET, produces = {"application/json" })
+	public @ResponseBody List<Experiment> getExperiments(){
+		LOG.info("Recovering experiments (/)");
+		return this.experimentService.findExperiments();
+	}	
+
+	@RequestMapping(value = "/experiments", method = RequestMethod.GET, produces = {"application/json" })
+	public @ResponseBody List<Experiment> getExperimentsExplicit(){
+		LOG.info("Recovering experiments (/experiments)");
+		return this.experimentService.findExperiments();
+	}	
+	
+	@RequestMapping(value = "/{expId}", method = RequestMethod.DELETE, produces = {"application/json" })
+	public @ResponseBody void deleteExperimentById(@PathVariable String expId){
+		LOG.info("Removing experiment: " + expId);
+		experimentService.removeExperiment(convertStringToLong(expId));
+	}
+	
+	
+	
+	// ?expIds=1551&expIds=1601
+	
+	@RequestMapping(value = "/{expId}/report", method = RequestMethod.GET, produces = {"application/json" })  // falta implementar la funcionalidad
+	public @ResponseBody Experiment report(@PathVariable String expId,@RequestBody final ReportConfiguration reportConfiguration){
 		LOG.info("Report: " + expId);
 		return this.experimentService.findExperimentManagerById(convertStringToLong(expId)).getExperiment();	
 	}
