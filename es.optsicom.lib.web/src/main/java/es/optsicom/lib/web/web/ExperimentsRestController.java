@@ -43,15 +43,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/api")
 public class ExperimentsRestController {
-
 	private ExperimentService experimentService;
+	private static final Log LOG = LogFactory.getLog(ExperimentsRestController.class);
 	
 	@Autowired
 	public ExperimentsRestController(ExperimentService experimentservice){
 		this.experimentService = experimentservice;
 	}
-
-	private static final Log LOG = LogFactory.getLog(ExperimentsRestController.class);
 
 //	@RequestMapping("/login")
 //	public String showLogin() {
@@ -66,7 +64,6 @@ public class ExperimentsRestController {
 		
 	}
 	// http://localhost:8080/api/merge/1551,2401
-//	@RequestMapping(value = "/merge/{expIds}", method = RequestMethod.GET, consumes = "application/json", produces = {"application/json" })
 	@RequestMapping(value = "/merge/{expIds}", method = RequestMethod.GET, produces = {"application/json" })
 	public @ResponseBody List<Experiment> merge(@PathVariable("expIds") final List<String> expIds) {
 		LOG.info("Merging experiments (/merge) : ");
@@ -105,16 +102,41 @@ public class ExperimentsRestController {
 		experimentService.removeExperiment(convertStringToLong(expId));
 	}
 	
-	
-	
-	// ?expIds=1551&expIds=1601
-	
-	@RequestMapping(value = "/{expId}/report", method = RequestMethod.GET, produces = {"application/json" })  // falta implementar la funcionalidad
-	public @ResponseBody Experiment report(@PathVariable String expId,@RequestBody final ReportConfiguration reportConfiguration){
+	@RequestMapping(value = "/{expId}/report", method = RequestMethod.POST, produces = {"application/json" })
+	public @ResponseBody Report report(@PathVariable String expId,@RequestBody final ReportConfiguration reportConfiguration){
 		LOG.info("Report: " + expId);
-		return this.experimentService.findExperimentManagerById(convertStringToLong(expId)).getExperiment();	
+		
+		Long expIdLong = convertStringToLong(expId);
+		Experiment experiment = this.experimentService.findExperimentManagerById(expIdLong).getExperiment();
+		FusionerReportCreator reportCreator = new FusionerReportCreator(
+				experiment.getProblemName(), "",
+				experimentService.getDBManager());
+		ExperimentManager expManager = this.experimentService
+				.findExperimentManagerById(expIdLong);
+		
+		if (!reportConfiguration.isConfiguration()) {
+			reportConfiguration.setMethods( new ArrayList<Long>());
+				for (MethodDescription method : expManager.getMethods()) {
+					String experimentMethodName = expManager.getExperimentMethodName(method);
+					reportCreator.addExperimentMethod(expIdLong, experimentMethodName);
+					reportConfiguration.addMethod(method.getId());			
+				}
+		} else {
+				for (MethodDescription method : expManager.getMethods()) {
+					String experimentMethodName = expManager.getExperimentMethodName(method);
+					if((reportConfiguration.getMethods()).contains(method.getId())){
+						reportCreator.addExperimentMethod(expIdLong,
+								experimentMethodName);
+					}
+				}
+		}
+		if (reportConfiguration.isBestValues()) {
+			reportCreator.addExperimentMethods(Arrays
+					.asList(new ExperimentMethodConf("predefined",
+							"best_values")));
+		}
+		Report report = reportCreator.createReportObject();
+		return report;	
 	}
-	
-	
 	
 }

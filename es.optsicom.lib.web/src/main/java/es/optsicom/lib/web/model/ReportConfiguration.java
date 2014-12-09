@@ -1,6 +1,7 @@
 package es.optsicom.lib.web.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("serial")
@@ -11,6 +12,13 @@ public class ReportConfiguration implements Serializable{
 	private boolean bestValues;
 	private boolean configuration;
 	
+	public ReportConfiguration() {
+		super();
+		this.expId = 0;
+		this.methods = new ArrayList<Long>();
+		this.bestValues = false;
+		this.configuration = false;
+	}
 	
 	public ReportConfiguration(long expId, List<Long> methods,
 			boolean bestValues, boolean configuration) {
@@ -45,6 +53,23 @@ public class ReportConfiguration implements Serializable{
 	public void setConfiguration(boolean configuration) {
 		this.configuration = configuration;
 	}
+	
+	public void addMethod(Long method){
+		if (method != null){
+			this.methods.add(method);
+		}
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (bestValues ? 1231 : 1237);
+		result = prime * result + (configuration ? 1231 : 1237);
+		result = prime * result + (int) (expId ^ (expId >>> 32));
+		result = prime * result + ((methods == null) ? 0 : methods.hashCode());
+		return result;
+	}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -68,15 +93,4 @@ public class ReportConfiguration implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
-	
-//	{
-//		  expId: <expId>,
-//		  methods: [<method list>],
-//		  bestValues: <boolean>,
-//		  configuration: <additional report configuration>
-//	}
-	
-	
 }
