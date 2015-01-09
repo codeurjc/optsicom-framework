@@ -1,7 +1,7 @@
 /* ******************************************************************************
- * 
+ *
  * This file is part of Optsicom
- * 
+ *
  * License:
  *   EPL: http://www.eclipse.org/legal/epl-v10.html
  *   LGPL 3.0: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
@@ -18,7 +18,6 @@ import java.util.List;
 import es.optsicom.lib.Instance;
 import es.optsicom.lib.Problem;
 import es.optsicom.lib.Solution;
-import es.optsicom.lib.expresults.model.InstanceDescription;
 import es.optsicom.lib.expresults.saver.ExperimentSaver;
 import es.optsicom.lib.instancefile.InstanceFile;
 
@@ -35,7 +34,7 @@ public abstract class ExperimentExecution<S extends Solution<I>, I extends Insta
 	protected long timeLimit = -1;
 
 	protected boolean overrideExec = true;
-	
+
 	public ExperimentExecution() {
 		this.resultsDir = new File("Experiments/Test/"
 				+ String.format("%1$tY-%1$tm-%1$td_%1$tH-%1$tM-%1$tS",
@@ -63,19 +62,19 @@ public abstract class ExperimentExecution<S extends Solution<I>, I extends Insta
 	}
 
 	public void executeExperiment(ExperimentSaver saver) throws IOException {
-		executeExperiment(saver,true);
+		executeExperiment(saver, true);
 	}
-	
+
 	/**
 	 * Executes the experiment and save the result in a File
-	 * 
+	 *
 	 * @throws IOException
 	 */
-	public void executeExperiment(ExperimentSaver saver,
-			boolean localExecution) throws IOException {
+	public void executeExperiment(ExperimentSaver saver, boolean localExecution)
+			throws IOException {
 
 		System.out.println("Experiment Id = " + saver.getExperimentId());
-		
+
 		if (instanceFiles == null) {
 			// We obtain the instance files from the repository
 			if (problem == null) {
@@ -93,11 +92,11 @@ public abstract class ExperimentExecution<S extends Solution<I>, I extends Insta
 		}
 
 		experimentStarted(saver);
-		
+
 		ExperimentMethodStopCriteria.setExperimentExecution(this);
 
 		int numInstance = 0;
-		
+
 		List<OptsicomException> thrownExceptions = new ArrayList<OptsicomException>();
 
 		int instanceIndex = 0;
@@ -125,31 +124,36 @@ public abstract class ExperimentExecution<S extends Solution<I>, I extends Insta
 
 				I instance = (I) instanceFile.loadInstance();
 
-				executeExperiment(saver, instance, instanceIndex, instanceTimeLimit, thrownExceptions, localExecution);
+				executeExperiment(saver, instance, instanceIndex,
+						instanceTimeLimit, thrownExceptions, localExecution);
 
 			} catch (Exception e) {
 				// Exception not caught by executeExperimentMethod???
 				// This should not happen
-				thrownExceptions.add(new OptsicomException(instanceFile, null, e));
+				thrownExceptions.add(new OptsicomException(instanceFile, null,
+						e));
 			}
-			
+
 			instanceIndex++;
 		}
 
 		experimentFinished(saver);
-		
+
 		// Print report:
-		System.out.println("Ok runs: " + (instanceFiles.size() - thrownExceptions.size()));
+		System.out.println("Ok runs: "
+				+ (instanceFiles.size() - thrownExceptions.size()));
 		System.out.println("Error runs: " + thrownExceptions.size());
-		if(!thrownExceptions.isEmpty()) {
+		if (!thrownExceptions.isEmpty()) {
 			System.out.println("Exceptions thrown: ");
-			for(OptsicomException oe : thrownExceptions) {
+			for (OptsicomException oe : thrownExceptions) {
 				System.out.println(oe.getInstanceFile().getName());
 				oe.printStackTrace();
 				System.out.println();
 			}
 		}
 	}
+
+
 
 	protected void experimentFinished(ExperimentSaver saver) {
 	}
@@ -158,7 +162,8 @@ public abstract class ExperimentExecution<S extends Solution<I>, I extends Insta
 	}
 
 	protected abstract void executeExperiment(ExperimentSaver saver,
-			I instance, int instanceIndex, long timeLimit, List<OptsicomException> thrownExceptions, boolean localExecution);
+			I instance, int instanceIndex, long timeLimit,
+			List<OptsicomException> thrownExceptions, boolean localExecution);
 
 	public File getResultsDir() {
 		return resultsDir;
