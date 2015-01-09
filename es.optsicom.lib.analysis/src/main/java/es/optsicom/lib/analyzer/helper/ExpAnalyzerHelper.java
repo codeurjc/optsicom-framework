@@ -26,6 +26,13 @@ import es.optsicom.lib.expresults.model.MethodDescription;
 
 public class ExpAnalyzerHelper {
 
+	private static final String DEFAULT_DERBY_DIR = "derby_exp_repo";
+
+	public static void showDefaultReport(
+			String experimentName, String problemName, FiltersAndAliases fa) {
+		showDefaultReport(DEFAULT_DERBY_DIR, experimentName, problemName, fa);
+	}
+
 	public static void showDefaultReport(String derbyDir, long id) {
 		showDefaultReport(derbyDir, id, null);
 	}
@@ -33,7 +40,7 @@ public class ExpAnalyzerHelper {
 	public static void showTempEvolutionReport(String derbyDir, String experimentName, String problemName,  FiltersAndAliases fa, long timeLimit, int numSteps) {
 		showDefaultReport(derbyDir, experimentName, problemName, new TempEvolutionReportConf(timeLimit, numSteps), fa);
 	}
-	
+
 	public static void showDefaultReportWithBestValues(String derbyDir,String problemName,
 			long id, FiltersAndAliases fa) {
 
@@ -53,6 +60,8 @@ public class ExpAnalyzerHelper {
 			e.printStackTrace();
 		}
 	}
+
+
 
 	public static void showDefaultReport(String derbyDir, long id,
 			FiltersAndAliases fa) {
