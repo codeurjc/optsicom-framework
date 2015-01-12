@@ -1,7 +1,7 @@
 /* ******************************************************************************
- * 
+ *
  * This file is part of Optsicom
- * 
+ *
  * License:
  *   EPL: http://www.eclipse.org/legal/epl-v10.html
  *   LGPL 3.0: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
@@ -33,13 +33,13 @@ import es.optsicom.lib.expresults.model.MethodDescription;
 import es.optsicom.lib.util.BestMode;
 
 /**
- * 
+ *
  * This an abstract class that contains utility methods for implementing
  * SolutionCalculators. It can be used for maximization and minimization
  * problems.
- * 
+ *
  * Subclasses must implement {@link #internalCalculateSolution(long)}
- * 
+ *
  * @param <S>
  *            class that represents problem's solutions
  * @param <I>
@@ -48,6 +48,8 @@ import es.optsicom.lib.util.BestMode;
 public abstract class AbstractApproxMethod<S extends Solution<I>, I extends Instance>
 		extends AbstractMethod<S, I> implements ApproxMethod<S, I>,
 		ImprovementMethodListener<S, I> {
+
+	private static final boolean EXPERIMENTAL_TIMELIMIT_WITH_THREADS = false;
 
 	protected S bestSolution;
 	protected double bestSolutionWeight = 0;
@@ -70,7 +72,11 @@ public abstract class AbstractApproxMethod<S extends Solution<I>, I extends Inst
 
 		try {
 
-			timeLimitInternalCalculateSolution(timeout);
+			if(EXPERIMENTAL_TIMELIMIT_WITH_THREADS){
+				timeLimitInternalCalculateSolution(timeout);
+			} else {
+				internalCalculateSolution(timeout);
+			}
 
 		} catch (StopMethodException e) {
 			// Do nothing.
@@ -95,7 +101,7 @@ public abstract class AbstractApproxMethod<S extends Solution<I>, I extends Inst
 			ExecutionInfo info = TimeoutExecution.exec(timeout, new Runnable() {
 				@Override
 				public void run() {
-					internalCalculateSolution(-1);
+					internalCalculateSolution(timeout);
 				}
 			});
 
@@ -124,7 +130,7 @@ public abstract class AbstractApproxMethod<S extends Solution<I>, I extends Inst
 	}
 
 	/**
-	 * 
+	 *
 	 * @param timeout
 	 *            the timeout or -1 if no time limit is set
 	 */
