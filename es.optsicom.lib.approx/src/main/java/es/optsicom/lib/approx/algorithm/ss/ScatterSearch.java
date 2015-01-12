@@ -1,7 +1,7 @@
 /* ******************************************************************************
- * 
+ *
  * This file is part of Optsicom
- * 
+ *
  * License:
  *   EPL: http://www.eclipse.org/legal/epl-v10.html
  *   LGPL 3.0: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
@@ -182,7 +182,7 @@ public class ScatterSearch<S extends Solution<I>, I extends Instance> extends Ab
 			scatterSearchListener.initialSolutionsCreated(this);
 		}
 
-		System.out.print("%1");
+		//System.out.print("%1");
 		if (System.currentTimeMillis() > this.finishTime) {
 			return;
 		}
@@ -230,7 +230,7 @@ public class ScatterSearch<S extends Solution<I>, I extends Instance> extends Ab
 			}
 		}
 
-		System.out.print("%2");
+		//System.out.print("%2");
 		if (System.currentTimeMillis() > this.finishTime) {
 			return;
 		}
@@ -409,7 +409,7 @@ public class ScatterSearch<S extends Solution<I>, I extends Instance> extends Ab
 
 			} while (true);
 
-			System.out.print("%3");
+			//System.out.print("%3");
 			if (System.currentTimeMillis() > this.finishTime) {
 				break global;
 			}
@@ -656,7 +656,7 @@ public class ScatterSearch<S extends Solution<I>, I extends Instance> extends Ab
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see es.optsicom.AbstractSolutionCalculator#setInstance(es.optsicom.Instance)
 	 */
 	@Override
