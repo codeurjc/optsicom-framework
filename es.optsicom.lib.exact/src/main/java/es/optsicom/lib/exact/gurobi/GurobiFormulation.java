@@ -64,7 +64,7 @@ public abstract class GurobiFormulation<S extends Solution<I>, I extends Instanc
 
 	}
 
-	public abstract GRBModel modelProblem(GRBEnv env, I instance);
+	public abstract GRBModel modelProblem(GRBEnv env, I instance) throws GRBException;
 
-	public abstract S createSolutionFromVars(GRBVar[] vars, I instance);
+	public abstract S createSolutionFromVars(GRBVar[] vars, I instance) throws GRBException;
 }
