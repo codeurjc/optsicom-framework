@@ -33,7 +33,7 @@
 		<dependency>
 			<groupId>com.gurobi</groupId>
 			<artifactId>gurobi</artifactId>
-			<version>4.6.0</version>
+			<version>6.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>es.optsicom.lib</groupId>
@@ -42,7 +42,7 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-		<!-- This dependency comes from CplexFormulation, which contains an attribute 
+		<!-- This dependency comes from CplexFormulation, which contains an attribute
 			of type ApproxMethod -->
 		<dependency>
 			<groupId>es.optsicom.lib</groupId>
