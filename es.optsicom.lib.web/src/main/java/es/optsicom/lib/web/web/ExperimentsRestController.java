@@ -2,43 +2,36 @@ package es.optsicom.lib.web.web;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.janino.MethodDescriptor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import es.optsicom.lib.analyzer.report.Report;
-import es.optsicom.lib.analyzer.tool.FusionerReportCreator;
-import es.optsicom.lib.analyzer.tool.FusionerReportCreator.ExperimentMethodConf;
-import es.optsicom.lib.expresults.manager.ExperimentManager;
-import es.optsicom.lib.expresults.model.ComputerDescription;
-import es.optsicom.lib.expresults.model.Experiment;
-import es.optsicom.lib.expresults.model.MethodDescription;
-import es.optsicom.lib.expresults.model.Researcher;
-import es.optsicom.lib.web.model.ReportConfiguration;
-import es.optsicom.lib.web.service.ExperimentService;
-
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.apache.poi.ss.usermodel.Workbook;
+
+import es.optsicom.lib.analyzer.report.Report;
+import es.optsicom.lib.analyzer.report.ReportBlock;
+import es.optsicom.lib.analyzer.report.ReportElement;
+import es.optsicom.lib.analyzer.report.ReportPage;
+import es.optsicom.lib.analyzer.report.export.ExcelReportManager;
+import es.optsicom.lib.analyzer.report.table.Table;
+import es.optsicom.lib.analyzer.report.table.Title;
+import es.optsicom.lib.analyzer.tablecreator.atttable.Attribute;
+import es.optsicom.lib.analyzer.tool.FusionerReportCreator;
+import es.optsicom.lib.analyzer.tool.FusionerReportCreator.ExperimentMethodConf;
+import es.optsicom.lib.expresults.manager.ExperimentManager;
+import es.optsicom.lib.expresults.model.Experiment;
+import es.optsicom.lib.expresults.model.MethodDescription;
+import es.optsicom.lib.web.model.ReportConfiguration;
+import es.optsicom.lib.web.model.ReportTable;
+import es.optsicom.lib.web.model.ReportRest;
+import es.optsicom.lib.web.service.ExperimentService;
 
 @Controller
 @RequestMapping("/api")
@@ -103,7 +96,7 @@ public class ExperimentsRestController {
 	}
 	
 	@RequestMapping(value = "/{expId}/report", method = RequestMethod.POST, produces = {"application/json" })
-	public @ResponseBody Report report(@PathVariable String expId,@RequestBody final ReportConfiguration reportConfiguration){
+	public @ResponseBody ReportRest report(@PathVariable String expId,@RequestBody final ReportConfiguration reportConfiguration){
 		LOG.info("Report: " + expId);
 		
 		Long expIdLong = convertStringToLong(expId);
@@ -136,7 +129,58 @@ public class ExperimentsRestController {
 							"best_values")));
 		}
 		Report report = reportCreator.createReportObject();
-		return report;	
+		
+//		for (ReportBlock reportblock:report.getReportBlocks()){
+//			for (ReportPage reportpage:reportblock.getReportPages()){
+//				for (ReportElement reportElement:reportpage.getReportElements()){
+//					Table table = (Table) reportElement;
+//					for (Title rowTitle: table.getRowTitles()){
+//						for (Attribute attribute: rowTitle.getAttributes()){
+//							attribute.getTitle();
+//							System.out.println(attribute.getValue());
+//						}
+//					}
+//					for (Title columnTitle: table.getColumnTitles()){
+//						for (Attribute attribute: columnTitle.getAttributes()){
+//							attribute.getTitle();
+//							System.out.println(attribute.getValue());
+//						}
+//					}
+//				}
+//			}
+//		}
+		
+		List<ReportTable> rTables = new ArrayList<ReportTable>();
+		for (ReportBlock reportblock:report.getReportBlocks()){
+			for (ReportPage reportpage:reportblock.getReportPages()){
+				for (ReportElement reportElement:reportpage.getReportElements()){
+					Table table = (Table) reportElement;
+					rTables.add( new ReportTable(table) );
+					
+//					for (Title rowTitle: table.getRowTitles()){
+//						for (Attribute attribute: rowTitle.getAttributes()){
+//							attribute.getTitle();
+//							System.out.println(attribute.getValue());
+//						}
+//					}
+//					for (Title columnTitle: table.getColumnTitles()){
+//						for (Attribute attribute: columnTitle.getAttributes()){
+//							attribute.getTitle();
+//							System.out.println(attribute.getValue());
+//						}
+//					}
+				}
+			}
+		}
+		
+//		ExcelReportManager excelreportManager = new ExcelReportManager();
+		//sacar la parte de creaar el workbook sin generar el excel en otro metodo y llamarlo, con el, generar un objeto que sea la tabla para renderizala en json
+		// generateExcelFile
+//		Workbook wb = excelreportManager.generateWorkbook(report);
+//		System.out.println(wb.toString()); 
+		ReportRest rWeb = new ReportRest(reportConfiguration,rTables);
+		LOG.info("Report created");
+		return rWeb;	
 	}
 	
 }
