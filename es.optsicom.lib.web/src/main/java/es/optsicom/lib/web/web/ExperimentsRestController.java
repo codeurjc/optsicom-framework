@@ -13,25 +13,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.apache.poi.ss.usermodel.Workbook;
 
 import es.optsicom.lib.analyzer.report.Report;
 import es.optsicom.lib.analyzer.report.ReportBlock;
 import es.optsicom.lib.analyzer.report.ReportElement;
 import es.optsicom.lib.analyzer.report.ReportPage;
-import es.optsicom.lib.analyzer.report.export.ExcelReportManager;
 import es.optsicom.lib.analyzer.report.table.Table;
-import es.optsicom.lib.analyzer.report.table.Title;
-import es.optsicom.lib.analyzer.tablecreator.atttable.Attribute;
 import es.optsicom.lib.analyzer.tool.FusionerReportCreator;
 import es.optsicom.lib.analyzer.tool.FusionerReportCreator.ExperimentMethodConf;
 import es.optsicom.lib.expresults.manager.ExperimentManager;
 import es.optsicom.lib.expresults.model.Experiment;
 import es.optsicom.lib.expresults.model.MethodDescription;
 import es.optsicom.lib.web.model.ReportConfiguration;
-import es.optsicom.lib.web.model.ReportTable;
 import es.optsicom.lib.web.model.ReportRest;
+import es.optsicom.lib.web.model.ReportTable;
 import es.optsicom.lib.web.service.ExperimentService;
+
 
 @Controller
 @RequestMapping("/api")
