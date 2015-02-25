@@ -41,11 +41,6 @@ public class ExperimentsRestController {
 		this.experimentService = experimentservice;
 	}
 
-//	@RequestMapping("/login")
-//	public String showLogin() {
-//		return "login";
-//	}
-
 	public long convertStringToLong(String string){
 		if ( (string != null) && (string != "") ){
 			return Long.valueOf(string).longValue();
@@ -65,8 +60,6 @@ public class ExperimentsRestController {
 		}
 		return lista;
 	}
-	
-
 	
 	@RequestMapping(value = "/{expId}", method = RequestMethod.GET, produces = {"application/json" })
 	public @ResponseBody Experiment getExperimentById(@PathVariable String expId){
@@ -126,58 +119,23 @@ public class ExperimentsRestController {
 							"best_values")));
 		}
 		Report report = reportCreator.createReportObject();
-		
-//		for (ReportBlock reportblock:report.getReportBlocks()){
-//			for (ReportPage reportpage:reportblock.getReportPages()){
-//				for (ReportElement reportElement:reportpage.getReportElements()){
-//					Table table = (Table) reportElement;
-//					for (Title rowTitle: table.getRowTitles()){
-//						for (Attribute attribute: rowTitle.getAttributes()){
-//							attribute.getTitle();
-//							System.out.println(attribute.getValue());
-//						}
-//					}
-//					for (Title columnTitle: table.getColumnTitles()){
-//						for (Attribute attribute: columnTitle.getAttributes()){
-//							attribute.getTitle();
-//							System.out.println(attribute.getValue());
-//						}
-//					}
-//				}
-//			}
-//		}
-		
+		List<ReportTable> rTables = generateReportTables(report);
+		ReportRest rWeb = new ReportRest(reportConfiguration,rTables);
+		LOG.info("Report created");
+		return rWeb;	
+	}
+
+	private List<ReportTable> generateReportTables(Report report) {
 		List<ReportTable> rTables = new ArrayList<ReportTable>();
 		for (ReportBlock reportblock:report.getReportBlocks()){
 			for (ReportPage reportpage:reportblock.getReportPages()){
 				for (ReportElement reportElement:reportpage.getReportElements()){
 					Table table = (Table) reportElement;
 					rTables.add( new ReportTable(table) );
-					
-//					for (Title rowTitle: table.getRowTitles()){
-//						for (Attribute attribute: rowTitle.getAttributes()){
-//							attribute.getTitle();
-//							System.out.println(attribute.getValue());
-//						}
-//					}
-//					for (Title columnTitle: table.getColumnTitles()){
-//						for (Attribute attribute: columnTitle.getAttributes()){
-//							attribute.getTitle();
-//							System.out.println(attribute.getValue());
-//						}
-//					}
 				}
 			}
 		}
-		
-//		ExcelReportManager excelreportManager = new ExcelReportManager();
-		//sacar la parte de creaar el workbook sin generar el excel en otro metodo y llamarlo, con el, generar un objeto que sea la tabla para renderizala en json
-		// generateExcelFile
-//		Workbook wb = excelreportManager.generateWorkbook(report);
-//		System.out.println(wb.toString()); 
-		ReportRest rWeb = new ReportRest(reportConfiguration,rTables);
-		LOG.info("Report created");
-		return rWeb;	
+		return rTables;
 	}
 	
 }

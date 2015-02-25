@@ -29,7 +29,7 @@ public ReportTable(Table table) {
 	constructorFromTable(table);
 }
 
-private void constructorFromTable(Table table) {
+protected void constructorFromTable(Table table) {
 	extractCellValues(table);
 	this.rowTitles = new ArrayList<ReportTitle>();
 	for (Title title:table.getRowTitles()){
@@ -88,6 +88,60 @@ public List<ReportTitle> getColumnTitles() {
 
 public void setColumnTitles(List<ReportTitle> columnTitles) {
 	this.columnTitles = columnTitles;
+}
+
+@Override
+public int hashCode() {
+	final int prime = 31;
+	int result = 1;
+	result = prime * result
+			+ ((cellValues == null) ? 0 : cellValues.hashCode());
+	result = prime * result
+			+ ((columnTitles == null) ? 0 : columnTitles.hashCode());
+	result = prime * result + ((rowTitles == null) ? 0 : rowTitles.hashCode());
+	return result;
+}
+
+@Override
+public boolean equals(Object obj) {
+	if (this == obj) {
+		return true;
+	}
+	if (obj == null) {
+		return false;
+	}
+	if (!(obj instanceof ReportTable)) {
+		return false;
+	}
+	ReportTable other = (ReportTable) obj;
+	if (cellValues == null) {
+		if (other.cellValues != null) {
+			return false;
+		}
+	} else if (!cellValues.equals(other.cellValues)) {
+		return false;
+	}
+	if (columnTitles == null) {
+		if (other.columnTitles != null) {
+			return false;
+		}
+	} else if (!columnTitles.equals(other.columnTitles)) {
+		return false;
+	}
+	if (rowTitles == null) {
+		if (other.rowTitles != null) {
+			return false;
+		}
+	} else if (!rowTitles.equals(other.rowTitles)) {
+		return false;
+	}
+	return true;
+}
+
+@Override
+public String toString() {
+	return "ReportTable [cellValues=" + cellValues + ", rowTitles=" + rowTitles
+			+ ", columnTitles=" + columnTitles + "]";
 }
 
 
