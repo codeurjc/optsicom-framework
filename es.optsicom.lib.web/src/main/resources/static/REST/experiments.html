@@ -1,0 +1,37 @@
+<h1>experiments</h1>
+<div ng-controller="experimentsController as expsCtrl">
+
+  <!-- experiments table -->
+<div class="panel panel-default">
+ <div class="panel-heading">Panel heading</div>
+  <table class="table">
+    <tr>
+    	<th>Select</th>
+    	<th>Problem</th>
+    	<th>Date</th>
+    	<th>Name</th>
+    	<th>Num Instances</th>
+    	<th>Num Methods</th>
+    	<th>Researcher</th>
+    	<th>Action</th>
+    </tr>
+    <tr ng-repeat="experiment in expsCtrl.experiments">
+   	 	<td>Checkbox[]</td>
+    	<td>{{experiment.problemName}}</td>
+    	<td>{{experiment.date}}</td>
+    	<td>{{experiment.name}} <a ng-href="#/single-exp/{{experiment.id}}">Take Me Somewhere</a></td>
+    	<td>{{experiment.instances.length}}</td>
+    	<td>{{experiment.methods.length}}</td>
+    	<td>{{experiment.researcher.name}}</td>
+    	<td>Delete</td>
+    </tr>
+  </table>
+</div>
+<br></br>
+<!-- <br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br> -->
+
+<!-- {{expsCtrl.experiments[0]}} -->
+<!-- <br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br> -->
+<!-- {{expsCtrl.experiments}} -->
+</div>
+<h1>end experiments</h1>
