@@ -9,13 +9,22 @@
   </head>
 	<body ng-controller="MainController as mainCtrl">
 	
+	 <nav>
+        <ul>
+            <li><a ng-href="#/">Datos personales</a></li>
+            <li><a ng-href="#/descargas">Descargas</a></li>
+            <li><a ng-href="#/opciones">Opciones de cuenta</a></li>
+            <li><a ng-href="#/experiments">experiments</a></li>
+        </ul>
+    </nav>
 	
+	<div ng-view></div>
 	
-	<experiments></experiments>
+<!-- 	<experiments></experiments> -->
 	
-	<p>-----------------------------------------------------------------------------------------------------------------------</p>
+<!-- 	<p>-----------------------------------------------------------------------------------------------------------------------</p> -->
 	
-	<single-experiment></single-experiment>
+<!-- 	<single-experiment></single-experiment> -->
 	
 	</body>
 
