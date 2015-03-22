@@ -1,18 +1,20 @@
 <h1>single experiment</h1>
 <div >
-<pre>$routeParams = {{$routeParams}}</pre>
 <br/>
 <pre>Date = {{singleExpCtrl.experiment.date |  date : 'medium'}}</pre>
 <pre>Id = {{singleExpCtrl.experiment.id}}</pre>
 <pre>Problem best mode = {{singleExpCtrl.experiment.problemBestMode}}</pre>
 <pre>Time limit = {{singleExpCtrl.experiment.timeLimit}}</pre>
-<pre>Methods = {{singleExpCtrl.experiment.methods}}</pre>
+<pre>Methods</pre>
 <ul>
+
 	<li ng-repeat="method in singleExpCtrl.experiment.methods">
-	AUX: {{method.id}}-{{method.name}}
+	<div ng-repeat="methodName in singleExpCtrl.methodNames">
+		<b ng-show="methodName.expId === method.id">Name:  {{methodName.expName}}</b>
+	</div>
 	<ul>
 		<li ng-repeat="methodProp in method.properties.sortedProperties">
-		{{methodProp}}
+		{{methodProp.key}} :  {{methodProp.value}}
 		</li>
 	</ul>
 	</li>

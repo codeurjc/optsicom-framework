@@ -63,11 +63,23 @@
 		this.expId = this.expIdAux.expId;
 		var optsicomExp = this;
 		optsicomExp.experiment = {};
+		optsicomExp.methodNames = {};
 		$http.get('/api/' + this.expId).success(function(data) {
 			optsicomExp.experiment = data;
+			
 		}).error(function(data) {
-			optsicomExp.experiment = {}; //error
+			optsicomExp.experiment = {};
 		});
+		
+		$http.get('/api/' + this.expId + '/experimentNameMethod').success(function(methodData) {
+			optsicomExp.methodNames = methodData;
+		}).error(function(methodData) {
+			optsicomExp.methodNames = {};
+		});
+		
+		
+		
+		
 	} ]);
 	
 
@@ -75,8 +87,8 @@
 	
 	
 	
-	// configure html5 to get links working on jsfiddle
-	  $locationProvider.html5Mode(true);
+//	// configure html5 to get links working on jsfiddle
+//	  $locationProvider.html5Mode(true);
 	
 
 })();
