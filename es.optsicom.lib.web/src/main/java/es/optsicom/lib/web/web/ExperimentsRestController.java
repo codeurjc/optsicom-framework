@@ -106,7 +106,7 @@ public class ExperimentsRestController {
 	}
 	
 	@RequestMapping(value = "/{expId}/report", method = RequestMethod.POST, produces = {"application/json" })
-	public @ResponseBody ReportRest report(@PathVariable String expId,@RequestBody final ReportConfiguration reportConfiguration){
+	public @ResponseBody ReportRest report(@PathVariable String expId,@RequestBody ReportConfiguration reportConfiguration){
 		LOG.info("Report: " + expId);
 		
 		Long expIdLong = convertStringToLong(expId);

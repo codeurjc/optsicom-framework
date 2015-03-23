@@ -1,0 +1,121 @@
+<h1>report</h1>
+
+expId: {{reportCtrl.report.reportConfiguration.expId}}
+<br></br>
+<pre>Report configuration</pre>
+
+<pre>Summary</pre>
+<!-- {{reportCtrl.report.reportTables[0]}} -->
+<table>
+	<tr>
+		<th>Method name</th>
+		<th
+			ng-repeat="header in reportCtrl.report.reportTables[0].columnTitles"
+			ng-init="headerIndex = $index">{{header.attributes[0].value}}</th>
+	</tr>
+	<!-- ng-repeat="rows in reportCtrl.report.reportTables[0].rowTitles" -->
+	<tr ng-repeat="rows in reportCtrl.report.reportTables[0].rowTitles"
+		ng-init="rowsIndex = $index">
+
+		<td>{{rows.attributes[0].value}}</td>
+		<td
+			ng-repeat="header in reportCtrl.report.reportTables[0].columnTitles">
+			{{reportCtrl.report.reportTables[0].cellValues[rowsIndex][$index]}}</td>
+
+
+	</tr>
+</table>
+
+<pre>Statistical tests</pre>
+<!-- {{reportCtrl.report.reportTables[1]}} -->
+<table>
+	<tr>
+		<th>Method name</th>
+		<th
+			ng-repeat="header in reportCtrl.report.reportTables[1].columnTitles"
+			ng-init="headerIndex = $index">{{header.attributes[0].value}}</th>
+	</tr>
+	<tr ng-repeat="rows in reportCtrl.report.reportTables[1].rowTitles"
+		ng-init="rowsIndex = $index">
+
+		<td>{{rows.attributes[0].value}}</td>
+		<td
+			ng-repeat="header in reportCtrl.report.reportTables[1].columnTitles">
+			{{reportCtrl.report.reportTables[1].cellValues[rowsIndex][$index]}}</td>
+
+
+	</tr>
+</table>
+
+<pre>Detailed by instance</pre>
+<!-- {{reportCtrl.report.reportTables[2]}} -->
+<table>
+	<tr>
+		<th>*</th>
+		<th
+			ng-repeat="header in reportCtrl.report.reportTables[2].columnTitles"
+			ng-init="headerIndex = $index">{{header.attributes[0].value}}</th>
+			
+	</tr>
+	<tr>
+		<th>Method name</th>
+		<th
+			ng-repeat="header in reportCtrl.report.reportTables[2].columnTitles">{{header.attributes[1].value}}</th>
+			
+	</tr>
+	<tr ng-repeat="rows in reportCtrl.report.reportTables[2].rowTitles"
+		ng-init="rowsIndex = $index">
+
+		<td>{{rows.attributes[0].value}}</td>
+		<td
+			ng-repeat="header in reportCtrl.report.reportTables[2].columnTitles">
+			{{reportCtrl.report.reportTables[2].cellValues[rowsIndex][$index]}}</td>
+
+
+	</tr>
+</table>
+
+
+
+
+<pre>Grouped by properties</pre>
+
+
+<div ng-repeat="propertyTable in reportCtrl.report.reportTables">
+	<div ng-if="$index > 2">
+	<br></br>
+
+
+	
+		<h2>By {{reportCtrl.getPropertyName(propertyTable.rowTitles[0].attributes[0].value)}}</h2>
+		<table>
+			<tr>
+				<th>*</th>
+				<th
+					ng-repeat="header in propertyTable.columnTitles"
+					ng-init="headerIndex = $index">{{header.attributes[0].value}}</th>
+
+			</tr>
+
+			<tr ng-repeat="rows in propertyTable.rowTitles"
+				ng-init="rowsIndex = $index">
+
+				<td>{{rows.attributes[0].value}}</td>
+				<td
+					ng-repeat="header in propertyTable.columnTitles">
+					{{propertyTable.cellValues[rowsIndex][$index]}}</td>
+
+
+			</tr>
+		</table>
+	</div>
+</div>
+
+
+<pre> </pre>
+
+
+
+
+
+<h1>end report</h1>
