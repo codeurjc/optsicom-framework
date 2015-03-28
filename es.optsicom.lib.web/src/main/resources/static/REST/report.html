@@ -1,8 +1,26 @@
 <h1>report</h1>
 
-expId: {{reportCtrl.report.reportConfiguration.expId}}
 <br></br>
+
+
 <pre>Report configuration</pre>
+<button ng-click="reportCtrl.updateReportConfiguration()">
+	Update Report</button>
+<ul>
+	<li><input type="checkbox" ng-model="reportCtrl.bestValuesView">
+		Best values</li>
+	<li ng-repeat="methodName in reportCtrl.methodNamesView">
+		<div>
+			<input type="checkbox" ng-model="methodName.checked"> 
+			Id: {{methodName.id}} Name: {{methodName.name}}
+		</div>
+	</li>
+
+
+</ul>
+
+
+
 
 <pre>Summary</pre>
 <!-- {{reportCtrl.report.reportTables[0]}} -->
@@ -55,13 +73,13 @@ expId: {{reportCtrl.report.reportConfiguration.expId}}
 		<th
 			ng-repeat="header in reportCtrl.report.reportTables[2].columnTitles"
 			ng-init="headerIndex = $index">{{header.attributes[0].value}}</th>
-			
+
 	</tr>
 	<tr>
 		<th>Method name</th>
 		<th
 			ng-repeat="header in reportCtrl.report.reportTables[2].columnTitles">{{header.attributes[1].value}}</th>
-			
+
 	</tr>
 	<tr ng-repeat="rows in reportCtrl.report.reportTables[2].rowTitles"
 		ng-init="rowsIndex = $index">
@@ -83,16 +101,16 @@ expId: {{reportCtrl.report.reportConfiguration.expId}}
 
 <div ng-repeat="propertyTable in reportCtrl.report.reportTables">
 	<div ng-if="$index > 2">
-	<br></br>
+		<br></br>
 
 
-	
-		<h2>By {{reportCtrl.getPropertyName(propertyTable.rowTitles[0].attributes[0].value)}}</h2>
+
+		<h2>By
+			{{reportCtrl.getPropertyName(propertyTable.rowTitles[0].attributes[0].value)}}</h2>
 		<table>
 			<tr>
 				<th>*</th>
-				<th
-					ng-repeat="header in propertyTable.columnTitles"
+				<th ng-repeat="header in propertyTable.columnTitles"
 					ng-init="headerIndex = $index">{{header.attributes[0].value}}</th>
 
 			</tr>
@@ -101,8 +119,7 @@ expId: {{reportCtrl.report.reportConfiguration.expId}}
 				ng-init="rowsIndex = $index">
 
 				<td>{{rows.attributes[0].value}}</td>
-				<td
-					ng-repeat="header in propertyTable.columnTitles">
+				<td ng-repeat="header in propertyTable.columnTitles">
 					{{propertyTable.cellValues[rowsIndex][$index]}}</td>
 
 
@@ -113,7 +130,6 @@ expId: {{reportCtrl.report.reportConfiguration.expId}}
 
 
 <pre> </pre>
-
 
 
 

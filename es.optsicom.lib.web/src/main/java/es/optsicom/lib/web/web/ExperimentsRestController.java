@@ -109,6 +109,14 @@ public class ExperimentsRestController {
 	public @ResponseBody ReportRest report(@PathVariable String expId,@RequestBody ReportConfiguration reportConfiguration){
 		LOG.info("Report: " + expId);
 		
+		
+//		try {
+//			Thread.sleep(5000);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
 		Long expIdLong = convertStringToLong(expId);
 		Experiment experiment = this.experimentService.findExperimentManagerById(expIdLong).getExperiment();
 		FusionerReportCreator reportCreator = new FusionerReportCreator(
