@@ -3,9 +3,9 @@
 	.config(function($routeProvider){
         $routeProvider
         .when("/", {
-            controller: "appCtrl",
-            controllerAs: "vm",
-            templateUrl: "home.html"
+        	controller: "experimentsController",
+            controllerAs: "expsCtrl",
+            templateUrl: "experiments.html"
         })
         .when("/single-exp/:expId", {
             controller: "singleExperimentController", 
@@ -17,6 +17,11 @@
             controllerAs: "expsCtrl",
             templateUrl: "experiments.html"
         })
+        .when("/merge/:expIds", {
+            controller: "mergeController",
+            controllerAs: "mergeCtrl",
+            templateUrl: "merge.html"
+        })
         .when("/report/:expId", {
             controller: "reportController",
             controllerAs: "reportCtrl",
@@ -24,69 +29,91 @@
         });
 	});
 
-	//Directives
-//	app.directive("experiments", function() {
-//		return {
-//			restrict : 'E',
-//			templateUrl : "experiments.html"
-//		};
-//	});
-//
-//	app.directive("singleExperiment", function() {
-//		return {
-//			restrict : 'E',
-//			templateUrl : "single-experiment.html"
-//		};
-//	});
-
-	//Controllers
-
+// ----------------Controllers----------------
+//***************** Main Controller
 	app.controller("MainController",  [ '$scope', '$route', '$routeParams', '$location', function($scope, $route, $routeParams, $location) {
 		$scope.$route = $route;
 	     $scope.$location = $location;
 	     $scope.$routeParams = $routeParams;
 	} ]);
-
+//***************** List of experiments Controller
 	app.controller('experimentsController', [ '$http', function($http) {
 		var optsicomExps = this;
 		optsicomExps.experiments = [];
-		$http.get('/api/experiments').success(function(data) {
-			optsicomExps.experiments = data;
-		}).error(function(data) {
-			optsicomExps.experiments = []; //error
-		});
+		optsicomExps.getExperiments = function(){
+			$http.get('/api/experiments').success(function(data) {
+				optsicomExps.experiments = data;
+			}).error(function(data) {
+				optsicomExps.experiments = [];
+			});			
+		};
+		optsicomExps.getExperiments();
+		optsicomExps.expDelete = function(deleteId){
+			$http.delete('/api/' + deleteId).success(function (data, status) {
+	            console.log('succesfully deleted' + deleteId);
+	            alert('Experiment ' + deleteId + ' has been succesfully deleted');
+	            optsicomExps.getExperiments(); //update experiment list
+	        }).error(function(data) {
+	        	console.log('delete error');
+			});
+		};
 	} ]);
-
+//***************** Single experiment Controller
 	app.controller('singleExperimentController', [ '$http','$scope', '$routeParams', function($http,$scope, $routeParams) {
-//		$scope.params = $routeParams;
-		this.expIdAux = $routeParams;
-		this.expId = this.expIdAux.expId;
 		var optsicomExp = this;
+		optsicomExp.expIdAux = $routeParams;
+		optsicomExp.expId = optsicomExp.expIdAux.expId;
 		optsicomExp.experiment = {};
 		optsicomExp.methodNames = {};
-		$http.get('/api/' + this.expId).success(function(data) {
-			optsicomExp.experiment = data;
-			
-		}).error(function(data) {
-			optsicomExp.experiment = {};
-		});
-		
-		$http.get('/api/' + this.expId + '/experimentNameMethod').success(function(methodData) {
+		optsicomExp.experimentName = {};
+		$http.get('/api/' + optsicomExp.expId + '/experimentNameMethod').success(function(methodData) {
 			optsicomExp.methodNames = methodData;
 		}).error(function(methodData) {
 			optsicomExp.methodNames = {};
 		});
-
+		$http.get('/api/' + optsicomExp.expId).success(function(data) {
+			optsicomExp.experiment = data.experiment;
+			optsicomExp.experimentName = data.name;
+		}).error(function(data) {
+			optsicomExp.experiment = {};
+		});
+	} ]);
+//***************** Merge/fusion experiments Controller
+	app.controller('mergeController', [ '$http','$scope', '$routeParams', function($http,$scope, $routeParams) {
+		var optsicomMrg = this;
+		optsicomMrg.expIdAux = $routeParams;
+		optsicomMrg.expIds = optsicomMrg.expIdAux.expIds;
+		optsicomMrg.experiments = [];
+		optsicomMrg.methodNames = [];
+		$http.get('/api/merge/' + this.expIds).success(function(data) {
+			optsicomMrg.experiments = data;
+		}).error(function(data) {
+			optsicomMrg.experiments = [];
+		});
+		optsicomMrg.convertStringToArray = function(expIdsString) {
+			ids = expIdsString.split(",");
+			return ids;
+		};
+		optsicomMrg.getMethodNames = function(expIds) {
+			optsicomMrg.methodNames = [];
+			for(var i = 0; i < expIds.length; i++){
+				$http.get('/api/' + expIds[i] + '/experimentNameMethod').success(function(methodData) {
+					optsicomMrg.methodNames.push(methodData);
+				}).error(function(methodData) {
+					optsicomMrg.methodNames = [];
+				});
+			}
+		};
+		optsicomMrg.getMethodNames(optsicomMrg.convertStringToArray(optsicomMrg.expIds));
 	} ]);
 	
-
+//***************** Report Controller
 	app.controller('reportController', [ '$http','$scope', '$routeParams', function($http,$scope, $routeParams) {
-
-		this.expIdAux = $routeParams;
-		this.expId = this.expIdAux.expId;
 		var optsicomReport = this;
+		optsicomReport.expIdAux = $routeParams;
+		optsicomReport.expId = optsicomReport.expIdAux.expId;
 		optsicomReport.report = {};
-		optsicomReport.reportConfiguration = {'expId':this.expId};
+		optsicomReport.reportConfiguration = {'expId':optsicomReport.expId};
 		optsicomReport.methodNames = {};
 		optsicomReport.bestValuesView = false;
 		optsicomReport.configurationView = false;
@@ -103,11 +130,10 @@
 			return aux;
 		};
 
-
 		optsicomReport.callMethodNames = function(){
 			var allMethodsNames = [];
 			optsicomReport.methodNamesView = [];
-	    	$http.get('/api/' + this.expId + '/experimentNameMethod').success(function(methodData) {
+	    	$http.get('/api/' + optsicomReport.expId + '/experimentNameMethod').success(function(methodData) {
 	    		var allMethodsNames = methodData
 	    		for(var i = 0; i < allMethodsNames.length; i++){
 	    			var method = {};
@@ -128,10 +154,24 @@
 				optsicomReport.methodNames = {};
 			});
 		};   
+		
+		optsicomReport.cutArrayOfCharIfCharIsEquals = function(arrayChar, character){
+			counter = 0;
+			arrayCharAux = [];
+	    	   while(counter < arrayChar.length && counter >= 0){ // iterate over the array o character until i get '=', I dont need the rest
+	    		   if (arrayChar[counter] == character){
+	    			   counter = -1
+	    		   } else {
+	    			   arrayCharAux.push(arrayChar[counter]);
+	    			   counter = counter + 1;
+	    		   }
+	    	   }
+	    	   return arrayCharAux;
+		};
 		       
 		optsicomReport.initController = function(){    
 			$http({
-			    url: '/api/' + this.expId + '/report',
+			    url: '/api/' + optsicomReport.expId + '/report',
 			    method: 'POST',
 			    headers: { 'Content-Type': 'application/json' },
 			    data: optsicomReport.reportConfiguration //data passed as a requestBody
@@ -148,16 +188,7 @@
 			       charactersAux = [];
 			       for (var i = 0; i < words.length; i++){
 			    	   characters = words[i].split(""); // split each word in characters
-			    	   charactersAux = [];
-			    	   counter = 0;
-			    	   while(counter < characters.length && counter >= 0){ // iterate over the array o character until i get '=', I dont need the rest
-			    		   if (characters[counter] == '='){
-			    			   counter = -1
-			    		   } else {
-			    			   charactersAux.push(characters[counter]);
-			    			   counter = counter + 1;
-			    		   }
-			    	   }
+			    	   charactersAux = optsicomReport.cutArrayOfCharIfCharIsEquals(characters,'=');
 			    	   wordsAux.push(charactersAux.join("")); // recover the word
 			    	   charactersAux = [];
 			       }
@@ -168,6 +199,7 @@
 		}
 		
 		optsicomReport.initController();
+		
 		optsicomReport.updateReportConfiguration = function() {
 			optsicomReport.reportConfiguration.bestValues = optsicomReport.bestValuesView;
 			optsicomReport.reportConfiguration.configuration = optsicomReport.configurationView;
@@ -178,9 +210,8 @@
 			}else{
 				optsicomReport.reportConfiguration.configuration = false;
 			}
-			optsicomReport.initController();
+			optsicomReport.initController(); // update report
 		};
-		
 		optsicomReport.getMethodSelected = function(methods) {
 			var list = [];
 			for (var i = 0; i < methods.length; i++){

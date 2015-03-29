@@ -65,9 +65,9 @@ public class ExperimentsRestController {
 	}
 	
 	@RequestMapping(value = "/{expId}", method = RequestMethod.GET, produces = {"application/json" })
-	public @ResponseBody Experiment getExperimentById(@PathVariable String expId){
+	public @ResponseBody ExperimentManager getExperimentById(@PathVariable String expId){
 		LOG.info("Recovering experiment: " + expId);
-		return this.experimentService.findExperimentManagerById(convertStringToLong(expId)).getExperiment();	
+		return this.experimentService.findExperimentManagerById(convertStringToLong(expId));	
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET, produces = {"application/json" })
@@ -108,15 +108,6 @@ public class ExperimentsRestController {
 	@RequestMapping(value = "/{expId}/report", method = RequestMethod.POST, produces = {"application/json" })
 	public @ResponseBody ReportRest report(@PathVariable String expId,@RequestBody ReportConfiguration reportConfiguration){
 		LOG.info("Report: " + expId);
-		
-		
-//		try {
-//			Thread.sleep(5000);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
 		Long expIdLong = convertStringToLong(expId);
 		Experiment experiment = this.experimentService.findExperimentManagerById(expIdLong).getExperiment();
 		FusionerReportCreator reportCreator = new FusionerReportCreator(

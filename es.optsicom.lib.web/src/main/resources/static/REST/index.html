@@ -8,47 +8,12 @@
     <script type="text/javascript" src="app.js"></script>
   </head>
 	<body ng-controller="MainController as mainCtrl">
-	
-	 <nav>
-        <ul>
-            <li><a ng-href="#/">Datos personales</a></li>
-            <li><a ng-href="#/descargas">Descargas</a></li>
-            <li><a ng-href="#/opciones">Opciones de cuenta</a></li>
-            <li><a ng-href="#/experiments">experiments</a></li>
-        </ul>
-    </nav>
-	
-	<div ng-view></div>
-	
-<!-- 	<experiments></experiments> -->
-	
-<!-- 	<p>-----------------------------------------------------------------------------------------------------------------------</p> -->
-	
-<!-- 	<single-experiment></single-experiment> -->
-	
+		<div class="page-header">
+		  <h1> 
+		  	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+		  	Optsicom <small>Experiments</small>
+		  </h1>
+		</div>
+		<div ng-view></div>
 	</body>
-
-
-<!--   <body ng-controller="StoreController as store"> -->
-<!--      Store Header  -->
-<!--     <header> -->
-<!--       <h1 class="text-center">Flatlander Crafted Gems</h1> -->
-<!--       <h2 class="text-center">– an Angular store –</h2> -->
-<!--     </header> -->
-
-<!--      Products Container  -->
-<!--     <div class="list-group"> -->
-<!--        Product Container  -->
-<!--       <div class="list-group-item" ng-repeat="product in store.products"> -->
-<!--         <h3>{{product.name}} <em class="pull-right">{{product.price | currency}}</em></h3> -->
-
-<!--         Image Gallery  -->
-<!--         <product-gallery></product-gallery> -->
-
-<!--         Product Tabs  -->
-<!--         <product-tabs></product-tabs> -->
-
-<!--       </div> -->
-<!--     </div> -->
-<!--   </body> -->
 </html>

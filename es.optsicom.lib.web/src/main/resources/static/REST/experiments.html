@@ -1,8 +1,8 @@
-<h1>experiments</h1>
+<h2>list of experiments</h2>
 <div>
   <!-- experiments table -->
 <div class="panel panel-default">
- <div class="panel-heading">Panel heading</div>
+ <div class="panel-heading"></div>
   <table class="table">
     <tr>
     	<th>Select</th>
@@ -15,22 +15,17 @@
     	<th>Action</th>
     </tr>
     <tr ng-repeat="experiment in expsCtrl.experiments">
-   	 	<td>Checkbox[]</td>
+   	 	<td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> </td>
     	<td>{{experiment.problemName}}</td>
     	<td>{{experiment.date}}</td>
-    	<td>{{experiment.name}} <a ng-href="#/single-exp/{{experiment.id}}">Take Me Somewhere</a></td>
+    	<td><a ng-href="#/single-exp/{{experiment.id}}">{{experiment.name}}</a></td>
     	<td>{{experiment.instances.length}}</td>
     	<td>{{experiment.methods.length}}</td>
     	<td>{{experiment.researcher.name}}</td>
-    	<td>Delete</td>
+    	<td ng-click="expsCtrl.expDelete(experiment.id)" ><a hfref="">Delete <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>
     </tr>
   </table>
 </div>
-<br></br>
-<!-- <br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br> -->
 
-<!-- {{expsCtrl.experiments[0]}} -->
-<!-- <br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br> -->
-<!-- {{expsCtrl.experiments}} -->
 </div>
-<h1>end experiments</h1>
+<h2>end experiments</h2>
