@@ -2,7 +2,9 @@ package es.optsicom.lib.web.web;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -24,6 +26,7 @@ import es.optsicom.lib.analyzer.tool.FusionerReportCreator.ExperimentMethodConf;
 import es.optsicom.lib.expresults.manager.ExperimentManager;
 import es.optsicom.lib.expresults.model.Experiment;
 import es.optsicom.lib.expresults.model.MethodDescription;
+import es.optsicom.lib.web.model.ExperimentMethodName;
 import es.optsicom.lib.web.model.ReportConfiguration;
 import es.optsicom.lib.web.model.ReportRest;
 import es.optsicom.lib.web.model.ReportTable;
@@ -62,9 +65,9 @@ public class ExperimentsRestController {
 	}
 	
 	@RequestMapping(value = "/{expId}", method = RequestMethod.GET, produces = {"application/json" })
-	public @ResponseBody Experiment getExperimentById(@PathVariable String expId){
+	public @ResponseBody ExperimentManager getExperimentById(@PathVariable String expId){
 		LOG.info("Recovering experiment: " + expId);
-		return this.experimentService.findExperimentManagerById(convertStringToLong(expId)).getExperiment();	
+		return this.experimentService.findExperimentManagerById(convertStringToLong(expId));	
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET, produces = {"application/json" })
@@ -85,10 +88,26 @@ public class ExperimentsRestController {
 		experimentService.removeExperiment(convertStringToLong(expId));
 	}
 	
+	
+	@RequestMapping(value = "/{expId}/experimentNameMethod", method = RequestMethod.GET, produces = {"application/json" })
+	public @ResponseBody List <ExperimentMethodName> getMethodNameById(@PathVariable String expId){
+
+		LOG.debug("Recovering methods name from  expId: " + expId);
+		long expIdLong = convertStringToLong(expId);
+		ExperimentManager expManager = this.experimentService
+				.findExperimentManagerById(expIdLong);
+		List <ExperimentMethodName> methodNames = new ArrayList<ExperimentMethodName>();
+		for (MethodDescription method : expManager.getMethods()) {
+			String experimentMethodName = expManager.getExperimentMethodName(method);
+			Long methodId= method.getId();
+			methodNames.add(new ExperimentMethodName(methodId, experimentMethodName));
+		}
+		return methodNames;
+	}
+	
 	@RequestMapping(value = "/{expId}/report", method = RequestMethod.POST, produces = {"application/json" })
-	public @ResponseBody ReportRest report(@PathVariable String expId,@RequestBody final ReportConfiguration reportConfiguration){
+	public @ResponseBody ReportRest report(@PathVariable String expId,@RequestBody ReportConfiguration reportConfiguration){
 		LOG.info("Report: " + expId);
-		
 		Long expIdLong = convertStringToLong(expId);
 		Experiment experiment = this.experimentService.findExperimentManagerById(expIdLong).getExperiment();
 		FusionerReportCreator reportCreator = new FusionerReportCreator(

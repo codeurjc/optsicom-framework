@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html ng-app="optsicom">
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+  </head>
+	<body ng-controller="MainController as mainCtrl">
+		<div class="page-header">
+		  <h1> 
+		  	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+		  	Optsicom <small>Experiments</small>
+		  </h1>
+		</div>
+		<div ng-view></div>
+	</body>
+</html>

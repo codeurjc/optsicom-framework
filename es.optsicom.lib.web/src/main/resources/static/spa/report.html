@@ -1,0 +1,114 @@
+<h2>report</h2>
+
+<br></br>
+<pre>Report configuration</pre>
+<button ng-click="reportCtrl.updateReportConfiguration()"  class="btn btn-default" aria-label="Left Align">
+	Update Report</button>
+<ul>
+	<li><input type="checkbox" ng-model="reportCtrl.bestValuesView">
+		Best values</li>
+	<li ng-repeat="methodName in reportCtrl.methodNamesView">
+		<div>
+			<input type="checkbox" ng-model="methodName.checked"> 
+			Id: {{methodName.id}} Name: {{methodName.name}}
+		</div>
+	</li>
+</ul>
+<br/>
+
+<div class="panel panel-default">
+ <div class="panel-heading">Summary</div>
+ <!-- {{reportCtrl.report.reportTables[0]}} -->
+<table  class="table">
+	<tr>
+		<th>Method name</th>
+		<th
+			ng-repeat="header in reportCtrl.report.reportTables[0].columnTitles"
+			ng-init="headerIndex = $index">{{header.attributes[0].value}}</th>
+	</tr>
+	<!-- ng-repeat="rows in reportCtrl.report.reportTables[0].rowTitles" -->
+	<tr ng-repeat="rows in reportCtrl.report.reportTables[0].rowTitles"
+		ng-init="rowsIndex = $index">
+
+		<td>{{rows.attributes[0].value}}</td>
+		<td
+			ng-repeat="header in reportCtrl.report.reportTables[0].columnTitles">
+			{{reportCtrl.report.reportTables[0].cellValues[rowsIndex][$index]}}</td>
+	</tr>
+</table>
+</div>
+<br/>
+<div class="panel panel-default">
+ <div class="panel-heading">Statistical tests</div>
+<!-- {{reportCtrl.report.reportTables[1]}} -->
+<table class="table">
+	<tr>
+		<th>Method name</th>
+		<th
+			ng-repeat="header in reportCtrl.report.reportTables[1].columnTitles"
+			ng-init="headerIndex = $index">{{header.attributes[0].value}}</th>
+	</tr>
+	<tr ng-repeat="rows in reportCtrl.report.reportTables[1].rowTitles"
+		ng-init="rowsIndex = $index">
+
+		<td>{{rows.attributes[0].value}}</td>
+		<td
+			ng-repeat="header in reportCtrl.report.reportTables[1].columnTitles">
+			{{reportCtrl.report.reportTables[1].cellValues[rowsIndex][$index]}}</td>
+	</tr>
+</table>
+</div>
+<br/>
+<div class="panel panel-default">
+ <div class="panel-heading">Detailed by instance</div>
+<!-- {{reportCtrl.report.reportTables[2]}} -->
+<table class="table">
+	<tr>
+		<th>*</th>
+		<th
+			ng-repeat="header in reportCtrl.report.reportTables[2].columnTitles"
+			ng-init="headerIndex = $index">{{header.attributes[0].value}}</th>
+	</tr>
+	<tr>
+		<th>Method name</th>
+		<th
+			ng-repeat="header in reportCtrl.report.reportTables[2].columnTitles">{{header.attributes[1].value}}</th>
+	</tr>
+	<tr ng-repeat="rows in reportCtrl.report.reportTables[2].rowTitles"
+		ng-init="rowsIndex = $index">
+		<td>{{rows.attributes[0].value}}</td>
+		<td
+			ng-repeat="header in reportCtrl.report.reportTables[2].columnTitles">
+			{{reportCtrl.report.reportTables[2].cellValues[rowsIndex][$index]}}</td>
+	</tr>
+</table>
+</div>
+<br/>
+
+<pre><h3>Grouped by properties</h3></pre>
+<div ng-repeat="propertyTable in reportCtrl.report.reportTables">
+	<div ng-if="$index > 2">
+		<br></br>
+		
+		<div class="panel panel-default">
+ 			<div class="panel-heading">By {{reportCtrl.getPropertyName(propertyTable.rowTitles[0].attributes[0].value)}}</div>
+		<table class="table">
+			<tr>
+				<th>*</th>
+				<th ng-repeat="header in propertyTable.columnTitles"
+					ng-init="headerIndex = $index">{{header.attributes[0].value}}</th>
+			</tr>
+			<tr ng-repeat="rows in propertyTable.rowTitles"
+				ng-init="rowsIndex = $index">
+
+				<td>{{rows.attributes[0].value}}</td>
+				<td ng-repeat="header in propertyTable.columnTitles">
+					{{propertyTable.cellValues[rowsIndex][$index]}}</td>
+			</tr>
+		</table>
+		</div>
+<br/>
+	</div>
+</div>
+<pre> </pre>
+<h2>end report</h2>

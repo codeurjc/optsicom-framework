@@ -1,0 +1,41 @@
+<h2>single experiment</h2>
+<br/>
+<h2>{{singleExpCtrl.experimentName}}</h2>
+<div>
+	<br />
+	<button type="button" class="btn btn-default" aria-label="Left Align">
+		<span class="glyphicon glyphicon-book" aria-hidden="true"></span> 
+		<a ng-href="#/report/{{singleExpCtrl.experiment.id}}">Report</a>
+	</button>
+	<pre>Date = {{singleExpCtrl.experiment.date |  date : 'medium'}}</pre>
+	<pre>Id = {{singleExpCtrl.experiment.id}}</pre>
+	<pre>Problem best mode = {{singleExpCtrl.experiment.problemBestMode}}</pre>
+	<pre>Time limit = {{singleExpCtrl.experiment.timeLimit}}</pre>
+	<pre>Methods</pre>
+	<ul>
+		<li ng-repeat="method in singleExpCtrl.experiment.methods">
+			<div ng-repeat="methodName in singleExpCtrl.methodNames">
+				<b ng-show="methodName.expId === method.id">
+				Name: {{methodName.expName}}</b>
+			</div>
+			<ul>
+				<li ng-repeat="methodProp in method.properties.sortedProperties">
+					{{methodProp.key}} : {{methodProp.value}}</li>
+			</ul>
+		</li>
+	</ul>
+	<br />
+	<pre>Instances</pre>
+	<table class="table">
+		<tr>
+			<th
+				ng-repeat="headerProp in singleExpCtrl.experiment.instances[0].properties.sortedProperties">{{headerProp.key}}</th>
+		</tr>
+		<tr ng-repeat="instance in singleExpCtrl.experiment.instances">
+			<td ng-repeat="prop in instance.properties.sortedProperties">{{prop.value}}</td>
+		</tr>
+	</table>
+
+</div>
+
+<h2>end single experiment</h2>
