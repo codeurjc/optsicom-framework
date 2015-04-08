@@ -92,7 +92,7 @@ public class ExperimentsRestController {
 	@RequestMapping(value = "/{expId}/experimentNameMethod", method = RequestMethod.GET, produces = {"application/json" })
 	public @ResponseBody List <ExperimentMethodName> getMethodNameById(@PathVariable String expId){
 
-		LOG.debug("Recovering methods name from  expId: " + expId);
+		LOG.info("Recovering methods name from  expId: " + expId);
 		long expIdLong = convertStringToLong(expId);
 		ExperimentManager expManager = this.experimentService
 				.findExperimentManagerById(expIdLong);
@@ -102,6 +102,7 @@ public class ExperimentsRestController {
 			Long methodId= method.getId();
 			methodNames.add(new ExperimentMethodName(methodId, experimentMethodName));
 		}
+		LOG.info(methodNames.size() +  " methodNames exist in the list");
 		return methodNames;
 	}
 	
