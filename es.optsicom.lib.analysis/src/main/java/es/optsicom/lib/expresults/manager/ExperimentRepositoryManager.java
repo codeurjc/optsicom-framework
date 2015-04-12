@@ -133,7 +133,7 @@ public class ExperimentRepositoryManager {
 		return manager;
 	}
 
-	public List<Execution> findExecutions(Experiment experiment,
+	public synchronized List<Execution> findExecutions(Experiment experiment,
 			InstanceDescription instance, MethodDescription method) {
 
 		Query q = em
