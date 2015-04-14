@@ -49,13 +49,15 @@
 		};
 		optsicomExps.getExperiments();
 		optsicomExps.expDelete = function(deleteId){
-			$http.delete('/api/' + deleteId).success(function (data, status) {
-	            console.log('succesfully deleted' + deleteId);
-	            alert('Experiment ' + deleteId + ' has been succesfully deleted');
-	            optsicomExps.getExperiments(); //update experiment list
-	        }).error(function(data) {
-	        	console.log('delete error');
-			});
+			if (confirm("sure to delete?") == true){
+				$http.delete('/api/' + deleteId).success(function (data, status) {
+		            console.log('succesfully deleted' + deleteId);
+		            alert('Experiment ' + deleteId + ' has been succesfully deleted');
+		            optsicomExps.getExperiments(); //update experiment list
+		        }).error(function(data) {
+		        	console.log('delete error');
+				});
+			}
 		};
 	} ]);
 //***************** Single experiment Controller
