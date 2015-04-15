@@ -59,6 +59,7 @@
 				});
 			}
 		};
+
 	} ]);
 //***************** Single experiment Controller
 	app.controller('singleExperimentController', [ '$http','$scope', '$routeParams', function($http,$scope, $routeParams) {
@@ -68,6 +69,158 @@
 		optsicomExp.experiment = {};
 		optsicomExp.methodNames = {};
 		optsicomExp.experimentName = {};
+		optsicomExp.groupedTables = [];
+		optsicomExp.auxView=1;
+		optsicomExp.mp2=[];
+		optsicomExp.generateGroupedTables = function(exp){
+			var names = [];
+			var properties = [];
+			var methods = exp.methods;
+//			_.each(methods, names.push(methods.name));
+
+			var methodProps = [];
+			
+
+			
+			_.each(methods, function(method) {
+				var props = [];
+				
+			    _.each(method.properties.sortedProperties, function(sProp){
+			    	var prop = {};    	
+			    	if (   sProp.key.indexOf('.') > -1  ){ // si contiene punto, pone como key el ultimo trozo del string y como padre el penultimo
+			    		
+			    		var substring = sProp.key.split('.');
+			    			prop.len = substring.length;
+			    			prop.lenList = substring;
+			    			prop.parent = substring[substring.length - 2];
+			    			prop.key = substring[substring.length - 1];
+				    		prop.value = sProp.value;
+			    	}
+			    	else{
+			    		prop.len = 1;
+			    		prop.lenList = [''];
+			    		prop.parent = '';
+			    		prop.key = sProp.key;
+			    		prop.value = sProp.value;
+			    	}
+			    	prop.childs = [];
+			    	props.push(prop);
+//			        console.log(sProp.key + ' : ' + sProp.value);
+			    });
+			    
+			    methodProps.push(props);
+			    
+			});
+			
+			
+			var methodProps2 = [];
+			_.each(methodProps, function(method) {
+				var finalRoots = [];
+				var roots = _.filter(method, function(num){ return num.parent == ''; });
+				var childs = _.filter(method, function(num){ return num.parent != ''; });
+				console.log(roots + ' roots');
+				console.log(childs + ' childs');
+			    _.each(childs, function(child){
+			    	var indexRoot = 0;
+			    	 _.each(roots, function(root){
+			    		 
+			    		 if (child.parent == root.key){
+					    		console.log(child.key + '  ' + root.key + ' bingo');
+					    		if (typeof root.childs != "undefined" && root.childs != null && root.childs.length > 0){ // si ya tiene algun elemento la lista de hijos se inserta otro
+					    			root.childs.push(child);
+					    		}
+					    		else{ // si no habia hijos en este, se crea la lista y se inserta
+					    			root.childs = [];
+					    			root.childs.push(child);
+					    		}
+					    		roots[indexRoot] = root;
+			    		 }  // child es hijo de root
+			    		 else{
+			    			
+			    		 }// child no es hijo de root
+			    		 indexRoot = indexRoot + 1;
+			    	 });// each de roots primeros
+			    	 
+			    	 indexRoot = 0;
+			    	 // una vez acabados los roots primeros vamos a ver si hay nietos
+			    	 _.each(roots, function(root){
+			    		 var indexRootNieto = 0;
+			    		 _.each(root.childs, function(r){
+			    			 
+			    			 
+			    			 if (child.parent == r.key){
+						    		console.log(child.key + '  ' + r.key + ' bingo nieto');
+						    		if (typeof r.childs != "undefined" && r.childs != null && r.childs.length > 0){ // si ya tiene algun elemento la lista de hijos se inserta otro
+						    			r.childs.push(child);
+						    		}
+						    		else{ // si no habia hijos en este, se crea la lista y se inserta
+						    			r.childs = [];
+						    			r.childs.push(child);
+						    		}
+						    		roots[indexRoot].childs[indexRootNieto] = r;
+				    		 }  // child es hijo de root
+				    		 else{
+				    			
+				    		 }// child no es hijo de root
+			    			 indexRootNieto = indexRootNieto + 1;
+			    		 });
+			    		 indexRoot = indexRoot + 1;
+			    	 });// fin ver nietos
+			    	 
+			    	 
+			    	 //bisnietos??
+			    	 indexRoot = 0;
+			    	 // una vez acabados los roots primeros vamos a ver si hay nietos
+			    	 _.each(roots, function(root){
+			    		 var indexRootNieto = 0;
+			    		 _.each(root.childs, function(r){
+			    			 var indexRootBisNieto = 0;
+			    			 _.each(r.childs, function(r2){
+			    			 
+			    			 
+				    			 if (child.parent == r2.key){
+							    		console.log(child.key + '  ' + r2.key + ' bingo bisnieto');
+							    		console.log('r2.childs' + r2.childs + '  ' + (typeof r2.childs != "undefined" && r2.childs != null && r2.childs.length > 0));
+							    		console.log('bien');
+							    		if (typeof r2.childs != "undefined" && r2.childs != null && r2.childs.length > 0){ // si ya tiene algun elemento la lista de hijos se inserta otro
+							    			r2.childs.push(child);
+							    		}
+							    		else{ // si no habia hijos en este, se crea la lista y se inserta
+							    			r2.childs = [];
+							    			r2.childs.push(child);
+							    		}
+							    		roots[indexRoot].childs[indexRootNieto] = r2;
+					    		 }  // child es hijo de root
+					    		 else{
+					    			
+					    		 }// child no es hijo de root
+				    			 indexRootBisNieto = indexRootBisNieto + 1;
+			    			 });
+			    			 indexRootNieto = indexRootNieto + 1;
+			    		 });
+			    		 indexRoot = indexRoot + 1;
+			    	 });// fin ver nietos
+			    	 
+			    	 
+			    	 //fin bisnietos???
+			    	 
+			    }); // each de childs primeros
+			    
+			    methodProps2.push(roots);
+			    console.log('holacaracola' + methodProps2);
+			    
+			}); // each primario
+			optsicomExp.mp2 = methodProps2;
+			
+			
+			
+//			var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
+			
+			
+			optsicomExp.groupedTables = methodProps;
+		};
+		
+		
 		$http.get('/api/' + optsicomExp.expId + '/experimentNameMethod').success(function(methodData) {
 			optsicomExp.methodNames = methodData;
 		}).error(function(methodData) {
@@ -76,6 +229,7 @@
 		$http.get('/api/' + optsicomExp.expId).success(function(data) {
 			optsicomExp.experiment = data.experiment;
 			optsicomExp.experimentName = data.name;
+			optsicomExp.generateGroupedTables(optsicomExp.experiment);
 		}).error(function(data) {
 			optsicomExp.experiment = {};
 		});
