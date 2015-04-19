@@ -132,6 +132,50 @@ var generateGroupedTables = function(exp){ // used in singleExpController
 	    });// end eachChilds
 	    methodProps2.push(roots);
 	});
-//	optsicomExp.mp2 = methodProps2;
 	return methodProps2;
 };
+
+
+var containListInfoRownameSpecificValue =  function(list,value){
+	var bool = false;
+	_.each(list, function(obj) {
+		if (obj.rowname == value){
+			bool = true;
+		}
+	});
+	return bool;
+};
+
+var generateResumedTables = function(instances){
+	var ret = [];
+	_.each(instances[0].properties.sortedProperties, function(prop) {
+		var table = {};
+		table.name = prop.key;
+		table.info = [];
+		ret.push(table);
+	});
+	ret = _.filter(ret, function(obj){ return (obj.name != 'filename') && (obj.name != 'name') && (obj.name != 'usecase'); });
+	_.each(instances, function(instance) {
+		_.each(instance.properties.sortedProperties, function(srtProperties) { 
+			for ( var i = 0;i<ret.length;i++){
+				if (srtProperties.key == ret[i].name){// we are in correct table
+					if (containListInfoRownameSpecificValue(ret[i].info, srtProperties.value)){
+						for ( var j = 0;j<ret[i].info.length;j++){
+							if(ret[i].info[j].rowname == srtProperties.value){
+								ret[i].info[j].count = ret[i].info[j].count + 1;
+							}	
+						}
+					}
+					else{ 
+						var row = {};
+						row.rowname = srtProperties.value;
+						row.count = 0;
+						ret[i].info.push(row);
+					}
+				}
+			}
+		});
+	});
+	return ret;
+};
+

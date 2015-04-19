@@ -69,7 +69,8 @@
 		optsicomExp.experiment = {};
 		optsicomExp.methodNames = {};
 		optsicomExp.experimentName = {};
-		optsicomExp.mp2=[];
+		optsicomExp.expMethodLists=[];
+		optsicomExp.resumedTables=[];
 		$http.get('/api/' + optsicomExp.expId + '/experimentNameMethod').success(function(methodData) {
 			optsicomExp.methodNames = methodData;
 		}).error(function(methodData) {
@@ -78,7 +79,8 @@
 		$http.get('/api/' + optsicomExp.expId).success(function(data) {
 			optsicomExp.experiment = data.experiment;
 			optsicomExp.experimentName = data.name;
-			optsicomExp.mp2 = generateGroupedTables(optsicomExp.experiment);
+			optsicomExp.expMethodLists = generateGroupedTables(optsicomExp.experiment);
+			optsicomExp.resumedTables = generateResumedTables(optsicomExp.experiment.instances);
 		}).error(function(data) {
 			optsicomExp.experiment = {};
 		});
@@ -165,9 +167,7 @@
 			
 			optsicomReport.getPropertyName = getPropName;
 		};
-		
 		optsicomReport.initController();
-		
 		optsicomReport.updateReportConfiguration = function() {
 			optsicomReport.reportConfiguration.bestValues = optsicomReport.bestValuesView;
 			optsicomReport.reportConfiguration.configuration = optsicomReport.configurationView;
