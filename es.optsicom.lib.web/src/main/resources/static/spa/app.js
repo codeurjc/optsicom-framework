@@ -59,6 +59,7 @@
 				});
 			}
 		};
+
 	} ]);
 //***************** Single experiment Controller
 	app.controller('singleExperimentController', [ '$http','$scope', '$routeParams', function($http,$scope, $routeParams) {
@@ -68,6 +69,8 @@
 		optsicomExp.experiment = {};
 		optsicomExp.methodNames = {};
 		optsicomExp.experimentName = {};
+		optsicomExp.expMethodLists=[];
+		optsicomExp.resumedTables=[];
 		$http.get('/api/' + optsicomExp.expId + '/experimentNameMethod').success(function(methodData) {
 			optsicomExp.methodNames = methodData;
 		}).error(function(methodData) {
@@ -76,6 +79,8 @@
 		$http.get('/api/' + optsicomExp.expId).success(function(data) {
 			optsicomExp.experiment = data.experiment;
 			optsicomExp.experimentName = data.name;
+			optsicomExp.expMethodLists = generateGroupedTables(optsicomExp.experiment);
+			optsicomExp.resumedTables = generateResumedTables(optsicomExp.experiment.instances);
 		}).error(function(data) {
 			optsicomExp.experiment = {};
 		});
@@ -120,17 +125,6 @@
 		optsicomReport.bestValuesView = false;
 		optsicomReport.configurationView = false;
 		optsicomReport.methodNamesView = [];
-		optsicomReport.filterNames = function(prop,reportMethods) {
-			var aux = [];
-			for ( var i = 0; i < prop.length; i++) {
-				for ( var j = 0; j < reportMethods.length; j++) {
-					if (prop[i].expId == reportMethods[j]) {
-						aux.push(prop[i]);
-					}
-				}
-			}
-			return aux;
-		};
 
 		optsicomReport.callMethodNames = function(){
 			var allMethodsNames = [];
@@ -144,7 +138,7 @@
 	    			method.checked = false;
 		    		optsicomReport.methodNamesView.push(method);
 			    }
-		    	optsicomReport.methodNames = optsicomReport.filterNames(methodData, optsicomReport.report.reportConfiguration.methods);
+		    	optsicomReport.methodNames = filterNames(methodData, optsicomReport.report.reportConfiguration.methods);
 		   		for(var i = 0; i < allMethodsNames.length; i++){
 		   			for(var j = 0; j < optsicomReport.methodNames.length; j++){
 		   				if (allMethodsNames[i].expId == optsicomReport.methodNames[j].expId){
@@ -156,21 +150,7 @@
 				optsicomReport.methodNames = {};
 			});
 		};   
-		
-		optsicomReport.cutArrayOfCharIfCharIsEquals = function(arrayChar, character){
-			counter = 0;
-			arrayCharAux = [];
-	    	   while(counter < arrayChar.length && counter >= 0){ // iterate over the array o character until i get '=', I dont need the rest
-	    		   if (arrayChar[counter] == character){
-	    			   counter = -1
-	    		   } else {
-	    			   arrayCharAux.push(arrayChar[counter]);
-	    			   counter = counter + 1;
-	    		   }
-	    	   }
-	    	   return arrayCharAux;
-		};
-		       
+
 		optsicomReport.initController = function(){    
 			$http({
 			    url: '/api/' + optsicomReport.expId + '/report',
@@ -184,30 +164,16 @@
 			}).error(function(data) {
 				optsicomReport.report = {};
 			});
-			this.getPropertyName = function(prop){
-			       words= prop.split(" "); // split the sentence in words
-			       wordsAux = [];
-			       charactersAux = [];
-			       for (var i = 0; i < words.length; i++){
-			    	   characters = words[i].split(""); // split each word in characters
-			    	   charactersAux = optsicomReport.cutArrayOfCharIfCharIsEquals(characters,'=');
-			    	   wordsAux.push(charactersAux.join("")); // recover the word
-			    	   charactersAux = [];
-			       }
-			       aux= wordsAux.join(", "); // join the words in a new sentence
-			       aux= aux.substring(0,aux.length -2); // this cut the last ', '
-			       return aux;
-			};
-		}
-		
+			
+			optsicomReport.getPropertyName = getPropName;
+		};
 		optsicomReport.initController();
-		
 		optsicomReport.updateReportConfiguration = function() {
 			optsicomReport.reportConfiguration.bestValues = optsicomReport.bestValuesView;
 			optsicomReport.reportConfiguration.configuration = optsicomReport.configurationView;
 			optsicomReport.reportConfiguration.methods = [];
 			optsicomReport.reportConfiguration.methods = optsicomReport.getMethodSelected(optsicomReport.methodNamesView);
-			if(typeof optsicomReport.reportConfiguration.methods != 'undefined' && optsicomReport.reportConfiguration.methods != null && optsicomReport.reportConfiguration.methods.length > 0){
+			if(listContainsElements(optsicomReport.reportConfiguration.methods)){
 				optsicomReport.reportConfiguration.configuration = true;
 			}else{
 				optsicomReport.reportConfiguration.configuration = false;

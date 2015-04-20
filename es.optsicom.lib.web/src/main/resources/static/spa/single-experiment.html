@@ -1,32 +1,72 @@
-<h2>single experiment</h2>
-<br/>
 <h2>{{singleExpCtrl.experimentName}}</h2>
-<div>
-	<br />
-	<button type="button" class="btn btn-default" aria-label="Left Align">
-		<span class="glyphicon glyphicon-book" aria-hidden="true"></span> 
-		<a ng-href="#/report/{{singleExpCtrl.experiment.id}}">Report</a>
-	</button>
-	<pre>Date = {{singleExpCtrl.experiment.date |  date : 'medium'}}</pre>
-	<pre>Id = {{singleExpCtrl.experiment.id}}</pre>
-	<pre>Problem best mode = {{singleExpCtrl.experiment.problemBestMode}}</pre>
-	<pre>Time limit = {{singleExpCtrl.experiment.timeLimit}}</pre>
-	<pre>Methods</pre>
-	<ul>
-		<li ng-repeat="method in singleExpCtrl.experiment.methods">
+
+<div class="panel panel-default">
+	 <div class="panel-heading"><a ng-href="#/report/{{singleExpCtrl.experiment.id}}"><span class="glyphicon glyphicon-book" aria-hidden="true"></span>  Give me the data</a></div>
+	 <br/>
+	<pre>General Data</pre>
+	<table class="table table-striped table-bordered">
+    <tr>
+    	<td>Date</td>
+    	<td>{{singleExpCtrl.experiment.date |  date : 'medium'}}</td>
+    </tr>
+        <tr>
+    	<td>Best Mode</td>
+    	<td>{{singleExpCtrl.experiment.problemBestMode}}</td>
+    </tr>
+        <tr>
+    	<td>Time Limit</td>
+    	<td>{{singleExpCtrl.experiment.timeLimit}}</td>
+    </tr>
+        <tr>
+    	<td>Id</td>
+    	<td>{{singleExpCtrl.experiment.id}}</td>
+    </tr>
+  </table>
+	 <br/>
+
+	<pre>Experiment methods</pre>
+	<div  id ="lists">
+		<div  ng-repeat="method in singleExpCtrl.expMethodLists"
+			ng-init="methodIndex = $index" >
 			<div ng-repeat="methodName in singleExpCtrl.methodNames">
-				<b ng-show="methodName.expId === method.id">
-				Name: {{methodName.expName}}</b>
+				<b
+					ng-show="methodName.expId === singleExpCtrl.experiment.methods[methodIndex].id">
+					Name: {{methodName.expName}}</b>
 			</div>
-			<ul>
-				<li ng-repeat="methodProp in method.properties.sortedProperties">
-					{{methodProp.key}} : {{methodProp.value}}</li>
+			<ul ng-repeat="prop1 in method" class=noCircle>
+				<li><span ng-show="prop1.childs.length > 0" class="listas glyphicon glyphicon-minus"></span><span ng-show="prop1.childs.length > 0" class="hidespan listas glyphicon glyphicon-plus"></span>  {{prop1.key}} : {{prop1.value}}</li>
+				<div ng-if="prop1.childs.length > 0" class ="divToogle">
+					<ul ng-repeat="prop2 in prop1.childs" class=noCircle>
+						<li><span ng-show="prop2.childs.length > 0" class="listas glyphicon glyphicon-minus"></span><span ng-show="prop2.childs.length > 0" class="hidespan listas glyphicon glyphicon-plus"></span> {{prop2.key}} : {{prop2.value}}</li>
+						<div ng-if="prop2.childs.length > 0" class ="divToogle">
+							<ul ng-repeat="prop3 in prop2.childs" class=noCircle>
+								<li><span ng-show="prop3.childs.length > 0" class="listas glyphicon glyphicon-minus"></span><span ng-show="prop3.childs.length > 0" class="hidespan listas glyphicon glyphicon-plus"></span> {{prop3.key}} : {{prop3.value}}</li>
+								<div ng-if="prop3.childs.length > 0" class ="divToogle">
+									<ul ng-repeat="prop4 in prop3.childs" class=noCircle>
+										<li>{{prop4.key}} : {{prop4.value}}</li>
+									</ul>
+								</div>
+							</ul>
+						</div>
+					</ul>
+				</div>
 			</ul>
-		</li>
-	</ul>
+			<div ng-if="methodIndex == singleExpCtrl.expMethodLists.length">
+				<script type="text/javascript">
+				$( "#lists" ).on( "click", function(event) {
+					var target = event.target;
+					$(target).find("span").toggleClass( "hidespan" );
+					$(target).parent().find(".divToogle").toggle();
+				});
+				</script>
+			</div>
+		</div>
+	</div>
 	<br />
-	<pre>Instances</pre>
-	<table class="table">
+	
+
+	<pre>Experiment instances</pre>
+	<table class="table table-striped table-bordered">
 		<tr>
 			<th
 				ng-repeat="headerProp in singleExpCtrl.experiment.instances[0].properties.sortedProperties">{{headerProp.key}}</th>
@@ -35,7 +75,16 @@
 			<td ng-repeat="prop in instance.properties.sortedProperties">{{prop.value}}</td>
 		</tr>
 	</table>
+	<br/>
+	<div ng-repeat="resumedTable in singleExpCtrl.resumedTables">
+		<br />
+		<pre>{{resumedTable.name}}</pre>
+		<table  class="table table-striped table-bordered">
+			<tr  ng-repeat="row in resumedTable.info">
+				<td>{{row.rowname}}</td>
+				<td>{{row.count}} instances </td>
+			</tr>
+		</table>
+	</div>
 
 </div>
-
-<h2>end single experiment</h2>

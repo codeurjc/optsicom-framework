@@ -14,7 +14,7 @@
     <tr ng-repeat="experiment in expsCtrl.experiments">
    	 	<td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> </td>
     	<td>{{experiment.problemName}}</td>
-    	<td>{{experiment.date}}</td>
+    	<td>{{experiment.date| date : 'medium'}}</td>
     	<td><a ng-href="#/single-exp/{{experiment.id}}">{{experiment.name}}</a></td>
     	<td>{{experiment.instances.length}}</td>
     	<td>{{experiment.methods.length}}</td>
