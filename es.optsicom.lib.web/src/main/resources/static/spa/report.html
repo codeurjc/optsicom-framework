@@ -65,9 +65,8 @@
 <table class="table">
 	<tr>
 		<th>*</th>
-		<th
-			ng-repeat="header in reportCtrl.report.reportTables[2].columnTitles"
-			ng-init="headerIndex = $index">{{header.attributes[0].value}}</th>
+		<th colspan="{{(reportCtrl.report.reportTables[2].columnTitles.length / reportCtrl.uniqueArrayHeaders.length)| number:0}}"
+			ng-repeat="header in reportCtrl.uniqueArrayHeaders">{{header}}</th>
 	</tr>
 	<tr>
 		<th>Method name</th>

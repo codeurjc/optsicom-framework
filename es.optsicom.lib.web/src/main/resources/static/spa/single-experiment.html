@@ -1,4 +1,13 @@
 <h2>{{singleExpCtrl.experimentName}}</h2>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$( "#lists" ).on( "click", function(event) {
+			var target = event.target;
+			$(target).find("span").toggleClass( "hidespan" );
+			$(target).parent().find(".divToogle").toggle();
+		});
+	});
+</script>
 
 <div class="panel panel-default">
 	 <div class="panel-heading"><a ng-href="#/report/{{singleExpCtrl.experiment.id}}"><span class="glyphicon glyphicon-book" aria-hidden="true"></span>  Give me the data</a></div>
@@ -51,15 +60,6 @@
 					</ul>
 				</div>
 			</ul>
-			<div ng-if="methodIndex == singleExpCtrl.expMethodLists.length">
-				<script type="text/javascript">
-				$( "#lists" ).on( "click", function(event) {
-					var target = event.target;
-					$(target).find("span").toggleClass( "hidespan" );
-					$(target).parent().find(".divToogle").toggle();
-				});
-				</script>
-			</div>
 		</div>
 	</div>
 	<br />

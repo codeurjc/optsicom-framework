@@ -9,6 +9,17 @@ var listContainsElements = function(list) {
 };
 
 //used in report 
+var uniqueArray = function(duplicatesArray) {
+	auxArray = [];
+	for ( var i = 0; i < duplicatesArray.length; i++) {
+		auxArray.push(duplicatesArray[i].infoTitle);
+	}
+	auxArray = jQuery.unique( auxArray );
+	return auxArray;
+};
+
+
+
 		var filterNames = function(prop,reportMethods) {
 			var aux = [];
 			for ( var i = 0; i < prop.length; i++) {
