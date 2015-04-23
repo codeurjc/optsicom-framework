@@ -125,6 +125,7 @@
 		optsicomReport.bestValuesView = false;
 		optsicomReport.configurationView = false;
 		optsicomReport.methodNamesView = [];
+		optsicomReport.uniqueArrayHeaders = [];
 
 		optsicomReport.callMethodNames = function(){
 			var allMethodsNames = [];
@@ -146,6 +147,7 @@
 	    				}
 	    			}
 		    	}
+		   		optsicomReport.uniqueArrayHeaders = uniqueArray(optsicomReport.report.reportTables[2].columnTitles);
 			}).error(function(methodData) {
 				optsicomReport.methodNames = {};
 			});
