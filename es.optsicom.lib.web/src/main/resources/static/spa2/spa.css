@@ -11,12 +11,12 @@
 .header-small {
 	color: #D9E8F4;
 }
-.table-striped>tbody>tr:nth-child(odd)>th {
-   background-color: #D9E8F4;
- }
- .table-striped>tbody>tr:nth-child(odd)>td {
-   background-color: #ECF3FA;
- }
+/* .table-striped>tbody>tr:nth-child(odd)>th { */
+/*    background-color: #D9E8F4; */
+/*  } */
+/*  .table-striped>tbody>tr:nth-child(odd)>td { */
+/*    background-color: #ECF3FA; */
+/*  } */
  .hidespan {
  	 display: none;
  }
