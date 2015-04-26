@@ -36,11 +36,6 @@ app.config(function($routeProvider){
 
 
 
-
-
-
-
-
 ///**
 // * INSPINIA - Responsive Admin Theme
 // * Copyright 2015 Webapplayers.com
