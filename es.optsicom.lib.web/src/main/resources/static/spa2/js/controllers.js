@@ -1,10 +1,30 @@
 
 // ----------------Controllers----------------
 //***************** Main Controller
-	app.controller("MainController",  [ '$scope', '$route', '$routeParams', '$location', function($scope, $route, $routeParams, $location) {
+	app.controller("MainController",  [ '$scope', '$route', '$routeParams', '$location','$anchorScroll', function($scope, $route, $routeParams, $location,$anchorScroll) {
 		$scope.$route = $route;
 	     $scope.$location = $location;
 	     $scope.$routeParams = $routeParams;
+	     
+
+	    	
+	    	
+	    	
+	    	
+	    	
+	    	
+	    	
+	    	
+
+	    	  $scope.scrollTo = function(id) {
+	    		  $(document).ready(function(){
+		    	     $location.hash(id);
+		    	     $anchorScroll();
+	    		  });
+	    		 
+	    	  };
+
+	     
 	} ]);
 //***************** List of experiments Controller
 	app.controller('experimentsController', [ '$http', function($http) {

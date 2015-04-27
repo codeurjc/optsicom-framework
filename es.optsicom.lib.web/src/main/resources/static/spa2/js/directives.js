@@ -27,7 +27,8 @@ app.config(function($routeProvider){
     .when("/report/:expId", {
         controller: "reportController",
         controllerAs: "reportCtrl",
-        templateUrl: "report.html"
+        templateUrl: "report.html",
+        reloadOnSearch: false
     });
 });
 
