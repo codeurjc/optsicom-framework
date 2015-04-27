@@ -53,7 +53,7 @@ private void extractCellValues(Table table) {
 				auxValue = (Double) cellValue;
 			} catch (Exception e) {
 				auxValue = 0.0;
-				LOG.info("ReportTable -> [" + i + "][" + j + "] is not double" );
+				LOG.debug("ReportTable -> [" + i + "][" + j + "] is not double" );
 			}
 			cellRowValues.add(auxValue);
 		}

@@ -1,0 +1,49 @@
+<!-- <div class="panel panel-default"> -->
+ <div class="gray-bg">
+	<div class="wrapper wrapper-content p-xl">
+		<div class="container animated fadeInRight">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="ibox float-e-margins">
+						<div class="ibox-title">
+							<h5>Merge experiments selected</h5>
+							<div ibox-tools></div>
+						</div>
+						<div class="ibox-content">
+
+							<div class="table-responsive">
+								<table class="table table-striped">
+									<thead>
+										<tr>
+											<th>Select</th>
+											<th>Problem</th>
+											<th>Date</th>
+											<th>Name</th>
+											<th>Num Instances</th>
+											<th>Num Methods</th>
+											<th>Researcher</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="experiment in expsCtrl.experiments">
+											<td><i class="fa fa-check text-navy"></i></td>
+											<td>{{experiment.problemName}}</td>
+											<td>{{experiment.date| date : 'medium'}}</td>
+											<td><a ng-href="#/single-exp/{{experiment.id}}">{{experiment.name}}</a></td>
+											<td>{{experiment.instances.length}}</td>
+											<td>{{experiment.methods.length}}</td>
+											<td>{{experiment.researcher.name}}</td>
+											<td ng-click="expsCtrl.expDelete(experiment.id)"><a
+												hfref="">Delete <i class="fa fa-trash-o fa-fw"></i></a></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,146 @@
+<div id="wrapper">
+
+ <div ng-include="'views/common/navigation_left.html'"></div>
+<div id="page-wrapper" class="gray-bg forms.basic_form" style="min-height: 411px;">
+
+<div class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+<div class="row">
+<div class="col-lg-12">
+
+<a ng-click="scrollTo('foo')">Foo</a>
+
+ <h4>Report configurations</h4>
+    <div class="ibox-content">
+<button ng-click="reportCtrl.updateReportConfiguration()"  class="btn btn-primary" aria-label="Left Align">
+	Update Report</button>
+				<ul>
+					<li>
+
+						<div class="checkbox checkbox-info">
+
+							<input id="bestValuesView" type="checkbox"
+								ng-model="reportCtrl.bestValuesView" checked=""> <label
+								for="bestValuesView"> Best values </label>
+						</div>
+					</li>
+					<li ng-repeat="methodName in reportCtrl.methodNamesView">
+						<div class="checkbox checkbox-info">
+
+							<input id="{{methodName.id}}" type="checkbox"
+								ng-model="methodName.checked"" > <label
+								for="{{methodName.id}}"> Id: {{methodName.id}} Name:
+								{{methodName.name}} </label>
+						</div>
+					</li>
+				</ul>
+				</div>
+				<br/>
+
+ <h4>Summary</h4>
+    <div class="ibox-content">
+ <!-- {{reportCtrl.report.reportTables[0]}} -->
+<table  class="table table-striped table-bordered table-hover">
+	<tr>
+		<th>Method name</th>
+		<th
+			ng-repeat="header in reportCtrl.report.reportTables[0].columnTitles"
+			ng-init="headerIndex = $index">{{header.attributes[0].value}}</th>
+	</tr>
+	<!-- ng-repeat="rows in reportCtrl.report.reportTables[0].rowTitles" -->
+	<tr ng-repeat="rows in reportCtrl.report.reportTables[0].rowTitles"
+		ng-init="rowsIndex = $index">
+
+		<td>{{rows.attributes[0].value}}</td>
+		<td
+			ng-repeat="header in reportCtrl.report.reportTables[0].columnTitles">
+			{{reportCtrl.report.reportTables[0].cellValues[rowsIndex][$index]}}</td>
+	</tr>
+</table>
+</div>
+<br/>
+  <h4>Statistical tests</h4>
+    <div class="ibox-content">
+<!-- {{reportCtrl.report.reportTables[1]}} -->
+<table class="table table-striped table-bordered table-hover">
+	<tr>
+		<th>Method name</th>
+		<th
+			ng-repeat="header in reportCtrl.report.reportTables[1].columnTitles"
+			ng-init="headerIndex = $index">{{header.attributes[0].value}}</th>
+	</tr>
+	<tr ng-repeat="rows in reportCtrl.report.reportTables[1].rowTitles"
+		ng-init="rowsIndex = $index">
+
+		<td>{{rows.attributes[0].value}}</td>
+		<td
+			ng-repeat="header in reportCtrl.report.reportTables[1].columnTitles">
+			{{reportCtrl.report.reportTables[1].cellValues[rowsIndex][$index]}}</td>
+	</tr>
+</table>
+</div>
+<br/>
+   <h4>Detailed by instance</h4>
+    <div class="ibox-content" style="overflow: auto; overflow-y: hidden;">
+<!-- {{reportCtrl.report.reportTables[2]}} -->
+<table class="table table-striped table-bordered table-hover">
+	<tr>
+		<th></th>
+		<th colspan="{{(reportCtrl.report.reportTables[2].columnTitles.length / reportCtrl.uniqueArrayHeaders.length)| number:0}}"
+			ng-repeat="header in reportCtrl.uniqueArrayHeaders">{{header}}</th>
+	</tr>
+	<tr>
+		<th>Method name</th>
+		<th
+			ng-repeat="header in reportCtrl.report.reportTables[2].columnTitles">{{header.attributes[1].value}}</th>
+	</tr>
+	<tr ng-repeat="rows in reportCtrl.report.reportTables[2].rowTitles"
+		ng-init="rowsIndex = $index">
+		<td>{{rows.attributes[0].value}}</td>
+		<td
+			ng-repeat="header in reportCtrl.report.reportTables[2].columnTitles">
+			{{reportCtrl.report.reportTables[2].cellValues[rowsIndex][$index]}}</td>
+	</tr>
+</table>
+</div>
+<br/>
+
+   <h4>Grouped by properties</h4>
+    <div class="ibox-content">
+<br/>
+<div ng-repeat="propertyTable in reportCtrl.report.reportTables">
+	<div ng-if="$index > 2">
+		<br></br>
+ 			 <h5>By {{reportCtrl.getPropertyName(propertyTable.rowTitles[0].attributes[0].value)}}</h5>
+    <div class="ibox-content">
+		<table class="table table-striped table-bordered table-hover">
+			<tr>
+				<th>Method</th>
+				<th>InstanceGroup</th>
+				<th ng-repeat="header in propertyTable.columnTitles"
+					ng-init="headerIndex = $index">{{header.attributes[0].value}}</th>
+			</tr>
+			<tr ng-repeat="rows in propertyTable.rowTitles"
+				ng-init="rowsIndex = $index">
+				<td>{{rows.attributes[1].value}}</td>
+				<td>{{rows.attributes[0].value}}</td>
+				<td ng-repeat="header in propertyTable.columnTitles">
+					{{propertyTable.cellValues[rowsIndex][$index]}}</td>
+			</tr>
+		</table>
+		</div>
+<br/>
+
+	</div>
+	
+
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
