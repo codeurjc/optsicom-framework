@@ -7,20 +7,20 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class ReportConfiguration implements Serializable{
 
-	private long expId;
+	private List<Long> expId;
 	private List<Long> methods; // ids of methods
 	private boolean bestValues;
 	private boolean configuration;
 	
 	public ReportConfiguration() {
 		super();
-		this.expId = 0;
+		this.expId = new ArrayList<Long>();
 		this.methods = new ArrayList<Long>();
 		this.bestValues = false;
 		this.configuration = false;
 	}
 	
-	public ReportConfiguration(long expId, List<Long> methods,
+	public ReportConfiguration(List<Long> expId, List<Long> methods,
 			boolean bestValues, boolean configuration) {
 		super();
 		this.expId = expId;
@@ -29,10 +29,10 @@ public class ReportConfiguration implements Serializable{
 		this.configuration = configuration;
 	}
 	
-	public long getExpId() {
+	public List<Long> getExpId() {
 		return expId;
 	}
-	public void setExpId(long expId) {
+	public void setExpId(List<Long> expId) {
 		this.expId = expId;
 	}
 	public List<Long> getMethods() {
@@ -58,41 +58,6 @@ public class ReportConfiguration implements Serializable{
 		if (method != null){
 			this.methods.add(method);
 		}
-	}
-
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (bestValues ? 1231 : 1237);
-		result = prime * result + (configuration ? 1231 : 1237);
-		result = prime * result + (int) (expId ^ (expId >>> 32));
-		result = prime * result + ((methods == null) ? 0 : methods.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof ReportConfiguration))
-			return false;
-		ReportConfiguration other = (ReportConfiguration) obj;
-		if (bestValues != other.bestValues)
-			return false;
-		if (configuration != other.configuration)
-			return false;
-		if (expId != other.expId)
-			return false;
-		if (methods == null) {
-			if (other.methods != null)
-				return false;
-		} else if (!methods.equals(other.methods))
-			return false;
-		return true;
 	}
 
 	@Override

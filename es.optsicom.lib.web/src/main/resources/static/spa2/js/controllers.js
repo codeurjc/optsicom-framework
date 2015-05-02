@@ -100,23 +100,17 @@
 	app.controller('reportController', [ '$http','$scope', '$routeParams', function($http,$scope, $routeParams) {
 		var optsicomReport = this;
 		optsicomReport.expIdAux = $routeParams;
-		optsicomReport.expId = optsicomReport.expIdAux.expId;
+		optsicomReport.expId = optsicomReport.expIdAux.expIds;
+		if (typeof optsicomReport.expId === 'undefined'){
+			optsicomReport.expId = optsicomReport.expIdAux.expId;
+		}
 		optsicomReport.report = {};
-		optsicomReport.reportConfiguration = {'expId':optsicomReport.expId};
+		optsicomReport.reportConfiguration = {'expIds':stringToList(optsicomReport.expId)};
 		optsicomReport.methodNames = {};
 		optsicomReport.bestValuesView = false;
 		optsicomReport.configurationView = false;
 		optsicomReport.methodNamesView = [];
 		optsicomReport.uniqueArrayHeaders = [];
-		
-		optsicomReport.expIdList = [];
-		optsicomReport.expIdList.push(1551);
-		optsicomReport.expIdList.push(1601);
-		optsicomReport.expIdList.push(1851);
-		optsicomReport.expIdList.push(2001);
-		optsicomReport.expIdList.push(2101);
-		optsicomReport.expIdList = splitListToString(optsicomReport.expIdList,",");
-
 		optsicomReport.callMethodNames = function(){
 			var allMethodsNames = [];
 			optsicomReport.methodNamesView = [];
@@ -145,7 +139,7 @@
 
 		optsicomReport.initController = function(){    
 			$http({
-			    url: '/api/' + optsicomReport.expId + '/report',
+			    url: getUrlReportOrMerge(optsicomReport.expId) ,
 			    method: 'POST',
 			    headers: { 'Content-Type': 'application/json' },
 			    data: optsicomReport.reportConfiguration //data passed as a requestBody

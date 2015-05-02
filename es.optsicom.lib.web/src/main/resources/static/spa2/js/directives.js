@@ -20,9 +20,9 @@ app.config(function($routeProvider){
         templateUrl: "experiments.html"
     })
     .when("/merge/:expIds", {
-        controller: "mergeController",
-        controllerAs: "mergeCtrl",
-        templateUrl: "merge.html"
+        controller: "reportController",
+        controllerAs: "reportCtrl",
+        templateUrl: "report.html"
     })
     .when("/report/:expId", {
         controller: "reportController",

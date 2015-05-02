@@ -51,18 +51,6 @@ public class ExperimentsRestController {
 		return 0;
 		
 	}
-//	// http://localhost:8080/api/merge/1551,2401
-//	@RequestMapping(value = "/merge2/{expIds}", method = RequestMethod.GET, produces = {"application/json" })
-//	public @ResponseBody List<Experiment> merge2(@PathVariable("expIds") final List<String> expIds) {
-//		LOG.info("Merging experiments (/merge) : ");
-//		List<Experiment> lista = new ArrayList<Experiment>();
-//		for (int i = 0;i<expIds.size();i++){
-//			long expId = convertStringToLong(expIds.get(i));
-//			LOG.info(expId);
-//			lista.add(this.experimentService.findExperimentManagerById(expId).getExperiment() );	
-//		}
-//		return lista;
-//	}
 	
 	@RequestMapping(value = "/{expId}", method = RequestMethod.GET, produces = {"application/json" })
 	public @ResponseBody ExperimentManager getExperimentById(@PathVariable String expId){
@@ -108,10 +96,10 @@ public class ExperimentsRestController {
 		return methodNames;
 	}
 	
-	@RequestMapping(value = "/{expId}/report", method = RequestMethod.POST, produces = {"application/json" })
-	public @ResponseBody ReportRest report(@PathVariable String expId,@RequestBody ReportConfiguration reportConfiguration){
-		LOG.info("Report: " + expId);
-		Long expIdLong = convertStringToLong(expId);
+	@RequestMapping(value = "/{expIds}/report", method = RequestMethod.POST, produces = {"application/json" })
+	public @ResponseBody ReportRest report(@PathVariable("expIds") String expIds,@RequestBody ReportConfiguration reportConfiguration){
+		LOG.info("Report: " + expIds);
+		Long expIdLong = convertStringToLong(expIds);
 		Experiment experiment = this.experimentService.findExperimentManagerById(expIdLong).getExperiment();
 		FusionerReportCreator reportCreator = new FusionerReportCreator(
 				experiment.getProblemName(), "",
