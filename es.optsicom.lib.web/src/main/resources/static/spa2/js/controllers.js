@@ -5,26 +5,12 @@
 		$scope.$route = $route;
 	     $scope.$location = $location;
 	     $scope.$routeParams = $routeParams;
-	     
-
-	    	
-	    	
-	    	
-	    	
-	    	
-	    	
-	    	
-	    	
-
-	    	  $scope.scrollTo = function(id) {
-	    		  $(document).ready(function(){
-		    	     $location.hash(id);
-		    	     $anchorScroll();
-	    		  });
-	    		 
-	    	  };
-
-	     
+	     $scope.scrollTo = function(id) {
+	    	$(document).ready(function(){
+			    $location.hash(id);
+			    $anchorScroll();
+	    	});
+	      };
 	} ]);
 //***************** List of experiments Controller
 	app.controller('experimentsController', [ '$http', function($http) {
@@ -61,7 +47,7 @@
 		optsicomExp.experimentName = {};
 		optsicomExp.expMethodLists=[];
 		optsicomExp.resumedTables=[];
-		$http.get('/api/' + optsicomExp.expId + '/experimentNameMethod').success(function(methodData) {
+		$http.get('/api/' + stringToList(optsicomExp.expId) + '/experimentNameMethod').success(function(methodData) {
 			optsicomExp.methodNames = methodData;
 		}).error(function(methodData) {
 			optsicomExp.methodNames = {};
@@ -93,13 +79,19 @@
 		};
 		optsicomMrg.getMethodNames = function(expIds) {
 			optsicomMrg.methodNames = [];
-			for(var i = 0; i < expIds.length; i++){
-				$http.get('/api/' + expIds[i] + '/experimentNameMethod').success(function(methodData) {
-					optsicomMrg.methodNames.push(methodData);
-				}).error(function(methodData) {
-					optsicomMrg.methodNames = [];
-				});
-			}
+			$http.get('/api/' + expIds + '/experimentNameMethod').success(function(methodData) {
+				optsicomMrg.methodNames.push(methodData);
+			}).error(function(methodData) {
+				optsicomMrg.methodNames = [];
+			});
+//			
+//			for(var i = 0; i < expIds.length; i++){
+//				$http.get('/api/' + expIds[i] + '/experimentNameMethod').success(function(methodData) {
+//					optsicomMrg.methodNames.push(methodData);
+//				}).error(function(methodData) {
+//					optsicomMrg.methodNames = [];
+//				});
+//			}
 		};
 		optsicomMrg.getMethodNames(optsicomMrg.convertStringToArray(optsicomMrg.expIds));
 	} ]);
@@ -116,11 +108,19 @@
 		optsicomReport.configurationView = false;
 		optsicomReport.methodNamesView = [];
 		optsicomReport.uniqueArrayHeaders = [];
+		
+		optsicomReport.expIdList = [];
+		optsicomReport.expIdList.push(1551);
+		optsicomReport.expIdList.push(1601);
+		optsicomReport.expIdList.push(1851);
+		optsicomReport.expIdList.push(2001);
+		optsicomReport.expIdList.push(2101);
+		optsicomReport.expIdList = splitListToString(optsicomReport.expIdList,",");
 
 		optsicomReport.callMethodNames = function(){
 			var allMethodsNames = [];
 			optsicomReport.methodNamesView = [];
-	    	$http.get('/api/' + optsicomReport.expId + '/experimentNameMethod').success(function(methodData) {
+	    	$http.get('/api/' + stringToList(optsicomReport.expId) + '/experimentNameMethod').success(function(methodData) {
 	    		var allMethodsNames = methodData
 	    		for(var i = 0; i < allMethodsNames.length; i++){
 	    			var method = {};

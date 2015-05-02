@@ -62,6 +62,20 @@ var uniqueArray = function(duplicatesArray) {
 		       return aux;
 		};
 
+		var splitListToString = function(list,separator){
+			returnString = "";
+			for (var i = 0; i < list.length; i++){
+				returnString = returnString + list[i] + separator;
+			}
+			returnString = returnString.substring(0,returnString.length - separator.length);
+			return returnString;
+		};
+		
+		var stringToList = function(value){
+			returnList = [];
+			returnList.push(value);
+			return returnList;
+		};
 
 var generateGroupedTables = function(exp){ // used in singleExpController
 	var names = [];
