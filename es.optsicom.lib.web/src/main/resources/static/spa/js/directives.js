@@ -2,41 +2,6 @@
 
 
 
-app.config(function($routeProvider){
-    $routeProvider
-    .when("/", {
-    	controller: "experimentsController",
-        controllerAs: "expsCtrl",
-        templateUrl: "experiments.html"
-    })
-    .when("/single-exp/:expId", {
-        controller: "singleExperimentController", 
-        controllerAs: "singleExpCtrl",
-        templateUrl: "single-experiment.html"
-    })
-    .when("/experiments", {
-        controller: "experimentsController",
-        controllerAs: "expsCtrl",
-        templateUrl: "experiments.html"
-    })
-    .when("/merge/:expIds", {
-        controller: "reportController",
-        controllerAs: "reportCtrl",
-        templateUrl: "report.html"
-    })
-    .when("/report/:expId", {
-        controller: "reportController",
-        controllerAs: "reportCtrl",
-        templateUrl: "report.html",
-        reloadOnSearch: false
-    });
-});
-
-
-
-
-
-
 ///**
 // * INSPINIA - Responsive Admin Theme
 // * Copyright 2015 Webapplayers.com
