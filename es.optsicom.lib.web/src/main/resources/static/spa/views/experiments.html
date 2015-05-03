@@ -5,11 +5,15 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="ibox float-e-margins">
+					<div class="ibox-title">
+						<ol class="breadcrumb">
+							<li> <a ng-href="#/">Home</a></li>
+							<li class="active">Experiments</li>
+						</ol>
+					</div>
+						
 						<div class="ibox-title">
 							<h5><a ng-href="#/merge/{{expsCtrl.urlMerge}}">Merge experiments selected</a></h5>
-							{{expsCtrl.expIdsChecked}}
-							<br>
-							{{expsCtrl.urlMerge}}
 							<div ibox-tools></div>
 						</div>
 						<div class="ibox-content">
