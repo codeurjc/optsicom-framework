@@ -39,17 +39,10 @@
     </div>
 </div>
 <script>
-// show or not skin config depending if the view is report
-if($('#report').length == 0) {
 	$('#theme-config').hide();
-}
-else{
-	$('#theme-config').show();
-}
-
+	
     // Enable/disable fixed sidebar
     $('#fixedsidebar').click(function () {
-    	console.log('fixed sidebar');
         if ($('#fixedsidebar').is(':checked')) {
             $("body").addClass('fixed-sidebar');
             SmoothlyMenu();
@@ -61,7 +54,6 @@ else{
 
     // Enable/disable collapse menu
     $('#collapsemenu').click(function () {
-    	console.log('collapsemenu');
         if ($('#collapsemenu').is(':checked')) {
             $("body").addClass('mini-navbar');
             SmoothlyMenu();

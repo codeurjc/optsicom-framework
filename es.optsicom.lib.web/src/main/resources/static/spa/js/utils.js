@@ -48,20 +48,54 @@ var uniqueArray = function(duplicatesArray) {
 		
 		
 		var getPropName = function(prop){
-		       words= prop.split(" "); // split the sentence in words
+		       words= prop.split(' '); // split the sentence in words
 		       wordsAux = [];
 		       charactersAux = [];
 		       for (var i = 0; i < words.length; i++){
-		    	   characters = words[i].split(""); // split each word in characters
+		    	   characters = words[i].split(''); // split each word in characters
 		    	   charactersAux = cutArrayOfCharIfCharIsEquals(characters,'=');
-		    	   wordsAux.push(charactersAux.join("")); // recover the word
+		    	   wordsAux.push(charactersAux.join('')); // recover the word
 		    	   charactersAux = [];
 		       }
-		       aux= wordsAux.join(", "); // join the words in a new sentence
+		       aux= wordsAux.join(', '); // join the words in a new sentence
 		       aux= aux.substring(0,aux.length -2); // this cut the last ', '
 		       return aux;
 		};
 
+		var splitListToString = function(list,separator){
+			returnString = '';
+			for (var i = 0; i < list.length; i++){
+				returnString = returnString + list[i] + separator;
+			}
+			returnString = returnString.substring(0,returnString.length - separator.length);
+			return returnString;
+		};
+		
+		var stringToList = function(value){
+			if ($.type(value) === 'string' || $.type(value) === 'number'){
+				returnList = [];
+				returnList.push(value);
+				return returnList;				
+			}
+			else{
+				return value;
+			}
+		};
+		
+		var getUrlReportOrMerge = function(expIds){
+			var url = window.location.href;
+			var expIdsAux = '';
+			if ($.type(expIds) === 'string' || $.type(expIds) === 'number'){}
+			else{
+				expIdsAux = splitListToString(expIds,',');
+			}
+			if (~url.indexOf('report')){
+				return  '/api/' + expIds + '/report';
+			}
+			else{
+				return  '/api/merge/' + expIds;
+			}
+		};
 
 var generateGroupedTables = function(exp){ // used in singleExpController
 	var names = [];
