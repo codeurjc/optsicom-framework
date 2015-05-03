@@ -30,16 +30,12 @@
 									</thead>
 									<tbody>
 										<tr ng-repeat="experiment in expsCtrl.experiments" ng-init="expIndex = $index">
-											<td><i class="fa fa-check text-navy"></i> - 
-											
-											
+											<td>
 												<div class="checkbox checkbox-info"  ng-click="expsCtrl.buildUrlMerge()">
-
 													<input id="{{expsCtrl.expIdsChecked[expIndex].id}}" type="checkbox"
 														ng-model="expsCtrl.expIdsChecked[expIndex].checked"" > <label
 														for="{{expsCtrl.expIdsChecked[expIndex].id}}"></label>
 												</div>
-												
 											</td>
 											<td>{{experiment.problemName}}</td>
 											<td>{{experiment.date| date : 'medium'}}</td>
