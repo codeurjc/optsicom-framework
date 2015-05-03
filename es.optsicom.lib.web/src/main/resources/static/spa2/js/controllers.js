@@ -13,7 +13,12 @@
 	      };
 	} ]);
 //***************** List of experiments Controller
-	app.controller('experimentsController', [ '$http', function($http) {
+	app.controller('experimentsController', [ '$http','$scope', function($http,$scope) {
+		$scope.init = function(){
+			$('#theme-config').hide();
+	     };
+	     $scope.init();
+		
 		var optsicomExps = this;
 		optsicomExps.experiments = [];
 		optsicomExps.expIdsChecked = [];
@@ -59,6 +64,10 @@
 	} ]);
 //***************** Single experiment Controller
 	app.controller('singleExperimentController', [ '$http','$scope', '$routeParams', function($http,$scope, $routeParams) {
+		$scope.init = function(){
+			$('#theme-config').hide();
+	     };
+	     $scope.init();
 		var optsicomExp = this;
 		optsicomExp.expIdAux = $routeParams;
 		optsicomExp.expId = optsicomExp.expIdAux.expId;
@@ -118,6 +127,10 @@
 //	
 //***************** Report and Merge Controller
 	app.controller('reportController', [ '$http','$scope', '$routeParams', function($http,$scope, $routeParams) {
+		$scope.init = function(){
+			$('#theme-config').show();
+	     };
+	     $scope.init();
 		var optsicomReport = this;
 		optsicomReport.expIdAux = $routeParams;
 		optsicomReport.expId = optsicomReport.expIdAux.expIds;
