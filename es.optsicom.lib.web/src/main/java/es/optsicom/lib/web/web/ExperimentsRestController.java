@@ -191,17 +191,6 @@ public class ExperimentsRestController {
 		ReportRest rWeb = new ReportRest(reportConfiguration,rTables);
 		LOG.info("Merge(Report) created");
 		return rWeb;
-		
-		
-		
-		
-//		List<Experiment> lista = new ArrayList<Experiment>();
-//		for (int i = 0;i<expIds.size();i++){
-//			long expId = convertStringToLong(expIds.get(i));
-//			LOG.info(expId);
-//			lista.add(this.experimentService.findExperimentManagerById(expId).getExperiment() );	
-//		}
-//		return null;
 	}
 	
 

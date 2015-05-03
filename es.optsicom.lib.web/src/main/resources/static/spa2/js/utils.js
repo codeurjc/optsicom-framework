@@ -63,18 +63,15 @@ var uniqueArray = function(duplicatesArray) {
 		};
 
 		var splitListToString = function(list,separator){
-			console.log('en split');
 			returnString = '';
 			for (var i = 0; i < list.length; i++){
 				returnString = returnString + list[i] + separator;
 			}
 			returnString = returnString.substring(0,returnString.length - separator.length);
-			console.log('en split2');
 			return returnString;
 		};
 		
 		var stringToList = function(value){
-			console.log(value);
 			if ($.type(value) === 'string' || $.type(value) === 'number'){
 				returnList = [];
 				returnList.push(value);
@@ -88,7 +85,6 @@ var uniqueArray = function(duplicatesArray) {
 		var getUrlReportOrMerge = function(expIds){
 			var url = window.location.href;
 			var expIdsAux = '';
-			console.log($.type(expIds));
 			if ($.type(expIds) === 'string' || $.type(expIds) === 'number'){}
 			else{
 				expIdsAux = splitListToString(expIds,',');
