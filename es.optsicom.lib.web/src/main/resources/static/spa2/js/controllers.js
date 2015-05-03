@@ -16,9 +16,16 @@
 	app.controller('experimentsController', [ '$http', function($http) {
 		var optsicomExps = this;
 		optsicomExps.experiments = [];
+		optsicomExps.expIdsChecked = [];
 		optsicomExps.getExperiments = function(){
 			$http.get('/api/experiments').success(function(data) {
 				optsicomExps.experiments = data;
+				for(var i = 0; i < optsicomExps.experiments.length; i++){
+					var exp = {};
+	    			exp.id = optsicomExps.experiments[i].id;
+	    			exp.checked = false;
+	    			optsicomExps.expIdsChecked.push(exp);
+				}
 			}).error(function(data) {
 				optsicomExps.experiments = [];
 			});			
@@ -35,6 +42,19 @@
 				});
 			}
 		};
+		optsicomExps.urlMerge = 0;
+		optsicomExps.buildUrlMerge = function(){
+			var aux = [];
+			for (var i = 0; i < optsicomExps.expIdsChecked.length; i++){
+				if (optsicomExps.expIdsChecked[i].checked){					
+					aux.push(optsicomExps.expIdsChecked[i].id);
+				}
+			}
+			optsicomExps.urlMerge = splitListToString(aux,",")
+		};
+		
+
+		
 
 	} ]);
 //***************** Single experiment Controller
@@ -61,42 +81,42 @@
 			optsicomExp.experiment = {};
 		});
 	} ]);
-//***************** Merge/fusion experiments Controller
-	app.controller('mergeController', [ '$http','$scope', '$routeParams', function($http,$scope, $routeParams) {
-		var optsicomMrg = this;
-		optsicomMrg.expIdAux = $routeParams;
-		optsicomMrg.expIds = optsicomMrg.expIdAux.expIds;
-		optsicomMrg.experiments = [];
-		optsicomMrg.methodNames = [];
-		$http.get('/api/merge/' + this.expIds).success(function(data) {
-			optsicomMrg.experiments = data;
-		}).error(function(data) {
-			optsicomMrg.experiments = [];
-		});
-		optsicomMrg.convertStringToArray = function(expIdsString) {
-			ids = expIdsString.split(",");
-			return ids;
-		};
-		optsicomMrg.getMethodNames = function(expIds) {
-			optsicomMrg.methodNames = [];
-			$http.get('/api/' + expIds + '/experimentNameMethod').success(function(methodData) {
-				optsicomMrg.methodNames.push(methodData);
-			}).error(function(methodData) {
-				optsicomMrg.methodNames = [];
-			});
-//			
-//			for(var i = 0; i < expIds.length; i++){
-//				$http.get('/api/' + expIds[i] + '/experimentNameMethod').success(function(methodData) {
-//					optsicomMrg.methodNames.push(methodData);
-//				}).error(function(methodData) {
-//					optsicomMrg.methodNames = [];
-//				});
-//			}
-		};
-		optsicomMrg.getMethodNames(optsicomMrg.convertStringToArray(optsicomMrg.expIds));
-	} ]);
-	
-//***************** Report Controller
+////***************** Merge/fusion experiments Controller
+//	app.controller('mergeController', [ '$http','$scope', '$routeParams', function($http,$scope, $routeParams) {
+//		var optsicomMrg = this;
+//		optsicomMrg.expIdAux = $routeParams;
+//		optsicomMrg.expIds = optsicomMrg.expIdAux.expIds;
+//		optsicomMrg.experiments = [];
+//		optsicomMrg.methodNames = [];
+//		$http.get('/api/merge/' + this.expIds).success(function(data) {
+//			optsicomMrg.experiments = data;
+//		}).error(function(data) {
+//			optsicomMrg.experiments = [];
+//		});
+//		optsicomMrg.convertStringToArray = function(expIdsString) {
+//			ids = expIdsString.split(",");
+//			return ids;
+//		};
+//		optsicomMrg.getMethodNames = function(expIds) {
+//			optsicomMrg.methodNames = [];
+//			$http.get('/api/' + expIds + '/experimentNameMethod').success(function(methodData) {
+//				optsicomMrg.methodNames.push(methodData);
+//			}).error(function(methodData) {
+//				optsicomMrg.methodNames = [];
+//			});
+////			
+////			for(var i = 0; i < expIds.length; i++){
+////				$http.get('/api/' + expIds[i] + '/experimentNameMethod').success(function(methodData) {
+////					optsicomMrg.methodNames.push(methodData);
+////				}).error(function(methodData) {
+////					optsicomMrg.methodNames = [];
+////				});
+////			}
+//		};
+//		optsicomMrg.getMethodNames(optsicomMrg.convertStringToArray(optsicomMrg.expIds));
+//	} ]);
+//	
+//***************** Report and Merge Controller
 	app.controller('reportController', [ '$http','$scope', '$routeParams', function($http,$scope, $routeParams) {
 		var optsicomReport = this;
 		optsicomReport.expIdAux = $routeParams;

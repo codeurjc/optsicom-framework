@@ -148,10 +148,7 @@ public class ExperimentsRestController {
 		FusionerReportCreator reportCreator = new FusionerReportCreator(
 				experiment.getProblemName(), "",
 				experimentService.getDBManager());
-//		ExperimentManager expManager = this.experimentService
-//				.findExperimentManagerById(expIdLong);
-		
-		
+
 		if (!reportConfiguration.isConfiguration()) {
 			reportConfiguration.setMethods( new ArrayList<Long>());
 			for (String experimentIdString : expIds) {
