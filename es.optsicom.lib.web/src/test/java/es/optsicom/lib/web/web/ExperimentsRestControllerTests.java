@@ -20,6 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -31,7 +32,8 @@ import es.optsicom.lib.expresults.model.Experiment;
 import es.optsicom.lib.expresults.model.Researcher;
 import es.optsicom.lib.web.service.ExperimentService;
 import es.optsicom.lib.web.web.ExperimentsRestController;
-
+@Transactional
+@TransactionConfiguration(defaultRollback = true)
 public class ExperimentsRestControllerTests {
 	private static final String EXPID = "1551";
 	private static final long EXPIDLONG = 1551;
@@ -135,7 +137,7 @@ public class ExperimentsRestControllerTests {
 		verify(experimentService).findExperiments();
 	}
 	
-	@Transactional
+	
 	@Test
 	public void deleteExperimentById() throws Exception { // integration test
 		mockMvc.perform(MockMvcRequestBuilders.delete("/api/" + 10853).accept(
