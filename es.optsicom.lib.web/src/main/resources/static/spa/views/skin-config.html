@@ -39,8 +39,11 @@
     </div>
 </div>
 <script>
+if($('#report').length == 0) {
 	$('#theme-config').hide();
-	
+}else{
+	$('#theme-config').show();
+}
     // Enable/disable fixed sidebar
     $('#fixedsidebar').click(function () {
         if ($('#fixedsidebar').is(':checked')) {
