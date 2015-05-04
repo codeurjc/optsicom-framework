@@ -5,34 +5,32 @@
 		$scope.$route = $route;
 	     $scope.$location = $location;
 	     $scope.$routeParams = $routeParams;
-	     
-
-	    	
-	    	
-	    	
-	    	
-	    	
-	    	
-	    	
-	    	
-
-	    	  $scope.scrollTo = function(id) {
-	    		  $(document).ready(function(){
-		    	     $location.hash(id);
-		    	     $anchorScroll();
-	    		  });
-	    		 
-	    	  };
-
-	     
+	     $scope.scrollTo = function(id) {
+	    	$(document).ready(function(){
+			    $location.hash(id);
+			    $anchorScroll();
+	    	});
+	      };
 	} ]);
 //***************** List of experiments Controller
-	app.controller('experimentsController', [ '$http', function($http) {
+	app.controller('experimentsController', [ '$http','$scope', function($http,$scope) {
+		$scope.init = function(){
+			$('#theme-config').hide();
+	     };
+	     $scope.init();
+		
 		var optsicomExps = this;
 		optsicomExps.experiments = [];
+		optsicomExps.expIdsChecked = [];
 		optsicomExps.getExperiments = function(){
 			$http.get('/api/experiments').success(function(data) {
 				optsicomExps.experiments = data;
+				for(var i = 0; i < optsicomExps.experiments.length; i++){
+					var exp = {};
+	    			exp.id = optsicomExps.experiments[i].id;
+	    			exp.checked = false;
+	    			optsicomExps.expIdsChecked.push(exp);
+				}
 			}).error(function(data) {
 				optsicomExps.experiments = [];
 			});			
@@ -49,10 +47,27 @@
 				});
 			}
 		};
+		optsicomExps.urlMerge = 0;
+		optsicomExps.buildUrlMerge = function(){
+			var aux = [];
+			for (var i = 0; i < optsicomExps.expIdsChecked.length; i++){
+				if (optsicomExps.expIdsChecked[i].checked){					
+					aux.push(optsicomExps.expIdsChecked[i].id);
+				}
+			}
+			optsicomExps.urlMerge = splitListToString(aux,",")
+		};
+		
+
+		
 
 	} ]);
 //***************** Single experiment Controller
 	app.controller('singleExperimentController', [ '$http','$scope', '$routeParams', function($http,$scope, $routeParams) {
+		$scope.init = function(){
+			$('#theme-config').hide();
+	     };
+	     $scope.init();
 		var optsicomExp = this;
 		optsicomExp.expIdAux = $routeParams;
 		optsicomExp.expId = optsicomExp.expIdAux.expId;
@@ -61,7 +76,7 @@
 		optsicomExp.experimentName = {};
 		optsicomExp.expMethodLists=[];
 		optsicomExp.resumedTables=[];
-		$http.get('/api/' + optsicomExp.expId + '/experimentNameMethod').success(function(methodData) {
+		$http.get('/api/' + stringToList(optsicomExp.expId) + '/experimentNameMethod').success(function(methodData) {
 			optsicomExp.methodNames = methodData;
 		}).error(function(methodData) {
 			optsicomExp.methodNames = {};
@@ -75,52 +90,64 @@
 			optsicomExp.experiment = {};
 		});
 	} ]);
-//***************** Merge/fusion experiments Controller
-	app.controller('mergeController', [ '$http','$scope', '$routeParams', function($http,$scope, $routeParams) {
-		var optsicomMrg = this;
-		optsicomMrg.expIdAux = $routeParams;
-		optsicomMrg.expIds = optsicomMrg.expIdAux.expIds;
-		optsicomMrg.experiments = [];
-		optsicomMrg.methodNames = [];
-		$http.get('/api/merge/' + this.expIds).success(function(data) {
-			optsicomMrg.experiments = data;
-		}).error(function(data) {
-			optsicomMrg.experiments = [];
-		});
-		optsicomMrg.convertStringToArray = function(expIdsString) {
-			ids = expIdsString.split(",");
-			return ids;
-		};
-		optsicomMrg.getMethodNames = function(expIds) {
-			optsicomMrg.methodNames = [];
-			for(var i = 0; i < expIds.length; i++){
-				$http.get('/api/' + expIds[i] + '/experimentNameMethod').success(function(methodData) {
-					optsicomMrg.methodNames.push(methodData);
-				}).error(function(methodData) {
-					optsicomMrg.methodNames = [];
-				});
-			}
-		};
-		optsicomMrg.getMethodNames(optsicomMrg.convertStringToArray(optsicomMrg.expIds));
-	} ]);
-	
-//***************** Report Controller
+////***************** Merge/fusion experiments Controller
+//	app.controller('mergeController', [ '$http','$scope', '$routeParams', function($http,$scope, $routeParams) {
+//		var optsicomMrg = this;
+//		optsicomMrg.expIdAux = $routeParams;
+//		optsicomMrg.expIds = optsicomMrg.expIdAux.expIds;
+//		optsicomMrg.experiments = [];
+//		optsicomMrg.methodNames = [];
+//		$http.get('/api/merge/' + this.expIds).success(function(data) {
+//			optsicomMrg.experiments = data;
+//		}).error(function(data) {
+//			optsicomMrg.experiments = [];
+//		});
+//		optsicomMrg.convertStringToArray = function(expIdsString) {
+//			ids = expIdsString.split(",");
+//			return ids;
+//		};
+//		optsicomMrg.getMethodNames = function(expIds) {
+//			optsicomMrg.methodNames = [];
+//			$http.get('/api/' + expIds + '/experimentNameMethod').success(function(methodData) {
+//				optsicomMrg.methodNames.push(methodData);
+//			}).error(function(methodData) {
+//				optsicomMrg.methodNames = [];
+//			});
+////			
+////			for(var i = 0; i < expIds.length; i++){
+////				$http.get('/api/' + expIds[i] + '/experimentNameMethod').success(function(methodData) {
+////					optsicomMrg.methodNames.push(methodData);
+////				}).error(function(methodData) {
+////					optsicomMrg.methodNames = [];
+////				});
+////			}
+//		};
+//		optsicomMrg.getMethodNames(optsicomMrg.convertStringToArray(optsicomMrg.expIds));
+//	} ]);
+//	
+//***************** Report and Merge Controller
 	app.controller('reportController', [ '$http','$scope', '$routeParams', function($http,$scope, $routeParams) {
+		$scope.init = function(){
+			$('#theme-config').show();
+	     };
+	     $scope.init();
 		var optsicomReport = this;
 		optsicomReport.expIdAux = $routeParams;
-		optsicomReport.expId = optsicomReport.expIdAux.expId;
+		optsicomReport.expId = optsicomReport.expIdAux.expIds;
+		if (typeof optsicomReport.expId === 'undefined'){
+			optsicomReport.expId = optsicomReport.expIdAux.expId;
+		}
 		optsicomReport.report = {};
-		optsicomReport.reportConfiguration = {'expId':optsicomReport.expId};
+		optsicomReport.reportConfiguration = {'expIds':stringToList(optsicomReport.expId)};
 		optsicomReport.methodNames = {};
 		optsicomReport.bestValuesView = false;
 		optsicomReport.configurationView = false;
 		optsicomReport.methodNamesView = [];
 		optsicomReport.uniqueArrayHeaders = [];
-
 		optsicomReport.callMethodNames = function(){
 			var allMethodsNames = [];
 			optsicomReport.methodNamesView = [];
-	    	$http.get('/api/' + optsicomReport.expId + '/experimentNameMethod').success(function(methodData) {
+	    	$http.get('/api/' + stringToList(optsicomReport.expId) + '/experimentNameMethod').success(function(methodData) {
 	    		var allMethodsNames = methodData
 	    		for(var i = 0; i < allMethodsNames.length; i++){
 	    			var method = {};
@@ -145,7 +172,7 @@
 
 		optsicomReport.initController = function(){    
 			$http({
-			    url: '/api/' + optsicomReport.expId + '/report',
+			    url: getUrlReportOrMerge(optsicomReport.expId) ,
 			    method: 'POST',
 			    headers: { 'Content-Type': 'application/json' },
 			    data: optsicomReport.reportConfiguration //data passed as a requestBody

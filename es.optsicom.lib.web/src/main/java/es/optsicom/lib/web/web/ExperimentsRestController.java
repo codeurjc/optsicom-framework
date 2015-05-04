@@ -51,18 +51,6 @@ public class ExperimentsRestController {
 		return 0;
 		
 	}
-	// http://localhost:8080/api/merge/1551,2401
-	@RequestMapping(value = "/merge/{expIds}", method = RequestMethod.GET, produces = {"application/json" })
-	public @ResponseBody List<Experiment> merge(@PathVariable("expIds") final List<String> expIds) {
-		LOG.info("Merging experiments (/merge) : ");
-		List<Experiment> lista = new ArrayList<Experiment>();
-		for (int i = 0;i<expIds.size();i++){
-			long expId = convertStringToLong(expIds.get(i));
-			LOG.info(expId);
-			lista.add(this.experimentService.findExperimentManagerById(expId).getExperiment() );	
-		}
-		return lista;
-	}
 	
 	@RequestMapping(value = "/{expId}", method = RequestMethod.GET, produces = {"application/json" })
 	public @ResponseBody ExperimentManager getExperimentById(@PathVariable String expId){
@@ -89,27 +77,29 @@ public class ExperimentsRestController {
 	}
 	
 	
-	@RequestMapping(value = "/{expId}/experimentNameMethod", method = RequestMethod.GET, produces = {"application/json" })
-	public @ResponseBody List <ExperimentMethodName> getMethodNameById(@PathVariable String expId){
-
-		LOG.info("Recovering methods name from  expId: " + expId);
-		long expIdLong = convertStringToLong(expId);
-		ExperimentManager expManager = this.experimentService
-				.findExperimentManagerById(expIdLong);
+	@RequestMapping(value = "/{expIds}/experimentNameMethod", method = RequestMethod.GET, produces = {"application/json" })
+	public @ResponseBody List <ExperimentMethodName> getMethodNameById(@PathVariable("expIds") final List<String> expIds){
+		LOG.info("Starting /{expIds}/experimentNameMethod ...");			
 		List <ExperimentMethodName> methodNames = new ArrayList<ExperimentMethodName>();
-		for (MethodDescription method : expManager.getMethods()) {
-			String experimentMethodName = expManager.getExperimentMethodName(method);
-			Long methodId= method.getId();
-			methodNames.add(new ExperimentMethodName(methodId, experimentMethodName));
+		for (String expId:expIds){
+			LOG.info("Recovering methods name from expId: " + expId);
+			long expIdLong = convertStringToLong(expId);
+			ExperimentManager expManager = this.experimentService
+					.findExperimentManagerById(expIdLong);
+			for (MethodDescription method : expManager.getMethods()) {
+				String experimentMethodName = expManager.getExperimentMethodName(method);
+				Long methodId= method.getId();
+				methodNames.add(new ExperimentMethodName(methodId, experimentMethodName));
+			}
 		}
-		LOG.info(methodNames.size() +  " methodNames exist in the list");
+		LOG.info(methodNames.size() +  " methodNames exist in the list");			
 		return methodNames;
 	}
 	
-	@RequestMapping(value = "/{expId}/report", method = RequestMethod.POST, produces = {"application/json" })
-	public @ResponseBody ReportRest report(@PathVariable String expId,@RequestBody ReportConfiguration reportConfiguration){
-		LOG.info("Report: " + expId);
-		Long expIdLong = convertStringToLong(expId);
+	@RequestMapping(value = "/{expIds}/report", method = RequestMethod.POST, produces = {"application/json" })
+	public @ResponseBody ReportRest report(@PathVariable("expIds") String expIds,@RequestBody ReportConfiguration reportConfiguration){
+		LOG.info("Report: " + expIds);
+		Long expIdLong = convertStringToLong(expIds);
 		Experiment experiment = this.experimentService.findExperimentManagerById(expIdLong).getExperiment();
 		FusionerReportCreator reportCreator = new FusionerReportCreator(
 				experiment.getProblemName(), "",
@@ -144,6 +134,65 @@ public class ExperimentsRestController {
 		LOG.info("Report created");
 		return rWeb;	
 	}
+	
+	@RequestMapping(value = "/merge/{expIds}", method = RequestMethod.POST, produces = {"application/json" })
+	public @ResponseBody ReportRest merge(@PathVariable("expIds") final List<String> expIds,@RequestBody ReportConfiguration reportConfiguration) {
+		LOG.info("Merging experiments (/merge) : ");
+		if (expIds.isEmpty()) {
+			LOG.info("No experiments selected");
+			throw new RuntimeException("No experiments selected");
+		}
+		
+		Long expIdLong = convertStringToLong(expIds.get(0));
+		Experiment experiment = this.experimentService.findExperimentManagerById(expIdLong).getExperiment();
+		FusionerReportCreator reportCreator = new FusionerReportCreator(
+				experiment.getProblemName(), "",
+				experimentService.getDBManager());
+
+		if (!reportConfiguration.isConfiguration()) {
+			reportConfiguration.setMethods( new ArrayList<Long>());
+			for (String experimentIdString : expIds) {
+				Long experimentId = convertStringToLong(experimentIdString);
+				ExperimentManager expManager = this.experimentService
+						.findExperimentManagerById(experimentId);
+				
+				for (MethodDescription method : expManager.getMethods()) {
+					String experimentMethodName = expManager.getExperimentMethodName(method);
+					reportCreator.addExperimentMethod(experimentId, experimentMethodName);
+					reportConfiguration.addMethod(method.getId());			
+				}
+			}
+		} 
+		else {
+			for (String experimentIdString : expIds) {
+				Long experimentId = convertStringToLong(experimentIdString);
+				ExperimentManager expManager = this.experimentService
+						.findExperimentManagerById(experimentId);
+				
+				for (MethodDescription method : expManager.getMethods()) {
+					String experimentMethodName = expManager.getExperimentMethodName(method);
+					if((reportConfiguration.getMethods()).contains(method.getId())){
+						reportCreator.addExperimentMethod(experimentId,
+								experimentMethodName);
+					}
+				}
+			}
+			
+		}
+		
+		if (reportConfiguration.isBestValues()) {
+			reportCreator.addExperimentMethods(Arrays
+					.asList(new ExperimentMethodConf("predefined",
+							"best_values")));
+		}
+		
+		Report report = reportCreator.createReportObject();
+		List<ReportTable> rTables = generateReportTables(report);
+		ReportRest rWeb = new ReportRest(reportConfiguration,rTables);
+		LOG.info("Merge(Report) created");
+		return rWeb;
+	}
+	
 
 	private List<ReportTable> generateReportTables(Report report) {
 		List<ReportTable> rTables = new ArrayList<ReportTable>();
