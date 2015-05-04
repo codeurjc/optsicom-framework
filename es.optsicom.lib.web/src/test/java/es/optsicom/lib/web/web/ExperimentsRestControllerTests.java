@@ -150,7 +150,7 @@ public class ExperimentsRestControllerTests {
 	
 	@Test
 	public void mergeExperiments() throws Exception { 
-		mockMvc.perform(MockMvcRequestBuilders.get("/api/merge/"+ EXPIDLONG,EXPIDLONG).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+		mockMvc.perform(MockMvcRequestBuilders.post("/api/merge/"+ EXPIDLONG,2001).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 		verify(experimentService).findExperimentManagerById(any(long.class));
 	}
 }
