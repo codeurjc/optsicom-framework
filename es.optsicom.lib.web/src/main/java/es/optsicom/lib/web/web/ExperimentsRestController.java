@@ -30,6 +30,7 @@ import es.optsicom.lib.web.model.ExperimentMethodName;
 import es.optsicom.lib.web.model.ReportConfiguration;
 import es.optsicom.lib.web.model.ReportRest;
 import es.optsicom.lib.web.model.ReportTable;
+import es.optsicom.lib.web.model.builder.ReportTableBuilder;
 import es.optsicom.lib.web.service.ExperimentService;
 
 
@@ -195,12 +196,13 @@ public class ExperimentsRestController {
 	
 
 	private List<ReportTable> generateReportTables(Report report) {
+		ReportTableBuilder reportTableBuilder = new ReportTableBuilder();
 		List<ReportTable> rTables = new ArrayList<ReportTable>();
 		for (ReportBlock reportblock:report.getReportBlocks()){
 			for (ReportPage reportpage:reportblock.getReportPages()){
 				for (ReportElement reportElement:reportpage.getReportElements()){
 					Table table = (Table) reportElement;
-					rTables.add( new ReportTable(table) );
+					rTables.add(reportTableBuilder.build(table) );
 				}
 			}
 		}

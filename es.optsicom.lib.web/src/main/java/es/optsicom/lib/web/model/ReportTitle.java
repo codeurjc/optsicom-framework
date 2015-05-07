@@ -7,47 +7,27 @@ import es.optsicom.lib.analyzer.report.table.Title;
 import es.optsicom.lib.analyzer.tablecreator.atttable.Attribute;
 
 public class ReportTitle {
-private List<ReportAttribute> attributes;
-private String infoTitle;
+private final List<ReportAttribute> attributes;
+private final String infoTitle;
 
 public ReportTitle() {
-	emptyConstructor();
-}
-//public ReportTitle(List<ReportAttribute> attributes, String infoTitle) {
-//	this.attributes = (attributes == null)?new ArrayList<ReportAttribute>():attributes;
-//	this.infoTitle = (infoTitle == null)?"":infoTitle;
-//}
-public ReportTitle(Title title) {
-	if (title == null){
-		emptyConstructor();
-	}
-	else{
-		this.infoTitle = ( title.getTitle() == null)?"": title.getTitle();
-		this.attributes = new ArrayList<ReportAttribute>();
-		for (Attribute attribute:title.getAttributes()){
-			this.attributes.add(new ReportAttribute(attribute));
-		}
-	}
-}
-
-public void emptyConstructor(){ //avoid duplicate code
 	this.attributes = new ArrayList<ReportAttribute>();
 	infoTitle = "";
+}
+
+public ReportTitle(List<ReportAttribute> attributes, String infoTitle) {
+	this.infoTitle = infoTitle;
+	this.attributes = attributes;
 }
 
 public String getInfoTitle() {
 	return infoTitle;
 }
-public void setInfoTitle(String infoTitle) {
-	this.infoTitle = infoTitle;
-}
+
 public List<ReportAttribute> getAttributes() {
 	return attributes;
 }
 
-public void setAttributes(List<ReportAttribute> attributes) {
-	this.attributes = attributes;
-}
 @Override
 public int hashCode() {
 	final int prime = 31;
