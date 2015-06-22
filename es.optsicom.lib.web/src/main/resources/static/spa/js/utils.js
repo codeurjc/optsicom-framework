@@ -18,33 +18,31 @@ var uniqueArray = function(duplicatesArray) {
 	return auxArray;
 };
 
-
-
-		var filterNames = function(prop,reportMethods) {
-			var aux = [];
-			for ( var i = 0; i < prop.length; i++) {
-				for ( var j = 0; j < reportMethods.length; j++) {
-					if (prop[i].expId == reportMethods[j]) {
-						aux.push(prop[i]);
-					}
-				}
+var filterNames = function(prop,reportMethods) {
+	var aux = [];
+	for ( var i = 0; i < prop.length; i++) {
+		for ( var j = 0; j < reportMethods.length; j++) {
+			if (prop[i].expId == reportMethods[j]) {
+				aux.push(prop[i]);
 			}
-			return aux;
-		};
+		}
+	}
+	return aux;
+};
 		
-		var cutArrayOfCharIfCharIsEquals = function(arrayChar, character){
-			counter = 0;
-			arrayCharAux = [];
-	    	   while(counter < arrayChar.length && counter >= 0){ // iterate over the array o character until i get '=', I dont need the rest
-	    		   if (arrayChar[counter] == character){
-	    			   counter = -1
-	    		   } else {
-	    			   arrayCharAux.push(arrayChar[counter]);
-	    			   counter = counter + 1;
-	    		   }
-	    	   }
-	    	   return arrayCharAux;
-		};
+var cutArrayOfCharIfCharIsEquals = function(arrayChar, character){
+	counter = 0;
+	arrayCharAux = [];
+	while(counter < arrayChar.length && counter >= 0){ // iterate over the array o character until i get '=', I dont need the rest
+	    if (arrayChar[counter] == character){
+	       counter = -1
+	    } else {
+    	   arrayCharAux.push(arrayChar[counter]);
+	       counter = counter + 1;
+	    }
+	}
+	return arrayCharAux;
+};
 		
 		
 		var getPropName = function(prop){
@@ -82,18 +80,17 @@ var uniqueArray = function(duplicatesArray) {
 			}
 		};
 		
-		var getUrlReportOrMerge = function(expIds){
+		var getUrlReportOrMerge = function(expIds,methodIds,bestValues,configuration){
 			var url = window.location.href;
-			var expIdsAux = '';
-			if ($.type(expIds) === 'string' || $.type(expIds) === 'number'){}
-			else{
-				expIdsAux = splitListToString(expIds,',');
+			var finalMethodIds =[-1];
+			if (methodIds !== undefined && listContainsElements(methodIds)){
+				finalMethodIds = methodIds;
 			}
 			if (~url.indexOf('report')){
-				return  '/api/' + expIds + '/report';
+				return  '/api/report/exp-ids/' + expIds + '/method-ids/' + finalMethodIds + '/best-values/' + bestValues + '/configuration/' + configuration;
 			}
 			else{
-				return  '/api/merge/' + expIds;
+				return  '/api/merge/exp-ids/' + expIds + '/method-ids/' + finalMethodIds + '/best-values/' + bestValues + '/configuration/' + configuration;
 			}
 		};
 
