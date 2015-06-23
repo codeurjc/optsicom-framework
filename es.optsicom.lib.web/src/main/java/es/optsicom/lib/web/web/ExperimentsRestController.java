@@ -50,7 +50,14 @@ public class ExperimentsRestController {
 			return Long.valueOf(string).longValue();
 		}
 		return 0;
-		
+	}
+	
+	public List<Long> convertListStringToListLong(List<String> listString){
+		List<Long> listLong = new ArrayList<Long>();
+		for (int index = 0; index < listString.size();index ++){
+			listLong.add(convertStringToLong(listString.get(index)));
+		}
+		return listLong;
 	}
 	
 	@RequestMapping(value = "/{expId}", method = RequestMethod.GET, produces = {"application/json" })
@@ -97,29 +104,36 @@ public class ExperimentsRestController {
 		return methodNames;
 	}
 	
-	@RequestMapping(value = "/{expIds}/report", method = RequestMethod.POST, produces = {"application/json" })
-	public @ResponseBody ReportRest report(@PathVariable("expIds") String expIds,@RequestBody ReportConfiguration reportConfiguration){
-		LOG.info("Report: " + expIds);
-		Long expIdLong = convertStringToLong(expIds);
-		Experiment experiment = this.experimentService.findExperimentManagerById(expIdLong).getExperiment();
+	@RequestMapping(value = "/report/exp-ids/{expIds}/method-ids/{methodIds}/best-values/{bestValues}/configuration/{configuration}", method = RequestMethod.GET, produces = {"application/json" })
+	public @ResponseBody ReportRest report(
+			@PathVariable("expIds") final List<String> expIdsAux,
+			@PathVariable("methodIds") final List<String> methodIdsAux,
+			@PathVariable("bestValues") final boolean bestValues,
+			@PathVariable("configuration") final boolean configuration){
+		LOG.info("Report: " + expIdsAux);
+		final List<Long> expIds = convertListStringToListLong(expIdsAux);
+		final Long expId = expIds.get(0); // report only needs one expId
+		final List<Long> methodIds = convertListStringToListLong(methodIdsAux);
+		ReportConfiguration reportConfiguration = new ReportConfiguration(expIds, methodIds, bestValues, configuration);
+
+		Experiment experiment = this.experimentService.findExperimentManagerById(expId).getExperiment();
 		FusionerReportCreator reportCreator = new FusionerReportCreator(
 				experiment.getProblemName(), "",
 				experimentService.getDBManager());
 		ExperimentManager expManager = this.experimentService
-				.findExperimentManagerById(expIdLong);
-		
+				.findExperimentManagerById(expId);
 		if (!reportConfiguration.isConfiguration()) {
 			reportConfiguration.setMethods( new ArrayList<Long>());
 				for (MethodDescription method : expManager.getMethods()) {
 					String experimentMethodName = expManager.getExperimentMethodName(method);
-					reportCreator.addExperimentMethod(expIdLong, experimentMethodName);
+					reportCreator.addExperimentMethod(expId, experimentMethodName);
 					reportConfiguration.addMethod(method.getId());			
 				}
 		} else {
 				for (MethodDescription method : expManager.getMethods()) {
 					String experimentMethodName = expManager.getExperimentMethodName(method);
 					if((reportConfiguration.getMethods()).contains(method.getId())){
-						reportCreator.addExperimentMethod(expIdLong,
+						reportCreator.addExperimentMethod(expId,
 								experimentMethodName);
 					}
 				}
@@ -133,27 +147,32 @@ public class ExperimentsRestController {
 		List<ReportTable> rTables = generateReportTables(report);
 		ReportRest rWeb = new ReportRest(reportConfiguration,rTables);
 		LOG.info("Report created");
-		return rWeb;	
+		return rWeb;
 	}
-	
-	@RequestMapping(value = "/merge/{expIds}", method = RequestMethod.POST, produces = {"application/json" })
-	public @ResponseBody ReportRest merge(@PathVariable("expIds") final List<String> expIds,@RequestBody ReportConfiguration reportConfiguration) {
+
+	@RequestMapping(value = "/merge/exp-ids/{expIds}/method-ids/{methodIds}/best-values/{bestValues}/configuration/{configuration}", method = RequestMethod.GET, produces = {"application/json" })
+	public @ResponseBody ReportRest merge(
+			@PathVariable("expIds") final List<String> expIdsAux,
+			@PathVariable("methodIds") final List<String> methodIdsAux,
+			@PathVariable("bestValues") final boolean bestValues,
+			@PathVariable("configuration") final boolean configuration){
 		LOG.info("Merging experiments (/merge) : ");
-		if (expIds.isEmpty()) {
+		if (expIdsAux.isEmpty()) {
 			LOG.info("No experiments selected");
 			throw new RuntimeException("No experiments selected");
 		}
-		
-		Long expIdLong = convertStringToLong(expIds.get(0));
-		Experiment experiment = this.experimentService.findExperimentManagerById(expIdLong).getExperiment();
+		final List<Long> expIds = convertListStringToListLong(expIdsAux);
+		final List<Long> methodIds = convertListStringToListLong(methodIdsAux);
+		ReportConfiguration reportConfiguration = new ReportConfiguration(expIds, methodIds, bestValues, configuration);
+		final Long expId = expIds.get(0);
+		Experiment experiment = this.experimentService.findExperimentManagerById(expId).getExperiment();
 		FusionerReportCreator reportCreator = new FusionerReportCreator(
 				experiment.getProblemName(), "",
 				experimentService.getDBManager());
 
 		if (!reportConfiguration.isConfiguration()) {
 			reportConfiguration.setMethods( new ArrayList<Long>());
-			for (String experimentIdString : expIds) {
-				Long experimentId = convertStringToLong(experimentIdString);
+			for (Long experimentId : expIds) {
 				ExperimentManager expManager = this.experimentService
 						.findExperimentManagerById(experimentId);
 				
@@ -165,8 +184,7 @@ public class ExperimentsRestController {
 			}
 		} 
 		else {
-			for (String experimentIdString : expIds) {
-				Long experimentId = convertStringToLong(experimentIdString);
+			for (Long experimentId : expIds) {
 				ExperimentManager expManager = this.experimentService
 						.findExperimentManagerById(experimentId);
 				
@@ -178,7 +196,6 @@ public class ExperimentsRestController {
 					}
 				}
 			}
-			
 		}
 		
 		if (reportConfiguration.isBestValues()) {
@@ -194,7 +211,6 @@ public class ExperimentsRestController {
 		return rWeb;
 	}
 	
-
 	private List<ReportTable> generateReportTables(Report report) {
 		ReportTableBuilder reportTableBuilder = new ReportTableBuilder();
 		List<ReportTable> rTables = new ArrayList<ReportTable>();

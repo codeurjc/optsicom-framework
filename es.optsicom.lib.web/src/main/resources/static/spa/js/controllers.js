@@ -1,4 +1,3 @@
-
 // ----------------Controllers----------------
 //***************** Main Controller
 	app.controller("MainController",  [ '$scope', '$route', '$routeParams', '$location','$anchorScroll', function($scope, $route, $routeParams, $location,$anchorScroll) {
@@ -108,6 +107,9 @@
 		optsicomReport.configurationView = false;
 		optsicomReport.methodNamesView = [];
 		optsicomReport.uniqueArrayHeaders = [];
+		optsicomReport.reportConfiguration.bestValues = false;
+		optsicomReport.reportConfiguration.configuration = false;
+		optsicomReport.reportConfiguration.methods = [];
 		optsicomReport.callMethodNames = function(){
 			var allMethodsNames = [];
 			optsicomReport.methodNamesView = [];
@@ -133,36 +135,7 @@
 				optsicomReport.methodNames = {};
 			});
 		};   
-
-		optsicomReport.initController = function(){    
-			$http({
-			    url: getUrlReportOrMerge(optsicomReport.expId) ,
-			    method: 'POST',
-			    headers: { 'Content-Type': 'application/json' },
-			    data: optsicomReport.reportConfiguration //data passed as a requestBody
-			    
-			}).success(function(data) {
-				optsicomReport.report = data;
-				optsicomReport.callMethodNames();
-			}).error(function(data) {
-				optsicomReport.report = {};
-			});
-			
-			optsicomReport.getPropertyName = getPropName;
-		};
-		optsicomReport.initController();
-		optsicomReport.updateReportConfiguration = function() {
-			optsicomReport.reportConfiguration.bestValues = optsicomReport.bestValuesView;
-			optsicomReport.reportConfiguration.configuration = optsicomReport.configurationView;
-			optsicomReport.reportConfiguration.methods = [];
-			optsicomReport.reportConfiguration.methods = optsicomReport.getMethodSelected(optsicomReport.methodNamesView);
-			if(listContainsElements(optsicomReport.reportConfiguration.methods)){
-				optsicomReport.reportConfiguration.configuration = true;
-			}else{
-				optsicomReport.reportConfiguration.configuration = false;
-			}
-			optsicomReport.initController(); // update report
-		};
+		
 		optsicomReport.getMethodSelected = function(methods) {
 			var list = [];
 			for (var i = 0; i < methods.length; i++){
@@ -172,4 +145,31 @@
 			}
 			return list;
 		};
+
+		optsicomReport.initController = function(){    
+			$http({
+				    url: getUrlReportOrMerge(optsicomReport.expId,optsicomReport.getMethodSelected(optsicomReport.methodNamesView),optsicomReport.reportConfiguration.bestValues,optsicomReport.reportConfiguration.configuration) ,
+				    method: 'GET'  
+				}).success(function(data) {
+				optsicomReport.report = data;
+				optsicomReport.callMethodNames();
+			}).error(function(data) {
+				optsicomReport.report = {};
+			});
+			optsicomReport.getPropertyName = getPropName;
+		};
+		
+		optsicomReport.initController();
+		optsicomReport.updateReportConfiguration = function() {			
+			optsicomReport.reportConfiguration.bestValues = optsicomReport.bestValuesView;
+			optsicomReport.reportConfiguration.configuration = optsicomReport.configurationView;
+			optsicomReport.reportConfiguration.methods = optsicomReport.getMethodSelected(optsicomReport.methodNamesView);
+			if(listContainsElements(optsicomReport.reportConfiguration.methods)){
+				optsicomReport.reportConfiguration.configuration = true;
+			}else{
+				optsicomReport.reportConfiguration.configuration = false;
+			}
+			optsicomReport.initController(); // update report
+		};
+		
 	} ]);
