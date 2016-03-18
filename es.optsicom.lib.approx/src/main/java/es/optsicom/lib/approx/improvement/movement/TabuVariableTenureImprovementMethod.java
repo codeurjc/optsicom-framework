@@ -101,7 +101,7 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 
 		} while (true);
 
-		System.out.println("Iterations: " + numIteration + "; ItersWoImp: " + itersWoImpr);
+		//System.out.println("Iterations: " + numIteration + "; ItersWoImp: " + itersWoImpr);
 
 		solution.asSolution(bestSolution);
 	}

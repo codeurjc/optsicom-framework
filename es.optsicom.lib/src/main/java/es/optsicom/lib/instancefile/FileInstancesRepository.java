@@ -58,6 +58,11 @@ public abstract class FileInstancesRepository extends InstancesRepository {
 		
 		File instanceFilesDir = new File(instancesDir, useCase);
 		
+		if(useCase.equals("default") && !instanceFilesDir.exists()){
+			//Assuming instances are not separated by useCases
+			instanceFilesDir = instancesDir;
+		}
+		
 		List<File> directoriesWithFiles = getAllDirsWithFiles(instanceFilesDir);
 		for (File fileSetDirectory : directoriesWithFiles) {
 			InstanceFileSet instanceFileSet = new InstanceFileSet(fileSetDirectory);

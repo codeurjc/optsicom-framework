@@ -589,6 +589,10 @@ public abstract class ArraysUtil {
 		return false;
 	}
 
+	public static int[] createRandomNaturals(int n) {
+		return createRandomNaturals(0,n-1);
+	}
+	
 	public static int[] createRandomNaturals(int from, int to) {
 		int[] naturals = createNaturals(from, to);
 		suffle(naturals);

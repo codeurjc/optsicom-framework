@@ -11,7 +11,7 @@ import es.optsicom.lib.expresults.model.DBProperties;
 @Entity
 public class MethodDescription extends ElementDescription {
 	
-	private MethodDescription() {
+	MethodDescription() {
 		//JPA needed constructor
 	}
 

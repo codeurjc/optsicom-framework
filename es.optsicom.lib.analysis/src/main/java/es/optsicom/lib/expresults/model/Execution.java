@@ -65,7 +65,7 @@ public class Execution {
 		this.timeLimit = timeLimit;
 	}
 	
-	private Execution() {}
+	public Execution() {}
 	
 	public Execution(Experiment experiment, MethodDescription method, InstanceDescription instance) {
 		this(experiment, instance, method, -1);

@@ -12,7 +12,7 @@ import es.optsicom.lib.expresults.model.Execution;
 @Entity
 public class NonValueEvent extends Event {
 	
-	private NonValueEvent() {
+	NonValueEvent() {
 		//JPA Needed constructor
 	}
 	

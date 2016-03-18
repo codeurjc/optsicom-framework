@@ -68,7 +68,7 @@ public class Experiment {
 	
 	private int numExecs;
 	
-	private Experiment() {}
+	public Experiment() {}
 		
 	@JsonCreator
 	public Experiment(@JsonProperty("name") String name, @JsonProperty("researcher") Researcher researcher, @JsonProperty("date") Date date, @JsonProperty("computer") ComputerDescription computer) {

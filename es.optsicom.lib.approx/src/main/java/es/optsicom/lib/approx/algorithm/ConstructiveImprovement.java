@@ -36,7 +36,7 @@ public class ConstructiveImprovement<S extends Solution<I>, I extends Instance> 
 	}
 
 	public ConstructiveImprovement(Constructive<S, I> constructive, ImprovementMethod<S, I> improvementMethod) {
-		this(constructive, improvementMethod, 100);
+		this(constructive, improvementMethod, -1);
 	}
 
 	public ConstructiveImprovement(Constructive<S, I> constructive, int iterations) {
@@ -44,7 +44,7 @@ public class ConstructiveImprovement<S extends Solution<I>, I extends Instance> 
 	}
 	
 	public ConstructiveImprovement(Constructive<S, I> constructive) {
-		this(constructive, null, 100);
+		this(constructive, null, -1);
 	}
 
 	@Override
@@ -52,6 +52,10 @@ public class ConstructiveImprovement<S extends Solution<I>, I extends Instance> 
 
 		if(improvementMethod != null){
 			this.improvementMethod.setImprovementMethodListener(this);
+		}
+		
+		if(duration == -1 && iterations == -1){
+			throw new RuntimeException("Duration=-1 and Iterations=-1 at the same time");
 		}
 		
 		if (duration == -1) {

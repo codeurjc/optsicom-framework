@@ -25,6 +25,7 @@ public class MatrixGraph implements Graph {
 	private final List<Node> nodes;
 	private List<Arc> arcs;
 	private String additionalInfo;
+	private List<String> skippedLines;
 	private float[] nodeWeights;
 
 	class MatrixNode implements Node {
@@ -274,6 +275,14 @@ public class MatrixGraph implements Graph {
 		return getWeight(v.getIndex(), w.getIndex());
 	}
 
+	public void setSkippedLines(List<String> skippedLines) {
+		this.skippedLines = skippedLines;
+	}
+	
+	public List<String> getSkippedLines() {
+		return skippedLines;
+	}
+	
 	public void setAdditionalInfo(String additionalInfo) {
 		this.additionalInfo = additionalInfo;
 	}

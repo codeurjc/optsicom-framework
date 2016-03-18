@@ -15,7 +15,7 @@ public class InstanceDescription extends ElementDescription {
 		super(name);
 	}
 	
-	private InstanceDescription() {
+	public InstanceDescription() {
 		//JPA needed constructor
 	}
 	

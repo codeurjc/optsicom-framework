@@ -34,6 +34,7 @@ public class BinaryTreeBBStandard<S extends Solution<I>, I extends Instance> ext
 	//		this.solutionManager = solutionManager;
 	//	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void internalSolve(I instance, long timeMillis) {
 
@@ -57,7 +58,7 @@ public class BinaryTreeBBStandard<S extends Solution<I>, I extends Instance> ext
 
 		if (approxMethod != null) {
 			this.approxMethod.setInstance(instance);
-			solution = approxMethod.calculateSolution();
+			solution = (S) approxMethod.execute().getBestSolution();
 
 			System.out.println("Heuristic solution: " + solution);
 

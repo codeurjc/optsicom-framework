@@ -20,7 +20,7 @@ public class ComputerDescription extends ElementDescription {
 		super(properties);
 	}
 	
-	private ComputerDescription(){
+	public ComputerDescription(){
 		//JPA needed constructor
 	}
 

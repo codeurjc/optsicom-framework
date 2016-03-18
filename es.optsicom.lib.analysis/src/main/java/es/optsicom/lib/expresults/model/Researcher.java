@@ -18,7 +18,7 @@ public class Researcher {
 	
 	private String name;
 	
-	private Researcher() {}
+	Researcher() {}
 	
 	@JsonCreator
 	public Researcher(@JsonProperty("name") String name) {

@@ -12,6 +12,8 @@ package es.optsicom.lib.instancefile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -103,6 +105,11 @@ public abstract class InstancesRepository {
 		return getInstanceFileSet(setId).getInstanceFiles();
 	}
 
+	public InstanceFile getInstanceFileByPath(String instancePath) throws IOException {
+		Path path = Paths.get(instancePath);
+		return new InstanceFile(this,path.toFile(),null,null,path.getFileName().toString());
+	}
+	
 	public InstanceFile getInstanceFileByName(String instanceName) {
 		int indexOfSeparator = instanceName.indexOf(INSTANCE_ID_PATH_SEPARATOR);
 		String instanceSetId = instanceName.substring(0,indexOfSeparator);

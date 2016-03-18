@@ -42,7 +42,7 @@ public class DBProperties implements Properties {
 	@Column(length = 20000)
 	protected String propsAsString;
 
-	private DBProperties() {
+	public DBProperties() {
 		// JPA Needed constructor
 	}
 

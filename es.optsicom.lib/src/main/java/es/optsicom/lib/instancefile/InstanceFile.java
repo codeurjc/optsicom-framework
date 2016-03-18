@@ -88,6 +88,10 @@ public class InstanceFile implements Serializable, Descriptive {
 		}
 		return properties;
 	}
+	
+	public void setProperties(Properties properties) {
+		this.properties = properties;
+	}
 
 	@Override
 	public String toString() {
