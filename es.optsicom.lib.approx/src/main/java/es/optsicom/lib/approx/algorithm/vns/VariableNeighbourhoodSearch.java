@@ -7,6 +7,7 @@ import es.optsicom.lib.Solution;
 import es.optsicom.lib.approx.AbstractApproxMethod;
 import es.optsicom.lib.approx.constructive.Constructive;
 import es.optsicom.lib.approx.improvement.ImprovementMethod;
+import es.optsicom.lib.util.Id;
 
 public abstract class VariableNeighbourhoodSearch<S extends Solution<I>, I extends Instance> extends AbstractApproxMethod<S, I> {
 
@@ -65,6 +66,11 @@ public abstract class VariableNeighbourhoodSearch<S extends Solution<I>, I exten
 		
 	}
 
+	@Id
+	public int getMaxIterWithoutImpr() {
+		return maxIterations;
+	}
+	
 	protected abstract void exploreNeighbourhood(S solution, ImprovementMethod<S, I> neighbourhood);
 
 	public void setInstance(I instance) {
