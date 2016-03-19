@@ -3,21 +3,22 @@ package es.optsicom.lib.expresults.db;
 import java.io.File;
 import java.sql.SQLException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import es.optsicom.lib.expresults.util.PropertiesManager;
 
 public class DBManagerProvider {
 
-	private static final Log log = LogFactory.getLog(DBManagerProvider.class);
+	private static final Logger log = LoggerFactory.getLogger(DBManagerProvider.class);
 
 	private static final String MYSQL = "mysql";
 	private static final String DERBY = "derby";
 
 	/**
-	 * Loads a DBManager defined by properties file in src/main/resources/properties if there is no properties file, it
-	 * loads a default DbManager with Derby with default config.
+	 * Loads a DBManager defined by properties file in
+	 * src/main/resources/properties if there is no properties file, it loads a
+	 * default DbManager with Derby with default config.
 	 * 
 	 * @return DBManager
 	 * @throws SQLException

@@ -1,19 +1,17 @@
 package es.optsicom.lib.expresults.util;
 
-import java.io.File;
-import java.io.FileReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PropertiesManager {
 
-	private static final Log log = LogFactory.getLog(PropertiesManager.class);
+	private static final Logger log = LoggerFactory.getLogger(PropertiesManager.class);
 
 	private static final String OPTSICOM_PROPERTIES_LOCATION_PROPERTY = "optsicom.properties.location";
 
