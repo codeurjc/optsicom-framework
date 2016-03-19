@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.janino.MethodDescriptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -65,32 +64,25 @@ public class ExperimentsController {
 	}
 
 	@RequestMapping("/experiment")
-	public String showExperiment(@RequestParam("expId") long experimentId,
-			ModelMap model) {
+	public String showExperiment(@RequestParam("expId") long experimentId, ModelMap model) {
 
 		model.addAttribute("expId", experimentId);
-		model.addAttribute("exp",
-				this.experimentService.findExperimentManagerById(experimentId));
+		model.addAttribute("exp", this.experimentService.findExperimentManagerById(experimentId));
 
 		return "experiment";
 	}
 
 	@RequestMapping("/experimentreport")
-	public String showExperimentReport(
-			@RequestParam("expId") long experimentId,
+	public String showExperimentReport(@RequestParam("expId") long experimentId,
 			@RequestParam(value = "reportconf", required = false) String reportConf,
 			@RequestParam(value = "bestValues", required = false) String bestValues,
-			@RequestParam(value = "methods", required = false) List<String> methods,
-			ModelMap model) {
+			@RequestParam(value = "methods", required = false) List<String> methods, ModelMap model) {
 
-		Experiment experiment = this.experimentService
-				.findExperimentById(experimentId);
+		Experiment experiment = this.experimentService.findExperimentById(experimentId);
 
-		ExperimentManager expManager = this.experimentService
-				.findExperimentManagerById(experimentId);
+		ExperimentManager expManager = this.experimentService.findExperimentManagerById(experimentId);
 
-		FusionerReportCreator reportCreator = new FusionerReportCreator(
-				experiment.getProblemName(), "",
+		FusionerReportCreator reportCreator = new FusionerReportCreator(experiment.getProblemName(), "",
 				experimentService.getDBManager());
 
 		if (reportConf == null) {
@@ -106,15 +98,13 @@ public class ExperimentsController {
 			}
 
 			for (String methodId : methods) {
-				reportCreator.addExperimentMethod(experimentId, expManager
-						.getExperimentMethodName(methodsById.get(methodId)));
+				reportCreator.addExperimentMethod(experimentId,
+						expManager.getExperimentMethodName(methodsById.get(methodId)));
 			}
 		}
 
 		if (bestValues != null) {
-			reportCreator.addExperimentMethods(Arrays
-					.asList(new ExperimentMethodConf("predefined",
-							"best_values")));
+			reportCreator.addExperimentMethods(Arrays.asList(new ExperimentMethodConf("predefined", "best_values")));
 		}
 
 		Report report = reportCreator.createReportObject();
@@ -130,8 +120,7 @@ public class ExperimentsController {
 	}
 
 	@RequestMapping("/removeexperiment")
-	public String removeExperiment(@RequestParam("expId") long experimentId,
-			ModelMap model) {
+	public String removeExperiment(@RequestParam("expId") long experimentId, ModelMap model) {
 
 		experimentService.removeExperiment(experimentId);
 
@@ -139,11 +128,9 @@ public class ExperimentsController {
 	}
 
 	@RequestMapping("/experimentreportnew")
-	public String showExperimentReportNew(
-			@RequestParam("expId") long experimentId, ModelMap model) {
+	public String showExperimentReportNew(@RequestParam("expId") long experimentId, ModelMap model) {
 
-		FusionerReportCreator reportCreator = new FusionerReportCreator(
-				experimentService.getDBManager());
+		FusionerReportCreator reportCreator = new FusionerReportCreator(experimentService.getDBManager());
 		reportCreator.addExperimentMethod(experimentId);
 		// reportCreator.addExperimentMethods(Arrays.asList(new
 		// ExperimentMethodConf("predefined", "best_values")));
@@ -151,51 +138,44 @@ public class ExperimentsController {
 		Report report = reportCreator.createReportObject();
 		model.addAttribute("report", report);
 		model.addAttribute("experimentId", experimentId);
-		model.addAttribute("exp",
-				this.experimentService.findExperimentManagerById(experimentId));
+		model.addAttribute("exp", this.experimentService.findExperimentManagerById(experimentId));
 
 		return "experimentreportnew";
 	}
 
 	@RequestMapping("/fusionexperiments")
-	public String showExperimentReport(
-			@RequestParam("expIds") List<Long> expIds,
+	public String showExperimentReport(@RequestParam("expIds") List<Long> expIds,
 			@RequestParam(value = "reportconf", required = false) String reportConf,
 			@RequestParam(value = "bestValues", required = false) String bestValues,
-			@RequestParam(value = "methods", required = false) List<String> methods,
-			ModelMap model) {
+			@RequestParam(value = "methods", required = false) List<String> methods, ModelMap model) {
 
 		if (expIds.isEmpty()) {
 			throw new RuntimeException("No experiments selected");
 		}
 
-		Experiment experiment = this.experimentService
-				.findExperimentById(expIds.get(0));
+		Experiment experiment = this.experimentService.findExperimentById(expIds.get(0));
 
-		FusionerReportCreator reportCreator = new FusionerReportCreator(
-				experiment.getProblemName(), "",
+		FusionerReportCreator reportCreator = new FusionerReportCreator(experiment.getProblemName(), "",
 				experimentService.getDBManager());
 
 		List<MethodDescription> methodObjs = new ArrayList<>();
 		List<String> methodNames = new ArrayList<>();
-		
+
 		if (reportConf == null) {
 
 			methods = new ArrayList<>();
 			for (Long experimentId : expIds) {
 
-				ExperimentManager expManager = this.experimentService
-						.findExperimentManagerById(experimentId);
+				ExperimentManager expManager = this.experimentService.findExperimentManagerById(experimentId);
 
 				for (MethodDescription method : expManager.getMethods()) {
-					
+
 					String experimentMethodName = expManager.getExperimentMethodName(method);
-					reportCreator.addExperimentMethod(experimentId,
-							experimentMethodName);
-					
+					reportCreator.addExperimentMethod(experimentId, experimentMethodName);
+
 					methods.add(Long.toString(method.getId()));
 					methodObjs.add(method);
-					methodNames.add(experimentMethodName);					
+					methodNames.add(experimentMethodName);
 				}
 			}
 
@@ -203,28 +183,24 @@ public class ExperimentsController {
 
 			for (Long experimentId : expIds) {
 
-				ExperimentManager expManager = this.experimentService
-						.findExperimentManagerById(experimentId);
+				ExperimentManager expManager = this.experimentService.findExperimentManagerById(experimentId);
 
 				for (MethodDescription method : expManager.getMethods()) {
-					
+
 					String experimentMethodName = expManager.getExperimentMethodName(method);
-					
+
 					methodObjs.add(method);
 					methodNames.add(experimentMethodName);
-					
-					if(methods.contains(Long.toString(method.getId()))){
-						reportCreator.addExperimentMethod(experimentId,
-								experimentMethodName);
+
+					if (methods.contains(Long.toString(method.getId()))) {
+						reportCreator.addExperimentMethod(experimentId, experimentMethodName);
 					}
 				}
 			}
 		}
 
 		if (bestValues != null) {
-			reportCreator.addExperimentMethods(Arrays
-					.asList(new ExperimentMethodConf("predefined",
-							"best_values")));
+			reportCreator.addExperimentMethods(Arrays.asList(new ExperimentMethodConf("predefined", "best_values")));
 		}
 
 		Report report = reportCreator.createReportObject();

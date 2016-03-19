@@ -2,8 +2,10 @@ package es.optsicom.lib.web.model.builder;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import es.optsicom.lib.analyzer.report.table.Table;
 import es.optsicom.lib.analyzer.report.table.Title;
 import es.optsicom.lib.web.model.ReportTable;
@@ -41,8 +43,7 @@ public class ReportTableBuilder {
 					auxValue = (Double) cellValue;
 				} catch (Exception e) {
 					auxValue = 0.0;
-					LOG.debug("ReportTable -> [" + i + "][" + j
-							+ "] is not double");
+					LOG.debug("ReportTable -> [" + i + "][" + j + "] is not double");
 				}
 				cellRowValues.add(auxValue);
 			}
@@ -50,6 +51,5 @@ public class ReportTableBuilder {
 		}
 		return cellValues;
 	}
-
 
 }

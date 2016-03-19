@@ -36,7 +36,7 @@ public class ExperimentService {
 	public ExperimentManager findExperimentManagerById(long id) {
 		return expRepoManager.findExperimentManagerById(id);
 	}
-	
+
 	public Experiment findExperimentById(long id) {
 		return expRepoManager.findExperiment(id);
 	}
@@ -50,11 +50,11 @@ public class ExperimentService {
 	}
 
 	public void removeExperiment(long experimentId) {
-				
+
 		expRepoManager.beginTx();
-		
+
 		expRepoManager.removeExperiment(experimentId);
-		
+
 		expRepoManager.commitTx();
 	}
 
