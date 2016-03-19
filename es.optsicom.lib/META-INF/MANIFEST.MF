@@ -5,12 +5,8 @@ Bundle-SymbolicName: es.optsicom.lib
 Bundle-Version: 0.9.0.qualifier
 Export-Package: es.optsicom.lib,
  es.optsicom.lib.experiment,
- es.optsicom.lib.graph,
- es.optsicom.lib.graph.matrix,
  es.optsicom.lib.instancefile,
- es.optsicom.lib.instancefile.test,
- es.optsicom.lib.rcl,
- es.optsicom.lib.rcl.test
+ es.optsicom.lib.instancefile.test
 Bundle-Vendor: For Research Group
 Require-Bundle: es.optsicom.lib.util;bundle-version="0.9.0"
  
