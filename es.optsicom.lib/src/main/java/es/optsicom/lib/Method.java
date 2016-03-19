@@ -10,10 +10,6 @@
  * **************************************************************************** */
 package es.optsicom.lib;
 
-import es.optsicom.lib.Instance;
-
-
-import es.optsicom.lib.Solution;
 import es.optsicom.lib.experiment.ExecutionResult;
 import es.optsicom.lib.expresults.model.MethodDescription;
 import es.optsicom.lib.util.Id;
@@ -24,19 +20,19 @@ public interface Method<S extends Solution<I>, I extends Instance> extends Descr
 
 	@Id
 	public String getName();
-	
+
 	public Properties getProperties();
-	
+
 	public MethodDescription createMethodDescription();
 
 	public void setInstance(I instance);
-	
+
 	public I getInstance();
-	
-	public void removeInstance();	
+
+	public void removeInstance();
 
 	public ExecutionResult execute(long timeLimit);
-	
+
 	public ExecutionResult execute();
-	
+
 }

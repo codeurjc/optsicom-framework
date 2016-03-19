@@ -11,15 +11,12 @@
 package es.optsicom.lib.approx.algorithm;
 
 import es.optsicom.lib.Instance;
-
 import es.optsicom.lib.Method;
 import es.optsicom.lib.Solution;
 import es.optsicom.lib.approx.AbstractApproxMethod;
 import es.optsicom.lib.approx.constructive.Constructive;
-import es.optsicom.lib.approx.improvement.AbstractImprovementMethod;
 import es.optsicom.lib.approx.improvement.ImprovementMethod;
 import es.optsicom.lib.experiment.CurrentExperiment;
-import es.optsicom.lib.experiment.ExperimentExecution;
 import es.optsicom.lib.util.Id;
 import es.optsicom.lib.util.description.DescriptiveHelper;
 import es.optsicom.lib.util.description.Properties;
@@ -35,55 +32,55 @@ public class MemConstructiveImprovement<S extends Solution<I>, I extends Instanc
 
 	private boolean updateMemoryWithConstructions = true;
 	private boolean updateMemoryWithImprovements = true;
-	
-	public MemConstructiveImprovement(Constructive<S, I> constructive, ImprovementMethod<S, I> improvementMethod, SolutionsMemory<S, I> memory, int iterations) {
+
+	public MemConstructiveImprovement(Constructive<S, I> constructive, ImprovementMethod<S, I> improvementMethod,
+			SolutionsMemory<S, I> memory, int iterations) {
 		this.constructive = constructive;
 		this.improvementMethod = improvementMethod;
 		this.iterations = iterations;
 		this.memory = memory;
 	}
 
-	public MemConstructiveImprovement(Constructive<S, I> constructive, ImprovementMethod<S, I> improvementMethod, SolutionsMemory<S, I> memory) {
+	public MemConstructiveImprovement(Constructive<S, I> constructive, ImprovementMethod<S, I> improvementMethod,
+			SolutionsMemory<S, I> memory) {
 		this(constructive, improvementMethod, memory, 100);
 	}
 
 	public MemConstructiveImprovement(Constructive<S, I> constructive, int iterations) {
 		this(constructive, null, null, iterations);
 	}
-	
+
 	public MemConstructiveImprovement(Constructive<S, I> constructive) {
 		this(constructive, null, null, 100);
 	}
 
-	
-	
 	@Override
 	protected void internalCalculateSolution(long duration) {
 
-		if(improvementMethod != null){
+		if (improvementMethod != null) {
 			this.improvementMethod.setImprovementMethodListener(this);
 		}
-		
+
 		if (duration == -1) {
 
 			constructive.initSolutionCreationByNum(iterations);
 
 			for (int i = 0; i < iterations; i++) {
 				S solution = constructive.createSolution();
-				
-				if(this.updateMemoryWithConstructions){
-					memory.addSolution(solution);			
+
+				if (this.updateMemoryWithConstructions) {
+					memory.addSolution(solution);
 				}
-				
+
 				setIfBestSolution(solution);
-				
-				if(improvementMethod != null){
+
+				if (improvementMethod != null) {
 					improvementMethod.improveSolution(solution);
-					if(this.updateMemoryWithImprovements){
+					if (this.updateMemoryWithImprovements) {
 						memory.addSolution(solution);
 					}
 				}
-				
+
 				setIfBestSolution(solution);
 			}
 
@@ -97,33 +94,34 @@ public class MemConstructiveImprovement<S extends Solution<I>, I extends Instanc
 			do {
 				S solution = constructive.createSolution();
 
-				if(this.updateMemoryWithConstructions){
-					memory.addSolution(solution);			
+				if (this.updateMemoryWithConstructions) {
+					memory.addSolution(solution);
 				}
 				setIfBestSolution(solution);
 
 				if (System.currentTimeMillis() > finishTime) {
 					break;
 				}
-				
-				if(improvementMethod != null){
+
+				if (improvementMethod != null) {
 					improvementMethod.improveSolution(solution, finishTime - System.currentTimeMillis());
-					if(this.updateMemoryWithImprovements){
+					if (this.updateMemoryWithImprovements) {
 						memory.addSolution(solution);
 					}
-				}				
+				}
 
 				setIfBestSolution(solution);
 				iterationsPerformed++;
 
-			//} while (iterationsPerformed < iterations && System.currentTimeMillis() < finishTime);
+				// } while (iterationsPerformed < iterations &&
+				// System.currentTimeMillis() < finishTime);
 			} while (System.currentTimeMillis() < finishTime);
 		}
-		
-		if(improvementMethod != null){
+
+		if (improvementMethod != null) {
 			this.improvementMethod.setImprovementMethodListener(null);
 		}
-		
+
 		CurrentExperiment.addEvent(ITERATIONS_PERFORMED_EVENT, iterationsPerformed);
 
 	}
@@ -182,28 +180,30 @@ public class MemConstructiveImprovement<S extends Solution<I>, I extends Instanc
 		this.iterations = maxConstructions;
 	}
 
-	public static <S extends Solution<I>, I extends Instance> Method<S,I> create(Constructive<S,I> constructive) {
+	public static <S extends Solution<I>, I extends Instance> Method<S, I> create(Constructive<S, I> constructive) {
 		return new MemConstructiveImprovement<S, I>(constructive);
 	}
-	
-	public static <S extends Solution<I>, I extends Instance> Method<S,I> create(Constructive<S,I> constructive, ImprovementMethod<S,I> improvement, SolutionsMemory<S,I> memory) {
-		return new MemConstructiveImprovement<S, I>(constructive,improvement, memory);
-	}
-	
-	public static <S extends Solution<I>, I extends Instance> Method<S,I> create(Constructive<S,I> constructive, ImprovementMethod<S,I> improvement, SolutionsMemory<S,I> memory, int numIterations) {
-		return new MemConstructiveImprovement<S, I>(constructive,improvement,memory, numIterations);
+
+	public static <S extends Solution<I>, I extends Instance> Method<S, I> create(Constructive<S, I> constructive,
+			ImprovementMethod<S, I> improvement, SolutionsMemory<S, I> memory) {
+		return new MemConstructiveImprovement<S, I>(constructive, improvement, memory);
 	}
 
-	public static <S extends Solution<I>, I extends Instance> Method<S,I> create(Constructive<S,I> constructive, int numIterations) {
-		return new MemConstructiveImprovement<S, I>(constructive,numIterations);
+	public static <S extends Solution<I>, I extends Instance> Method<S, I> create(Constructive<S, I> constructive,
+			ImprovementMethod<S, I> improvement, SolutionsMemory<S, I> memory, int numIterations) {
+		return new MemConstructiveImprovement<S, I>(constructive, improvement, memory, numIterations);
+	}
+
+	public static <S extends Solution<I>, I extends Instance> Method<S, I> create(Constructive<S, I> constructive,
+			int numIterations) {
+		return new MemConstructiveImprovement<S, I>(constructive, numIterations);
 	}
 
 	public boolean isUpdateMemoryWithConstructions() {
 		return updateMemoryWithConstructions;
 	}
 
-	public void setUpdateMemoryWithConstructions(
-			boolean updateMemoryWithConstructions) {
+	public void setUpdateMemoryWithConstructions(boolean updateMemoryWithConstructions) {
 		this.updateMemoryWithConstructions = updateMemoryWithConstructions;
 	}
 
@@ -214,6 +214,5 @@ public class MemConstructiveImprovement<S extends Solution<I>, I extends Instanc
 	public void setUpdateMemoryWithImprovements(boolean updateMemoryWithImprovements) {
 		this.updateMemoryWithImprovements = updateMemoryWithImprovements;
 	}
-	
-	
+
 }

@@ -51,9 +51,9 @@ public class ExcelReportManager {
 
 		boldFont = wb.createFont();
 		boldFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
-		
+
 		for (ReportBlock reportBlock : report.getReportBlocks()) {
-			for(ReportPage reportPage : reportBlock.getReportPages()) {
+			for (ReportPage reportPage : reportBlock.getReportPages()) {
 				createReportPage(reportPage);
 			}
 		}
@@ -85,30 +85,25 @@ public class ExcelReportManager {
 
 	private int addTable(Table table, Sheet sheet, int fromRow, int fromCol) {
 
-		int numRowsForColsTitles = table.getColumnTitles().get(0)
-				.getAttributes().size();
-		int numColsForRowsTitles = table.getRowTitles().get(0).getAttributes()
-				.size();
+		int numRowsForColsTitles = table.getColumnTitles().get(0).getAttributes().size();
+		int numColsForRowsTitles = table.getRowTitles().get(0).getAttributes().size();
 
-		writeColTitles(table, sheet, fromRow, fromCol, numRowsForColsTitles,
-				numColsForRowsTitles);
-		writeRowTitles(table, sheet, fromRow, fromCol, numRowsForColsTitles,
-				numColsForRowsTitles);
+		writeColTitles(table, sheet, fromRow, fromCol, numRowsForColsTitles, numColsForRowsTitles);
+		writeRowTitles(table, sheet, fromRow, fromCol, numRowsForColsTitles, numColsForRowsTitles);
 
 		int rowBase = fromRow + numRowsForColsTitles;
 		int colBase = fromCol + numColsForRowsTitles;
 
 		writeCells(table, sheet, rowBase, colBase);
 
-		setHorizontalBorder(sheet, rowBase, rowBase + table.getNumRows() - 1,
-				fromCol, colBase + table.getNumColumns());
+		setHorizontalBorder(sheet, rowBase, rowBase + table.getNumRows() - 1, fromCol, colBase + table.getNumColumns());
 
 		int toCol = fromCol + numColsForRowsTitles + table.getNumColumns();
 
 		adjustCellWidth(sheet, fromCol, toCol);
 
-//		writeLeyend(table, sheet, fromRow + table.getNumRows()
-//				+ numRowsForColsTitles + 2, fromCol);
+		// writeLeyend(table, sheet, fromRow + table.getNumRows()
+		// + numRowsForColsTitles + 2, fromCol);
 
 		return table.getNumColumns() + numColsForRowsTitles + 1;
 	}
@@ -120,35 +115,33 @@ public class ExcelReportManager {
 		int numRow = fromRow;
 		for (LeyendElement element : leyend.getLeyendElements()) {
 
-			org.apache.poi.ss.usermodel.Cell cell = getCell(sheet, numRow,
-					fromCol);
+			org.apache.poi.ss.usermodel.Cell cell = getCell(sheet, numRow, fromCol);
 			cell.setCellValue(element.getTitle().toUpperCase());
-			
+
 			CellStyle style = getCellStyleOf(cell);
 			style.setFont(boldFont);
-			
+
 			numRow += 2;
 
 			for (Attribute att : element.getAttributes()) {
 
-				Object value = att.getValue();				
-				
+				Object value = att.getValue();
+
 				cell = getCell(sheet, numRow, fromCol);
 				cell.setCellValue(att.getTitle());
 				style = getCellStyleOf(cell);
 				style.setFont(boldFont);
 				numRow++;
-				
+
 				if (value instanceof Descriptive) {
 
 					Descriptive desc = (Descriptive) value;
 
 					Properties properties = desc.getProperties();
 
-					List<String> props = new ArrayList<String>(
-							properties.getMap().keySet());
-					
-					Collections.sort(props,Strings.getNaturalComparator());
+					List<String> props = new ArrayList<String>(properties.getMap().keySet());
+
+					Collections.sort(props, Strings.getNaturalComparator());
 
 					for (String prop : props) {
 						cell = getCell(sheet, numRow, fromCol);
@@ -170,8 +163,7 @@ public class ExcelReportManager {
 
 	}
 
-	private org.apache.poi.ss.usermodel.Cell getCell(Sheet sheet, int numRow,
-			int numCol) {
+	private org.apache.poi.ss.usermodel.Cell getCell(Sheet sheet, int numRow, int numCol) {
 		return getCell(getRow(sheet, numRow), numCol);
 	}
 
@@ -197,8 +189,7 @@ public class ExcelReportManager {
 
 				if (optsicomCell != null) {
 
-					org.apache.poi.ss.usermodel.Cell cell = getCell(row, j
-							+ colBase);
+					org.apache.poi.ss.usermodel.Cell cell = getCell(row, j + colBase);
 
 					setValueToCell(cell, optsicomCell);
 					setFormatToCell(format, cell, optsicomCell);
@@ -209,8 +200,7 @@ public class ExcelReportManager {
 		}
 	}
 
-	private void setValueToCell(org.apache.poi.ss.usermodel.Cell cell,
-			Cell optsicomCell) {
+	private void setValueToCell(org.apache.poi.ss.usermodel.Cell cell, Cell optsicomCell) {
 		Object value = optsicomCell.getValue();
 
 		if (value instanceof String) {
@@ -222,22 +212,19 @@ public class ExcelReportManager {
 		}
 	}
 
-	private void setColorToCell(org.apache.poi.ss.usermodel.Cell cell,
-			Cell optsicomCell) {
+	private void setColorToCell(org.apache.poi.ss.usermodel.Cell cell, Cell optsicomCell) {
 		if (optsicomCell.getColor() != null) {
 
 			Color cellColor = optsicomCell.getColor();
 			CellStyle style = getCellStyleOf(cell);
 
-			((XSSFCellStyle) style).setFillForegroundColor(new XSSFColor(
-					cellColor));
+			((XSSFCellStyle) style).setFillForegroundColor(new XSSFColor(cellColor));
 			style.setFillPattern(CellStyle.SOLID_FOREGROUND);
 
 		}
 	}
 
-	private void setFormatToCell(DataFormat format,
-			org.apache.poi.ss.usermodel.Cell cell, Cell optsicomCell) {
+	private void setFormatToCell(DataFormat format, org.apache.poi.ss.usermodel.Cell cell, Cell optsicomCell) {
 		CellFormat cellFormat = optsicomCell.getFormat();
 
 		if (cellFormat instanceof NumericFormat) {
@@ -259,8 +246,7 @@ public class ExcelReportManager {
 				style.setDataFormat(format.getFormat("0"));
 				break;
 			case PERCENT:
-				style.setDataFormat(format.getFormat("0." + decimalsAsZeroes
-						+ "%"));
+				style.setDataFormat(format.getFormat("0." + decimalsAsZeroes + "%"));
 				break;
 			case TIME:
 				style.setDataFormat(format.getFormat("0." + decimalsAsZeroes));
@@ -272,8 +258,8 @@ public class ExcelReportManager {
 		}
 	}
 
-	private void writeColTitles(Table table, Sheet sheet, int fromRow,
-			int fromCol, int numRowsForColsTitles, int numColsForRowsTitles) {
+	private void writeColTitles(Table table, Sheet sheet, int fromRow, int fromCol, int numRowsForColsTitles,
+			int numColsForRowsTitles) {
 
 		for (int numTitle = 0; numTitle < table.getColumnTitles().size(); numTitle++) {
 
@@ -292,10 +278,8 @@ public class ExcelReportManager {
 				boolean newColumn = false;
 
 				if (numTitle > 0) {
-					Title previousTitle = table.getColumnTitles().get(
-							numTitle - 1);
-					String previousAttTitle = previousTitle.getAttributes()
-							.get(numAtt).getTitle();
+					Title previousTitle = table.getColumnTitles().get(numTitle - 1);
+					String previousAttTitle = previousTitle.getAttributes().get(numAtt).getTitle();
 					newColumn = !previousAttTitle.equals(att.getTitle());
 				} else {
 					newColumn = true;
@@ -307,8 +291,7 @@ public class ExcelReportManager {
 					Row row = getRow(sheet, numRow);
 
 					int numColumn = numTitle + fromCol + numColsForRowsTitles;
-					org.apache.poi.ss.usermodel.Cell cell = getCell(row,
-							numColumn);
+					org.apache.poi.ss.usermodel.Cell cell = getCell(row, numColumn);
 
 					cell.setCellValue(att.getTitle());
 
@@ -316,8 +299,7 @@ public class ExcelReportManager {
 					int i;
 					for (i = numTitle + 1; i < table.getColumnTitles().size(); i++) {
 						Title nextTitle = table.getColumnTitles().get(i);
-						String nextAttTitle = nextTitle.getAttributes()
-								.get(numAtt).getTitle();
+						String nextAttTitle = nextTitle.getAttributes().get(numAtt).getTitle();
 						if (!nextAttTitle.equals(att.getTitle())) {
 							break;
 						}
@@ -325,10 +307,8 @@ public class ExcelReportManager {
 
 					// Fusionador de celdas
 					if (i - 1 > numTitle) {
-						int lastMergedColumn = fromCol + numColsForRowsTitles
-								+ i - 1;
-						sheet.addMergedRegion(new CellRangeAddress(numRow,
-								numRow, numColumn, lastMergedColumn));
+						int lastMergedColumn = fromCol + numColsForRowsTitles + i - 1;
+						sheet.addMergedRegion(new CellRangeAddress(numRow, numRow, numColumn, lastMergedColumn));
 
 						// Cuando se fusionan celdas se crea un borde a ambos
 						// lados
@@ -336,11 +316,9 @@ public class ExcelReportManager {
 						// on the left of numColumn and the right of
 						// lastMergedColum
 
-						int toRow = numRowsForColsTitles + table.getNumRows()
-								+ fromRow;
+						int toRow = numRowsForColsTitles + table.getNumRows() + fromRow;
 
-						setVerticalBorder(sheet, fromRow, toRow, numColumn,
-								lastMergedColumn);
+						setVerticalBorder(sheet, fromRow, toRow, numColumn, lastMergedColumn);
 
 					}
 
@@ -356,19 +334,16 @@ public class ExcelReportManager {
 		}
 	}
 
-	private void setVerticalBorder(Sheet sheet, int fromRow, int toRow,
-			int fromColumn, int toColumn) {
+	private void setVerticalBorder(Sheet sheet, int fromRow, int toRow, int fromColumn, int toColumn) {
 		for (int numRowLines = fromRow; numRowLines < toRow; numRowLines++) {
 
-			org.apache.poi.ss.usermodel.Cell leftCell = getCell(sheet,
-					numRowLines, fromColumn);
+			org.apache.poi.ss.usermodel.Cell leftCell = getCell(sheet, numRowLines, fromColumn);
 
 			CellStyle style = getCellStyleOf(leftCell);
 			style.setBorderLeft(CellStyle.BORDER_THIN);
 			style.setLeftBorderColor(IndexedColors.BLACK.getIndex());
 
-			org.apache.poi.ss.usermodel.Cell rightCell = getCell(sheet,
-					numRowLines, toColumn);
+			org.apache.poi.ss.usermodel.Cell rightCell = getCell(sheet, numRowLines, toColumn);
 
 			style = getCellStyleOf(rightCell);
 			style.setBorderRight(CellStyle.BORDER_THIN);
@@ -376,8 +351,8 @@ public class ExcelReportManager {
 		}
 	}
 
-	private void writeRowTitles(Table table, Sheet sheet, int fromRow,
-			int fromCol, int numRowsForColsTitles, int numColsForRowsTitles) {
+	private void writeRowTitles(Table table, Sheet sheet, int fromRow, int fromCol, int numRowsForColsTitles,
+			int numColsForRowsTitles) {
 		// Row Titles
 		int numTitle = 0;
 		for (Title title : table.getRowTitles()) {
@@ -388,10 +363,8 @@ public class ExcelReportManager {
 				boolean newRow = false;
 
 				if (numTitle > 0) {
-					Title previousTitle = table.getRowTitles()
-							.get(numTitle - 1);
-					String previousAttTitle = previousTitle.getAttributes()
-							.get(numAtt).getTitle();
+					Title previousTitle = table.getRowTitles().get(numTitle - 1);
+					String previousAttTitle = previousTitle.getAttributes().get(numAtt).getTitle();
 					newRow = !previousAttTitle.equals(att.getTitle());
 				} else {
 					newRow = true;
@@ -413,8 +386,7 @@ public class ExcelReportManager {
 					int i;
 					for (i = numTitle + 1; i < table.getRowTitles().size(); i++) {
 						Title nextTitle = table.getRowTitles().get(i);
-						String nextAttTitle = nextTitle.getAttributes()
-								.get(numAtt).getTitle();
+						String nextAttTitle = nextTitle.getAttributes().get(numAtt).getTitle();
 						if (!nextAttTitle.equals(att.getTitle())) {
 							break;
 						}
@@ -423,14 +395,11 @@ public class ExcelReportManager {
 					// Fusionador de celdas
 					if (i - 1 > numTitle) {
 						int lastMergedRow = numRow + i - numTitle - 1;
-						sheet.addMergedRegion(new CellRangeAddress(numRow,
-								lastMergedRow, numCol, numCol));
+						sheet.addMergedRegion(new CellRangeAddress(numRow, lastMergedRow, numCol, numCol));
 
-						int toCol = numColsForRowsTitles
-								+ table.getNumColumns() + fromCol;
+						int toCol = numColsForRowsTitles + table.getNumColumns() + fromCol;
 
-						setHorizontalBorder(sheet, numRow, lastMergedRow,
-								fromCol, toCol);
+						setHorizontalBorder(sheet, numRow, lastMergedRow, fromCol, toCol);
 
 					}
 
@@ -446,20 +415,17 @@ public class ExcelReportManager {
 		}
 	}
 
-	private void setHorizontalBorder(Sheet sheet, int fromRow, int toRow,
-			int fromColumn, int toColumn) {
+	private void setHorizontalBorder(Sheet sheet, int fromRow, int toRow, int fromColumn, int toColumn) {
 
 		for (int numColLines = fromColumn; numColLines < toColumn; numColLines++) {
 
-			org.apache.poi.ss.usermodel.Cell topCell = getCell(sheet, fromRow,
-					numColLines);
+			org.apache.poi.ss.usermodel.Cell topCell = getCell(sheet, fromRow, numColLines);
 
 			CellStyle style = getCellStyleOf(topCell);
 			style.setBorderTop(CellStyle.BORDER_THIN);
 			style.setTopBorderColor(IndexedColors.BLACK.getIndex());
 
-			org.apache.poi.ss.usermodel.Cell bottomCell = getCell(sheet, toRow,
-					numColLines);
+			org.apache.poi.ss.usermodel.Cell bottomCell = getCell(sheet, toRow, numColLines);
 
 			style = getCellStyleOf(bottomCell);
 			style.setBorderBottom(CellStyle.BORDER_THIN);

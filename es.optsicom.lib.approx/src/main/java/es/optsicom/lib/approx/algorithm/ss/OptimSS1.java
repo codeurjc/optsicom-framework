@@ -24,7 +24,6 @@ import es.optsicom.lib.approx.constructive.Constructive;
 import es.optsicom.lib.approx.diversificator.Diversificator;
 import es.optsicom.lib.approx.improvement.ImprovementMethod;
 import es.optsicom.lib.util.BiggestInvertSortLimitedList;
-import es.optsicom.lib.util.SortedLimitedList;
 
 //RemoveUsed = false;
 public class OptimSS1<S extends Solution<I>, I extends Instance> extends AbstractApproxMethod<S, I> {
@@ -55,7 +54,7 @@ public class OptimSS1<S extends Solution<I>, I extends Instance> extends Abstrac
 	private Map<S, S> improvedSolutions;
 
 	public OptimSS1(Constructive<S, I> constructive, Combinator<S, I> comb, ImprovementMethod<S, I> impMethod,
-	        Diversificator<S> div) {
+			Diversificator<S> div) {
 		this.constructive = constructive;
 		this.combinator = comb;
 		this.improvingMethod = impMethod;
@@ -83,31 +82,28 @@ public class OptimSS1<S extends Solution<I>, I extends Instance> extends Abstrac
 			S solution = this.constructive.createSolution();
 			this.initialSolutions.add(solution);
 			setIfBestSolution(solution);
-			
+
 			if (System.currentTimeMillis() > this.finishTime) {
 				return;
 			}
-			
+
 			improveAndRefreshRefSet(solution);
-			
+
 			if (System.currentTimeMillis() > this.finishTime) {
 				return;
 			}
 		}
-		//Debug.debugln("Created and improved initial solutions");
+		// Debug.debugln("Created and improved initial solutions");
 
 		refSet.setMaxSize(NUM_BEST_SOLUTIONS + NUM_DIVERSE_SOLUTIONS);
 
 		refSet.addAll(diversificator.getDiversity(NUM_DIVERSE_SOLUTIONS, initialSolutions, refSet.getList()));
 
 		int iter = 0;
-		
+
 		global: while (true) {
 
-			SSRefreshMemCombinator<S, I> comb = null;
-			if (this.combinator instanceof SSRefreshMemCombinator) {
-				comb = (SSRefreshMemCombinator<S, I>) this.combinator;
-			}
+			SSRefreshMemCombinator<S, I> comb = getIfSSRefreshMemCombinator();
 
 			Collection<List<S>> groups = combinations.getGroups(refSet.getList());
 
@@ -127,7 +123,7 @@ public class OptimSS1<S extends Solution<I>, I extends Instance> extends Abstrac
 						break global;
 					}
 				}
-				//Debug.debugln("Combined and improved solutions");
+				// Debug.debugln("Combined and improved solutions");
 
 				newRefSetSolutions = new ArrayList<S>(refSet.getList());
 				newRefSetSolutions.removeAll(oldRefSet);
@@ -154,14 +150,24 @@ public class OptimSS1<S extends Solution<I>, I extends Instance> extends Abstrac
 			List<S> newSolutions = this.constructive.createSolutions(NUM_INITIAL_SOLUTIONS);
 			solutions = diversificator.getDiversity(NUM_DIVERSE_SOLUTIONS, newSolutions, refSet.getList());
 			refSet.addAll(solutions);
-			
+
 			iter++;
-			
-			if(milliseconds == -1 && iter >= globalIterations) {
+
+			if (milliseconds == -1 && iter >= globalIterations) {
 				break;
 			}
 		}
 
+	}
+
+	@SuppressWarnings("unchecked")
+	private SSRefreshMemCombinator<S, I> getIfSSRefreshMemCombinator() {
+
+		if (this.combinator instanceof SSRefreshMemCombinator) {
+			return (SSRefreshMemCombinator<S, I>) this.combinator;
+		} else {
+			return null;
+		}		
 	}
 
 	private Collection<List<S>> createGroupsToCombine() {

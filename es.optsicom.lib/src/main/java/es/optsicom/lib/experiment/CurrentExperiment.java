@@ -27,11 +27,11 @@ public class CurrentExperiment {
 	}
 
 	public static void finishExecution() {
-		CurrentExperiment.execSaver = null;		
+		CurrentExperiment.execSaver = null;
 	}
 
 	public static void startExecution(ExecutionSaver execSaver) {
-		CurrentExperiment.execSaver = execSaver;		
+		CurrentExperiment.execSaver = execSaver;
 	}
 
 }

@@ -2,9 +2,8 @@ package es.optsicom.lib.expresults.manager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-
 import java.util.List;
+import java.util.Map;
 
 import es.optsicom.lib.analyzer.tablecreator.filter.ElementFilter;
 import es.optsicom.lib.expresults.model.Execution;
@@ -17,7 +16,7 @@ public class SingleExperimentManager implements ExperimentManager {
 
 	private Experiment experiment;
 	private ExperimentRepositoryManager manager;
-	
+
 	public SingleExperimentManager(Experiment experiment, ExperimentRepositoryManager manager) {
 		this.experiment = experiment;
 		this.manager = manager;
@@ -35,7 +34,7 @@ public class SingleExperimentManager implements ExperimentManager {
 
 	@Override
 	public String getExperimentMethodName(MethodDescription method) {
-		return manager.getExperimentMethodName(experiment,method);
+		return manager.getExperimentMethodName(experiment, method);
 	}
 
 	@Override
@@ -54,53 +53,47 @@ public class SingleExperimentManager implements ExperimentManager {
 	}
 
 	@Override
-	public List<ExecutionManager> getExecutionManagers(
-			InstanceDescription instance, MethodDescription method) {
-		
+	public List<ExecutionManager> getExecutionManagers(InstanceDescription instance, MethodDescription method) {
+
 		List<Execution> executions = manager.findExecutions(experiment, instance, method);
 		List<ExecutionManager> execManagers = new ArrayList<ExecutionManager>();
-		for(Execution exec: executions){
+		for (Execution exec : executions) {
 			execManagers.add(new ExecutionManager(exec, manager));
 		}
-		
+
 		return execManagers;
 	}
-	
+
 	@Override
-	public ExperimentManager createFilteredExperimentManager(
-			ElementFilter instanceFilter, ElementFilter methodFilter) {
+	public ExperimentManager createFilteredExperimentManager(ElementFilter instanceFilter, ElementFilter methodFilter) {
 		return new FilteredExperimentManager(manager, this, instanceFilter, methodFilter);
 	}
-	
+
 	@Override
-	public ExperimentManager createFilteredExperimentManager(
-			ElementFilter instanceFilter, String... methodsByExpName) {
-		return new FilteredExperimentManager(null,this, instanceFilter, methodsByExpName);
+	public ExperimentManager createFilteredExperimentManager(ElementFilter instanceFilter, String... methodsByExpName) {
+		return new FilteredExperimentManager(null, this, instanceFilter, methodsByExpName);
 	}
-	
-	public Experiment getExperiment(){
+
+	public Experiment getExperiment() {
 		return experiment;
 	}
-	
-	public ExperimentRepositoryManager getExperimentsManager(){
+
+	public ExperimentRepositoryManager getExperimentsManager() {
 		return manager;
 	}
 
 	@Override
-	public long getTimeLimit(List<MethodDescription> subsetMethods,
-			List<InstanceDescription> subsetInstances) {
-		return manager.getTimeLimit(experiment,subsetMethods,subsetInstances);
+	public long getTimeLimit(List<MethodDescription> subsetMethods, List<InstanceDescription> subsetInstances) {
+		return manager.getTimeLimit(experiment, subsetMethods, subsetInstances);
 	}
 
 	@Override
-	public long getMaxTimeLimit(List<MethodDescription> subsetMethods,
-			List<InstanceDescription> subsetInstances) {
-		return manager.getMaxTimeLimit(experiment,subsetMethods,subsetInstances);
+	public long getMaxTimeLimit(List<MethodDescription> subsetMethods, List<InstanceDescription> subsetInstances) {
+		return manager.getMaxTimeLimit(experiment, subsetMethods, subsetInstances);
 	}
 
 	@Override
-	public List<Execution> getExecutions(InstanceDescription instance,
-			MethodDescription method) {
+	public List<Execution> getExecutions(InstanceDescription instance, MethodDescription method) {
 		return manager.findExecutions(experiment, instance, method);
 	}
 
@@ -108,30 +101,30 @@ public class SingleExperimentManager implements ExperimentManager {
 	public String getName() {
 		return this.experiment.getName();
 	}
-	
+
 	@Override
 	public List<Execution> createExecutions() {
-		
+
 		List<Execution> execs = new ArrayList<Execution>();
-		
-		for(MethodDescription method :  getMethods()){
-			for(InstanceDescription instance: getInstances()){
+
+		for (MethodDescription method : getMethods()) {
+			for (InstanceDescription instance : getInstances()) {
 				execs.addAll(getExecutions(instance, method));
 			}
 		}
-		
+
 		return execs;
 	}
-	
+
 	@Override
 	public Map<MethodDescription, String> createExperimentMethodNames() {
-		
-		Map<MethodDescription, String> expMethodNames =  new HashMap<MethodDescription, String>();
-		
-		for(MethodDescription method :  getMethods()){
+
+		Map<MethodDescription, String> expMethodNames = new HashMap<MethodDescription, String>();
+
+		for (MethodDescription method : getMethods()) {
 			expMethodNames.put(method, getExperimentMethodName(method));
 		}
-		
+
 		return expMethodNames;
 	}
 }

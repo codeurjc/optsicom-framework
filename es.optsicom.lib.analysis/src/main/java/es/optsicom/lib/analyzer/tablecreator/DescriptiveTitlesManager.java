@@ -36,26 +36,24 @@ public class DescriptiveTitlesManager {
 		this(null, descriptives, ColisionResolutionMode.NUMBERS);
 	}
 
-	public DescriptiveTitlesManager(List<String> names,
-			List<? extends Descriptive> descriptives) {
+	public DescriptiveTitlesManager(List<String> names, List<? extends Descriptive> descriptives) {
 		this(names, descriptives, ColisionResolutionMode.NUMBERS);
 	}
 
-	public DescriptiveTitlesManager(List<String> names,
-			List<? extends Descriptive> descriptives,
+	public DescriptiveTitlesManager(List<String> names, List<? extends Descriptive> descriptives,
 			ColisionResolutionMode mode) {
 
 		if (names != null && names.size() > 0) {
 
-			for(int i = 0; i<names.size(); i++){
-				
+			for (int i = 0; i < names.size(); i++) {
+
 				Descriptive descriptive = descriptives.get(i);
 				String name = names.get(i);
-				
-				if(name == null){
+
+				if (name == null) {
 					name = descriptive.getProperties().getName();
 				}
-				
+
 				List<Descriptive> descs = descriptivesByTitle.get(name);
 				if (descs == null) {
 					descs = new ArrayList<Descriptive>();
@@ -63,23 +61,20 @@ public class DescriptiveTitlesManager {
 				}
 				descs.add(descriptive);
 			}
-			
+
 		} else {
 
 			for (Descriptive descriptive : descriptives) {
-				List<Descriptive> descs = descriptivesByTitle.get(descriptive
-						.getProperties().getName());
+				List<Descriptive> descs = descriptivesByTitle.get(descriptive.getProperties().getName());
 				if (descs == null) {
 					descs = new ArrayList<Descriptive>();
-					descriptivesByTitle.put(descriptive.getProperties()
-							.getName(), descs);
+					descriptivesByTitle.put(descriptive.getProperties().getName(), descs);
 				}
 				descs.add(descriptive);
 			}
 		}
 
-		for (Entry<String, List<Descriptive>> entry : descriptivesByTitle
-				.entrySet()) {
+		for (Entry<String, List<Descriptive>> entry : descriptivesByTitle.entrySet()) {
 
 			List<Descriptive> sameTitleDescriptives = entry.getValue();
 			String title = entry.getKey();
@@ -110,8 +105,7 @@ public class DescriptiveTitlesManager {
 		}
 	}
 
-	private void processColisionPropertiesNaive(String title,
-			List<Descriptive> sameTitleDescriptives) {
+	private void processColisionPropertiesNaive(String title, List<Descriptive> sameTitleDescriptives) {
 
 		// Podemos suponer que los objetos con colisión tienen las mismas
 		// propiedades o no
@@ -119,8 +113,7 @@ public class DescriptiveTitlesManager {
 		// Hay que determinar como se muestra el null frente a otros valores
 
 		// Primero calculamos las propiedades comunes
-		MemoryProperties commonProperties = new MemoryProperties(sameTitleDescriptives.get(
-				0).getProperties());
+		MemoryProperties commonProperties = new MemoryProperties(sameTitleDescriptives.get(0).getProperties());
 		for (int i = 1; i < sameTitleDescriptives.size(); i++) {
 			Descriptive desc = sameTitleDescriptives.get(i);
 			Set<String> commonProps = new HashSet<String>();
@@ -187,8 +180,7 @@ public class DescriptiveTitlesManager {
 		props.keySet().removeAll(removeProps);
 	}
 
-	private void processColisionNumbers(String title,
-			List<Descriptive> sameTitleDescriptives) {
+	private void processColisionNumbers(String title, List<Descriptive> sameTitleDescriptives) {
 		int numTitle = 1;
 		for (Descriptive descriptive : sameTitleDescriptives) {
 			String uniqueTitle = title + " (" + numTitle + ")";
@@ -197,8 +189,7 @@ public class DescriptiveTitlesManager {
 		}
 	}
 
-	private void addUniqueTitleAttribute(String uniqueTitle,
-			Descriptive descriptive) {
+	private void addUniqueTitleAttribute(String uniqueTitle, Descriptive descriptive) {
 		descriptivesByUniqueTitles.put(uniqueTitle, descriptive);
 		uniqueTitlesByDescriptive.put(descriptive, uniqueTitle);
 	}

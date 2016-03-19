@@ -12,8 +12,7 @@ public class StrategicOscilationImprovement<S extends Solution<I>, I extends Ins
 	private int maxK;
 	private FactibilityProblemAdapter<S, I> factibilityAdapter;
 
-	public StrategicOscilationImprovement(
-			ImprovementMethod<S, I> improvementMethod, int maxK,
+	public StrategicOscilationImprovement(ImprovementMethod<S, I> improvementMethod, int maxK,
 			FactibilityProblemAdapter<S, I> factibilityAdapter) {
 		this.improvementMethod = improvementMethod;
 		this.maxK = maxK;
@@ -35,6 +34,7 @@ public class StrategicOscilationImprovement<S extends Solution<I>, I extends Ins
 		return factibilityAdapter;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean internalImproveSolution(S solution, long duration) {
 
@@ -42,10 +42,10 @@ public class StrategicOscilationImprovement<S extends Solution<I>, I extends Ins
 
 		int k = 1;
 
-		this.improvementMethod.setImprovementMethodListener(this);		
+		this.improvementMethod.setImprovementMethodListener(this);
 		boolean improved = improvementMethod.improveSolution(solution, duration);
 		this.improvementMethod.setImprovementMethodListener(null);
-		
+
 		checkFinishByTime();
 
 		S bestSolution = (S) solution.createCopy();
@@ -54,13 +54,13 @@ public class StrategicOscilationImprovement<S extends Solution<I>, I extends Ins
 
 			S infactSolution = factibilityAdapter.modifyToBeInfeasible(solution, k);
 
-			//System.out.println("Infactible k="+k);
-			
-			improvementMethod.improveSolution(infactSolution,
-					getRemainigDuration());
+			// System.out.println("Infactible k="+k);
 
-			//System.out.println("Improved(k="+k+"): "+infactSolution.getWeight());
-			
+			improvementMethod.improveSolution(infactSolution, getRemainigDuration());
+
+			// System.out.println("Improved(k="+k+"):
+			// "+infactSolution.getWeight());
+
 			try {
 				checkFinishByTime();
 			} catch (TimeLimitException e) {
@@ -70,8 +70,9 @@ public class StrategicOscilationImprovement<S extends Solution<I>, I extends Ins
 
 			solution = factibilityAdapter.returnToFactibility(infactSolution, k);
 
-			//System.out.println("Returned to factibility: "+solution.getWeight());
-			
+			// System.out.println("Returned to factibility:
+			// "+solution.getWeight());
+
 			try {
 				checkFinishByTime();
 			} catch (TimeLimitException e) {
@@ -79,20 +80,19 @@ public class StrategicOscilationImprovement<S extends Solution<I>, I extends Ins
 				throw e;
 			}
 
-			this.improvementMethod.setImprovementMethodListener(this);			
-			improved |= improvementMethod.improveSolution(solution,
-					getRemainigDuration());
+			this.improvementMethod.setImprovementMethodListener(this);
+			improved |= improvementMethod.improveSolution(solution, getRemainigDuration());
 			this.improvementMethod.setImprovementMethodListener(null);
-			
-			//System.out.println("Improved: "+solution.getWeight());
-			
+
+			// System.out.println("Improved: "+solution.getWeight());
+
 			if (solution.isBetterThan(bestSolution)) {
 				bestSolution = (S) solution.createCopy();
 				k = 1;
-				//System.out.println("BestSolution. k="+1);
+				// System.out.println("BestSolution. k="+1);
 			} else {
 				k++;
-				//System.out.println("No BestSolution. k="+k);
+				// System.out.println("No BestSolution. k="+k);
 			}
 
 			try {
@@ -106,21 +106,19 @@ public class StrategicOscilationImprovement<S extends Solution<I>, I extends Ins
 
 		originalSolution.asSolution(bestSolution);
 
-		//System.out.println("------------------------------------------");
-		
+		// System.out.println("------------------------------------------");
+
 		return improved;
 	}
 
 	@Override
-	public void newBestSolutionFound(ImprovementMethod<S, I> improvementMethod,
-			S newBestSolution) {
-		newBestSolutionFound(newBestSolution);		
+	public void newBestSolutionFound(ImprovementMethod<S, I> improvementMethod, S newBestSolution) {
+		newBestSolutionFound(newBestSolution);
 	}
 
 	@Override
-	public void newBestSolutionFound(ImprovementMethod<S, I> improvementMethod,
-			double weight) {
-		newBestSolutionFound(weight);		
+	public void newBestSolutionFound(ImprovementMethod<S, I> improvementMethod, double weight) {
+		newBestSolutionFound(weight);
 	}
-	
+
 }

@@ -9,11 +9,10 @@ public interface TabuProblemAdapter<S extends Solution<I>, I extends Instance> {
 
 	void markAsTabu(Object memory, Object movementAttributes, int numIteration, int tabuTenure);
 
-	boolean isMarkedAsTabu(Object memory,
-			Object movementAttributes, int numIteration);
+	boolean isMarkedAsTabu(Object memory, Object movementAttributes, int numIteration);
 
 	int getMaxItersWoImprInt(S solution, float maxIterWoImpr);
-	
+
 	int getTabuTenureInt(S solution, float tabuTenure);
 
 }

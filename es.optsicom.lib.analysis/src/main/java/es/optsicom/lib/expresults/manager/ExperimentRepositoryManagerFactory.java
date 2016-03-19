@@ -2,7 +2,6 @@ package es.optsicom.lib.expresults.manager;
 
 import javax.persistence.EntityManager;
 
-
 import es.optsicom.lib.expresults.db.DBManager;
 
 public class ExperimentRepositoryManagerFactory {

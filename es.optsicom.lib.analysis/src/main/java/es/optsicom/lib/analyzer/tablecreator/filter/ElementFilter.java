@@ -13,9 +13,11 @@ package es.optsicom.lib.analyzer.tablecreator.filter;
 import es.optsicom.lib.util.description.Properties;
 
 /**
- * This class is used to filter elements. The filter mechanism can be made by explicit enumerate valid elements or
- * can be made with different kind of rules. For example, the elements with a property with a specific value or that 
- * pass an expression.
+ * This class is used to filter elements. The filter mechanism can be made by
+ * explicit enumerate valid elements or can be made with different kind of
+ * rules. For example, the elements with a property with a specific value or
+ * that pass an expression.
+ * 
  * @author mica
  *
  */

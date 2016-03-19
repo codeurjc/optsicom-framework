@@ -23,19 +23,17 @@ public class OutprocessWithOperations {
 	private ObjectOutputStream sendToStream;
 	private ObjectInputStream receiveFromStream;
 
-	public void startOutprocess(Object remoteObject)
-			throws OutprocessException {
+	public void startOutprocess(Object remoteObject) throws OutprocessException {
 
-		if(!(remoteObject instanceof Serializable)){
+		if (!(remoteObject instanceof Serializable)) {
 			throw new OutprocessException("remoteObject has to implement Serializable interface");
 		}
-		
+
 		try {
 
 			this.process = createJavaProcess();
 			this.socket = new Socket();
-			this.socket.connect(new InetSocketAddress("127.0.0.1",
-					communicationPort), CONNECTION_TIMEOUT);
+			this.socket.connect(new InetSocketAddress("127.0.0.1", communicationPort), CONNECTION_TIMEOUT);
 
 			sendToStream = new ObjectOutputStream(socket.getOutputStream());
 			receiveFromStream = new ObjectInputStream(socket.getInputStream());
@@ -51,8 +49,7 @@ public class OutprocessWithOperations {
 		}
 	}
 
-	public Object execOperation(String operationName, Object... params)
-			throws OutprocessException {
+	public Object execOperation(String operationName, Object... params) throws OutprocessException {
 
 		OperationPacket packet = new OperationPacket(operationName, params);
 
@@ -60,26 +57,23 @@ public class OutprocessWithOperations {
 			sendToStream.writeObject(packet);
 			sendToStream.reset();
 		} catch (IOException e) {
-			throw new OutprocessException(
-					"Exception while sending operation to outprocess", e);
+			throw new OutprocessException("Exception while sending operation to outprocess", e);
 		}
 
 		try {
 			Result result = (Result) receiveFromStream.readObject();
-			
-			if(result.isCorrectExecution()){
+
+			if (result.isCorrectExecution()) {
 				return result.getResult();
 			} else {
-				throw new OutprocessException("Exception in the execution of operation \""+operationName+"\"",result.getException());
+				throw new OutprocessException("Exception in the execution of operation \"" + operationName + "\"",
+						result.getException());
 			}
-			
+
 		} catch (IOException e) {
-			throw new OutprocessException(
-					"Exception while receiving result from outprocess", e);
+			throw new OutprocessException("Exception while receiving result from outprocess", e);
 		} catch (ClassNotFoundException e) {
-			throw new OutprocessException(
-					"Exception while converting to object the operation result",
-					e);
+			throw new OutprocessException("Exception while converting to object the operation result", e);
 		}
 	}
 
@@ -103,18 +97,14 @@ public class OutprocessWithOperations {
 			cmd = new String[] { "\"" + javaPath + "\"", "-cp", "\"" + classpath + "\"",
 					OutprocessWithOperationMain.class.getName() };
 		} else {
-			cmd = new String[] {
-					"/bin/sh",
-					"-c",
-					javaPath + " -cp " + classpath
-							+ " outprocess.OutprocessWithOperationMain" };
+			cmd = new String[] { "/bin/sh", "-c",
+					javaPath + " -cp " + classpath + " outprocess.OutprocessWithOperationMain" };
 		}
 
 		System.out.println("Outprocess mode: " + Arrays.toString(cmd));
 		final Process process = Runtime.getRuntime().exec(cmd);
 
-		BufferedReader r = new BufferedReader(new InputStreamReader(
-				process.getInputStream()));
+		BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
 		String portAsString = r.readLine();
 		communicationPort = Integer.parseInt(portAsString);
 
@@ -147,8 +137,7 @@ public class OutprocessWithOperations {
 		return process.waitFor();
 	}
 
-	private static void redirectToStdout(OutputStream out, InputStream is)
-			throws IOException {
+	private static void redirectToStdout(OutputStream out, InputStream is) throws IOException {
 		byte[] buffer = new byte[512];
 		int read = 0;
 		while ((read = is.read(buffer)) != -1) {
@@ -162,7 +151,7 @@ public class OutprocessWithOperations {
 			sendToStream.writeObject(null);
 		} catch (IOException e) {
 			throw new OutprocessException("Exception while disposing outprocess", e);
-		}		
+		}
 	}
 
 }

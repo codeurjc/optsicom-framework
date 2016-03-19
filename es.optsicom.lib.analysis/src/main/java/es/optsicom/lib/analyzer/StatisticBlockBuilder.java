@@ -3,9 +3,6 @@ package es.optsicom.lib.analyzer;
 import java.util.ArrayList;
 import java.util.List;
 
-import javanpst.data.structures.dataTable.DataTable;
-import javanpst.tests.multiple.friedmanTest.FriedmanTest;
-import javanpst.tests.oneSample.wilcoxonTest.WilcoxonTest;
 import es.optsicom.lib.analyzer.report.ReportBlock;
 import es.optsicom.lib.analyzer.report.ReportPage;
 import es.optsicom.lib.analyzer.report.table.Cell;
@@ -16,6 +13,9 @@ import es.optsicom.lib.expresults.model.Event;
 import es.optsicom.lib.expresults.model.Execution;
 import es.optsicom.lib.expresults.model.InstanceDescription;
 import es.optsicom.lib.expresults.model.MethodDescription;
+import javanpst.data.structures.dataTable.DataTable;
+import javanpst.tests.multiple.friedmanTest.FriedmanTest;
+import javanpst.tests.oneSample.wilcoxonTest.WilcoxonTest;
 
 public class StatisticBlockBuilder extends BlockBuilder {
 

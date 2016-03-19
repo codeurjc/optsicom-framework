@@ -15,7 +15,6 @@ import es.optsicom.lib.analyzer.report.table.LeyendElement;
 import es.optsicom.lib.analyzer.report.table.Table;
 import es.optsicom.lib.analyzer.report.table.Title;
 
-
 public class AttributedTableTitleTableCreator {
 
 	private List<String> colsAttributes;
@@ -63,8 +62,7 @@ public class AttributedTableTitleTableCreator {
 
 				AttributedValue attributedValue = valuesIndexedByAtts.get(atts);
 
-				Cell cellValue = new Cell(attributedValue.getValue(),
-						attributedValue.getNumberFormat());
+				Cell cellValue = new Cell(attributedValue.getValue(), attributedValue.getNumberFormat());
 
 				cellValue.setColor(attributedValue.getColor());
 
@@ -85,8 +83,7 @@ public class AttributedTableTitleTableCreator {
 
 		Leyend leyend = new Leyend();
 
-		for (Entry<String, List<Attribute>> entry : attTable
-				.getSortedAttributes().entrySet()) {
+		for (Entry<String, List<Attribute>> entry : attTable.getSortedAttributes().entrySet()) {
 			leyend.addLeyentElement(new LeyendElement(entry.getKey(), entry.getValue()));
 		}
 
@@ -136,13 +133,12 @@ public class AttributedTableTitleTableCreator {
 		return titles;
 	}
 
-	private void createTitlesFromAttributes(List<String> attNames,
-			int attIndex, List<Attribute> attributes, List<Title> titles) {
+	private void createTitlesFromAttributes(List<String> attNames, int attIndex, List<Attribute> attributes,
+			List<Title> titles) {
 
 		if (attIndex == attNames.size()) {
 
-			List<Attribute> attributesCopy = new ArrayList<Attribute>(
-					attributes);
+			List<Attribute> attributesCopy = new ArrayList<Attribute>(attributes);
 			titles.add(new Title(attributesCopy));
 
 		} else {
@@ -152,8 +148,7 @@ public class AttributedTableTitleTableCreator {
 			for (Attribute att : this.attributes.get(attName)) {
 
 				attributes.add(att);
-				createTitlesFromAttributes(attNames, attIndex + 1, attributes,
-						titles);
+				createTitlesFromAttributes(attNames, attIndex + 1, attributes, titles);
 				attributes.remove(attributes.size() - 1);
 			}
 

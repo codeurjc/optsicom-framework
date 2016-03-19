@@ -5,7 +5,6 @@ import es.optsicom.lib.analyzer.tablecreator.pr.RawProcessor;
 import es.optsicom.lib.analyzer.tablecreator.statisticcalc.StatisticCalc;
 import es.optsicom.lib.util.description.Descriptive;
 import es.optsicom.lib.util.description.MemoryProperties;
-import es.optsicom.lib.util.description.Properties;
 
 public class Statistic implements Descriptive {
 
@@ -13,38 +12,38 @@ public class Statistic implements Descriptive {
 	private StatisticCalc statisticCalc;
 	private RawProcessor rawProcessor;
 	private int cookedEventIndex;
-	
+
 	private MemoryProperties properties;
 	private boolean propertiesFilled = false;
-	
-	public Statistic(StatisticGroup statisticGroup, RawProcessor rawProcessor,
-			StatisticCalc statisticCalc, int cookedEventIndex, String name) {
+
+	public Statistic(StatisticGroup statisticGroup, RawProcessor rawProcessor, StatisticCalc statisticCalc,
+			int cookedEventIndex, String name) {
 		this.statisticGroup = statisticGroup;
 		this.rawProcessor = rawProcessor;
 		this.statisticCalc = statisticCalc;
 		this.cookedEventIndex = cookedEventIndex;
 		this.properties = new MemoryProperties(name);
 	}
-	
+
 	public Statistic(StatisticCalc statisticCalc, String name) {
 		this.statisticCalc = statisticCalc;
 		this.properties = new MemoryProperties(name);
 	}
 
-	public void configureStatisticGroup(StatisticGroup statisticGroup, RawProcessor rawProcessor, int cookedEventIndex){
+	public void configureStatisticGroup(StatisticGroup statisticGroup, RawProcessor rawProcessor,
+			int cookedEventIndex) {
 		this.statisticGroup = statisticGroup;
 		this.rawProcessor = rawProcessor;
 		this.cookedEventIndex = cookedEventIndex;
 	}
-		
+
 	public MemoryProperties getProperties() {
 
 		if (!propertiesFilled) {
-			
+
 			propertiesFilled = true;
-			
-			String cookedEventName = rawProcessor.getCookedEventsNames().get(
-					cookedEventIndex);
+
+			String cookedEventName = rawProcessor.getCookedEventsNames().get(cookedEventIndex);
 
 			properties.put("source", cookedEventName);
 			properties.put("statistic", statisticCalc.getName());
@@ -52,23 +51,23 @@ public class Statistic implements Descriptive {
 
 		return properties;
 	}
-	
-	public NumberType getNumberType(){
+
+	public NumberType getNumberType() {
 		return statisticCalc.getNumberType();
 	}
-	
-	public StatisticGroup getStatisticGroup(){
+
+	public StatisticGroup getStatisticGroup() {
 		return statisticGroup;
 	}
 
 	public StatisticCalc getStatisticCalc() {
 		return statisticCalc;
 	}
-	
-	public String getName(){
+
+	public String getName() {
 		return properties.getName();
 	}
-	
+
 	@Override
 	public String toString() {
 		return getProperties().getName();
@@ -78,8 +77,7 @@ public class Statistic implements Descriptive {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((properties == null) ? 0 : properties.hashCode());
+		result = prime * result + ((properties == null) ? 0 : properties.hashCode());
 		return result;
 	}
 
@@ -100,5 +98,4 @@ public class Statistic implements Descriptive {
 		return true;
 	}
 
-	
 }

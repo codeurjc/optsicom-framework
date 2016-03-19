@@ -16,7 +16,8 @@ import es.optsicom.lib.approx.ApproxMethod;
 import es.optsicom.lib.approx.ApproxMethodListener;
 import es.optsicom.lib.expresults.saver.DBExecutionSaver;
 
-public class ExecutionApproxMethodListener<S extends Solution<I>, I extends Instance> implements ApproxMethodListener<S, I> {
+public class ExecutionApproxMethodListener<S extends Solution<I>, I extends Instance>
+		implements ApproxMethodListener<S, I> {
 
 	private DBExecutionSaver execSaver;
 
@@ -25,17 +26,17 @@ public class ExecutionApproxMethodListener<S extends Solution<I>, I extends Inst
 	}
 
 	public void calculationFinished(ApproxMethod<S, I> calculator) {
-		
+
 	}
 
 	public void calculationStarted(ApproxMethod<S, I> calculator) {
-		
+
 	}
 
 	public void solutionImproved(ApproxMethod<S, I> approxMethod, S solution) {
 		execSaver.addSolutionEvents(solution.getWeight(), solution.getInfoToSave());
 	}
-	
+
 	public void solutionImproved(ApproxMethod<S, I> approxMethod, double weight) {
 		execSaver.addSolutionValueEvent(weight);
 	}

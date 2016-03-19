@@ -9,34 +9,34 @@ public class ExecutionManager {
 
 	private Execution execution;
 	private ExperimentRepositoryManager manager;
-	
+
 	public ExecutionManager(Execution execution, ExperimentRepositoryManager manager) {
 		this.execution = execution;
 		this.manager = manager;
 	}
 
-	public double countEvents(String eventName){
+	public double countEvents(String eventName) {
 		return manager.countEvents(execution, eventName);
 	}
 
-	public List<Event> getEvents(String eventName){
+	public List<Event> getEvents(String eventName) {
 		return manager.getEvents(execution, eventName);
 	}
 
-	public Event getLastEvent(String eventName){
+	public Event getLastEvent(String eventName) {
 		return manager.getLastEvent(execution, eventName);
 	}
 
-	public Event getLastEvent(String eventName, long timelimit){
+	public Event getLastEvent(String eventName, long timelimit) {
 		return manager.getLastEvent(execution, eventName, timelimit);
 	}
 
-	public Execution getExecution(){
+	public Execution getExecution() {
 		return execution;
 	}
 
 	public List<Event> getEvents() {
 		return execution.getEvents();
 	}
-	
+
 }

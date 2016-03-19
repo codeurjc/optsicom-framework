@@ -113,12 +113,11 @@ public class FastExperimentExecutor {
 			reportCreator.setReportConf(reportConf);
 		}
 
-		//reportCreator.createReportAndShow();
+		// reportCreator.createReportAndShow();
 
 		return experimentId;
 	}
 
-	@SuppressWarnings("unchecked")
 	public long execExperiment(ApproxExpConf approxExpConf, ExperimentRepositoryFactory expRepoFactory) {
 
 		if (approxExpConf.getResearchName() == null) {
@@ -129,7 +128,7 @@ public class FastExperimentExecutor {
 			throw new RuntimeException("ComputerDescription name must be filled");
 		}
 
-		ApproxMethodExperiment exp = createApproxMethodExperiment(approxExpConf);
+		ApproxMethodExperiment<?,?> exp = createApproxMethodExperiment(approxExpConf);
 
 		ExperimentSaver expSaver = persistExperiment(approxExpConf, expRepoFactory);
 
@@ -153,7 +152,7 @@ public class FastExperimentExecutor {
 
 		expSaver.setExperiment(expdb);
 
-		for (Method method : approxExpConf.getMethods()) {
+		for (Method<?,?> method : approxExpConf.getMethods()) {
 			MethodDescription methodDesc;
 			try {
 				methodDesc = expSaver.findMethodDescription(method.getProperties().toString());
@@ -202,8 +201,8 @@ public class FastExperimentExecutor {
 		DBProperties props = new DBProperties(computerProps);
 
 		ComputerDescription computer = null;
-		List<ComputerDescription> computerDescriptions = expRepoManager.findComputerDescriptionByName(approxExpConf
-				.getComputerName());
+		List<ComputerDescription> computerDescriptions = expRepoManager
+				.findComputerDescriptionByName(approxExpConf.getComputerName());
 		for (ComputerDescription cd : computerDescriptions) {
 			if (props.equals(cd.getProperties())) {
 				computer = cd;
@@ -227,8 +226,9 @@ public class FastExperimentExecutor {
 		return expdb;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private ApproxMethodExperiment createApproxMethodExperiment(ApproxExpConf approxExpConf) {
-
+		
 		List<ApproxMethod> approxMethods = new ArrayList<ApproxMethod>();
 
 		for (Method m : approxExpConf.getMethods()) {

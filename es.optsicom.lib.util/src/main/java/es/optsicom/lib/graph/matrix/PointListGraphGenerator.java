@@ -12,19 +12,18 @@ package es.optsicom.lib.graph.matrix;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import es.optsicom.lib.util.RandomManager;
 
 public class PointListGraphGenerator {
 
 	public List<Point> generateGloverPoints(int numPoints) {
-		return generateGloverPoints(numPoints,-1);
+		return generateGloverPoints(numPoints, -1);
 	}
 
 	public List<Point> generateGloverPoints(int numPoints, int numDimensions) {
 		List<Point> puntos = new ArrayList<Point>(numPoints);
-		if(numDimensions == -1){
+		if (numDimensions == -1) {
 			numDimensions = RandomManager.nextInt(20) + 2;
 		}
 		for (int i = 0; i < numPoints; i++) {

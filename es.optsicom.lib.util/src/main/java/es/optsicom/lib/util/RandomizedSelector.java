@@ -16,7 +16,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 public class RandomizedSelector<T> {
 
@@ -33,7 +32,7 @@ public class RandomizedSelector<T> {
 
 	public RandomizedSelector(Proportionality prop) {
 		this.proportionality = prop;
-		this.pairs = new ArrayList<Weighed<T>>();		
+		this.pairs = new ArrayList<Weighed<T>>();
 	}
 
 	public RandomizedSelector() {
@@ -176,9 +175,9 @@ public class RandomizedSelector<T> {
 	public static <S extends IWeighed> S selectRandomlyObject(S[] values) {
 		return values[selectRandomly(values)];
 	}
-	
+
 	public static <S extends IWeighed> S selectRandomlyObject(List<S> values) {
-		return values.get(selectRandomly(values)); 
+		return values.get(selectRandomly(values));
 	}
 
 }

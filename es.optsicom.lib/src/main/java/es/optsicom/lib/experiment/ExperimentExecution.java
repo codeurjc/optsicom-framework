@@ -36,9 +36,8 @@ public abstract class ExperimentExecution<S extends Solution<I>, I extends Insta
 	protected boolean overrideExec = true;
 
 	public ExperimentExecution() {
-		this.resultsDir = new File("Experiments/Test/"
-				+ String.format("%1$tY-%1$tm-%1$td_%1$tH-%1$tM-%1$tS",
-						new java.util.Date()));
+		this.resultsDir = new File(
+				"Experiments/Test/" + String.format("%1$tY-%1$tm-%1$td_%1$tH-%1$tM-%1$tS", new java.util.Date()));
 	}
 
 	public void setOverrideExec(boolean overrideExec) {
@@ -70,24 +69,20 @@ public abstract class ExperimentExecution<S extends Solution<I>, I extends Insta
 	 *
 	 * @throws IOException
 	 */
-	public void executeExperiment(ExperimentSaver saver, boolean localExecution)
-			throws IOException {
+	public void executeExperiment(ExperimentSaver saver, boolean localExecution) throws IOException {
 
 		System.out.println("Experiment Id = " + saver.getExperimentId());
 
 		if (instanceFiles == null) {
 			// We obtain the instance files from the repository
 			if (problem == null) {
-				throw new RuntimeException(
-						"The problem object must be set before executing the experiment");
+				throw new RuntimeException("The problem object must be set before executing the experiment");
 			}
 
 			if (instanceFilesDir == null) {
-				setInstanceFiles(problem.getInstancesRepository(useCase)
-						.getAllInstanceFiles());
+				setInstanceFiles(problem.getInstancesRepository(useCase).getAllInstanceFiles());
 			} else {
-				setInstanceFiles(problem.getInstancesRepository(
-						instanceFilesDir, useCase).getAllInstanceFiles());
+				setInstanceFiles(problem.getInstancesRepository(instanceFilesDir, useCase).getAllInstanceFiles());
 			}
 		}
 
@@ -114,24 +109,21 @@ public abstract class ExperimentExecution<S extends Solution<I>, I extends Insta
 
 			try {
 
-				System.out.println("(" + (numInstance + 1) + "/"
-						+ instanceFiles.size()
-						+ ") Experimenting with Instance: "
-						+ instanceFile.getName());
+				System.out.println("(" + (numInstance + 1) + "/" + instanceFiles.size()
+						+ ") Experimenting with Instance: " + instanceFile.getName());
 				System.out.println("TimeLimit (millis): " + instanceTimeLimit);
 				System.out.println("   " + instanceFile.getProperties());
 				numInstance++;
 
+				@SuppressWarnings("unchecked")
 				I instance = (I) instanceFile.loadInstance();
 
-				executeExperiment(saver, instance, instanceIndex,
-						instanceTimeLimit, thrownExceptions, localExecution);
+				executeExperiment(saver, instance, instanceIndex, instanceTimeLimit, thrownExceptions, localExecution);
 
 			} catch (Exception e) {
 				// Exception not caught by executeExperimentMethod???
 				// This should not happen
-				thrownExceptions.add(new OptsicomException(instanceFile, null,
-						e));
+				thrownExceptions.add(new OptsicomException(instanceFile, null, e));
 			}
 
 			instanceIndex++;
@@ -140,8 +132,7 @@ public abstract class ExperimentExecution<S extends Solution<I>, I extends Insta
 		experimentFinished(saver);
 
 		// Print report:
-		System.out.println("Ok runs: "
-				+ (instanceFiles.size() - thrownExceptions.size()));
+		System.out.println("Ok runs: " + (instanceFiles.size() - thrownExceptions.size()));
 		System.out.println("Error runs: " + thrownExceptions.size());
 		if (!thrownExceptions.isEmpty()) {
 			System.out.println("Exceptions thrown: ");
@@ -153,16 +144,13 @@ public abstract class ExperimentExecution<S extends Solution<I>, I extends Insta
 		}
 	}
 
-
-
 	protected void experimentFinished(ExperimentSaver saver) {
 	}
 
 	protected void experimentStarted(ExperimentSaver saver) {
 	}
 
-	protected abstract void executeExperiment(ExperimentSaver saver,
-			I instance, int instanceIndex, long timeLimit,
+	protected abstract void executeExperiment(ExperimentSaver saver, I instance, int instanceIndex, long timeLimit,
 			List<OptsicomException> thrownExceptions, boolean localExecution);
 
 	public File getResultsDir() {

@@ -74,17 +74,17 @@ public enum SummarizeMode {
 			return values.get(0).doubleValue();
 		}
 	},
-	
+
 	MEDIAN {
-		
+
 		@Override
 		public Double summarizeValues(Double[] values) {
-			return values[(int) Math.floor(values.length/2)];
+			return values[(int) Math.floor(values.length / 2)];
 		}
-		
+
 		@Override
 		public Double summarizeValues(List<? extends Number> values) {
-			return values.get((int) Math.floor(values.size()/2)).doubleValue();
+			return values.get((int) Math.floor(values.size() / 2)).doubleValue();
 		}
 	};
 

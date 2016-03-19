@@ -40,7 +40,7 @@ public class Log {
 				fWriter.append(msg);
 				fWriter.flush();
 			} catch (IOException e) {
-				//e.printStackTrace();
+				// e.printStackTrace();
 			}
 		}
 		if (toScreen) {
@@ -71,7 +71,7 @@ public class Log {
 			try {
 				fWriter.flush();
 			} catch (IOException e) {
-				//e.printStackTrace();
+				// e.printStackTrace();
 			}
 		}
 	}

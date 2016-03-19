@@ -11,7 +11,6 @@
 package es.optsicom.lib;
 
 import java.io.File;
-
 import java.util.Comparator;
 
 import es.optsicom.lib.instancefile.InstancesRepository;
@@ -21,23 +20,27 @@ import es.optsicom.lib.util.BestMode;
  * @author Patxi Gortázar
  * 
  */
+@SuppressWarnings("rawtypes")
 public abstract class Problem {
 
 	private BestMode mode;
+	
 	private Comparator<Solution> qualityComparator;
 	private String name;
 
 	private Comparator<Solution> MAX_IS_BETTER_COMPARATOR = new Comparator<Solution>() {
 
 		public int compare(Solution solutionA, Solution solutionB) {
-			return solutionA.getWeight() > solutionB.getWeight() ? 1 : solutionA.getWeight() < solutionB.getWeight() ? -1 : 0;
+			return solutionA.getWeight() > solutionB.getWeight() ? 1
+					: solutionA.getWeight() < solutionB.getWeight() ? -1 : 0;
 		}
 	};
 
 	private Comparator<Solution> MIN_IS_BETTER_COMPARATOR = new Comparator<Solution>() {
 
 		public int compare(Solution solutionA, Solution solutionB) {
-			return solutionA.getWeight() < solutionB.getWeight() ? 1 : solutionA.getWeight() > solutionB.getWeight() ? -1 : 0;
+			return solutionA.getWeight() < solutionB.getWeight() ? 1
+					: solutionA.getWeight() > solutionB.getWeight() ? -1 : 0;
 		}
 	};
 
@@ -55,7 +58,6 @@ public abstract class Problem {
 		return mode;
 	}
 
-	@SuppressWarnings("unchecked")
 	public Comparator<Solution> getQualityComparator() {
 		return qualityComparator;
 	}
@@ -63,15 +65,16 @@ public abstract class Problem {
 	public String getName() {
 		return name;
 	}
-	
+
 	public InstancesRepository getInstancesRepository() {
-		return getInstancesRepository(InstancesRepository.DEFAULT_INSTANCE_FILE_DIR, InstancesRepository.DEFAULT_USE_CASE);
+		return getInstancesRepository(InstancesRepository.DEFAULT_INSTANCE_FILE_DIR,
+				InstancesRepository.DEFAULT_USE_CASE);
 	}
 
 	public InstancesRepository getInstancesRepository(String useCase) {
-		if(useCase == null){
+		if (useCase == null) {
 			useCase = InstancesRepository.DEFAULT_USE_CASE;
-		}		
+		}
 		return getInstancesRepository(InstancesRepository.DEFAULT_INSTANCE_FILE_DIR, useCase);
 	}
 

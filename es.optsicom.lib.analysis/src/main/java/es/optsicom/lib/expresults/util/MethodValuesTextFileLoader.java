@@ -1,7 +1,6 @@
 package es.optsicom.lib.expresults.util;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -19,23 +18,17 @@ import javax.persistence.NoResultException;
 
 import es.optsicom.lib.analyzer.tablecreator.AnalysisException;
 import es.optsicom.lib.expresults.db.DBManager;
-import es.optsicom.lib.expresults.db.DerbyDBManager;
-import es.optsicom.lib.expresults.manager.ExperimentManager;
 import es.optsicom.lib.expresults.manager.ExperimentRepositoryManager;
 import es.optsicom.lib.expresults.manager.ExperimentRepositoryManagerFactory;
-import es.optsicom.lib.expresults.manager.MemoryExperimentManager;
 import es.optsicom.lib.expresults.model.ComputerDescription;
 import es.optsicom.lib.expresults.model.DBProperties;
 import es.optsicom.lib.expresults.model.DoubleEvent;
 import es.optsicom.lib.expresults.model.Event;
-import es.optsicom.lib.expresults.model.Execution;
 import es.optsicom.lib.expresults.model.Experiment;
 import es.optsicom.lib.expresults.model.InstanceDescription;
-import es.optsicom.lib.expresults.model.MethodDescription;
 import es.optsicom.lib.expresults.model.Researcher;
 import es.optsicom.lib.expresults.model.StringEvent;
 import es.optsicom.lib.util.BestMode;
-import es.optsicom.lib.util.Pair;
 
 public class MethodValuesTextFileLoader {
 
@@ -81,78 +74,80 @@ public class MethodValuesTextFileLoader {
 		this.experimentName = experimentName;
 	}
 
-	public void setInstanceDescriptions(
-			List<InstanceDescription> instanceDescriptions) {
+	public void setInstanceDescriptions(List<InstanceDescription> instanceDescriptions) {
 		this.instanceDescriptions = instanceDescriptions;
 	}
 
-//	public ExperimentManager loadExperimentManager() {
-//
-//		System.out.println("Starting to read " + fileName);
-//
-//		Researcher r = new Researcher(this.researcherName);
-//		ComputerDescription c = new ComputerDescription("Synthetic");
-//
-//		Map<String, Double> values = loadValuesFromFile();
-//
-//		this.experimentName = PREDEFINED;
-//
-//		Experiment experiment = new Experiment(this.experimentName, r,
-//				new Date(), c);
-//		experiment.setTimeLimit(-1);
-//		experiment.setProblemBestMode(this.bestMode);
-//		experiment.setProblemName(this.problemName);
-//		experiment.setMaxTimeLimit(-1);
-//
-//		MethodDescription method = new MethodDescription(new DBProperties(
-//				this.methodName));
-//
-//		Map<String, InstanceDescription> idByName = new HashMap<String, InstanceDescription>();
-//
-//		for (InstanceDescription instance : instanceDescriptions) {
-//			idByName.put(instance.getName(), instance);
-//		}
-//
-//		List<Execution> executions = new ArrayList<Execution>();
-//
-//		List<InstanceDescription> instances = new ArrayList<InstanceDescription>();
-//		Map<MethodDescription, String> experimentMethodNames = new HashMap<MethodDescription, String>();
-//		experimentMethodNames.put(method, method.getProperties().getName());
-//
-//		for (String instanceName : values.keySet()) {
-//
-//			InstanceDescription dbInstance = idByName.get(instanceName);
-//
-//			instances.add(dbInstance);
-//
-//			Execution exec = new Execution(experiment, dbInstance, method, -1,
-//					0);
-//
-//			StringEvent nameEvent = new StringEvent(exec, -1,
-//					Event.EXPERIMENT_METHOD_NAME, method.getProperties()
-//							.getName());
-//
-//			long timestamp = times.containsKey(instanceName) ? times
-//					.get(instanceName) : -1;
-//
-//			DoubleEvent dbEvent = new DoubleEvent(exec, timestamp,
-//					Event.OBJ_VALUE_EVENT, values.get(instanceName));
-//
-//			List<Event> events = new ArrayList<Event>();
-//			events.add(nameEvent);
-//			events.add(dbEvent);
-//
-//			exec.setEvents(events);
-//
-//			executions.add(exec);
-//		}
-//
-//		experiment.setInstances(instances);
-//		experiment.setMethods(Arrays.asList(method));
-//
-//		return new MemoryExperimentManager(experiment, executions,
-//				experimentMethodNames);
-//	}
+	// public ExperimentManager loadExperimentManager() {
+	//
+	// System.out.println("Starting to read " + fileName);
+	//
+	// Researcher r = new Researcher(this.researcherName);
+	// ComputerDescription c = new ComputerDescription("Synthetic");
+	//
+	// Map<String, Double> values = loadValuesFromFile();
+	//
+	// this.experimentName = PREDEFINED;
+	//
+	// Experiment experiment = new Experiment(this.experimentName, r,
+	// new Date(), c);
+	// experiment.setTimeLimit(-1);
+	// experiment.setProblemBestMode(this.bestMode);
+	// experiment.setProblemName(this.problemName);
+	// experiment.setMaxTimeLimit(-1);
+	//
+	// MethodDescription method = new MethodDescription(new DBProperties(
+	// this.methodName));
+	//
+	// Map<String, InstanceDescription> idByName = new HashMap<String,
+	// InstanceDescription>();
+	//
+	// for (InstanceDescription instance : instanceDescriptions) {
+	// idByName.put(instance.getName(), instance);
+	// }
+	//
+	// List<Execution> executions = new ArrayList<Execution>();
+	//
+	// List<InstanceDescription> instances = new
+	// ArrayList<InstanceDescription>();
+	// Map<MethodDescription, String> experimentMethodNames = new
+	// HashMap<MethodDescription, String>();
+	// experimentMethodNames.put(method, method.getProperties().getName());
+	//
+	// for (String instanceName : values.keySet()) {
+	//
+	// InstanceDescription dbInstance = idByName.get(instanceName);
+	//
+	// instances.add(dbInstance);
+	//
+	// Execution exec = new Execution(experiment, dbInstance, method, -1,
+	// 0);
+	//
+	// StringEvent nameEvent = new StringEvent(exec, -1,
+	// Event.EXPERIMENT_METHOD_NAME, method.getProperties()
+	// .getName());
+	//
+	// long timestamp = times.containsKey(instanceName) ? times
+	// .get(instanceName) : -1;
+	//
+	// DoubleEvent dbEvent = new DoubleEvent(exec, timestamp,
+	// Event.OBJ_VALUE_EVENT, values.get(instanceName));
+	//
+	// List<Event> events = new ArrayList<Event>();
+	// events.add(nameEvent);
+	// events.add(dbEvent);
+	//
+	// exec.setEvents(events);
+	//
+	// executions.add(exec);
+	// }
+	//
+	// experiment.setInstances(instances);
+	// experiment.setMethods(Arrays.asList(method));
+	//
+	// return new MemoryExperimentManager(experiment, executions,
+	// experimentMethodNames);
+	// }
 
 	public void importToDB() {
 
@@ -160,11 +155,9 @@ public class MethodValuesTextFileLoader {
 
 		try {
 
-			ExperimentRepositoryManagerFactory daoFactory = new ExperimentRepositoryManagerFactory(
-					dbManager);
+			ExperimentRepositoryManagerFactory daoFactory = new ExperimentRepositoryManagerFactory(dbManager);
 
-			ExperimentRepositoryManager dao = daoFactory
-					.createExperimentsManager();
+			ExperimentRepositoryManager dao = daoFactory.createExperimentsManager();
 
 			dao.beginTx();
 			Researcher r = loadResearcher(dao);
@@ -195,8 +188,7 @@ public class MethodValuesTextFileLoader {
 	}
 
 	private ComputerDescription loadComputer(ExperimentRepositoryManager dao) {
-		List<ComputerDescription> cList = dao
-				.findComputerDescriptionByName("Synthetic");
+		List<ComputerDescription> cList = dao.findComputerDescriptionByName("Synthetic");
 		ComputerDescription c;
 		if (cList.isEmpty()) {
 			c = new ComputerDescription("Synthetic");
@@ -210,9 +202,7 @@ public class MethodValuesTextFileLoader {
 	private Map<String, Double> loadValuesFromFile() {
 		Map<String, Double> values = new HashMap<String, Double>();
 		times = new HashMap<String, Long>();
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(
-					new FileInputStream(this.fileName)));
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(this.fileName)))) {
 			String line;
 			while ((line = br.readLine()) != null) {
 
@@ -222,8 +212,7 @@ public class MethodValuesTextFileLoader {
 					String instanceName = st.nextToken();
 					String bestKnownValue = st.nextToken();
 
-					System.out.println("Instance: " + instanceName + " value: "
-							+ bestKnownValue);
+					System.out.println("Instance: " + instanceName + " value: " + bestKnownValue);
 
 					values.put(instanceName, Double.parseDouble(bestKnownValue));
 
@@ -235,8 +224,7 @@ public class MethodValuesTextFileLoader {
 					}
 
 				} catch (NoSuchElementException e) {
-					System.err
-							.println("Exception while processing input file lines");
+					System.err.println("Exception while processing input file lines");
 					e.printStackTrace();
 				}
 			}
@@ -250,21 +238,18 @@ public class MethodValuesTextFileLoader {
 		return values;
 	}
 
-	private void insertValues(ExperimentRepositoryManagerFactory daoFactory,
-			Map<String, Double> values, Researcher researcher, Date date,
-			ComputerDescription computer) throws FileNotFoundException,
-			IOException, ClassNotFoundException {
+	private void insertValues(ExperimentRepositoryManagerFactory daoFactory, Map<String, Double> values,
+			Researcher researcher, Date date, ComputerDescription computer)
+			throws FileNotFoundException, IOException, ClassNotFoundException {
 
-		ExperimentRepositoryManager repoManager = daoFactory
-				.createExperimentsManager();
+		ExperimentRepositoryManager repoManager = daoFactory.createExperimentsManager();
 		repoManager.beginTx();
 
 		if (this.experimentName == null) {
 			this.experimentName = PREDEFINED;
 		}
 
-		Experiment experiment = loadOrCreateExperiment(researcher, date,
-				computer, repoManager);
+		Experiment experiment = loadOrCreateExperiment(researcher, date, computer, repoManager);
 
 		System.out.println("Experiment ID = " + experiment.getId());
 
@@ -281,13 +266,11 @@ public class MethodValuesTextFileLoader {
 
 			repoManager.beginTx();
 
-			es.optsicom.lib.expresults.model.InstanceDescription dbInstance = instancesByName
-					.get(instanceName);
+			es.optsicom.lib.expresults.model.InstanceDescription dbInstance = instancesByName.get(instanceName);
 
 			if (dbInstance == null) {
 				repoManager.commitTx();
-				System.out.println("Instance in file " + instanceName
-						+ " not found as Instance in problem");
+				System.out.println("Instance in file " + instanceName + " not found as Instance in problem");
 				continue;
 			}
 
@@ -299,13 +282,11 @@ public class MethodValuesTextFileLoader {
 
 			List<es.optsicom.lib.expresults.model.Event> dbEvents = new ArrayList<es.optsicom.lib.expresults.model.Event>();
 
-			StringEvent nameEvent = new StringEvent(dbExecution, -1,
-					Event.EXPERIMENT_METHOD_NAME, dbMethod.getProperties()
-							.getName());
-			long timestamp = times.containsKey(instanceName) ? times
-					.get(instanceName) : -1;
-			DoubleEvent dbEvent = new DoubleEvent(dbExecution, timestamp,
-					Event.OBJ_VALUE_EVENT, values.get(instanceName));
+			StringEvent nameEvent = new StringEvent(dbExecution, -1, Event.EXPERIMENT_METHOD_NAME,
+					dbMethod.getProperties().getName());
+			long timestamp = times.containsKey(instanceName) ? times.get(instanceName) : -1;
+			DoubleEvent dbEvent = new DoubleEvent(dbExecution, timestamp, Event.OBJ_VALUE_EVENT,
+					values.get(instanceName));
 			dbEvents.add(nameEvent);
 			dbEvents.add(dbEvent);
 
@@ -315,8 +296,7 @@ public class MethodValuesTextFileLoader {
 
 			repoManager.commitTx();
 
-			System.out.println("Saved events for instance "
-					+ dbInstance.getName());
+			System.out.println("Saved events for instance " + dbInstance.getName());
 		}
 
 		experiment.getInstances().addAll(instances);
@@ -338,8 +318,7 @@ public class MethodValuesTextFileLoader {
 			es.optsicom.lib.expresults.model.InstanceDescription dbInstance = null;
 
 			try {
-				dbInstance = repoManager.findInstanceDescription(id
-						.getProperties().getPropsAString());
+				dbInstance = repoManager.findInstanceDescription(id.getProperties().getPropsAString());
 			} catch (NoResultException e) {
 				dbInstance = id;
 				repoManager.persist(id);
@@ -354,48 +333,42 @@ public class MethodValuesTextFileLoader {
 
 	private es.optsicom.lib.expresults.model.MethodDescription loadOrCreateMethod(
 			ExperimentRepositoryManager repoManager) {
-		
+
 		es.optsicom.lib.expresults.model.MethodDescription dbMethod = null;
 
 		System.out.println("Loading method " + this.methodName);
 
 		try {
 
-			dbMethod = repoManager.findMethodDescription(new DBProperties(
-					this.methodName).getPropsAString());
+			dbMethod = repoManager.findMethodDescription(new DBProperties(this.methodName).getPropsAString());
 
 			System.out.println("Method found in database.");
 
 		} catch (NoResultException e) {
 
-			System.out
-					.println("No method found in database. Creating a fake one.");
+			System.out.println("No method found in database. Creating a fake one.");
 
-			dbMethod = new es.optsicom.lib.expresults.model.MethodDescription(
-					new DBProperties(this.methodName));
+			dbMethod = new es.optsicom.lib.expresults.model.MethodDescription(new DBProperties(this.methodName));
 			repoManager.persist(dbMethod);
 
 		}
 		return dbMethod;
 	}
 
-	private Experiment loadOrCreateExperiment(Researcher researcher, Date date,
-			ComputerDescription computer,
+	private Experiment loadOrCreateExperiment(Researcher researcher, Date date, ComputerDescription computer,
 			ExperimentRepositoryManager repoManager) {
-		
+
 		Experiment experiment = null;
 		try {
-			experiment = repoManager.findExperimentByName(this.experimentName,
-					this.problemName);
-			
+			experiment = repoManager.findExperimentByName(this.experimentName, this.problemName);
+
 			System.out.println("Experiment found in database.");
-			
+
 		} catch (NoResultException e) {
-			
+
 			System.out.println("Experiment not found in database. Creating a fake one.");
-			
-			experiment = new Experiment(this.experimentName, researcher, date,
-					computer);
+
+			experiment = new Experiment(this.experimentName, researcher, date, computer);
 			experiment.setTimeLimit(-1);
 			experiment.setProblemBestMode(this.bestMode);
 			experiment.setProblemName(this.problemName);

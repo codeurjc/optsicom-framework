@@ -3,15 +3,12 @@ package es.optsicom.lib.approx.algorithm.ma;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 import es.optsicom.lib.Instance;
 import es.optsicom.lib.Solution;
 import es.optsicom.lib.approx.AbstractApproxMethod;
-import es.optsicom.lib.approx.algorithm.ConstructiveMethod;
 import es.optsicom.lib.approx.constructive.Constructive;
 import es.optsicom.lib.approx.improvement.ImprovementMethod;
-import es.optsicom.lib.util.RandomIterator;
 import es.optsicom.lib.util.RandomManager;
 import es.optsicom.lib.util.RandomizedSelector;
 import es.optsicom.lib.util.RandomizedSelector.Proportionality;
@@ -19,8 +16,7 @@ import es.optsicom.lib.util.RandomizedSelector.Proportionality;
 /**
  * Memetic Algorithm described in Fan2010 (MDGP Problem)
  */
-public class MemeticAlgorithm2<S extends Solution<I>, I extends Instance>
-		extends AbstractApproxMethod<S, I> {
+public class MemeticAlgorithm2<S extends Solution<I>, I extends Instance> extends AbstractApproxMethod<S, I> {
 
 	private Constructive<S, I> constructive;
 	private ImprovementMethod<S, I> improvement;
@@ -31,9 +27,8 @@ public class MemeticAlgorithm2<S extends Solution<I>, I extends Instance>
 	private double mutationProb = 0.01;
 	private int numGenerations = 20;
 
-	public MemeticAlgorithm2(Constructive<S, I> constructive,
-			ImprovementMethod<S, I> improvement, CrossOver<S, I> crossOver,
-			Repairer<S, I> repairer, Mutator<S, I> mutator) {
+	public MemeticAlgorithm2(Constructive<S, I> constructive, ImprovementMethod<S, I> improvement,
+			CrossOver<S, I> crossOver, Repairer<S, I> repairer, Mutator<S, I> mutator) {
 		this.constructive = constructive;
 		this.improvement = improvement;
 		this.crossOver = crossOver;
@@ -44,12 +39,12 @@ public class MemeticAlgorithm2<S extends Solution<I>, I extends Instance>
 	@Override
 	protected void internalCalculateSolution(long timeout) {
 
-		if(improvement != null){
+		if (improvement != null) {
 			this.improvement.setImprovementMethodListener(this);
 		}
-		
+
 		long finishTime = -1;
-		if(timeout != -1){
+		if (timeout != -1) {
 			finishTime = System.currentTimeMillis() + timeout;
 		}
 
@@ -66,13 +61,13 @@ public class MemeticAlgorithm2<S extends Solution<I>, I extends Instance>
 
 		int numExecGenerations = 0;
 		while (true) {
-			
-			if(finishTime != -1){
-				if(System.currentTimeMillis() > finishTime){
+
+			if (finishTime != -1) {
+				if (System.currentTimeMillis() > finishTime) {
 					break;
-				}								
+				}
 			} else {
-				if(numExecGenerations >= numGenerations){
+				if (numExecGenerations >= numGenerations) {
 					break;
 				}
 				numExecGenerations++;
@@ -80,38 +75,43 @@ public class MemeticAlgorithm2<S extends Solution<I>, I extends Instance>
 
 			List<S> crossPopulation = new ArrayList<S>();
 
-			//Select ps pairs according to rank-based roulette-wheel strategy	
+			// Select ps pairs according to rank-based roulette-wheel strategy
 			RandomizedSelector<S> rs = new RandomizedSelector<S>(Proportionality.DIRECTLY);
 			Collections.sort(population, Collections.reverseOrder());
-			for(int j=0; j<population.size(); j++){
-				rs.add(population.get(j), ps-j);
+			for (int j = 0; j < population.size(); j++) {
+				rs.add(population.get(j), ps - j);
 			}
-			
-			for(int i=0; i<ps; i++){
+
+			for (int i = 0; i < ps; i++) {
 
 				S solutionA = rs.selectElement();
 				S solutionB = rs.selectElement();
-				
+
 				S solution = crossOver.createSolution(solutionA, solutionB);
-				
-				//System.out.print("CO: "+solutionA.getWeight()+", "+solutionB.getWeight()+" -> "+solution.getWeight()+" - repair -> ");
-				
-				if(RandomManager.nextDouble() < mutationProb){
-					//System.out.print("Mut: "+solution.getWeight()+" -> ");
+
+				// System.out.print("CO: "+solutionA.getWeight()+",
+				// "+solutionB.getWeight()+" -> "+solution.getWeight()+" -
+				// repair -> ");
+
+				if (RandomManager.nextDouble() < mutationProb) {
+					// System.out.print("Mut: "+solution.getWeight()+" -> ");
 					mutator.doMutation(solution);
-					//System.out.println(solution.getWeight());
+					// System.out.println(solution.getWeight());
 				}
-				
+
 				repairer.repairSolution(solution);
-				
-				//System.out.print(solution.getWeight());
-				
-				if(improvement != null){
+
+				// System.out.print(solution.getWeight());
+
+				if (improvement != null) {
 					improvement.improveSolution(solution);
 				}
-				
-				//boolean betterThanParents = solution.getWeight() > solutionA.getWeight() && solution.getWeight() > solutionB.getWeight();
-				//System.out.println(" -> "+solution.getWeight()+(betterThanParents?"  IMPR":""));
+
+				// boolean betterThanParents = solution.getWeight() >
+				// solutionA.getWeight() && solution.getWeight() >
+				// solutionB.getWeight();
+				// System.out.println(" ->
+				// "+solution.getWeight()+(betterThanParents?" IMPR":""));
 
 				setIfBestSolution(solution);
 
@@ -124,7 +124,7 @@ public class MemeticAlgorithm2<S extends Solution<I>, I extends Instance>
 
 			population = selection(crossPopulation, population);
 
-			//System.out.println("-");
+			// System.out.println("-");
 		}
 	}
 
@@ -158,12 +158,12 @@ public class MemeticAlgorithm2<S extends Solution<I>, I extends Instance>
 						newPopulation.add(ps);
 					}
 				}
-			} else if(crossPopulation.size() > 0){
-				while(newPopulation.size() < this.ps){
+			} else if (crossPopulation.size() > 0) {
+				while (newPopulation.size() < this.ps) {
 					newPopulation.add(crossPopulation.remove(0));
 				}
 			} else {
-				while(newPopulation.size() < this.ps){
+				while (newPopulation.size() < this.ps) {
 					newPopulation.add(population.remove(0));
 				}
 			}

@@ -27,17 +27,18 @@ public class InstanceFile implements Serializable, Descriptive {
 	private static final long serialVersionUID = 4199908568822373015L;
 
 	protected File file;
-	
+
 	private InstancesRepository repository;
-	
+
 	private String useCase;
 	private String instanceSetId;
 	private String fileName;
 	private String name;
-	
+
 	private Properties properties;
 
-	public InstanceFile(InstancesRepository repository, File file, String useCase, String instanceSetId, String fileName) {
+	public InstanceFile(InstancesRepository repository, File file, String useCase, String instanceSetId,
+			String fileName) {
 		this.file = file;
 		this.useCase = useCase;
 		this.instanceSetId = instanceSetId;
@@ -45,50 +46,50 @@ public class InstanceFile implements Serializable, Descriptive {
 		this.repository = repository;
 		this.name = instanceSetId + InstancesRepository.INSTANCE_ID_PATH_SEPARATOR + fileName;
 	}
-	
+
 	public Instance loadInstance() throws IOException {
 		return repository.loadInstance(this);
 	}
-	
+
 	public File getFile() {
 		return file;
 	}
-	
+
 	@Id
 	public String getFileName() {
 		return fileName;
 	}
-	
+
 	@Id
 	public String getUseCase() {
 		return useCase;
 	}
-	
+
 	@Id
 	public String getInstanceSetId() {
 		return instanceSetId;
 	}
-	
+
 	@Id
 	public String getName() {
 		return name;
 	}
-	
+
 	protected void setName(String name) {
 		this.name = name;
-		if(properties != null){
+		if (properties != null) {
 			properties.put("name", name);
 		}
 	}
-	
+
 	public Properties getProperties() {
-		if(properties == null){
+		if (properties == null) {
 			properties = DescriptiveHelper.createProperties(this);
 			properties.getMap().remove("class");
 		}
 		return properties;
 	}
-	
+
 	public void setProperties(Properties properties) {
 		this.properties = properties;
 	}
@@ -125,8 +126,6 @@ public class InstanceFile implements Serializable, Descriptive {
 
 	public InstanceDescription createInstanceDescription() {
 		return new InstanceDescription(new DBProperties(this.getProperties().getMap()));
-	}	
-	
-	
+	}
 
 }

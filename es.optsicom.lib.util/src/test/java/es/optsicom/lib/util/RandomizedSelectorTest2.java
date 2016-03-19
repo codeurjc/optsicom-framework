@@ -11,9 +11,6 @@
 package es.optsicom.lib.util;
 
 import java.util.Arrays;
-import java.util.Random;
-
-import es.optsicom.lib.util.RandomManager;
 
 public class RandomizedSelectorTest2 {
 
@@ -27,13 +24,13 @@ public class RandomizedSelectorTest2 {
 
 		for (int i = 0; i < NUM_CREATIONS; i++) {
 
-			//			RandomizedSelector<Object> rs = new RandomizedSelector<Object>();
+			// RandomizedSelector<Object> rs = new RandomizedSelector<Object>();
 			//
-			//			for (double element : values) {
-			//				rs.add(new Object(), (float) element);
-			//			}
+			// for (double element : values) {
+			// rs.add(new Object(), (float) element);
+			// }
 			//
-			//			rs.selectElement();
+			// rs.selectElement();
 
 			selectRandomly(values);
 		}

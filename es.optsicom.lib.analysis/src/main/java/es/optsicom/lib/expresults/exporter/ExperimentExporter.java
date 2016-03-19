@@ -21,11 +21,10 @@ public class ExperimentExporter {
 		em.getTransaction().begin();
 	}
 
-	public DBExecutionSaver startExecution(MethodDescription methodDesc,
-			InstanceDescription instanceDesc, long timeLimit) {
+	public DBExecutionSaver startExecution(MethodDescription methodDesc, InstanceDescription instanceDesc,
+			long timeLimit) {
 
-		return new DBExecutionSaver(dbManager.createEntityManager(), this,
-				instanceDesc, methodDesc, timeLimit);
+		return new DBExecutionSaver(dbManager.createEntityManager(), this, instanceDesc, methodDesc, timeLimit);
 	}
 
 	public Experiment getExperiment() {
@@ -58,9 +57,8 @@ public class ExperimentExporter {
 
 	public InstanceDescription findInstanceDescriptionByName(String name) {
 
-		Query q = em.createQuery("select i from "
-				+ InstanceDescription.class.getSimpleName()
-				+ " i where i.name = :name");
+		Query q = em
+				.createQuery("select i from " + InstanceDescription.class.getSimpleName() + " i where i.name = :name");
 		q.setParameter("name", name);
 
 		return (InstanceDescription) q.getSingleResult();
@@ -72,31 +70,29 @@ public class ExperimentExporter {
 	}
 
 	public InstanceDescription findInstanceDescription(String properties) {
-		return findInstanceDescription(em,properties);
+		return findInstanceDescription(em, properties);
 	}
 
 	public MethodDescription findMethodDescription(String properties) {
-		return findMethodDescription(em,properties);
+		return findMethodDescription(em, properties);
 	}
 
-	public InstanceDescription findInstanceDescription(EntityManager entityManager,
-			String properties) {
+	public InstanceDescription findInstanceDescription(EntityManager entityManager, String properties) {
 		return findElementDescription(entityManager, InstanceDescription.class, properties);
 	}
 
-	public MethodDescription findMethodDescription(EntityManager entityManager,
-			String properties) {
+	public MethodDescription findMethodDescription(EntityManager entityManager, String properties) {
 		return findElementDescription(entityManager, MethodDescription.class, properties);
 	}
 
-	protected <E extends ElementDescription> E findElementDescription(EntityManager entityManager,
-			Class<E> clazz, String propsAsString) {
-		Query q = entityManager.createQuery("select m from " + clazz.getSimpleName()
-				+ " m where m.properties.propsAsString = :propsAsString");
+	@SuppressWarnings("unchecked")
+	protected <E extends ElementDescription> E findElementDescription(EntityManager entityManager, Class<E> clazz,
+			String propsAsString) {
+		Query q = entityManager.createQuery(
+				"select m from " + clazz.getSimpleName() + " m where m.properties.propsAsString = :propsAsString");
 		q.setParameter("propsAsString", propsAsString);
+		
 		return (E) q.getSingleResult();
 	}
-
-
 
 }

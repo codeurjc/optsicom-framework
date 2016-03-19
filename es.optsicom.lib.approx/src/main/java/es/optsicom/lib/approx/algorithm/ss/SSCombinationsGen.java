@@ -22,18 +22,23 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Esta clase genera grupos de elementos. Se utiliza en metaheurísticas poblacionales en las que es necesaria la combinación de 
- * soluciones. Básicamente se ha usado en SS. Genera los grupos con la siguiente lógica:
- *  - Si el tamaño de los grupos es 2, genera todas las combinaciones de 2 elementos
- *  - Si el tamaño de los grupos es 3, genera todas las combinaciones de 2 elementos + las combinaciones de 3 elementos
- *    formadas al añadir el elemento con menor índice a las combinaciones de 2 elementos sin repetir ningún grupo. Esta
- *    creación de grupos tiene sentido porque los índices se usan para indexar soluciones del refSet y aquellas con menor
- *    índice son las "mejores", de esa forma se da prioridad a las combinaciones de las mejores soluciones evitando la 
- *    explosión combinatoria.
- *  - Si el tamaño de los grupos es 4, se generan todas las combinaciones de 2 elementos, las combinaciones de 3 elementos
- *    siguiendo la lógica anterior y las combinaciones de 4 elementos también siguiendo la lógica anterior.
- *  - Si el tamaño es mayor de 4, se generan todas las soluciones anteriores más los grupos que contienen los 5, 6,.., n elementos 
- *    con el índice más bajo.  
+ * Esta clase genera grupos de elementos. Se utiliza en metaheurísticas
+ * poblacionales en las que es necesaria la combinación de soluciones.
+ * Básicamente se ha usado en SS. Genera los grupos con la siguiente lógica: -
+ * Si el tamaño de los grupos es 2, genera todas las combinaciones de 2
+ * elementos - Si el tamaño de los grupos es 3, genera todas las combinaciones
+ * de 2 elementos + las combinaciones de 3 elementos formadas al añadir el
+ * elemento con menor índice a las combinaciones de 2 elementos sin repetir
+ * ningún grupo. Esta creación de grupos tiene sentido porque los índices se
+ * usan para indexar soluciones del refSet y aquellas con menor índice son las
+ * "mejores", de esa forma se da prioridad a las combinaciones de las mejores
+ * soluciones evitando la explosión combinatoria. - Si el tamaño de los grupos
+ * es 4, se generan todas las combinaciones de 2 elementos, las combinaciones de
+ * 3 elementos siguiendo la lógica anterior y las combinaciones de 4 elementos
+ * también siguiendo la lógica anterior. - Si el tamaño es mayor de 4, se
+ * generan todas las soluciones anteriores más los grupos que contienen los 5,
+ * 6,.., n elementos con el índice más bajo.
+ * 
  * @author mica
  *
  */
@@ -48,7 +53,7 @@ public class SSCombinationsGen {
 
 	public SSCombinationsGen(int combinationsMaxSize, int numElemsToCombine) {
 
-		//this.combinationsMaxSize = combinationsMaxSize;
+		// this.combinationsMaxSize = combinationsMaxSize;
 
 		if (combinationsMaxSize > numElemsToCombine) {
 			throw new IllegalArgumentException("combinationMaxSize cannot be greater than refSetSize");

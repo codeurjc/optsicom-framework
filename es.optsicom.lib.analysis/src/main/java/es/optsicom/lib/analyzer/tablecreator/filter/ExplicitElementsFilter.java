@@ -15,7 +15,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import es.optsicom.lib.expresults.model.ElementDescription;
-import es.optsicom.lib.util.description.Descriptive;
 import es.optsicom.lib.util.description.Properties;
 
 public class ExplicitElementsFilter extends ElementFilter {
@@ -30,26 +29,26 @@ public class ExplicitElementsFilter extends ElementFilter {
 		this(Arrays.asList(allowedElements));
 	}
 
-	public static ExplicitElementsFilter createWithElementDescriptions(List<? extends ElementDescription> elements){
+	public static ExplicitElementsFilter createWithElementDescriptions(List<? extends ElementDescription> elements) {
 		List<String> allowedElements = new ArrayList<String>();
-		for(ElementDescription element : elements){
+		for (ElementDescription element : elements) {
 			allowedElements.add(element.getProperties().toString());
 		}
 		return new ExplicitElementsFilter(allowedElements);
 	}
-	
+
 	@Override
 	public boolean isAllowed(Properties properties) {
-		//String id = getId(properties);
+		// String id = getId(properties);
 		String id = properties.toString();
-		//System.out.println("Prop:" + id);
+		// System.out.println("Prop:" + id);
 		for (String element : allowedElements) {
 			if (element.equals(id)) {
 				return true;
 			}
 		}
 		return false;
-		//return allowedElements.contains(getId(properties));
+		// return allowedElements.contains(getId(properties));
 	}
 
 }

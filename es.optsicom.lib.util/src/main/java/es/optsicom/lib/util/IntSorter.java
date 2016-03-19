@@ -1,13 +1,12 @@
 package es.optsicom.lib.util;
 
 /**
- * Written by Chee Wai Lee 4/25/2002 Sorter is a static class
- * that provides methods to sort numeric data (using the simplest
- * Quicksort variant) but produce a sort map instead of the
- * actual sorted array. ***CURRENT IMP*** For now, it is hard
- * coded to do reverse sorting (with the assumption that bigger
- * is more significant). It should be written to register an
- * object that implements the java.util.Comparator interface.
+ * Written by Chee Wai Lee 4/25/2002 Sorter is a static class that provides
+ * methods to sort numeric data (using the simplest Quicksort variant) but
+ * produce a sort map instead of the actual sorted array. ***CURRENT IMP*** For
+ * now, it is hard coded to do reverse sorting (with the assumption that bigger
+ * is more significant). It should be written to register an object that
+ * implements the java.util.Comparator interface.
  */
 
 public class IntSorter {
@@ -47,8 +46,8 @@ public class IntSorter {
 	// }
 
 	/**
-	 * Invariant: Every element to the left of the pivot is smaller
-	 * than the pivot element.
+	 * Invariant: Every element to the left of the pivot is smaller than the
+	 * pivot element.
 	 */
 	private static void qSort(int[] map, int[] array, int low, int high) {
 		// test termination condition

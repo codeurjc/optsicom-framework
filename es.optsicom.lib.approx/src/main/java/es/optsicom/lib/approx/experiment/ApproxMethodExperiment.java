@@ -11,11 +11,8 @@
 package es.optsicom.lib.approx.experiment;
 
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import javax.persistence.NoResultException;
 
 import es.optsicom.lib.Instance;
 import es.optsicom.lib.Solution;
@@ -26,12 +23,9 @@ import es.optsicom.lib.experiment.ExperimentExecution;
 import es.optsicom.lib.experiment.ExperimentMethodStopCriteria;
 import es.optsicom.lib.experiment.OptsicomException;
 import es.optsicom.lib.expresults.model.Event;
-import es.optsicom.lib.expresults.model.Experiment;
 import es.optsicom.lib.expresults.model.InstanceDescription;
-import es.optsicom.lib.expresults.model.MethodDescription;
 import es.optsicom.lib.expresults.saver.DBExecutionSaver;
 import es.optsicom.lib.expresults.saver.ExperimentSaver;
-import es.optsicom.lib.instancefile.InstanceFile;
 import es.optsicom.lib.util.RandomManager;
 import es.optsicom.lib.util.description.Properties;
 import es.optsicom.lib.util.outprocess.OutprocessWithOperations;
@@ -45,8 +39,7 @@ import es.optsicom.lib.util.outprocess.OutprocessWithOperations;
  * @param <S>
  * @param <I>
  */
-public class ApproxMethodExperiment<S extends Solution<I>, I extends Instance>
-		extends ExperimentExecution<S, I> {
+public class ApproxMethodExperiment<S extends Solution<I>, I extends Instance> extends ExperimentExecution<S, I> {
 
 	private static final double EPSILON = 0.001;
 
@@ -56,11 +49,10 @@ public class ApproxMethodExperiment<S extends Solution<I>, I extends Instance>
 	private boolean recordEvolution = false;
 	private List<String> methodNames;
 	private String description;
-	
+
 	protected ApproxExpConf approxExpConf;
 
-	public ApproxMethodExperiment(ApproxExpConf approxExpConf, List<ApproxMethod<S, I>> solCalcs,
-			int execIterations) {
+	public ApproxMethodExperiment(ApproxExpConf approxExpConf, List<ApproxMethod<S, I>> solCalcs, int execIterations) {
 		this.methods = solCalcs;
 		this.executions = execIterations;
 		this.approxExpConf = approxExpConf;
@@ -87,76 +79,67 @@ public class ApproxMethodExperiment<S extends Solution<I>, I extends Instance>
 
 		if (timeLimit != -1 && this.instanceTimeLimits == null) {
 
-			long experimentationDuration = this.instanceFiles.size()
-					* methods.size() * executions * timeLimit;
-			long finishTime = System.currentTimeMillis()
-					+ experimentationDuration;
+			long experimentationDuration = this.instanceFiles.size() * methods.size() * executions * timeLimit;
+			long finishTime = System.currentTimeMillis() + experimentationDuration;
 
-			System.out.println("Experimentation time: "
-					+ DateFormat.getTimeInstance().format(
-							new Date(experimentationDuration)));
-			System.out.println("Finalization time: "
-					+ DateFormat.getDateTimeInstance().format(
-							new Date(finishTime)));
+			System.out.println(
+					"Experimentation time: " + DateFormat.getTimeInstance().format(new Date(experimentationDuration)));
+			System.out.println("Finalization time: " + DateFormat.getDateTimeInstance().format(new Date(finishTime)));
 
 		}
 
 	}
 
 	@Override
-	protected void executeExperiment(ExperimentSaver saver, I instance,
-			int instanceIndex, long timeLimit, List<OptsicomException> thrownExceptions, boolean localExecution) {
+	protected void executeExperiment(ExperimentSaver saver, I instance, int instanceIndex, long timeLimit,
+			List<OptsicomException> thrownExceptions, boolean localExecution) {
 
 		InstanceDescription instanceDesc = instance.getInstanceFile().createInstanceDescription();
-		
+
 		for (int j = 0; j < this.methods.size(); j++) {
 
 			ApproxMethod<S, I> method = this.methods.get(j);
-			
+
 			String expMethodName = null;
 			if (methodNames != null) {
 				expMethodName = methodNames.get(j);
 			}
-			
+
 			if (expMethodName == null) {
 				Properties methodProperties = method.getProperties();
 				expMethodName = methodProperties.getName();
 			}
 
-			System.out.println("  Method: " + expMethodName + " Properties: "
-					+ method.getProperties());
+			System.out.println("  Method: " + expMethodName + " Properties: " + method.getProperties());
 
 			for (int i = 0; i < executions; i++) {
 
 				ExperimentMethodStopCriteria.experimentStarted();
-				
+
 				try {
 
-					System.out.println("     Execution " + (i + 1) + "/"
-							+ executions + ":");
+					System.out.println("     Execution " + (i + 1) + "/" + executions + ":");
 
 					long newSeed = 345845976 * i;
 					System.out.println("     Seed: " + newSeed);
 					RandomManager.setSeed(newSeed);
-					//RandomManager.setSeed(0);
+					// RandomManager.setSeed(0);
 
 					method.setInstance(instance);
 
 					ExecutionResult executionResult = null;
-					
-					DBExecutionSaver execSaver = saver.startExecution(method.createMethodDescription(), instanceDesc, timeLimit);
-					
-					
-					//Remoto!!!!!
-					
-					CurrentExperiment.startExecution(execSaver);					
-					
+
+					DBExecutionSaver execSaver = saver.startExecution(method.createMethodDescription(), instanceDesc,
+							timeLimit);
+
+					// Remoto!!!!!
+
+					CurrentExperiment.startExecution(execSaver);
+
 					if (methodNames.get(j) != null) {
-						CurrentExperiment.addEvent(
-								Event.EXPERIMENT_METHOD_NAME,
-								methodNames.get(j));
+						CurrentExperiment.addEvent(Event.EXPERIMENT_METHOD_NAME, methodNames.get(j));
 					}
-					
+
 					if (localExecution) {
 
 						if (recordEvolution) {
@@ -166,63 +149,62 @@ public class ApproxMethodExperiment<S extends Solution<I>, I extends Instance>
 
 							method.setSolutionCalculatorListener(listener);
 
-							executionResult = (ApproxExecResult) method
-									.execute(timeLimit);
+							executionResult = (ApproxExecResult) method.execute(timeLimit);
 
 							execSaver.finishExecution();
 
 						} else {
 
-							executionResult = (ApproxExecResult) method
-									.execute(timeLimit);
+							executionResult = (ApproxExecResult) method.execute(timeLimit);
 
-							execSaver.finishExecution(executionResult
-									.getBestSolution().getWeight(),
-									executionResult.getBestSolution()
-											.getInfoToSave());
+							execSaver.finishExecution(executionResult.getBestSolution().getWeight(),
+									executionResult.getBestSolution().getInfoToSave());
 
 						}
-						
-						//TODO Rehacer completamente el sistema de logging de ejecución
-						
+
+						// TODO Rehacer completamente el sistema de logging de
+						// ejecución
+
 					} else {
-						
+
 						OutprocessWithOperations outprocess = new OutprocessWithOperations();
-						
-						Class approxExpConfClass = this.approxExpConf.getClass(); 
-						
+
+						Class<? extends ApproxExpConf> approxExpConfClass = this.approxExpConf.getClass();
+
 						outprocess.startOutprocess(new RemoteExperimentExecutor(approxExpConfClass));
-						executionResult = (RemoteApproxExecResult) outprocess.execOperation("executeMethodInstance", j, instanceIndex, newSeed);				
-						
-						execSaver.finishExecution(executionResult.getBestSolution().getWeight(), executionResult.getBestSolution().getInfoToSave());
-						
+						executionResult = (RemoteApproxExecResult) outprocess.execOperation("executeMethodInstance", j,
+								instanceIndex, newSeed);
+
+						execSaver.finishExecution(executionResult.getBestSolution().getWeight(),
+								executionResult.getBestSolution().getInfoToSave());
+
 					}
-					
+
 					CurrentExperiment.finishExecution();
-					
-					Solution bestSolution = executionResult.getBestSolution();
-					
+
+					Solution<?> bestSolution = executionResult.getBestSolution();
+
 					System.out.println();
 					System.out.format("\tTime: %d\t W:%.3f\r\n", execSaver.getExecutionTime(),
 							bestSolution.getWeight());
 					System.out.println("\tSolution: " + bestSolution);
-					
-					double naiveWeight = bestSolution.calculateNaiveWeight();					
-					if(Math.abs(naiveWeight - bestSolution.getWeight()) > EPSILON){
+
+					double naiveWeight = bestSolution.calculateNaiveWeight();
+					if (Math.abs(naiveWeight - bestSolution.getWeight()) > EPSILON) {
 						System.out.println("\tNaive weight: " + naiveWeight);
 						System.out.println("\tSolution weight: " + bestSolution.getWeight());
 						System.out.println("\tERROR: Naive weight and solution weight are different !!!!!!!!!!!!!");
 					}
-					
+
 				} catch (Exception e) {
-					System.out.println("\tException: " + e.getClass().getName()+":"+e.getMessage());
+					System.out.println("\tException: " + e.getClass().getName() + ":" + e.getMessage());
 					e.printStackTrace();
-					thrownExceptions.add(new OptsicomException(instance.getInstanceFile(), method, e));					
+					thrownExceptions.add(new OptsicomException(instance.getInstanceFile(), method, e));
 				}
 			}
-			
-			//Delete me please!! It is a hack to test something...
-			//RandomManager.setSeed(0);
+
+			// Delete me please!! It is a hack to test something...
+			// RandomManager.setSeed(0);
 
 			// it frees memory
 			method.removeInstance();

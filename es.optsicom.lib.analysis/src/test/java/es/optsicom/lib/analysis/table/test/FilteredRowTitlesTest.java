@@ -15,7 +15,6 @@ import java.util.List;
 
 import es.optsicom.lib.analyzer.report.table.FilteredRowTitles;
 import es.optsicom.lib.expresults.model.DBProperties;
-import es.optsicom.lib.util.description.Properties;
 
 public class FilteredRowTitlesTest {
 

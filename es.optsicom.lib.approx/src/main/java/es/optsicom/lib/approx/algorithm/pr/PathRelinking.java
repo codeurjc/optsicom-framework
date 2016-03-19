@@ -19,21 +19,23 @@ import es.optsicom.lib.util.description.Properties;
 
 public abstract class PathRelinking<S extends Solution<I>, I extends Instance> implements Descriptive {
 
-	public enum PrMode { TWO_WAY, FORWARD, BACKWARD }
-	
+	public enum PrMode {
+		TWO_WAY, FORWARD, BACKWARD
+	}
+
 	protected PrMode prMode = PrMode.TWO_WAY;
-	
+
 	protected abstract S createSolution(S initiatingSol, S guidingSol);
 
 	@Id
 	public PrMode getPrMode() {
 		return prMode;
 	}
-	
+
 	public void setPrMode(PrMode prMode) {
 		this.prMode = prMode;
 	}
-	
+
 	public S pathRelinking(S solution, S esSolution) {
 
 		switch (prMode) {
@@ -45,48 +47,48 @@ public abstract class PathRelinking<S extends Solution<I>, I extends Instance> i
 			return pathRelinkingBackward(solution, esSolution);
 		default:
 			throw new Error();
-		}		
+		}
 	}
 
 	private S pathRelinkingBackward(S solution, S esSolution) {
-		
+
 		S bestSolution;
 		S worstSolution;
-		
-		if(solution.getWeight() > esSolution.getWeight()){
+
+		if (solution.getWeight() > esSolution.getWeight()) {
 			bestSolution = solution;
 			worstSolution = esSolution;
 		} else {
 			bestSolution = esSolution;
 			worstSolution = solution;
 		}
-		
+
 		return this.createSolution(worstSolution, bestSolution);
 	}
 
 	private S pathRelinkingForward(S solution, S esSolution) {
-		
+
 		S bestSolution;
 		S worstSolution;
-		
-		if(solution.getWeight() > esSolution.getWeight()){
+
+		if (solution.getWeight() > esSolution.getWeight()) {
 			bestSolution = solution;
 			worstSolution = esSolution;
 		} else {
 			bestSolution = esSolution;
 			worstSolution = solution;
 		}
-		
+
 		return this.createSolution(bestSolution, worstSolution);
 	}
 
 	private S pathRelinkingTwoWay(S solution, S esSolution) {
-		//CurrentExperiment.addEvent("prStarted");
+		// CurrentExperiment.addEvent("prStarted");
 
 		S solX = this.createSolution(solution, esSolution);
 		S solXAux = this.createSolution(esSolution, solution);
 
-		//CurrentExperiment.addEvent("prFinished");
+		// CurrentExperiment.addEvent("prFinished");
 
 		if (solX == null) {
 			return solXAux;

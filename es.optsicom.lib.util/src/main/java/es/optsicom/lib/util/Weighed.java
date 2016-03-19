@@ -12,9 +12,9 @@ package es.optsicom.lib.util;
 
 import java.util.Comparator;
 
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class Weighed<E> implements IWeighed {
 
-	@SuppressWarnings("unchecked")
 	private static final Weighed dummyNode = new Weighed(null, 0) {
 		@Override
 		public Weighed min(Weighed wn) {
@@ -27,7 +27,6 @@ public class Weighed<E> implements IWeighed {
 		};
 	};
 
-	@SuppressWarnings("unchecked")
 	private static final Comparator<Weighed> INVERSE_COMPARATOR = new Comparator<Weighed>() {
 		public int compare(Weighed a, Weighed b) {
 			return (a.value > b.value) ? -1 : (a.value < b.value) ? 1 : 0;
@@ -47,7 +46,6 @@ public class Weighed<E> implements IWeighed {
 		this.value = wn.value;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Weighed) {
@@ -108,7 +106,6 @@ public class Weighed<E> implements IWeighed {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public static <E> Weighed<E> getDummyWeighted() {
 		return dummyNode;
 	}
@@ -125,8 +122,8 @@ public class Weighed<E> implements IWeighed {
 		this.value += deltaValue;
 	}
 
-	public static <E> Weighed<E> create(E element,double weight) {
-		return new Weighed<E>(element,weight);
+	public static <E> Weighed<E> create(E element, double weight) {
+		return new Weighed<E>(element, weight);
 	}
 
 }

@@ -47,14 +47,14 @@ public class NumBestStatisticCalc extends RelativizerStatisticCalc {
 		for (int i = 0; i < values.length; i++) {
 			if (isSameValue(values[i], best)) {
 				result[i] = 1d;
-			} 
+			}
 		}
 
 		return result;
 	}
 
 	public static boolean isSameValue(double value, double best) {
-		double dev = Math.abs((value - best) / Math.max(value,best));
+		double dev = Math.abs((value - best) / Math.max(value, best));
 		return dev <= EPSILON;
 	}
 

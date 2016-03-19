@@ -22,7 +22,7 @@ public class DynamicConstPathRelinking<S extends Solution<I>, I extends Instance
 	protected int numIter;
 
 	public DynamicConstPathRelinking(int numIter, Constructive<S, I> constructive, ImprovementMethod<S, I> improvement,
-	        PathRelinking<S, I> pathRelinking, DistanceCalc<S, I> distCalc, int thresold) {
+			PathRelinking<S, I> pathRelinking, DistanceCalc<S, I> distCalc, int thresold) {
 
 		super(constructive, pathRelinking, improvement, distCalc, thresold);
 		this.numIter = numIter;
@@ -36,22 +36,22 @@ public class DynamicConstPathRelinking<S extends Solution<I>, I extends Instance
 	@Override
 	protected void internalCalculateSolution(long duration) {
 
-		//		1. Set GlobalIter equal to the number of global iterations.
-		//		2. Apply the GRASP method (construction plus improvement)
-		//		    for b=|ES| iterations to populate ES. ES={ x1, x2, …, xb }.
-		//		3. iter=b+1.
-		//		While( iter < GlobalIter )
-		//			4. Apply the construction phase of GRASP  x.
-		//			5. Apply the local search phase of GRASP to x  x'.
-		//			6. Randomly select xj in ES (Map values into probabilities).
-		//			7. Apply PR(x', xj) and PR(xj,x'), let y be the best solution found.
-		//			8. Apply the local search phase of GRASP to y  y'.
-		//			If ( zMM(y') > zMM(x1)  or  (zMM(y') > zMM(xb) and d(y',ES)  dth))
-		//			9. Let xk be the closest solution to y' in ES with zMM(y')>zMM(xk).
-		//			10. Add y' to ES and remove xk.
-		//			11. Update the order in ES (from the best x1 to the worst xb).
+		// 1. Set GlobalIter equal to the number of global iterations.
+		// 2. Apply the GRASP method (construction plus improvement)
+		// for b=|ES| iterations to populate ES. ES={ x1, x2, …, xb }.
+		// 3. iter=b+1.
+		// While( iter < GlobalIter )
+		// 4. Apply the construction phase of GRASP  x.
+		// 5. Apply the local search phase of GRASP to x  x'.
+		// 6. Randomly select xj in ES (Map values into probabilities).
+		// 7. Apply PR(x', xj) and PR(xj,x'), let y be the best solution found.
+		// 8. Apply the local search phase of GRASP to y  y'.
+		// If ( zMM(y') > zMM(x1) or (zMM(y') > zMM(xb) and d(y',ES)  dth))
+		// 9. Let xk be the closest solution to y' in ES with zMM(y')>zMM(xk).
+		// 10. Add y' to ES and remove xk.
+		// 11. Update the order in ES (from the best x1 to the worst xb).
 		//
-		//		12. Return xbest.
+		// 12. Return xbest.
 
 		long finishTime;
 		if (duration != -1) {

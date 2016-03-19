@@ -21,16 +21,16 @@ public class RCL1 {
 		double thresold = closeToBest * maxValue;
 
 		int i;
-		//Esto se podría hacer con una búsqueda binaria
+		// Esto se podría hacer con una búsqueda binaria
 		for (i = size - 1; i > 0; i--) {
 			if (sortedValues[i] < thresold) {
 				break;
 			}
 		}
 
-		//The last test is not included in RCL
+		// The last test is not included in RCL
 		i++;
-		//System.out.println("i:" + i);
+		// System.out.println("i:" + i);
 
 		return RandomManager.nextInt(size - i) + i;
 	}

@@ -10,15 +10,14 @@
  * **************************************************************************** */
 package es.optsicom.lib.approx.constructive;
 
-import java.util.Random;
-
 import es.optsicom.lib.Instance;
 import es.optsicom.lib.Solution;
 import es.optsicom.lib.util.MathUtil;
 import es.optsicom.lib.util.RandomManager;
 import es.optsicom.lib.util.description.Properties;
 
-public abstract class ReactiveParamConstructive<S extends Solution<I>, I extends Instance> extends NonIsoIntervalConstructive<S, I> {
+public abstract class ReactiveParamConstructive<S extends Solution<I>, I extends Instance>
+		extends NonIsoIntervalConstructive<S, I> {
 
 	private double[] paramValues;
 	private double[] paramScores;
@@ -50,49 +49,51 @@ public abstract class ReactiveParamConstructive<S extends Solution<I>, I extends
 
 	protected abstract S createSolution(double paramValue);
 
-	//	@Override
-	//	public void initSolutionCreationByNum(int numSolutions) {
-	//		super.initSolutionCreationByNum(numSolutions);
-	//		System.out.println("ParamValues: " + Arrays.toString(paramValues));
-	//		System.out.println("CloseToBest: " + closeToBest);
-	//	}
+	// @Override
+	// public void initSolutionCreationByNum(int numSolutions) {
+	// super.initSolutionCreationByNum(numSolutions);
+	// System.out.println("ParamValues: " + Arrays.toString(paramValues));
+	// System.out.println("CloseToBest: " + closeToBest);
+	// }
 
 	@Override
 	protected S createSolution(int numInterval) {
 
-		//System.out.print("Create Solution. " + Arrays.toString(this.paramScores));
+		// System.out.print("Create Solution. " +
+		// Arrays.toString(this.paramScores));
 
 		int paramIndex;
 		if (scoredParams) {
-			//System.out.print(" SC ");
+			// System.out.print(" SC ");
 			paramIndex = MathUtil.selectIndex(paramScores);
 		} else {
-			//System.out.print("NSC ");
+			// System.out.print("NSC ");
 			paramIndex = RandomManager.nextInt(paramValues.length);
 		}
 
-		//System.out.print("paramIndex: " + paramIndex);
+		// System.out.print("paramIndex: " + paramIndex);
 
 		double paramValue = paramValues[paramIndex];
 
-		//System.out.format(" paramValue: %.2f", paramValue);
+		// System.out.format(" paramValue: %.2f", paramValue);
 
 		S s = createSolution(paramValue);
 
-		//System.out.format(" W: %.2f Best:%.2f ", s.getWeight(), bestSolutionWeight);
+		// System.out.format(" W: %.2f Best:%.2f ", s.getWeight(),
+		// bestSolutionWeight);
 
 		if (s.getWeight() > bestSolutionWeight) {
-			//System.out.print("Better than best.");
+			// System.out.print("Better than best.");
 			bestSolutionWeight = s.getWeight();
 			paramScores[paramIndex]++;
 		} else if (s.getWeight() > closeToBest * bestSolutionWeight) {
-			//System.out.print("Close to best.");
+			// System.out.print("Close to best.");
 			paramScores[paramIndex]++;
 		} else {
-			//System.out.print("Not close to bestSolution.");
+			// System.out.print("Not close to bestSolution.");
 		}
 
-		//System.out.println();
+		// System.out.println();
 
 		return s;
 
@@ -101,13 +102,13 @@ public abstract class ReactiveParamConstructive<S extends Solution<I>, I extends
 	@Override
 	protected void initInterval(int interval) {
 		switch (interval) {
-			case 0:
-				this.bestSolutionWeight = 0;
-				this.scoredParams = false;
-				this.paramScores = new double[paramValues.length];
-				break;
-			default:
-				this.scoredParams = true;
+		case 0:
+			this.bestSolutionWeight = 0;
+			this.scoredParams = false;
+			this.paramScores = new double[paramValues.length];
+			break;
+		default:
+			this.scoredParams = true;
 		}
 
 	}

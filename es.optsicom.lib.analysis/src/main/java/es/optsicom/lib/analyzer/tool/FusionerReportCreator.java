@@ -2,9 +2,7 @@ package es.optsicom.lib.analyzer.tool;
 
 import java.awt.Desktop;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import es.optsicom.lib.analyzer.DefaultReportConf;
@@ -53,8 +51,7 @@ public class FusionerReportCreator {
 			this.methodNames.add(methodName);
 		}
 
-		public ExperimentMethodConf(long experimentId,
-				List<String> methodNames, List<String> methodIds) {
+		public ExperimentMethodConf(long experimentId, List<String> methodNames, List<String> methodIds) {
 			super();
 			this.experimentId = experimentId;
 			this.methodNames = methodNames;
@@ -62,8 +59,7 @@ public class FusionerReportCreator {
 		}
 
 		public String getExpNameOrId() {
-			return experimentName != null ? experimentName : Long
-					.toString(experimentId);
+			return experimentName != null ? experimentName : Long.toString(experimentId);
 		}
 	}
 
@@ -77,8 +73,7 @@ public class FusionerReportCreator {
 	private ElementFilter instancesFilter;
 	private FiltersAndAliases fa;
 
-	public FusionerReportCreator(String problemName, String reportName,
-			DBManager dbManager) {
+	public FusionerReportCreator(String problemName, String reportName, DBManager dbManager) {
 		this.dbManager = dbManager;
 		this.problemName = problemName;
 		this.reportName = reportName;
@@ -95,15 +90,12 @@ public class FusionerReportCreator {
 		return this;
 	}
 
-	public FusionerReportCreator addExperimentMethod(String experimentName,
-			String methodName) {
-		expMethodConfs
-				.add(new ExperimentMethodConf(experimentName, methodName));
+	public FusionerReportCreator addExperimentMethod(String experimentName, String methodName) {
+		expMethodConfs.add(new ExperimentMethodConf(experimentName, methodName));
 		return this;
 	}
 
-	public FusionerReportCreator addExperimentMethod(long experimentId,
-			String methodName) {
+	public FusionerReportCreator addExperimentMethod(long experimentId, String methodName) {
 		expMethodConfs.add(new ExperimentMethodConf(experimentId, methodName));
 		return this;
 	}
@@ -148,8 +140,7 @@ public class FusionerReportCreator {
 		ExperimentRepositoryFactory expRepoFactory = null;
 		expRepoFactory = new DBExperimentRepositoryManagerFactory(dbManager);
 
-		ExperimentRepositoryManager expRepoManager = expRepoFactory
-				.createExperimentRepositoryManager();
+		ExperimentRepositoryManager expRepoManager = expRepoFactory.createExperimentRepositoryManager();
 
 		List<ExperimentManager> expManagers = new ArrayList<ExperimentManager>();
 
@@ -157,45 +148,33 @@ public class FusionerReportCreator {
 
 			ExperimentManager expManager;
 			if (expMethodConf.experimentName != null) {
-				expManager = expRepoManager.findExperimentManagerByName(
-						expMethodConf.experimentName, problemName);
+				expManager = expRepoManager.findExperimentManagerByName(expMethodConf.experimentName, problemName);
 			} else {
-				expManager = expRepoManager
-						.findExperimentManagerById(expMethodConf.experimentId);
+				expManager = expRepoManager.findExperimentManagerById(expMethodConf.experimentId);
 			}
 
-			if (!expMethodConf.methodNames.isEmpty()
-					|| !expMethodConf.methodIds.isEmpty()
-					|| instancesFilter != null) {
+			if (!expMethodConf.methodNames.isEmpty() || !expMethodConf.methodIds.isEmpty() || instancesFilter != null) {
 
-				ExperimentManager filteredExpManager = expManager
-						.createFilteredExperimentManager(instancesFilter,
-								expMethodConf.methodNames
-										.toArray(new String[0]));
+				ExperimentManager filteredExpManager = expManager.createFilteredExperimentManager(instancesFilter,
+						expMethodConf.methodNames.toArray(new String[0]));
 
 				List<MethodDescription> methods = filteredExpManager.getMethods();
-				
+
 				if (methods.size() == 0) {
-					System.out
-							.println("WARNING: Filtering mehtods in experiment \""
-									+ expMethodConf.getExpNameOrId()
-									+ "\" gives no methods");
-					System.out.println("  Methods before filtering: "
-							+ expManager.getMethods());
-					System.out.println("  Methods after filtering: "
-							+ filteredExpManager.getMethods());
-					System.out.println("  Method names looked for: "
-							+ expMethodConf.methodNames);
+					System.out.println("WARNING: Filtering mehtods in experiment \"" + expMethodConf.getExpNameOrId()
+							+ "\" gives no methods");
+					System.out.println("  Methods before filtering: " + expManager.getMethods());
+					System.out.println("  Methods after filtering: " + filteredExpManager.getMethods());
+					System.out.println("  Method names looked for: " + expMethodConf.methodNames);
 				}
-				
+
 				expManager = filteredExpManager;
 			}
 
 			expManagers.add(expManager);
 		}
 
-		ExperimentManager mergedExpManager = new MergedExperimentManager(
-				expRepoManager, expManagers);
+		ExperimentManager mergedExpManager = new MergedExperimentManager(expRepoManager, expManagers);
 
 		for (MethodDescription method : mergedExpManager.getMethods()) {
 			System.out.println(method);
@@ -204,8 +183,7 @@ public class FusionerReportCreator {
 		ElementFilter methodFilter = fa != null ? fa.getMethodFilter() : null;
 
 		if (methodFilter != null) {
-			mergedExpManager = mergedExpManager
-					.createFilteredExperimentManager(null, methodFilter);
+			mergedExpManager = mergedExpManager.createFilteredExperimentManager(null, methodFilter);
 		}
 
 		if (this.reportConf == null) {

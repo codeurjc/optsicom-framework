@@ -15,8 +15,8 @@ import java.util.Arrays;
 import es.optsicom.lib.Instance;
 import es.optsicom.lib.Solution;
 
-public abstract class NonIsoIntervalConstructive<S extends Solution<I>, I extends Instance> extends
-        IntervalConstructive<S, I> {
+public abstract class NonIsoIntervalConstructive<S extends Solution<I>, I extends Instance>
+		extends IntervalConstructive<S, I> {
 
 	private final float[] accIntervalsProportion;
 

@@ -13,7 +13,8 @@ package es.optsicom.lib.approx.constructive;
 import es.optsicom.lib.Instance;
 import es.optsicom.lib.Solution;
 
-public abstract class IntervalConstructive<S extends Solution<I>, I extends Instance> extends AbstractConstructive<S, I> {
+public abstract class IntervalConstructive<S extends Solution<I>, I extends Instance>
+		extends AbstractConstructive<S, I> {
 
 	enum CreationMode {
 		INDEPENDENT_CREATION, CREATION_BY_TIME, CREATION_BY_NUM
@@ -27,17 +28,17 @@ public abstract class IntervalConstructive<S extends Solution<I>, I extends Inst
 	protected boolean[] intervalInitialized;
 	private int currentInterval;
 
-	//	public IntervalConstructive(I instance) {
-	//		super(instance);
-	//	}
+	// public IntervalConstructive(I instance) {
+	// super(instance);
+	// }
 
 	public IntervalConstructive() {
 	}
 
 	private S createSolutionForInterval(int currentInterval) {
 
-		this.currentInterval = currentInterval; 
-		
+		this.currentInterval = currentInterval;
+
 		int auxCurrentInterval = currentInterval;
 		while (!intervalInitialized[auxCurrentInterval]) {
 			auxCurrentInterval--;
@@ -81,29 +82,29 @@ public abstract class IntervalConstructive<S extends Solution<I>, I extends Inst
 		S solution = null;
 
 		switch (creationMode) {
-			case CREATION_BY_NUM: {
-				float proportion = ((float) createdSolutions) / numSolutions;
-				solution = createSolutionForInterval(getNumInterval(proportion));
-				break;
-			}
-			case CREATION_BY_TIME: {
-				float proportion = ((float) (System.currentTimeMillis() - startTime)) / millis;
-				solution = createSolutionForInterval(getNumInterval(proportion));
-				break;
-			}
-			case INDEPENDENT_CREATION: {
-				solution = createSolution(-1);
-				break;
-			}
+		case CREATION_BY_NUM: {
+			float proportion = ((float) createdSolutions) / numSolutions;
+			solution = createSolutionForInterval(getNumInterval(proportion));
+			break;
+		}
+		case CREATION_BY_TIME: {
+			float proportion = ((float) (System.currentTimeMillis() - startTime)) / millis;
+			solution = createSolutionForInterval(getNumInterval(proportion));
+			break;
+		}
+		case INDEPENDENT_CREATION: {
+			solution = createSolution(-1);
+			break;
+		}
 		}
 
 		return solution;
 	}
 
-	protected int getCurrentInterval(){
+	protected int getCurrentInterval() {
 		return currentInterval;
 	}
-	
+
 	protected abstract int getNumInterval(float totalPropotion);
 
 	protected abstract void initInterval(int interval);

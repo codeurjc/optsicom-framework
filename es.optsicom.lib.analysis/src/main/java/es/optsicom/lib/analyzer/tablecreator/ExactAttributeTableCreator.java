@@ -20,20 +20,16 @@ public class ExactAttributeTableCreator extends AttributedTableCreator {
 	@Override
 	public AttributedTable buildTable() {
 
-		this.setStatisticGroups(Arrays.asList(StatisticGroup
-				.createMultipleStatisticGroup(new GapRP(),
+		this.setStatisticGroups(Arrays.asList(
+				StatisticGroup.createMultipleStatisticGroup(
+						new GapRP(),
 						new Statistic[] { new Statistic(
-								new NonRelativizerStatisticCalc(
-										SummarizeMode.AVERAGE,
-										NumberType.PERCENT), "Gap") },
+								new NonRelativizerStatisticCalc(SummarizeMode.AVERAGE, NumberType.PERCENT), "Gap") },
 						new Statistic[] { new Statistic(
-								new NonRelativizerStatisticCalc(
-										SummarizeMode.SUM, NumberType.INTEGER),
-								"#Opt") }), StatisticGroup
-				.createSimpleStatisticGroup(new LastEventRP(
-						Event.FINISH_TIME_EVENT).setSource(Source.TIMESTAMP),
-						new Statistic(new NonRelativizerStatisticCalc(
-								SummarizeMode.AVERAGE, NumberType.DECIMAL),
+								new NonRelativizerStatisticCalc(SummarizeMode.SUM, NumberType.INTEGER), "#Opt") }),
+				StatisticGroup.createSimpleStatisticGroup(
+						new LastEventRP(Event.FINISH_TIME_EVENT).setSource(Source.TIMESTAMP),
+						new Statistic(new NonRelativizerStatisticCalc(SummarizeMode.AVERAGE, NumberType.DECIMAL),
 								"CPU Time"))));
 
 		return super.buildTable();

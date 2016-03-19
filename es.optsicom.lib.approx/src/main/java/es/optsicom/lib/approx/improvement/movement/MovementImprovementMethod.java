@@ -26,7 +26,7 @@ public abstract class MovementImprovementMethod<S extends Solution<I>, I extends
 
 		this.solution = solution;
 		this.originalWeight = solution.getWeight();
-		
+
 		this.instance = instance;
 
 		this.movementGenerator.startImprovement(solution, instance);
@@ -34,7 +34,7 @@ public abstract class MovementImprovementMethod<S extends Solution<I>, I extends
 		try {
 			moreInternalImproveSolution();
 		} catch (TimeLimitException e) {
-		} 
+		}
 
 		this.movementGenerator.finishImprovement(solution, instance);
 
@@ -47,5 +47,5 @@ public abstract class MovementImprovementMethod<S extends Solution<I>, I extends
 	public MovementGenerator<S, I> getMovementGenerator() {
 		return movementGenerator;
 	}
-		
+
 }

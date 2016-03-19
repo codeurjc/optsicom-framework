@@ -20,14 +20,14 @@ public class Pair<A, B> {
 		this.b = b;
 	}
 
-	public static <A,B> Pair<A, B> create(A a, B b) {
-		return new Pair<A,B>(a,b);
+	public static <A, B> Pair<A, B> create(A a, B b) {
+		return new Pair<A, B>(a, b);
 	}
 
 	public A getA() {
 		return a;
 	}
-	
+
 	public B getB() {
 		return b;
 	}
@@ -36,6 +36,5 @@ public class Pair<A, B> {
 	public String toString() {
 		return "Pair [a=" + a + ", b=" + b + "]";
 	}
-	
-	
+
 }

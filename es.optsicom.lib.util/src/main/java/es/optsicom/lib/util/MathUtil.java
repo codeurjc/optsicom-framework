@@ -11,9 +11,7 @@
 package es.optsicom.lib.util;
 
 import java.util.Arrays;
-
 import java.util.List;
-import java.util.Random;
 
 public class MathUtil {
 
@@ -30,6 +28,7 @@ public class MathUtil {
 
 	/**
 	 * Selects an index proportional to the probabilities values.
+	 * 
 	 * @param probabilities
 	 * @return
 	 */
@@ -55,23 +54,24 @@ public class MathUtil {
 			return insertionPoint;
 		}
 	}
-	
+
 	/**
 	 * Selects an index inversely proportional to probabilities.
+	 * 
 	 * @param probabilities
 	 * @return
 	 */
 	public static int selectIndexInversely(double[] probabilities) {
 		double[] freqInv = new double[probabilities.length];
-		for(int i = 0; i < freqInv.length; i++) {
+		for (int i = 0; i < freqInv.length; i++) {
 			freqInv[i] = ArraysUtil.min(probabilities) - (probabilities[i] - ArraysUtil.max(probabilities));
 		}
-		
+
 		return selectIndex(freqInv);
 	}
-	
+
 	public static double nextDouble(double lowerBound, double upperBound) {
-		return lowerBound + RandomManager.nextDouble()*(upperBound-lowerBound);
+		return lowerBound + RandomManager.nextDouble() * (upperBound - lowerBound);
 	}
 
 	public static double meanValue(List<Double> list) {
@@ -84,27 +84,25 @@ public class MathUtil {
 		return sum / list.size();
 	}
 
-	public static boolean efectiveEquals(double valueA,
-			double valueB) {
+	public static boolean efectiveEquals(double valueA, double valueB) {
 		return efectiveEquals(valueA, valueB, 0.00001);
 	}
 
-	public static boolean efectiveEquals(double valueA, double valueB,
-			double epsilon) {
-		return Math.abs(valueA-valueB) < epsilon;
+	public static boolean efectiveEquals(double valueA, double valueB, double epsilon) {
+		return Math.abs(valueA - valueB) < epsilon;
 	}
-	
-	public static boolean efectiveEqualsDouble(Double valueA, Double valueB,
-			double epsilon) {
-		if(valueA == null && valueB == null){
+
+	public static boolean efectiveEqualsDouble(Double valueA, Double valueB, double epsilon) {
+		if (valueA == null && valueB == null) {
 			return true;
-		} else if(valueA == null || valueB == null){
+		} else if (valueA == null || valueB == null) {
 			return false;
 		} else {
-			return Math.abs(valueA-valueB) < epsilon;
+			return Math.abs(valueA - valueB) < epsilon;
 		}
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static <T extends Comparable> T max(T... objects) {
 		return ArraysUtil.max(objects);
 	}

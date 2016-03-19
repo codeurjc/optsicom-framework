@@ -23,7 +23,7 @@ public class StaticConstPathRelinking<S extends Solution<I>, I extends Instance>
 	protected int numIter;
 
 	public StaticConstPathRelinking(int numIter, Constructive<S, I> constructive, ImprovementMethod<S, I> improvement,
-	        PathRelinking<S, I> pathRelinking, DistanceCalc<S, I> distCalc, int thresold) {
+			PathRelinking<S, I> pathRelinking, DistanceCalc<S, I> distCalc, int thresold) {
 		super(constructive, pathRelinking, improvement, distCalc, thresold);
 		this.numIter = numIter;
 	}
@@ -40,26 +40,26 @@ public class StaticConstPathRelinking<S extends Solution<I>, I extends Instance>
 	@Override
 	protected void internalCalculateSolution(long duration) {
 
-		//		1. Set GlobalIter equal to the number of global iterations.
-		//		2. Apply the GRASP method (construction plus improvement)
-		//		    for b=|ES| iterations to populate ES={ x1, x2, …, xb }.
-		//		3. iter=b+1.
-		//		While( iter < GlobalIter )
-		//			4. Apply the construction phase of GRASP  x.
-		//			5. Apply the local search phase of GRASP to x  x'.
-		//			If ( zMM(x') > zMM(x1)  or  (zMM(x') > zMM(xb) and d(x',ES)  dth ) )
-		//			6. Let xk be the closest solution to x' in ES with zMM(x')>zMM(xk).
-		//			7. Add x' to ES and remove xk.
-		//			8. Update the order in ES (from the best x1 to the worst xb).
-		//		9. Let xbest= x1.
-		//			
-		//		For(i=1 to b-1 and j=i+1 to b)
-		//			10. Apply PR(xi,xj) and PR(xj,xi), let x be the best solution found
-		//			11. Apply the local search phase of GRASP to x  x'.
-		//			If(zMM(x') > zMM(xbest))
-		//				12. xbest= x'.
+		// 1. Set GlobalIter equal to the number of global iterations.
+		// 2. Apply the GRASP method (construction plus improvement)
+		// for b=|ES| iterations to populate ES={ x1, x2, …, xb }.
+		// 3. iter=b+1.
+		// While( iter < GlobalIter )
+		// 4. Apply the construction phase of GRASP  x.
+		// 5. Apply the local search phase of GRASP to x  x'.
+		// If ( zMM(x') > zMM(x1) or (zMM(x') > zMM(xb) and d(x',ES)  dth ) )
+		// 6. Let xk be the closest solution to x' in ES with zMM(x')>zMM(xk).
+		// 7. Add x' to ES and remove xk.
+		// 8. Update the order in ES (from the best x1 to the worst xb).
+		// 9. Let xbest= x1.
 		//
-		//		13. Return xbest.
+		// For(i=1 to b-1 and j=i+1 to b)
+		// 10. Apply PR(xi,xj) and PR(xj,xi), let x be the best solution found
+		// 11. Apply the local search phase of GRASP to x  x'.
+		// If(zMM(x') > zMM(xbest))
+		// 12. xbest= x'.
+		//
+		// 13. Return xbest.
 
 		if (duration != -1) {
 			System.out.println("WARN: This algorithm is not prepared to be executed by time. Ignoring time limit");

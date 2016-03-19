@@ -15,15 +15,13 @@ public class AttributedValue {
 	private Map<String, Attribute> attributes;
 	private NumericFormat numberFormat;
 
-	public AttributedValue(TableValue value, NumericFormat numberFormat,
-			Map<String, Attribute> attributes) {
+	public AttributedValue(TableValue value, NumericFormat numberFormat, Map<String, Attribute> attributes) {
 		this.tableValue = value;
 		this.numberFormat = numberFormat;
 		this.attributes = attributes;
 	}
 
-	public AttributedValue(TableValue tableValue, NumericFormat numberFormat,
-			Attribute... attributes) {
+	public AttributedValue(TableValue tableValue, NumericFormat numberFormat, Attribute... attributes) {
 		this.tableValue = tableValue;
 		this.numberFormat = numberFormat;
 		this.attributes = new HashMap<String, Attribute>();
@@ -35,7 +33,7 @@ public class AttributedValue {
 	public Double getValue() {
 		return tableValue.getValue();
 	}
-	
+
 	public Color getColor() {
 		return tableValue.getColor();
 	}
@@ -54,7 +52,7 @@ public class AttributedValue {
 
 	@Override
 	public String toString() {
-		return "AttributedValue [value=" + tableValue + ", attributes="
-				+ attributes + ", numberFormat=" + numberFormat + "]";
+		return "AttributedValue [value=" + tableValue + ", attributes=" + attributes + ", numberFormat=" + numberFormat
+				+ "]";
 	}
 }

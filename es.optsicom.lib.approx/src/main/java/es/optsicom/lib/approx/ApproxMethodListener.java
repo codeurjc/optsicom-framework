@@ -16,7 +16,7 @@ import es.optsicom.lib.Solution;
 public interface ApproxMethodListener<S extends Solution<I>, I extends Instance> {
 
 	void solutionImproved(ApproxMethod<S, I> approxMethod, S solution);
-	
+
 	void solutionImproved(ApproxMethod<S, I> approxMethod, double weight);
 
 	void calculationStarted(ApproxMethod<S, I> approxMethod);

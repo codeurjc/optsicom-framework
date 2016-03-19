@@ -6,13 +6,13 @@ import java.util.Map;
 public interface Properties extends Comparable<Properties> {
 
 	String getName();
-	
+
 	Map<String, String> getMap();
 
 	String get(String key);
 
 	void put(String key, Object value);
-	
-	List<Map.Entry<String,String>> getSortedProperties();
+
+	List<Map.Entry<String, String>> getSortedProperties();
 
 }

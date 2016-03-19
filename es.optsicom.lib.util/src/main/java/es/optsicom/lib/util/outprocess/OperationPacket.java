@@ -6,7 +6,7 @@ import java.util.Arrays;
 public class OperationPacket implements Serializable {
 
 	private static final long serialVersionUID = -993107529368398160L;
-	
+
 	private String operationName;
 	private Object[] params;
 
@@ -28,8 +28,7 @@ public class OperationPacket implements Serializable {
 
 	@Override
 	public String toString() {
-		return "OperationPacket [operationName=" + operationName + ", params="
-				+ Arrays.toString(params) + "]";
+		return "OperationPacket [operationName=" + operationName + ", params=" + Arrays.toString(params) + "]";
 	}
 
 	public OperationPacket(String operationName, Object[] params) {

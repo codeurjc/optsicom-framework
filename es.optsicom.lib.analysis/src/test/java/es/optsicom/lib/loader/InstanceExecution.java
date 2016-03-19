@@ -39,8 +39,7 @@ public class InstanceExecution {
 
 	@Override
 	public String toString() {
-		return "InstanceExecution [instanceName=" + instanceName + ", value="
-				+ value + ", execTime=" + execTime + "]";
+		return "InstanceExecution [instanceName=" + instanceName + ", value=" + value + ", execTime=" + execTime + "]";
 	}
 
 }

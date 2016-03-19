@@ -33,15 +33,11 @@ import es.optsicom.lib.util.SortedLimitedList;
 public class ScatterSearch<S extends Solution<I>, I extends Instance> extends AbstractApproxMethod<S, I> {
 
 	public enum RegenerationMode {
-		GENERATE_AND_SELECT_DIVERSE,
-		GENERATE_NECESSARY,
-		GENERATE_IF_NOT_ENOUGH
+		GENERATE_AND_SELECT_DIVERSE, GENERATE_NECESSARY, GENERATE_IF_NOT_ENOUGH
 	}
 
 	public enum ImpMode {
-		WITH_IMPR,
-		WITHOUT_IMPR,
-		WI_ONLY_BEST
+		WITH_IMPR, WITHOUT_IMPR, WI_ONLY_BEST
 	}
 
 	private int numBestSolutionsToImprove = 5;
@@ -182,7 +178,7 @@ public class ScatterSearch<S extends Solution<I>, I extends Instance> extends Ab
 			scatterSearchListener.initialSolutionsCreated(this);
 		}
 
-		//System.out.print("%1");
+		// System.out.print("%1");
 		if (System.currentTimeMillis() > this.finishTime) {
 			return;
 		}
@@ -191,46 +187,46 @@ public class ScatterSearch<S extends Solution<I>, I extends Instance> extends Ab
 		// Debug.debugln("created refSet");
 
 		switch (impMode) {
-			case WITH_IMPR: {
-				// Debug.debugln("starting to improve all initial solutions");
+		case WITH_IMPR: {
+			// Debug.debugln("starting to improve all initial solutions");
 
-				improveAndRefreshRefSet(initialSolutions);
+			improveAndRefreshRefSet(initialSolutions);
 
-				// Debug.debugln("improved all initial solutions");
-				if (this.scatterSearchListener != null) {
-					scatterSearchListener.initialSolutionsImproved(this);
-				}
-
-				break;
+			// Debug.debugln("improved all initial solutions");
+			if (this.scatterSearchListener != null) {
+				scatterSearchListener.initialSolutionsImproved(this);
 			}
-			case WITHOUT_IMPR: {
-				refSet.addAll(initialSolutions);
-				break;
+
+			break;
+		}
+		case WITHOUT_IMPR: {
+			refSet.addAll(initialSolutions);
+			break;
+		}
+		case WI_ONLY_BEST: {
+			// Debug.debugln("improve only best initial solutions");
+
+			SortedLimitedList<S> bestSolutionsSL = createSortedLimitedList(numBestSolutionsToImprove);
+
+			bestSolutionsSL.addAll(initialSolutions);
+
+			List<S> bestSolutions = bestSolutionsSL.getList();
+
+			improveAndRefreshRefSet(bestSolutions);
+
+			// System.out.println("improved only best initial solutions");
+
+			if (this.scatterSearchListener != null) {
+				scatterSearchListener.initialSolutionsImproved(this);
 			}
-			case WI_ONLY_BEST: {
-				// Debug.debugln("improve only best initial solutions");
 
-				SortedLimitedList<S> bestSolutionsSL = createSortedLimitedList(numBestSolutionsToImprove);
+			refSet.addAll(bestSolutions);
 
-				bestSolutionsSL.addAll(initialSolutions);
-
-				List<S> bestSolutions = bestSolutionsSL.getList();
-
-				improveAndRefreshRefSet(bestSolutions);
-
-				// System.out.println("improved only best initial solutions");
-
-				if (this.scatterSearchListener != null) {
-					scatterSearchListener.initialSolutionsImproved(this);
-				}
-
-				refSet.addAll(bestSolutions);
-
-				break;
-			}
+			break;
+		}
 		}
 
-		//System.out.print("%2");
+		// System.out.print("%2");
 		if (System.currentTimeMillis() > this.finishTime) {
 			return;
 		}
@@ -293,6 +289,7 @@ public class ScatterSearch<S extends Solution<I>, I extends Instance> extends Ab
 				// Mecanismo que permite crear métodos de combinación con
 				// memoria que se actualiza en eventos del SS
 				if (this.combinator instanceof SSRefreshMemCombinator) {
+					@SuppressWarnings("unchecked")
 					SSRefreshMemCombinator<S, I> comb = (SSRefreshMemCombinator<S, I>) this.combinator;
 					for (S solution : refSetCombinations) {
 						comb.refreshMemory(solution);
@@ -308,44 +305,44 @@ public class ScatterSearch<S extends Solution<I>, I extends Instance> extends Ab
 				List<S> oldRefSet = new ArrayList<S>(refSet.getList());
 
 				switch (impMode) {
-					case WITH_IMPR: {
-						// Debug
-						// .debugln("starting to improve all combinated
-						// solutions");
+				case WITH_IMPR: {
+					// Debug
+					// .debugln("starting to improve all combinated
+					// solutions");
 
-						improveAndRefreshRefSet(refSetCombinations);
+					improveAndRefreshRefSet(refSetCombinations);
 
-						// Debug.debugln("improved all combinated solutions");
+					// Debug.debugln("improved all combinated solutions");
 
-						if (this.scatterSearchListener != null) {
-							scatterSearchListener.refSetCombinationsImproved(this);
-						}
-						break;
+					if (this.scatterSearchListener != null) {
+						scatterSearchListener.refSetCombinationsImproved(this);
 					}
-					case WITHOUT_IMPR:
-						break;
-					case WI_ONLY_BEST: {
+					break;
+				}
+				case WITHOUT_IMPR:
+					break;
+				case WI_ONLY_BEST: {
 
-						// System.out.println("starting to improve only best
-						// combinated solutions");
+					// System.out.println("starting to improve only best
+					// combinated solutions");
 
-						SortedLimitedList<S> bestSolutionsSL = createSortedLimitedList(numBestSolutionsToImprove);
+					SortedLimitedList<S> bestSolutionsSL = createSortedLimitedList(numBestSolutionsToImprove);
 
-						bestSolutionsSL.addAll(refSetCombinations);
+					bestSolutionsSL.addAll(refSetCombinations);
 
-						refSetCombinations = bestSolutionsSL.getList();
+					refSetCombinations = bestSolutionsSL.getList();
 
-						improveAndRefreshRefSet(refSetCombinations);
+					improveAndRefreshRefSet(refSetCombinations);
 
-						// System.out.println("improve only best combinated
-						// solutions");
+					// System.out.println("improve only best combinated
+					// solutions");
 
-						if (this.scatterSearchListener != null) {
-							scatterSearchListener.refSetCombinationsImproved(this);
-						}
-
-						break;
+					if (this.scatterSearchListener != null) {
+						scatterSearchListener.refSetCombinationsImproved(this);
 					}
+
+					break;
+				}
 				}
 
 				// OJO: Hay que incluir el nuevo mecanismo de filtrado de
@@ -409,7 +406,7 @@ public class ScatterSearch<S extends Solution<I>, I extends Instance> extends Ab
 
 			} while (true);
 
-			//System.out.print("%3");
+			// System.out.print("%3");
 			if (System.currentTimeMillis() > this.finishTime) {
 				break global;
 			}
@@ -421,40 +418,40 @@ public class ScatterSearch<S extends Solution<I>, I extends Instance> extends Ab
 			List<S> solutions = null;
 
 			switch (regenerationMode) {
-				case GENERATE_AND_SELECT_DIVERSE:
+			case GENERATE_AND_SELECT_DIVERSE:
 
-					List<S> newSolutions = this.constructive.createSolutions(numInitialSolutions);
-					solutions = diversificator.getDiversity(numDiverseSolutions, newSolutions, refSet.getList());
-					numSolutions += newSolutions.size();
+				List<S> newSolutions = this.constructive.createSolutions(numInitialSolutions);
+				solutions = diversificator.getDiversity(numDiverseSolutions, newSolutions, refSet.getList());
+				numSolutions += newSolutions.size();
 
-					break;
-				case GENERATE_NECESSARY:
-					solutions = this.constructive.createSolutions(numDiverseSolutions);
+				break;
+			case GENERATE_NECESSARY:
+				solutions = this.constructive.createSolutions(numDiverseSolutions);
+				numSolutions += solutions.size();
+				break;
+			case GENERATE_IF_NOT_ENOUGH:
+				// if (initialSolutions.size() < numDiverseSolutions) {
+				// List<S> aux = new ArrayList<S>();
+				// for (S solution : initialSolutions) {
+				// if (!aux.contains(solution)) {
+				// aux.add(solution);
+				// }
+				// }
+				// initialSolutions = aux;
+				// }
+				while (initialSolutions.size() < numDiverseSolutions) {
+					S newSolution = constructive.createSolution();
+					if (!initialSolutions.contains(newSolution)) {
+						numSolutions++;
+						initialSolutions.add(newSolution);
+					}
+				}
+				solutions = diversificator.getDiversity(numDiverseSolutions, initialSolutions, refSet.getList());
+				if (solutions.size() < numDiverseSolutions) {
+					solutions.addAll(this.constructive.createSolutions(numDiverseSolutions - solutions.size()));
 					numSolutions += solutions.size();
-					break;
-				case GENERATE_IF_NOT_ENOUGH:
-					// if (initialSolutions.size() < numDiverseSolutions) {
-					// List<S> aux = new ArrayList<S>();
-					// for (S solution : initialSolutions) {
-					// if (!aux.contains(solution)) {
-					// aux.add(solution);
-					// }
-					// }
-					// initialSolutions = aux;
-					// }
-					while (initialSolutions.size() < numDiverseSolutions) {
-						S newSolution = constructive.createSolution();
-						if (!initialSolutions.contains(newSolution)) {
-							numSolutions++;
-							initialSolutions.add(newSolution);
-						}
-					}
-					solutions = diversificator.getDiversity(numDiverseSolutions, initialSolutions, refSet.getList());
-					if (solutions.size() < numDiverseSolutions) {
-						solutions.addAll(this.constructive.createSolutions(numDiverseSolutions - solutions.size()));
-						numSolutions += solutions.size();
-					}
-					break;
+				}
+				break;
 			}
 
 			// Debug.debugln("New solutions created: " + solutions.size());
@@ -510,7 +507,8 @@ public class ScatterSearch<S extends Solution<I>, I extends Instance> extends Ab
 					// long now = System.currentTimeMillis();
 					S original = (S) solution.createCopy();
 
-					// this.improvingMethod.improveSolution(solution, finishTime - System.currentTimeMillis());
+					// this.improvingMethod.improveSolution(solution, finishTime
+					// - System.currentTimeMillis());
 					this.improvingMethod.improveSolution(solution);
 
 					// Debug.debugln(solution.getWeight()+" in
@@ -657,7 +655,8 @@ public class ScatterSearch<S extends Solution<I>, I extends Instance> extends Ab
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see es.optsicom.AbstractSolutionCalculator#setInstance(es.optsicom.Instance)
+	 * @see
+	 * es.optsicom.AbstractSolutionCalculator#setInstance(es.optsicom.Instance)
 	 */
 	@Override
 	public void setInstance(I instance) {

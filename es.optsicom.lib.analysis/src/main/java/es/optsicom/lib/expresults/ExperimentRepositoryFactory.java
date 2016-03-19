@@ -6,7 +6,7 @@ import es.optsicom.lib.expresults.saver.ExperimentRepositorySaver;
 public abstract class ExperimentRepositoryFactory {
 
 	public abstract ExperimentRepositoryManager createExperimentRepositoryManager();
-	
+
 	public abstract ExperimentRepositorySaver createExperimentRepositorySaver();
-	
+
 }

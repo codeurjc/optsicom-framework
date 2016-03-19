@@ -25,11 +25,12 @@ import es.optsicom.lib.expresults.model.InstanceDescription;
 
 public abstract class InstancesRepository {
 
-	public static final String DEFAULT_USE_CASE = "default"; 
+	public static final String DEFAULT_USE_CASE = "default";
 	public static final String INSTANCE_ID_PATH_SEPARATOR = "/";
 	public static final File DEFAULT_INSTANCE_FILE_DIR = new File("instance_files");
-	
-	// Key is the instance type (it may contain several levels separated by INSTANCE_ID_PATH_SEPARATOR)
+
+	// Key is the instance type (it may contain several levels separated by
+	// INSTANCE_ID_PATH_SEPARATOR)
 	private Map<String, InstanceFileSet> instanceFileSets = new HashMap<String, InstanceFileSet>();
 	protected String useCase;
 
@@ -42,7 +43,7 @@ public abstract class InstancesRepository {
 	public String getUseCase() {
 		return useCase;
 	}
-	
+
 	public InstanceFileSet getInstanceFileSet(String setId) {
 		return this.instanceFileSets.get(setId);
 	}
@@ -56,38 +57,38 @@ public abstract class InstancesRepository {
 	}
 
 	public List<InstanceDescription> getAllInstanceDescriptions() {
-		
+
 		List<InstanceDescription> instanceDescriptions = new ArrayList<InstanceDescription>();
-		
-		for(InstanceFile instanceFile : this.getAllInstanceFiles()){
+
+		for (InstanceFile instanceFile : this.getAllInstanceFiles()) {
 			instanceDescriptions.add(instanceFile.createInstanceDescription());
 		}
-		
+
 		return instanceDescriptions;
 	}
-	
+
 	public List<InstanceDescription> getInstanceDescriptions(String instanceSetId) {
-		
+
 		List<InstanceDescription> instanceDescriptions = new ArrayList<InstanceDescription>();
-		
-		for(InstanceFile instanceFile : this.getInstanceFiles(instanceSetId)){
+
+		for (InstanceFile instanceFile : this.getInstanceFiles(instanceSetId)) {
 			instanceDescriptions.add(instanceFile.createInstanceDescription());
 		}
-		
+
 		return instanceDescriptions;
 	}
-	
+
 	public List<InstanceFile> getAllInstanceFiles() {
-		
+
 		List<InstanceFile> instanceFiles = new ArrayList<InstanceFile>();
-		
-		for(InstanceFileSet ifs : this.instanceFileSets.values()){
+
+		for (InstanceFileSet ifs : this.instanceFileSets.values()) {
 			instanceFiles.addAll(ifs.getInstanceFiles());
 		}
-		
+
 		return instanceFiles;
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -96,7 +97,7 @@ public abstract class InstancesRepository {
 		}
 		return sb.toString();
 	}
-	
+
 	public Instance loadInstance(String instancesSetId, int numInstance) throws IOException {
 		return this.getInstanceFileSet(instancesSetId).getInstanceFile(0).loadInstance();
 	}
@@ -107,27 +108,28 @@ public abstract class InstancesRepository {
 
 	public InstanceFile getInstanceFileByPath(String instancePath) throws IOException {
 		Path path = Paths.get(instancePath);
-		return new InstanceFile(this,path.toFile(),null,null,path.getFileName().toString());
+		return new InstanceFile(this, path.toFile(), null, null, path.getFileName().toString());
 	}
-	
+
 	public InstanceFile getInstanceFileByName(String instanceName) {
 		int indexOfSeparator = instanceName.indexOf(INSTANCE_ID_PATH_SEPARATOR);
-		String instanceSetId = instanceName.substring(0,indexOfSeparator);
-		String instanceFileName = instanceName.substring(indexOfSeparator+1,instanceName.length());
-		
+		String instanceSetId = instanceName.substring(0, indexOfSeparator);
+		String instanceFileName = instanceName.substring(indexOfSeparator + 1, instanceName.length());
+
 		InstanceFileSet instanceFileSet = getInstanceFileSet(instanceSetId);
-		
-		if(instanceFileSet == null){
-			throw new RuntimeException("InstanceFileSet \""+instanceSetId+"\" doesn't exist.");	
+
+		if (instanceFileSet == null) {
+			throw new RuntimeException("InstanceFileSet \"" + instanceSetId + "\" doesn't exist.");
 		}
-		
+
 		List<InstanceFile> instanceFiles = this.getInstanceFiles(instanceSetId);
-		
-		for(InstanceFile instanceFile : instanceFiles){
-			if(instanceFile.getName().equals(instanceName)){
+
+		for (InstanceFile instanceFile : instanceFiles) {
+			if (instanceFile.getName().equals(instanceName)) {
 				return instanceFile;
 			}
 		}
-		throw new RuntimeException("Instance with file name \""+instanceFileName+"\" doesn't exist in "+instanceSetId+" instance set.");
+		throw new RuntimeException("Instance with file name \"" + instanceFileName + "\" doesn't exist in "
+				+ instanceSetId + " instance set.");
 	}
 }

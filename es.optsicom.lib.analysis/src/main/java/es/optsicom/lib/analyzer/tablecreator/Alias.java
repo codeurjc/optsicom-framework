@@ -14,12 +14,12 @@ public class Alias {
 
 	private String from;
 	private String to;
-	
+
 	public Alias(String from, String to) {
 		this.from = from;
 		this.to = to;
 	}
-	
+
 	public String getFrom() {
 		return from;
 	}
@@ -27,5 +27,5 @@ public class Alias {
 	public String getTo() {
 		return to;
 	}
-	
+
 }

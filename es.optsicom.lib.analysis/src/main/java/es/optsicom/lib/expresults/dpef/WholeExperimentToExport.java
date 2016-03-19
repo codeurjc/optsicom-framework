@@ -14,11 +14,11 @@ public class WholeExperimentToExport {
 	private Map<MethodDescription, String> expMethodNames;
 
 	public WholeExperimentToExport() {
-		//Jackson needed constructor
+		// Jackson needed constructor
 	}
-	
-	public WholeExperimentToExport(Experiment experiment,
-			List<Execution> executions, Map<MethodDescription, String> expMethodNames) {
+
+	public WholeExperimentToExport(Experiment experiment, List<Execution> executions,
+			Map<MethodDescription, String> expMethodNames) {
 		super();
 		this.experiment = experiment;
 		this.executions = executions;
@@ -48,7 +48,5 @@ public class WholeExperimentToExport {
 	public void setExpMethodNames(Map<MethodDescription, String> expMethodNames) {
 		this.expMethodNames = expMethodNames;
 	}
-	
-	
 
 }

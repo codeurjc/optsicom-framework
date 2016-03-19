@@ -55,7 +55,7 @@ public class UnweightedGraph implements Graph {
 		public List<Node> getAdjacents() {
 			return this.adjacentNodes;
 		}
-		
+
 		public Node[] getAdjacentsAsArray() {
 			return arrayOfAdjacentNodes;
 		}
@@ -91,13 +91,13 @@ public class UnweightedGraph implements Graph {
 				return false;
 			return true;
 		}
-		
+
 	}
-	
+
 	public class UnweightedEdge implements Arc {
 		UnweightedNode node1;
 		UnweightedNode node2;
-		
+
 		public UnweightedEdge(UnweightedNode node1, UnweightedNode node2) {
 			this.node1 = node1;
 			this.node2 = node2;
@@ -154,8 +154,8 @@ public class UnweightedGraph implements Graph {
 			UnweightedEdge other = (UnweightedEdge) obj;
 			if (!getOuterType().equals(other.getOuterType()))
 				return false;
-			
-			if((node1.equals(other.node1) && node2.equals(other.node2)) 
+
+			if ((node1.equals(other.node1) && node2.equals(other.node2))
 					|| (node1.equals(other.node2) && node2.equals(other.node1))) {
 				return true;
 			}
@@ -165,10 +165,9 @@ public class UnweightedGraph implements Graph {
 		private UnweightedGraph getOuterType() {
 			return UnweightedGraph.this;
 		}
-		
-		
+
 	}
-	
+
 	private boolean[][] matrix;
 	private List<Node> nodes = new ArrayList<Node>();
 	private List<Arc> edges = new ArrayList<Arc>();
@@ -177,15 +176,15 @@ public class UnweightedGraph implements Graph {
 	private String description = "";
 
 	public UnweightedGraph(int numNodes, int NumEdges, Map<Integer, List<Integer>> adjacentsMap2) {
-		
+
 		initialize(numNodes, adjacentsMap2);
-		
+
 	}
-	
+
 	public UnweightedGraph(boolean[][] adjacencyMatrix, Map<Integer, List<Integer>> adjacentsMap2) {
-		
+
 		this.matrix = adjacencyMatrix;
-		
+
 		initialize(adjacencyMatrix.length, adjacentsMap2);
 	}
 
@@ -195,14 +194,14 @@ public class UnweightedGraph implements Graph {
 			nodesMap.put(i, node);
 			nodes.add(node);
 		}
-		
+
 		for (Entry<Integer, List<Integer>> entry : adjacentsMap2.entrySet()) {
 			UnweightedNode node = nodesMap.get(entry.getKey());
 			List<UnweightedNode> adjacents = new ArrayList<UnweightedNode>();
 			for (int j : entry.getValue()) {
 				UnweightedNode adjacent = nodesMap.get(j);
 				adjacents.add(adjacent);
-				if(!adjacentsMap.containsKey(node) && !adjacentsMap.containsKey(adjacent)) {
+				if (!adjacentsMap.containsKey(node) && !adjacentsMap.containsKey(adjacent)) {
 					UnweightedEdge edge = new UnweightedEdge(node, adjacent);
 					edges.add(edge);
 				}
@@ -215,7 +214,7 @@ public class UnweightedGraph implements Graph {
 	public boolean[][] getAdjacencyMatrix() {
 		return this.matrix;
 	}
-	
+
 	public List<Arc> getArcs() {
 		return edges;
 	}
@@ -229,7 +228,7 @@ public class UnweightedGraph implements Graph {
 	}
 
 	public Node getNode(int index) {
-		if(!nodesMap.containsKey(index)) {
+		if (!nodesMap.containsKey(index)) {
 			throw new Error("Invalid node index: " + index);
 		}
 		return nodesMap.get(index);
@@ -258,14 +257,14 @@ public class UnweightedGraph implements Graph {
 	public String getAdditionalInfo() {
 		return description;
 	}
-	
+
 	public void setAdditionalInfo(String description) {
 		this.description = description;
 	}
 
 	@Override
 	public void setNodeWeights(float[] nodeWeights) {
-		throw new UnsupportedOperationException();	
+		throw new UnsupportedOperationException();
 	}
 
 }

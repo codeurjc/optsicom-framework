@@ -16,7 +16,6 @@ import java.util.List;
 import es.optsicom.lib.analyzer.tablecreator.filter.ExplicitElementsFilter;
 import es.optsicom.lib.analyzer.tablecreator.filter.PropertiesFilter;
 import es.optsicom.lib.expresults.model.DBProperties;
-import es.optsicom.lib.util.description.Properties;
 
 public class ElementFilterTest {
 	public static void main(String[] args) {
@@ -46,7 +45,7 @@ public class ElementFilterTest {
 
 		System.out.println("Explicit Filter");
 		ExplicitElementsFilter elf = new ExplicitElementsFilter(
-		        "{prop1=value1,prop2=value2,prop3=value3_1,propM1=value4}");
+				"{prop1=value1,prop2=value2,prop3=value3_1,propM1=value4}");
 
 		for (DBProperties props : elements) {
 			System.out.println("Props:");

@@ -18,8 +18,9 @@ import java.util.TreeSet;
 import es.optsicom.lib.util.description.Properties;
 
 /**
- * This class allows all elements that have specified properties and values. The properties are specified as name+"="+value.
- * A element that have specified properties and values is allowed. 
+ * This class allows all elements that have specified properties and values. The
+ * properties are specified as name+"="+value. A element that have specified
+ * properties and values is allowed.
  */
 
 public class PropertiesFilter extends ElementFilter {

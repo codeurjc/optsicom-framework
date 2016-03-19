@@ -16,8 +16,7 @@ public class TimeoutExecution {
 		private double duration = -1;
 		private Throwable exception;
 
-		public ExecutionInfo(TerminationReason terminationReason,
-				double duration, Throwable exception) {
+		public ExecutionInfo(TerminationReason terminationReason, double duration, Throwable exception) {
 			this.terminationReason = terminationReason;
 			this.duration = duration;
 			this.exception = exception;
@@ -45,6 +44,7 @@ public class TimeoutExecution {
 		this.runnable = runnable;
 	}
 
+	@SuppressWarnings("deprecation")
 	private ExecutionInfo exec() {
 
 		final Exchanger<Throwable> ex = new Exchanger<>();
@@ -76,11 +76,9 @@ public class TimeoutExecution {
 			long duration = (System.nanoTime() - startTime) / 1000000;
 
 			if (e != null) {
-				return new ExecutionInfo(TerminationReason.EXCEPTION, duration,
-						e);
+				return new ExecutionInfo(TerminationReason.EXCEPTION, duration, e);
 			} else {
-				return new ExecutionInfo(TerminationReason.BEFORE_TIMEOUT,
-						duration, null);
+				return new ExecutionInfo(TerminationReason.BEFORE_TIMEOUT, duration, null);
 			}
 
 		} catch (TimeoutException e1) {

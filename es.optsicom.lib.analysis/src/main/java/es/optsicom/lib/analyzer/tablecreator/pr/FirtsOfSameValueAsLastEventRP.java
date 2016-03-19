@@ -29,8 +29,7 @@ public class FirtsOfSameValueAsLastEventRP extends SummarizeRawProcessor {
 	private Source source = Source.VALUE;
 	private Double defaultValueIfNull = null;
 
-	public FirtsOfSameValueAsLastEventRP(String eventName,
-			SummarizeMode summarizeMode, long timelimit, Source source) {
+	public FirtsOfSameValueAsLastEventRP(String eventName, SummarizeMode summarizeMode, long timelimit, Source source) {
 		this.eventName = eventName;
 		this.summarizeMode = summarizeMode;
 		this.timelimit = timelimit;
@@ -58,11 +57,10 @@ public class FirtsOfSameValueAsLastEventRP extends SummarizeRawProcessor {
 
 		Event lastEvent = exec.getLastEvent(eventName, timelimit);
 
-		List<Event> events = exec.getEventsWithValue(eventName,
-				lastEvent.getValue());
-		
-		if(!events.isEmpty()){
-		
+		List<Event> events = exec.getEventsWithValue(eventName, lastEvent.getValue());
+
+		if (!events.isEmpty()) {
+
 			Event event = events.get(0);
 
 			switch (source) {
@@ -77,14 +75,12 @@ public class FirtsOfSameValueAsLastEventRP extends SummarizeRawProcessor {
 					try {
 						value = Double.parseDouble(valueAsObj.toString());
 					} catch (NumberFormatException e) {
-						throw new AnalysisException("The event " + eventName
-								+ " is not a number");
+						throw new AnalysisException("The event " + eventName + " is not a number");
 					}
 				}
 				break;
 			default:
-				throw new AnalysisException("Option \"" + source
-						+ "\"not supported");
+				throw new AnalysisException("Option \"" + source + "\"not supported");
 			}
 		}
 
@@ -94,8 +90,7 @@ public class FirtsOfSameValueAsLastEventRP extends SummarizeRawProcessor {
 	}
 
 	@Override
-	public FirtsOfSameValueAsLastEventRP setSummarizeMode(
-			SummarizeMode summarizeMode) {
+	public FirtsOfSameValueAsLastEventRP setSummarizeMode(SummarizeMode summarizeMode) {
 		this.summarizeMode = summarizeMode;
 		return this;
 	}
@@ -122,8 +117,7 @@ public class FirtsOfSameValueAsLastEventRP extends SummarizeRawProcessor {
 		return defaultValueIfNull;
 	}
 
-	public FirtsOfSameValueAsLastEventRP setDefaultValueIfNull(
-			double defaultValueIfNull) {
+	public FirtsOfSameValueAsLastEventRP setDefaultValueIfNull(double defaultValueIfNull) {
 		this.defaultValueIfNull = defaultValueIfNull;
 		return this;
 	}

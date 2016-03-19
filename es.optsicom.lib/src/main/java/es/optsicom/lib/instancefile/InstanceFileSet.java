@@ -69,8 +69,8 @@ public class InstanceFileSet {
 	}
 
 	public InstanceFile getInstanceFile(String fileName) {
-		for(InstanceFile instanceFile : instanceFiles) {
-			if(fileName.equals(instanceFile.getFileName())) {
+		for (InstanceFile instanceFile : instanceFiles) {
+			if (fileName.equals(instanceFile.getFileName())) {
 				return instanceFile;
 			}
 		}

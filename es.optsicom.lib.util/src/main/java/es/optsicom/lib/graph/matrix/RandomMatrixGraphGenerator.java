@@ -10,8 +10,6 @@
  * **************************************************************************** */
 package es.optsicom.lib.graph.matrix;
 
-import java.util.Random;
-
 import es.optsicom.lib.util.RandomManager;
 
 public class RandomMatrixGraphGenerator {

@@ -25,7 +25,7 @@ public abstract class StatisticCalc {
 	public StatisticCalc(SummarizeMode summarizeMode) {
 		this.summarizeMode = summarizeMode;
 	}
-	
+
 	public StatisticCalc(SummarizeMode summarizeMode, BestMode resultBestMode) {
 		this.summarizeMode = summarizeMode;
 		this.resultsBestMode = resultBestMode;
@@ -60,16 +60,17 @@ public abstract class StatisticCalc {
 	public abstract String getName();
 
 	public abstract NumberType getNumberType();
-	
+
 	/**
-	 * This information about the statistic allows an automatic analysis
-	 * of results
+	 * This information about the statistic allows an automatic analysis of
+	 * results
+	 * 
 	 * @return
 	 */
-	public BestMode getResultsBestMode(){
+	public BestMode getResultsBestMode() {
 		return resultsBestMode;
 	}
-	
+
 	public void setResultsBestMode(BestMode resultsBestMode) {
 		this.resultsBestMode = resultsBestMode;
 	}

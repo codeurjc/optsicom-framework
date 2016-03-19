@@ -14,8 +14,8 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class BiggestInvertSortLimitedList<T> extends SortedLimitedList<T> {
-
-	@SuppressWarnings("unchecked")
+	
+	@SuppressWarnings("rawtypes")
 	private static final Comparator inverseComparator = Collections.reverseOrder();
 
 	public BiggestInvertSortLimitedList(int numElems) {
@@ -42,10 +42,10 @@ public class BiggestInvertSortLimitedList<T> extends SortedLimitedList<T> {
 
 			} else {
 				if (list.size() < maxSize || index != maxSize) {
-//					if(elem.equals(list.get(index))){
-//						System.out.println("Equals!!");
-//					}
-					list.add(index, elem);					
+					// if(elem.equals(list.get(index))){
+					// System.out.println("Equals!!");
+					// }
+					list.add(index, elem);
 				}
 			}
 
@@ -54,80 +54,81 @@ public class BiggestInvertSortLimitedList<T> extends SortedLimitedList<T> {
 			}
 		}
 
-		//} else {
+		// } else {
 
-		//			MDPSolution solution = (MDPSolution) elem;
-		//			MDPSolution otherSolution = (MDPSolution) this.list.get(indexOf);
-		//			if (solution == otherSolution) {
-		//				//System.out.println("ERROR: Encontrado el mismo en el refSet");
-		//			} else {
+		// MDPSolution solution = (MDPSolution) elem;
+		// MDPSolution otherSolution = (MDPSolution) this.list.get(indexOf);
+		// if (solution == otherSolution) {
+		// //System.out.println("ERROR: Encontrado el mismo en el refSet");
+		// } else {
 		//
-		//				float olderError = solution.getWeight()
-		//						- otherSolution.getWeight();
+		// float olderError = solution.getWeight()
+		// - otherSolution.getWeight();
 		//
-		//				solution.recalculateNodesContribution();
-		//				otherSolution.recalculateNodesContribution();
+		// solution.recalculateNodesContribution();
+		// otherSolution.recalculateNodesContribution();
 		//
-		//				float error = solution.getWeight() - otherSolution.getWeight();
+		// float error = solution.getWeight() - otherSolution.getWeight();
 		//
-		//				//				if(olderError != 0){
-		//				//					System.out.println("Older Error: "+olderError+" New Error: "+error);	
-		//				//				}				
+		// // if(olderError != 0){
+		// // System.out.println("Older Error: "+olderError+" New Error:
+		// "+error);
+		// // }
 		//
-		//				if (error != 0) {
+		// if (error != 0) {
 		//
-		//					List<Weighted<Node>> nodesCont = solution
-		//							.getNodesContribution();
-		//					List<Weighted<Node>> otherNodesCont = otherSolution
-		//							.getNodesContribution();
+		// List<Weighted<Node>> nodesCont = solution
+		// .getNodesContribution();
+		// List<Weighted<Node>> otherNodesCont = otherSolution
+		// .getNodesContribution();
 		//
-		//					for (Node node : solution) {
+		// for (Node node : solution) {
 		//
-		//						Weighted<Node> node1 = null;
-		//						for (Weighted<Node> wn : nodesCont) {
-		//							if (wn.getElement() == node) {
-		//								node1 = wn;
-		//							}
-		//						}
+		// Weighted<Node> node1 = null;
+		// for (Weighted<Node> wn : nodesCont) {
+		// if (wn.getElement() == node) {
+		// node1 = wn;
+		// }
+		// }
 		//
-		//						Weighted<Node> node2 = null;
-		//						for (Weighted<Node> wn : otherNodesCont) {
-		//							if (wn.getElement() == node) {
-		//								node2 = wn;
-		//							}
-		//						}
+		// Weighted<Node> node2 = null;
+		// for (Weighted<Node> wn : otherNodesCont) {
+		// if (wn.getElement() == node) {
+		// node2 = wn;
+		// }
+		// }
 		//
-		//						if (!node1.equals(node2)) {
-		//							
-		//							int index =node1.getElement().getIndex(); 
-		//							System.out.println("Node: "
-		//									+ index
-		//									+ " Error Weight: "
-		//									+ (node1.getWeight() - node2.getWeight()));
+		// if (!node1.equals(node2)) {
 		//
-		//							solution.recalculateNodesContribution(index);
-		//							otherSolution.recalculateNodesContribution(index);
-		//							
-		//							float newWeightSol = 0;
-		//							for (Node n : solution) {
-		//								newWeightSol += node1.getElement().getWeightTo(
-		//										n);
-		//							}
+		// int index =node1.getElement().getIndex();
+		// System.out.println("Node: "
+		// + index
+		// + " Error Weight: "
+		// + (node1.getWeight() - node2.getWeight()));
 		//
-		//							float newWeightOSol = 0;
-		//							for (Node n : otherSolution) {
-		//								newWeightOSol += node2.getElement()
-		//										.getWeightTo(n);
-		//							}
+		// solution.recalculateNodesContribution(index);
+		// otherSolution.recalculateNodesContribution(index);
 		//
-		//							System.out.println("Error: "
-		//									+ (newWeightSol - newWeightSol));
-		//						}
-		//					}
+		// float newWeightSol = 0;
+		// for (Node n : solution) {
+		// newWeightSol += node1.getElement().getWeightTo(
+		// n);
+		// }
 		//
-		//				}
-		//			}
-		//}
+		// float newWeightOSol = 0;
+		// for (Node n : otherSolution) {
+		// newWeightOSol += node2.getElement()
+		// .getWeightTo(n);
+		// }
+		//
+		// System.out.println("Error: "
+		// + (newWeightSol - newWeightSol));
+		// }
+		// }
+		//
+		// }
+		// }
+		// }
 	}
 
 	public T getBiggest() {
@@ -136,7 +137,7 @@ public class BiggestInvertSortLimitedList<T> extends SortedLimitedList<T> {
 
 	@Override
 	public void setMaxSize(int maxSize) {
-		//Debug.debugln(" Max Size : " + maxSize);
+		// Debug.debugln(" Max Size : " + maxSize);
 		if (maxSize < list.size()) {
 			list.subList(maxSize, list.size()).clear();
 		}

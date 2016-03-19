@@ -89,10 +89,10 @@ public class SortedAccumulator {
 	}
 
 	/**
-	 * Marca el �ndice como no seleccionado para la suma y reduce
-	 * el n�mero de elementos en la suma en 1. Si el �ndice estaba
-	 * participando en la suma, se resta su valor. Si no estaba
-	 * participando en la suma, se resta el valor del menor valor.
+	 * Marca el �ndice como no seleccionado para la suma y reduce el n�mero de
+	 * elementos en la suma en 1. Si el �ndice estaba participando en la suma,
+	 * se resta su valor. Si no estaba participando en la suma, se resta el
+	 * valor del menor valor.
 	 * 
 	 * @param index
 	 */
@@ -112,15 +112,14 @@ public class SortedAccumulator {
 	}
 
 	/**
-	 * Marca el �ndice como no seleccionado para la suma pero no
-	 * altera el n�mero de elementos de la suma. Si el �ndice
-	 * estaba participando en la suma, se resta su valor y se suma
-	 * el valor del siguiente para mantener igual el n�mero de
-	 * elementos seleccionados. Si no estaba participando en la
-	 * suma, entonces simplemente se marca como no seleccionado,
-	 * sin afectar al valor de la suma. Si se da la situaci�n de que
-	 * no hay m�s candidatos para participar en la selecci�n, se
-	 * decrementa el n�mero de elementos seleccionados.
+	 * Marca el �ndice como no seleccionado para la suma pero no altera el
+	 * n�mero de elementos de la suma. Si el �ndice estaba participando en la
+	 * suma, se resta su valor y se suma el valor del siguiente para mantener
+	 * igual el n�mero de elementos seleccionados. Si no estaba participando en
+	 * la suma, entonces simplemente se marca como no seleccionado, sin afectar
+	 * al valor de la suma. Si se da la situaci�n de que no hay m�s candidatos
+	 * para participar en la selecci�n, se decrementa el n�mero de elementos
+	 * seleccionados.
 	 * 
 	 * @param index
 	 */
@@ -141,13 +140,11 @@ public class SortedAccumulator {
 	}
 
 	/**
-	 * Marca el �ndice como seleccionado para la suma pero no
-	 * altera el n�mero de elementos de la suma. Si el �ndice pasa
-	 * a participar en la suma, se suma su valor y se resta el
-	 * valor del siguiente para mantener igual el n�mero de
-	 * elementos seleccionados. Si no participa en la suma,
-	 * entonces simplemente se marca como seleccionado, sin afectar
-	 * al valor de la suma.
+	 * Marca el �ndice como seleccionado para la suma pero no altera el n�mero
+	 * de elementos de la suma. Si el �ndice pasa a participar en la suma, se
+	 * suma su valor y se resta el valor del siguiente para mantener igual el
+	 * n�mero de elementos seleccionados. Si no participa en la suma, entonces
+	 * simplemente se marca como seleccionado, sin afectar al valor de la suma.
 	 * 
 	 * @param index
 	 */
@@ -168,10 +165,10 @@ public class SortedAccumulator {
 	}
 
 	/**
-	 * Marca el �ndice como seleccionado para la suma y aumenta el
-	 * n�mero de elementos en la suma en 1. Si el �ndice deber�a
-	 * participar en la suma, se suma su valor. Si no debe
-	 * participar en la suma, se suma el valor del siguiente valor.
+	 * Marca el �ndice como seleccionado para la suma y aumenta el n�mero de
+	 * elementos en la suma en 1. Si el �ndice deber�a participar en la suma, se
+	 * suma su valor. Si no debe participar en la suma, se suma el valor del
+	 * siguiente valor.
 	 * 
 	 * @param index
 	 */
@@ -191,14 +188,14 @@ public class SortedAccumulator {
 	}
 
 	/**
-	 * Incrementa el n�mero de nodos seleccionados en lo que
-	 * indique el par�metro.
+	 * Incrementa el n�mero de nodos seleccionados en lo que indique el
+	 * par�metro.
 	 * 
 	 * @param selectedNodes
 	 */
 	public void incSelectedNodes(int selectedNodes) {
 
-		//System.out.println("incSelectedNodes(" + selectedNodes + ")");
+		// System.out.println("incSelectedNodes(" + selectedNodes + ")");
 
 		this.selectedValues += selectedNodes;
 		int numNewNodes = 0;
@@ -214,20 +211,20 @@ public class SortedAccumulator {
 			}
 		}
 
-		//		if (lastSelectedValueIndex == -1) {
-		//			throw new Error();
-		//		}
+		// if (lastSelectedValueIndex == -1) {
+		// throw new Error();
+		// }
 	}
 
 	/**
-	 * Decrementa el n�mero de nodos seleccionados en lo que
-	 * indique el par�metro.
+	 * Decrementa el n�mero de nodos seleccionados en lo que indique el
+	 * par�metro.
 	 * 
 	 * @param selectedNodes
 	 */
 	public void decSelectedNodes(int selectedNodes) {
 
-		//System.out.println("decSelectedNodes(" + selectedNodes + ")");
+		// System.out.println("decSelectedNodes(" + selectedNodes + ")");
 
 		this.selectedValues -= selectedNodes;
 		int numNewNodes = 0;
@@ -253,8 +250,8 @@ public class SortedAccumulator {
 	}
 
 	/**
-	 * Incrementa el uno el n�mero de nodos seleccionados para
-	 * hacer la suma y actualiza la suma en consecuencia.
+	 * Incrementa el uno el n�mero de nodos seleccionados para hacer la suma y
+	 * actualiza la suma en consecuencia.
 	 */
 	public void incSelectedNodes() {
 		this.selectedValues++;
@@ -276,14 +273,14 @@ public class SortedAccumulator {
 		if (!addedNode) {
 			this.selectedValues--;
 		}
-		//    if(lastSelectedValueIndex == 29){
-		//      System.out.println("HOLA");
-		//    }
+		// if(lastSelectedValueIndex == 29){
+		// System.out.println("HOLA");
+		// }
 	}
 
 	/**
-	 * Decrementa en uno el n�mero de nodos seleccionados para
-	 * hacer la suma y actualiza la suma en consecuencia.
+	 * Decrementa en uno el n�mero de nodos seleccionados para hacer la suma y
+	 * actualiza la suma en consecuencia.
 	 */
 	public void decSelectedNodes() {
 		this.selectedValues--;
@@ -345,8 +342,8 @@ public class SortedAccumulator {
 	}
 
 	/**
-	 * Establece el n�mero de elementos seleccionados que tienen
-	 * que estar activos para la suma.
+	 * Establece el n�mero de elementos seleccionados que tienen que estar
+	 * activos para la suma.
 	 * 
 	 * @param numSelected
 	 */
@@ -354,10 +351,12 @@ public class SortedAccumulator {
 		if (this.selectedValues == numSelected) {
 			return;
 		} else if (this.selectedValues > numSelected) {
-			//System.out.println("DecSelectedNodes: "+(this.selectedValues - numSelected));
+			// System.out.println("DecSelectedNodes: "+(this.selectedValues -
+			// numSelected));
 			decSelectedNodes(this.selectedValues - numSelected);
 		} else {
-			//System.out.println("IncSelectedNodes: "+(numSelected - this.selectedValues));
+			// System.out.println("IncSelectedNodes: "+(numSelected -
+			// this.selectedValues));
 			incSelectedNodes(numSelected - this.selectedValues);
 		}
 	}

@@ -34,12 +34,12 @@ public class CombinationGenerator {
 		BigInteger rFact = getFactorial(r);
 		BigInteger nminusrFact = getFactorial(n - r);
 		total = nFact.divide(rFact.multiply(nminusrFact)).longValue();
-		
-		//Mica: I made this hack to allow that n == r
-		//if(n == r){
-		//	total = 2;
-		//}
-		
+
+		// Mica: I made this hack to allow that n == r
+		// if(n == r){
+		// total = 2;
+		// }
+
 		reset();
 	}
 
@@ -114,23 +114,23 @@ public class CombinationGenerator {
 		return a.clone();
 
 	}
-	
-	public static int[][] createCombinations(int n, int r){
-				
+
+	public static int[][] createCombinations(int n, int r) {
+
 		CombinationGenerator x = new CombinationGenerator(n, r);
-		int[][] result = new int[(int)x.getTotal()][];
-		
+		int[][] result = new int[(int) x.getTotal()][];
+
 		int numCombination = 0;
 		while (x.hasMore()) {
 			result[numCombination] = x.getNext();
 			numCombination++;
 		}
-		
+
 		return result;
 	}
-	
-	public static <E> List<List<E>> createCombinations(List<E> elements, int r){
-		
+
+	public static <E> List<List<E>> createCombinations(List<E> elements, int r) {
+
 		List<List<E>> result = new ArrayList<List<E>>();
 		CombinationGenerator x = new CombinationGenerator(elements.size(), r);
 
@@ -142,30 +142,30 @@ public class CombinationGenerator {
 			}
 			result.add(combination);
 		}
-		
-		return result;		
+
+		return result;
 	}
-	
-	public static int[][] createCombination(int n){
+
+	public static int[][] createCombination(int n) {
 		List<int[]> result = new ArrayList<int[]>();
-		
-		for(int i=1; i<=n;i++){
+
+		for (int i = 1; i <= n; i++) {
 			int[][] comb = (createCombinations(n, i));
-			for(int j=0; j<comb.length; j++){
+			for (int j = 0; j < comb.length; j++) {
 				result.add(comb[j]);
 			}
 		}
-		
+
 		return result.toArray(new int[0][0]);
 	}
-	
-	public static <E> List<List<E>> createCombinations(List<E> elements){
+
+	public static <E> List<List<E>> createCombinations(List<E> elements) {
 		List<List<E>> result = new ArrayList<List<E>>();
-		
-		for(int i=1; i<=elements.size();i++){
-			result.addAll(createCombinations(elements, i));			
+
+		for (int i = 1; i <= elements.size(); i++) {
+			result.addAll(createCombinations(elements, i));
 		}
-		
+
 		return result;
 	}
 }

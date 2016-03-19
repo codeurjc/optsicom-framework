@@ -10,33 +10,43 @@ import java.math.BigInteger;
  * 
  * Permutation Generator (by Michael Gilleland)
  * 
- * Extracted from web page <a href="http://www.merriampark.com/perm.htm">http://www.merriampark.com/perm.htm</a>.
+ * Extracted from web page
+ * <a href="http://www.merriampark.com/perm.htm">http://www.merriampark.com/perm
+ * .htm</a>.
  * 
- * <p>The PermutationGenerator Java class systematically generates permutations. 
- * It relies on the fact that any set with n elements can be placed in one-to-one 
- * correspondence with the set {1, 2, 3, ..., n}. The algorithm is described by:</p>
+ * <p>
+ * The PermutationGenerator Java class systematically generates permutations. It
+ * relies on the fact that any set with n elements can be placed in one-to-one
+ * correspondence with the set {1, 2, 3, ..., n}. The algorithm is described by:
+ * </p>
  * 
- * <p>Kenneth H. Rosen, Discrete Mathematics and Its Applications, 2nd edition (NY: McGraw-Hill, 1991), pp. 282-284.</p>
+ * <p>
+ * Kenneth H. Rosen, Discrete Mathematics and Its Applications, 2nd edition (NY:
+ * McGraw-Hill, 1991), pp. 282-284.
+ * </p>
  * 
- * <p>The class is very easy to use. Suppose that you wish to generate all permutations 
- * of the strings "a", "b", "c", and "d". Put them into an array. Keep calling the 
- * permutation generator's <code>getNext()</code> method until there are no more permutations left. 
- * The <code>getNext()</code> method returns an array of integers, which tell you the order in which 
- * to arrange your original array of strings. Here is a snippet of code which illustrates 
- * how to use the PermutationGenerator class.</p>
+ * <p>
+ * The class is very easy to use. Suppose that you wish to generate all
+ * permutations of the strings "a", "b", "c", and "d". Put them into an array.
+ * Keep calling the permutation generator's <code>getNext()</code> method until
+ * there are no more permutations left. The <code>getNext()</code> method
+ * returns an array of integers, which tell you the order in which to arrange
+ * your original array of strings. Here is a snippet of code which illustrates
+ * how to use the PermutationGenerator class.
+ * </p>
  * 
  * <pre>
  * int[] indices;
- * String[] elements = {"a", "b", "c", "d"};
- * PermutationGenerator x = new PermutationGenerator (elements.length);
+ * String[] elements = { "a", "b", "c", "d" };
+ * PermutationGenerator x = new PermutationGenerator(elements.length);
  * StringBuffer permutation;
- * while (x.hasMore ()) {
- *   permutation = new StringBuffer ();
- *   indices = x.getNext ();
- *   for (int i = 0; i < indices.length; i++) {
- *     permutation.append (elements[indices[i]]);
- *   }
- *   System.out.println (permutation.toString ());
+ * while (x.hasMore()) {
+ * 	permutation = new StringBuffer();
+ * 	indices = x.getNext();
+ * 	for (int i = 0; i < indices.length; i++) {
+ * 		permutation.append(elements[indices[i]]);
+ * 	}
+ * 	System.out.println(permutation.toString());
  * }
  * </pre>
  * 

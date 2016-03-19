@@ -21,7 +21,7 @@ public interface ImprovementMethod<S extends Solution<I>, I extends Instance> ex
 	public abstract boolean improveSolution(S solution);
 
 	public abstract boolean improveSolution(S solution, long millis);
-	
-	public void setImprovementMethodListener(ImprovementMethodListener<S,I> listener);
+
+	public void setImprovementMethodListener(ImprovementMethodListener<S, I> listener);
 
 }

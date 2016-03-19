@@ -5,12 +5,12 @@ import es.optsicom.lib.expresults.db.DBManager;
 public class ExperimentRepositorySaver {
 
 	private DBManager dbManager;
-	
+
 	public ExperimentRepositorySaver(DBManager dbManager) {
 		this.dbManager = dbManager;
 	}
-	
-	public ExperimentSaver createExperimentSaver(){
+
+	public ExperimentSaver createExperimentSaver() {
 		return new ExperimentSaver(dbManager);
 	}
 

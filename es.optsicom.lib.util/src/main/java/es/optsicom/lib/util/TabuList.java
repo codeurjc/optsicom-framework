@@ -47,7 +47,7 @@ public class TabuList<T extends Comparable<T>> {
 			return;
 		}
 		tabuElements.add(-(index + 1), e);
-		// 0 to (tabuTenure - 1) iterations 
+		// 0 to (tabuTenure - 1) iterations
 		generationsInTabuList.put(e, tabuTenure);
 	}
 
@@ -91,8 +91,7 @@ public class TabuList<T extends Comparable<T>> {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((tabuElements == null) ? 0 : tabuElements.hashCode());
+		result = prime * result + ((tabuElements == null) ? 0 : tabuElements.hashCode());
 		result = prime * result + tabuTenure;
 		return result;
 	}
@@ -105,7 +104,7 @@ public class TabuList<T extends Comparable<T>> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		TabuList other = (TabuList) obj;
+		TabuList<?> other = (TabuList<?>) obj;
 		if (tabuElements == null) {
 			if (other.tabuElements != null)
 				return false;
@@ -118,9 +117,7 @@ public class TabuList<T extends Comparable<T>> {
 
 	@Override
 	public String toString() {
-		return "TabuList [tabuElements=" + tabuElements + ", tabuTenure="
-				+ tabuTenure + "]";
+		return "TabuList [tabuElements=" + tabuElements + ", tabuTenure=" + tabuTenure + "]";
 	}
-	
-	
+
 }

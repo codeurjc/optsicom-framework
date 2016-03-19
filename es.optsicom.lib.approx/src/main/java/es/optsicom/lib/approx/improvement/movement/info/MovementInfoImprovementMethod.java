@@ -15,8 +15,8 @@ import es.optsicom.lib.util.Id;
  * determine which movement has to be finally applied.
  * 
  * We have decided to copy&paste the entire micro-framework of movements for
- * performance reasons. We have tried to mantain the same interfaces where possible
- * to allow a drop-in replacement.
+ * performance reasons. We have tried to mantain the same interfaces where
+ * possible to allow a drop-in replacement.
  * 
  * @author mica
  * 
@@ -33,8 +33,8 @@ public abstract class MovementInfoImprovementMethod<S extends Solution<I>, I ext
 	protected double originalWeight;
 	protected MovementSelectorByInfo<S, IN> movSelector;
 
-	public MovementInfoImprovementMethod(
-			MovementInfoGenerator<S, I, IN> movementGenerator, MovementSelectorByInfo<S, IN> movSelector) {
+	public MovementInfoImprovementMethod(MovementInfoGenerator<S, I, IN> movementGenerator,
+			MovementSelectorByInfo<S, IN> movSelector) {
 		this.movementGenerator = movementGenerator;
 		this.movSelector = movSelector;
 	}
@@ -46,7 +46,7 @@ public abstract class MovementInfoImprovementMethod<S extends Solution<I>, I ext
 
 		this.solution = solution;
 		this.originalWeight = solution.getWeight();
-		
+
 		this.instance = instance;
 
 		this.movementGenerator.startImprovement(solution, instance);

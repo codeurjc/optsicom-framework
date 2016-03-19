@@ -19,8 +19,8 @@ public class ListDoubleArrayEncapsulatorTest {
 
 	public static void main(String[] args) {
 
-		List<Double[]> values = Arrays.asList(new Double[] { 5.0, 2.0, 3.0 }, new Double[] { 6.0, 7.0, 8.0 }, new Double[] { 1.0, 2.0,
-		        3.0 }, new Double[] { 9.0, 10.0, 11.0 });
+		List<Double[]> values = Arrays.asList(new Double[] { 5.0, 2.0, 3.0 }, new Double[] { 6.0, 7.0, 8.0 },
+				new Double[] { 1.0, 2.0, 3.0 }, new Double[] { 9.0, 10.0, 11.0 });
 
 		ListDoubleArrayEncapsulator enc = new ListDoubleArrayEncapsulator(values);
 

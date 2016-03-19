@@ -12,8 +12,8 @@ public class SimpleCommand {
 
 		try {
 			Process p;
-			
-			if(workDir == null){
+
+			if (workDir == null) {
 				p = r.exec(command);
 			} else {
 				p = r.exec(command, null, workDir.getAbsoluteFile());

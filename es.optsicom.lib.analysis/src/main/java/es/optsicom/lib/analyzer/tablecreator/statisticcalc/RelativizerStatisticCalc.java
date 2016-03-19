@@ -17,12 +17,12 @@ public abstract class RelativizerStatisticCalc extends StatisticCalc {
 
 	protected BestMode bestMode = BestMode.MAX_IS_BEST;
 	protected RelativeValueProvider relativeValueProvider = null;
-	
+
 	protected RelativizerStatisticCalc(SummarizeMode summarizeMode, BestMode mode) {
 		super(summarizeMode);
 		this.bestMode = mode;
 	}
-	
+
 	protected RelativizerStatisticCalc(SummarizeMode summarizeMode, BestMode mode, BestMode resultBestMode) {
 		super(summarizeMode, resultBestMode);
 		this.bestMode = mode;

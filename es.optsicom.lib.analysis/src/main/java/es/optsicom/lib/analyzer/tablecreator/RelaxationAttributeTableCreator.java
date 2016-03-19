@@ -15,21 +15,16 @@ public class RelaxationAttributeTableCreator extends AttributedTableCreator {
 	@Override
 	public AttributedTable buildTable() {
 
-		this.setStatisticGroups(Arrays.asList(StatisticGroup
-				.createMultipleStatisticGroup(
-						new LastEventRP("relaxSolution"),
+		this.setStatisticGroups(Arrays.asList(
+				StatisticGroup.createMultipleStatisticGroup(new LastEventRP("relaxSolution"),
 						new Statistic[] { new Statistic(
-								new NonRelativizerStatisticCalc(
-										SummarizeMode.AVERAGE,
-										NumberType.DECIMAL), "Solution Value") }),
-						StatisticGroup
-				.createMultipleStatisticGroup(
+								new NonRelativizerStatisticCalc(SummarizeMode.AVERAGE, NumberType.DECIMAL),
+								"Solution Value") }),
+				StatisticGroup.createMultipleStatisticGroup(
 						new LastEventRP(Event.FINISH_TIME_EVENT).setSource(Source.TIMESTAMP),
 						new Statistic[] { new Statistic(
-								new NonRelativizerStatisticCalc(
-										SummarizeMode.AVERAGE,
-										NumberType.DECIMAL), "CPU Time") })));
-
+								new NonRelativizerStatisticCalc(SummarizeMode.AVERAGE, NumberType.DECIMAL),
+								"CPU Time") })));
 
 		return super.buildTable();
 

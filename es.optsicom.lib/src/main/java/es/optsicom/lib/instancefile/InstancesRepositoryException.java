@@ -12,6 +12,8 @@ package es.optsicom.lib.instancefile;
 
 public class InstancesRepositoryException extends RuntimeException {
 
+	private static final long serialVersionUID = -4213665581579443358L;
+
 	public InstancesRepositoryException() {
 	}
 

@@ -16,7 +16,8 @@ import es.optsicom.lib.Instance;
 import es.optsicom.lib.Solution;
 import es.optsicom.lib.approx.constructive.IsoIntervalConstructive;
 
-public class DummyIsoIntervalConstructive<S extends Solution<I>, I extends Instance> extends IsoIntervalConstructive<S, I> {
+public class DummyIsoIntervalConstructive<S extends Solution<I>, I extends Instance>
+		extends IsoIntervalConstructive<S, I> {
 
 	public DummyIsoIntervalConstructive(int numIntervals) {
 		super(numIntervals);

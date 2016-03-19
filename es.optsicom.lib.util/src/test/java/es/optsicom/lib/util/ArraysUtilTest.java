@@ -12,8 +12,6 @@ package es.optsicom.lib.util;
 
 import java.util.Arrays;
 
-import es.optsicom.lib.util.ArraysUtil;
-
 public class ArraysUtilTest {
 
 	public static void main(String[] args) {

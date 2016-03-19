@@ -35,7 +35,7 @@ import es.optsicom.lib.util.description.Properties;
 public class ValueProvider implements Descriptive {
 
 	private File valuesFile;
-	
+
 	private Map<String, Object[]> lineInfo = new HashMap<String, Object[]>();
 
 	public ValueProvider(File file) {
@@ -46,15 +46,17 @@ public class ValueProvider implements Descriptive {
 		checkIfFileExists();
 
 		Object[] info = getLineInfo(id);
-		if(info != null) {
+		if (info != null) {
 			return (Number) info[1];
 		}
-		
+
 		List<String> sections = splitId(id);
 		String fileName = sections.get(sections.size() - 1);
-		String fileNameWithoutExt = fileName.contains(".") ? fileName.substring(0, fileName.lastIndexOf(".")) : fileName;
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(valuesFile)));
+		String fileNameWithoutExt = fileName.contains(".") ? fileName.substring(0, fileName.lastIndexOf("."))
+				: fileName;
+		
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(valuesFile)))) {
+			
 			String line;
 			while ((line = br.readLine()) != null) {
 				if (line.contains(id) || line.contains(fileName) || line.contains(fileNameWithoutExt)) {
@@ -74,26 +76,27 @@ public class ValueProvider implements Descriptive {
 			throw new AnalysisException(e);
 		}
 
-		Object[] parsedInfo = lineInfo.get(id); 
+		Object[] parsedInfo = lineInfo.get(id);
 		return (Number) parsedInfo[1];
 
 	}
-	
+
 	protected Object[] getLineInfo(String id) {
 		return lineInfo.get(id);
 	}
 
 	public Number getTime(String id) {
 		checkIfFileExists();
-	
+
 		Object[] info = getLineInfo(id);
-		if(info != null) {
+		if (info != null) {
 			return (Number) info[2];
 		}
-		
+
 		List<String> sections = splitId(id);
 		String fileName = sections.get(sections.size() - 1);
-		String fileNameWithoutExt = fileName.contains(".") ? fileName.substring(0, fileName.lastIndexOf(".")) : fileName;
+		String fileNameWithoutExt = fileName.contains(".") ? fileName.substring(0, fileName.lastIndexOf("."))
+				: fileName;
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(valuesFile)));
 			String line;
@@ -114,7 +117,7 @@ public class ValueProvider implements Descriptive {
 			throw new AnalysisException(e);
 		}
 
-		Object[] parsedInfo = lineInfo.get(id); 
+		Object[] parsedInfo = lineInfo.get(id);
 		return (Number) parsedInfo[2];
 	}
 
@@ -128,29 +131,29 @@ public class ValueProvider implements Descriptive {
 		StringTokenizer st = new StringTokenizer(line);
 
 		String instanceName = st.nextToken();
-		
+
 		String bestKnownValue = st.nextToken();
 		double bkv;
-		try{
+		try {
 			bkv = Double.parseDouble(bestKnownValue);
-		} catch(NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			throw new AnalysisException("Couldn't parse bestKnowValue: " + bestKnownValue, e);
 		}
-		
+
 		String time = null;
 		double t = 0.0;
-		if(st.hasMoreElements()) {
+		if (st.hasMoreElements()) {
 			time = st.nextToken();
 			try {
 				t = Double.parseDouble(time);
-			} catch(NumberFormatException e) {
+			} catch (NumberFormatException e) {
 				// Do nothing. We can still continue without the time
 			}
 		}
 
 		// If no time information is found in the line, a value of 0 is used.
-		Object[] info = new Object[] {instanceName, bkv, t};
-		
+		Object[] info = new Object[] { instanceName, bkv, t };
+
 		return info;
 	}
 

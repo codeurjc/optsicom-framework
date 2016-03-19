@@ -48,12 +48,12 @@ public class FeasAllDevStatisticCalc extends RelativizerStatisticCalc {
 
 		for (int i = 0; i < values.length; i++) {
 			if (Math.abs(values[i]) > feasibleLimit) {
-				
+
 				for (int j = 0; j < values.length; j++) {
-					result[j] = null;	
+					result[j] = null;
 				}
 				return result;
-				
+
 			} else {
 				result[i] = (Math.abs((best - values[i]) / best));
 			}

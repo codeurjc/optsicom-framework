@@ -27,8 +27,8 @@ public class EvoPathRelinking<S extends Solution<I>, I extends Instance> extends
 	private int localIter = 20;
 
 	public EvoPathRelinking(int globalIter, int localIter, Constructive<S, I> constructive,
-	        ImprovementMethod<S, I> improvement, PathRelinking<S, I> pathRelinking, DistanceCalc<S, I> distCalc,
-	        int thresold) {
+			ImprovementMethod<S, I> improvement, PathRelinking<S, I> pathRelinking, DistanceCalc<S, I> distCalc,
+			int thresold) {
 		super(constructive, pathRelinking, improvement, distCalc, thresold);
 		this.globalIter = globalIter;
 		this.localIter = localIter;
@@ -57,33 +57,35 @@ public class EvoPathRelinking<S extends Solution<I>, I extends Instance> extends
 	@Override
 	protected void internalCalculateSolution(long duration) {
 
-		//		1. Set GlobalIter equal to the number of global iterations.
-		//		2. Apply the GRASP method (construction plus improvement) for b=|ES| iterations to populate ES. ES={ x1, x2, …, xb }.
+		// 1. Set GlobalIter equal to the number of global iterations.
+		// 2. Apply the GRASP method (construction plus improvement) for b=|ES|
+		// iterations to populate ES. ES={ x1, x2, …, xb }.
 		//
-		//		For(iter= 1 to GIter)
-		//			For(i=1 to LocalIter)
-		//				3. Apply the construction phase of GRASP  x.
-		//				4. Apply the local search phase of GRASP to x  x'.
-		//				5. Randomly select xj in ES (Map values into probabilities).
-		//				6. Apply PR(x', xj) and PR(xj,x'), let y be the best solution found.
-		//				7. Apply the local search phase of GRASP to y  y'.
-		//				If ( zMM(y') > zMM(x1)  or  (zMM(y') > zMM(xb) and d(y',ES)  dth))
-		//					8. Let xk be the closest solution to y' in ES with zMM(y')>zMM(xk).
-		//					9. Add y' to ES and remove xk.
-		//					10. Update the order in ES (from the best x1 to the worst xb).
+		// For(iter= 1 to GIter)
+		// For(i=1 to LocalIter)
+		// 3. Apply the construction phase of GRASP  x.
+		// 4. Apply the local search phase of GRASP to x  x'.
+		// 5. Randomly select xj in ES (Map values into probabilities).
+		// 6. Apply PR(x', xj) and PR(xj,x'), let y be the best solution found.
+		// 7. Apply the local search phase of GRASP to y  y'.
+		// If ( zMM(y') > zMM(x1) or (zMM(y') > zMM(xb) and d(y',ES)  dth))
+		// 8. Let xk be the closest solution to y' in ES with zMM(y')>zMM(xk).
+		// 9. Add y' to ES and remove xk.
+		// 10. Update the order in ES (from the best x1 to the worst xb).
 		//
-		//			11. NewSol=1
-		//			While(NewSol) 
-		//				12. NewSol=0
-		//		13. Apply PR(x,x’) and PR(x’,x) for every pair (x,x’) in ES not combined before.  Let y be the best solution found.
-		//		14. Apply the local search phase of GRASP to y  y'.
-		//				If ( zMM(y') > zMM(x1)  or  (zMM(y') > zMM(xb) and d(y',ES)  dth))
-		//					15. Let xk be the closest solution to y' in ES with zMM(y')>zMM(xk).
-		//					16. Add y' to ES and remove xk.
-		//					17. Update the order in ES (from the best x1 to the worst xb).
-		//					18. NewSol=1
+		// 11. NewSol=1
+		// While(NewSol)
+		// 12. NewSol=0
+		// 13. Apply PR(x,x’) and PR(x’,x) for every pair (x,x’) in ES not
+		// combined before. Let y be the best solution found.
+		// 14. Apply the local search phase of GRASP to y  y'.
+		// If ( zMM(y') > zMM(x1) or (zMM(y') > zMM(xb) and d(y',ES)  dth))
+		// 15. Let xk be the closest solution to y' in ES with zMM(y')>zMM(xk).
+		// 16. Add y' to ES and remove xk.
+		// 17. Update the order in ES (from the best x1 to the worst xb).
+		// 18. NewSol=1
 		//
-		//		19. Return x1.
+		// 19. Return x1.
 
 		long limitTime = Long.MAX_VALUE;
 		if (duration != -1) {
@@ -129,7 +131,7 @@ public class EvoPathRelinking<S extends Solution<I>, I extends Instance> extends
 
 	protected void eliteSetEvolution(long limitTime) {
 
-		//System.out.println("Evolution ES");
+		// System.out.println("Evolution ES");
 
 		int newEsSolutionsCounter;
 
@@ -164,7 +166,8 @@ public class EvoPathRelinking<S extends Solution<I>, I extends Instance> extends
 								improvement.improveSolution(prSol);
 								setIfBestSolution(prSol);
 
-								//System.out.println("Sol: " + prSol.getWeight());
+								// System.out.println("Sol: " +
+								// prSol.getWeight());
 
 								solutions.add(prSol);
 							}

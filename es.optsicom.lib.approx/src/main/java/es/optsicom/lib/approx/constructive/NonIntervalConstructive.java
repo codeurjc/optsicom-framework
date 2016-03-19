@@ -13,7 +13,8 @@ package es.optsicom.lib.approx.constructive;
 import es.optsicom.lib.Instance;
 import es.optsicom.lib.Solution;
 
-public abstract class NonIntervalConstructive<S extends Solution<I>, I extends Instance> extends AbstractConstructive<S, I> {
+public abstract class NonIntervalConstructive<S extends Solution<I>, I extends Instance>
+		extends AbstractConstructive<S, I> {
 
 	public NonIntervalConstructive() {
 	}

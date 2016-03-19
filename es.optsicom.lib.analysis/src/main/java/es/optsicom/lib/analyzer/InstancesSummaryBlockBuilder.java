@@ -23,29 +23,28 @@ public class InstancesSummaryBlockBuilder extends BlockBuilder {
 	public void buildPages(ExperimentManager expResults) {
 		ReportPage reportPage = new ReportPage("Summary");
 		reportPage.addReportElement(createAllInstancesTable(expResults));
-		//reportPage.addReportElement(createFusionedTableTempEvolution(expResults));	
-		//reportPage.addReportElement(createFusionedNumFeasibleTempEvolution(expResults));
+		// reportPage.addReportElement(createFusionedTableTempEvolution(expResults));
+		// reportPage.addReportElement(createFusionedNumFeasibleTempEvolution(expResults));
 		setBlock(new ReportBlock(reportPage));
 	}
-	
+
 	private ReportElement createFusionedNumFeasibleTempEvolution(ExperimentManager experimentResults) {
 
 		long timeLimit = experimentResults.getTimeLimit();
-		
-		if(timeLimit == -1){
+
+		if (timeLimit == -1) {
 			timeLimit = experimentResults.getMaxTimeLimit();
 		}
-		
-		if(timeLimit == -1){
+
+		if (timeLimit == -1) {
 			System.out.println("WTF!");
 		}
-		
-		timeLimit =60000;
-		
-		TempEvolutionApproxAttributeTableCreator tableCreator = new TempEvolutionApproxAttributeTableCreator(
-				timeLimit,
+
+		timeLimit = 60000;
+
+		TempEvolutionApproxAttributeTableCreator tableCreator = new TempEvolutionApproxAttributeTableCreator(timeLimit,
 				new FeasStatisticCalc());
-		
+
 		configTableCreator(experimentResults, tableCreator);
 		tableCreator.setInstanceGroupMaker(InstanceGroupMaker.getOneGroup());
 		AttributedTable attTable = tableCreator.buildTable();
@@ -63,43 +62,37 @@ public class InstancesSummaryBlockBuilder extends BlockBuilder {
 		CommonApproxAttributeTableCreator tableCreator = new CommonApproxAttributeTableCreator();
 		tableCreator.setInstanceGroupMaker(InstanceGroupMaker.getOneGroup());
 		configTableCreator(experimentResults, tableCreator);
-		AttributedTable attTable = tableCreator.buildTable();		
+		AttributedTable attTable = tableCreator.buildTable();
 
 		AttributedTableTitleTableCreator ttCreator = new AttributedTableTitleTableCreator();
 		ttCreator.setColsAttributes("statistic");
 		ttCreator.setRowsAttributes("instancegroup", "method");
 
 		return ttCreator.createTitleTable(attTable);
-		
+
 	}
 
-	private Table createFusionedTableTempEvolution(
-			ExperimentManager experimentResults) {
+	private Table createFusionedTableTempEvolution(ExperimentManager experimentResults) {
 
 		long timeLimit = experimentResults.getTimeLimit();
-		
-		if(timeLimit == -1){
+
+		if (timeLimit == -1) {
 			timeLimit = experimentResults.getMaxTimeLimit();
 		}
-		
-		if(timeLimit == -1){
+
+		if (timeLimit == -1) {
 			System.out.println("WTF!");
 		}
-		
-		timeLimit =60000;
-		
+
+		timeLimit = 60000;
+
 		FeasDevStatisticCalc dev = new FeasDevStatisticCalc();
-		dev.setRelativeValueProvider(
-				new LastRPRelativeValueProvider(
-						new LastEventRP(Event.OBJ_VALUE_EVENT),
-						0,
-						experimentResults.getProblemBestMode() == BestMode.MAX_IS_BEST ? SummarizeMode.MAX
-								: SummarizeMode.MIN)
-				);
-		TempEvolutionApproxAttributeTableCreator tableCreator = new TempEvolutionApproxAttributeTableCreator(
-				timeLimit,
+		dev.setRelativeValueProvider(new LastRPRelativeValueProvider(new LastEventRP(Event.OBJ_VALUE_EVENT), 0,
+				experimentResults.getProblemBestMode() == BestMode.MAX_IS_BEST ? SummarizeMode.MAX
+						: SummarizeMode.MIN));
+		TempEvolutionApproxAttributeTableCreator tableCreator = new TempEvolutionApproxAttributeTableCreator(timeLimit,
 				dev);
-		
+
 		configTableCreator(experimentResults, tableCreator);
 		tableCreator.setInstanceGroupMaker(InstanceGroupMaker.getOneGroup());
 		AttributedTable attTable = tableCreator.buildTable();
@@ -109,7 +102,7 @@ public class InstancesSummaryBlockBuilder extends BlockBuilder {
 		ttCreator.setRowsAttributes("instancegroup", "method");
 
 		return ttCreator.createTitleTable(attTable);
-		
+
 	}
 
 }

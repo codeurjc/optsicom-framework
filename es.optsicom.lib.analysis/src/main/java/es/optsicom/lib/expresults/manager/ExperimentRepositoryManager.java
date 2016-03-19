@@ -55,32 +55,27 @@ public class ExperimentRepositoryManager {
 		return findElementDescription(MethodDescription.class, propsAsString);
 	}
 
-	protected <E extends ElementDescription> E findElementDescription(
-			Class<E> clazz, String propsAsString) {
-		Query q = em.createQuery("select m from " + clazz.getSimpleName()
-				+ " m where m.properties.propsAsString = :propsAsString");
+	@SuppressWarnings("unchecked")
+	protected <E extends ElementDescription> E findElementDescription(Class<E> clazz, String propsAsString) {
+		Query q = em.createQuery(
+				"select m from " + clazz.getSimpleName() + " m where m.properties.propsAsString = :propsAsString");
 		q.setParameter("propsAsString", propsAsString);
 		return (E) q.getSingleResult();
 	}
 
 	public InstanceDescription findInstanceDescriptionByName(String nameProperty) {
-		return findElementDescriptionByName(InstanceDescription.class,
-				nameProperty);
+		return findElementDescriptionByName(InstanceDescription.class, nameProperty);
 	}
 
 	public MethodDescription findMethodDescriptionByName(String nameProperty) {
-		return findElementDescriptionByName(MethodDescription.class,
-				nameProperty);
+		return findElementDescriptionByName(MethodDescription.class, nameProperty);
 	}
 
-	protected <E extends ElementDescription> E findElementDescriptionByName(
-			Class<E> clazz, String nameProperty) {
+	@SuppressWarnings("unchecked")
+	protected <E extends ElementDescription> E findElementDescriptionByName(Class<E> clazz, String nameProperty) {
 
-		Query q = em
-				.createQuery("select m from "
-						+ clazz.getSimpleName()
-						+ " m"
-						+ " join m.properties.props e where KEY(e) = 'name' and VALUE(e) = :nameProperty");
+		Query q = em.createQuery("select m from " + clazz.getSimpleName() + " m"
+				+ " join m.properties.props e where KEY(e) = 'name' and VALUE(e) = :nameProperty");
 		q.setParameter("nameProperty", nameProperty);
 		return (E) q.getSingleResult();
 	}
@@ -90,8 +85,7 @@ public class ExperimentRepositoryManager {
 	}
 
 	public Experiment findExperimentByName(String name, String problemName) {
-		Query q = em.createQuery("select e from "
-				+ Experiment.class.getSimpleName()
+		Query q = em.createQuery("select e from " + Experiment.class.getSimpleName()
 				+ " e where e.name = :name and e.problemName = :problem");
 		q.setParameter("name", name);
 		q.setParameter("problem", problemName);
@@ -99,47 +93,39 @@ public class ExperimentRepositoryManager {
 		return (Experiment) q.getSingleResult();
 	}
 
-	public ExperimentManager findExperimentManagerByName(String name,
-			String problemName) {
-		Query q = em.createQuery("select e from "
-				+ Experiment.class.getSimpleName()
+	public ExperimentManager findExperimentManagerByName(String name, String problemName) {
+		Query q = em.createQuery("select e from " + Experiment.class.getSimpleName()
 				+ " e where e.name = :name and e.problemName = :problem");
 		q.setParameter("name", name);
 		q.setParameter("problem", problemName);
 
 		try {
 
-			return new LoadAllExperimentManager(
-					(Experiment) q.getSingleResult(), this);
+			return new LoadAllExperimentManager((Experiment) q.getSingleResult(), this);
 
 		} catch (NoResultException e) {
-			throw new RuntimeException("Method \"" + name
-					+ "\" not found for problem \"" + problemName + "\"", e);
+			throw new RuntimeException("Method \"" + name + "\" not found for problem \"" + problemName + "\"", e);
 		}
 	}
 
 	public ExperimentManager findExperimentManagerById(long experimentId) {
 
-		Query q = em.createQuery("select e from "
-				+ Experiment.class.getSimpleName()
-				+ " e where e.id = :experimentId");
+		Query q = em.createQuery("select e from " + Experiment.class.getSimpleName() + " e where e.id = :experimentId");
 		q.setParameter("experimentId", experimentId);
 
 		Experiment experiment = (Experiment) q.getSingleResult();
 
-		LoadAllExperimentManager manager = new LoadAllExperimentManager(
-				experiment, this);
+		LoadAllExperimentManager manager = new LoadAllExperimentManager(experiment, this);
 
 		return manager;
 	}
 
-	public synchronized List<Execution> findExecutions(Experiment experiment,
-			InstanceDescription instance, MethodDescription method) {
+	@SuppressWarnings("unchecked")
+	public synchronized List<Execution> findExecutions(Experiment experiment, InstanceDescription instance,
+			MethodDescription method) {
 
-		Query q = em
-				.createQuery("select e from "
-						+ Execution.class.getSimpleName()
-						+ " e where e.method = :method and e.instance = :instance and e.experiment = :experiment");
+		Query q = em.createQuery("select e from " + Execution.class.getSimpleName()
+				+ " e where e.method = :method and e.instance = :instance and e.experiment = :experiment");
 		q.setParameter("method", method);
 		q.setParameter("instance", instance);
 		q.setParameter("experiment", experiment);
@@ -150,8 +136,7 @@ public class ExperimentRepositoryManager {
 
 	public int countEvents(Execution execution, String eventName) {
 
-		Query q = em.createQuery("select count(e) from "
-				+ Event.class.getSimpleName()
+		Query q = em.createQuery("select count(e) from " + Event.class.getSimpleName()
 				+ " e where e.execution = :execution and e.name = :name");
 		q.setParameter("execution", execution);
 		q.setParameter("name", eventName);
@@ -160,6 +145,7 @@ public class ExperimentRepositoryManager {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Event> getEvents(Execution execution, String eventName) {
 		Query q = em.createQuery("select e from " + Event.class.getSimpleName()
 				+ " e where e.execution = :execution and e.name = :name");
@@ -170,13 +156,12 @@ public class ExperimentRepositoryManager {
 	}
 
 	public Event getLastEvent(Execution execution, String eventName) {
-		Query q = em
-				.createQuery("select e from "
-						+ Event.class.getSimpleName()
-						+ " e where e.execution = :execution and e.name = :name ORDER BY e.timestamp DESC");
+		Query q = em.createQuery("select e from " + Event.class.getSimpleName()
+				+ " e where e.execution = :execution and e.name = :name ORDER BY e.timestamp DESC");
 		q.setParameter("execution", execution);
 		q.setParameter("name", eventName);
 		q.setMaxResults(1);
+		@SuppressWarnings("unchecked")
 		List<Event> events = (List<Event>) q.getResultList();
 		if (events.size() == 0) {
 			return null;
@@ -185,20 +170,18 @@ public class ExperimentRepositoryManager {
 		}
 	}
 
-	public Event getLastEvent(Execution execution, String eventName,
-			long timelimit) {
+	public Event getLastEvent(Execution execution, String eventName, long timelimit) {
 
 		if (timelimit == -1) {
 			return getLastEvent(execution, eventName);
 		} else {
-			Query q = em
-					.createQuery("select e from "
-							+ Event.class.getSimpleName()
-							+ " e where e.execution = :execution and e.name = :name and e.timestamp <= :timelimit ORDER BY e.timestamp DESC");
+			Query q = em.createQuery("select e from " + Event.class.getSimpleName()
+					+ " e where e.execution = :execution and e.name = :name and e.timestamp <= :timelimit ORDER BY e.timestamp DESC");
 			q.setParameter("execution", execution);
 			q.setParameter("name", eventName);
 			q.setParameter("timelimit", timelimit);
 			q.setMaxResults(1);
+			@SuppressWarnings("unchecked")
 			List<Event> events = (List<Event>) q.getResultList();
 			if (events.size() == 0) {
 				return null;
@@ -208,17 +191,15 @@ public class ExperimentRepositoryManager {
 		}
 	}
 
-	public String getExperimentMethodName(Experiment experiment,
-			MethodDescription method) {
+	public String getExperimentMethodName(Experiment experiment, MethodDescription method) {
 
-		Query q = em
-				.createQuery("select event from "
-						+ Event.class.getSimpleName()
-						+ " event where event.execution.experiment = :experiment and event.execution.method = :method and event.name='"
-						+ Event.EXPERIMENT_METHOD_NAME + "'");
+		Query q = em.createQuery("select event from " + Event.class.getSimpleName()
+				+ " event where event.execution.experiment = :experiment and event.execution.method = :method and event.name='"
+				+ Event.EXPERIMENT_METHOD_NAME + "'");
 		q.setParameter("experiment", experiment);
 		q.setParameter("method", method);
 
+		@SuppressWarnings("unchecked")
 		List<Event> events = (List<Event>) q.getResultList();
 		if (events.isEmpty()) {
 			return method.getProperties().getName();
@@ -228,26 +209,23 @@ public class ExperimentRepositoryManager {
 		}
 	}
 
-	public long getTimeLimit(Experiment experiment,
-			List<MethodDescription> subsetMethods,
+	public long getTimeLimit(Experiment experiment, List<MethodDescription> subsetMethods,
 			List<InstanceDescription> subsetInstances) {
 
 		return 1000;
 	}
 
-	public long getMaxTimeLimit(Experiment experiment,
-			List<MethodDescription> subsetMethods,
+	public long getMaxTimeLimit(Experiment experiment, List<MethodDescription> subsetMethods,
 			List<InstanceDescription> subsetInstances) {
 
 		return 1000;
 	}
 
-	public List<ComputerDescription> findComputerDescriptionByName(
-			String computerName) {
+	@SuppressWarnings("unchecked")
+	public List<ComputerDescription> findComputerDescriptionByName(String computerName) {
 
-		Query q = em.createQuery("select c from "
-				+ ComputerDescription.class.getSimpleName()
-				+ " c where c.name = :name");
+		Query q = em
+				.createQuery("select c from " + ComputerDescription.class.getSimpleName() + " c where c.name = :name");
 		q.setParameter("name", computerName);
 
 		return (List<ComputerDescription>) q.getResultList();
@@ -256,26 +234,24 @@ public class ExperimentRepositoryManager {
 
 	public Researcher findResearcherByName(String researcherName) {
 
-		Query q = em.createQuery("select r from "
-				+ Researcher.class.getSimpleName() + " r where r.name = :name");
+		Query q = em.createQuery("select r from " + Researcher.class.getSimpleName() + " r where r.name = :name");
 		q.setParameter("name", researcherName);
 
 		return (Researcher) q.getSingleResult();
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Experiment> findExperiments() {
 
-		Query q = em.createQuery("select e from "
-				+ Experiment.class.getSimpleName() + " e");
+		Query q = em.createQuery("select e from " + Experiment.class.getSimpleName() + " e");
 
 		return (List<Experiment>) q.getResultList();
 	}
 
 	public Experiment findExperiment(long id) {
 
-		Query q = em.createQuery("select e from "
-				+ Experiment.class.getSimpleName() + " e where e.id = :id");
+		Query q = em.createQuery("select e from " + Experiment.class.getSimpleName() + " e where e.id = :id");
 		q.setParameter("id", id);
 
 		return (Experiment) q.getSingleResult();
@@ -283,32 +259,22 @@ public class ExperimentRepositoryManager {
 
 	public void removeExperiment(long experimentId) {
 
-		em.createQuery(
-				"DELETE FROM DoubleEvent event"
-						+ " WHERE event.execution.experiment.id = :id")
-				.setParameter("id", experimentId).executeUpdate();
-		
-		em.createQuery(
-				"DELETE FROM LongEvent event"
-						+ " WHERE event.execution.experiment.id = :id")
-				.setParameter("id", experimentId).executeUpdate();
-		
-		em.createQuery(
-				"DELETE FROM NonValueEvent event"
-						+ " WHERE event.execution.experiment.id = :id")
-				.setParameter("id", experimentId).executeUpdate();
-		
-		em.createQuery(
-				"DELETE FROM StringEvent event"
-						+ " WHERE event.execution.experiment.id = :id")
+		em.createQuery("DELETE FROM DoubleEvent event" + " WHERE event.execution.experiment.id = :id")
 				.setParameter("id", experimentId).executeUpdate();
 
-		em.createQuery(
-				"DELETE FROM Execution exec WHERE exec.experiment.id = :id")
+		em.createQuery("DELETE FROM LongEvent event" + " WHERE event.execution.experiment.id = :id")
 				.setParameter("id", experimentId).executeUpdate();
 
-		em.createQuery("DELETE FROM Experiment e WHERE e.id = :id")
+		em.createQuery("DELETE FROM NonValueEvent event" + " WHERE event.execution.experiment.id = :id")
 				.setParameter("id", experimentId).executeUpdate();
+
+		em.createQuery("DELETE FROM StringEvent event" + " WHERE event.execution.experiment.id = :id")
+				.setParameter("id", experimentId).executeUpdate();
+
+		em.createQuery("DELETE FROM Execution exec WHERE exec.experiment.id = :id").setParameter("id", experimentId)
+				.executeUpdate();
+
+		em.createQuery("DELETE FROM Experiment e WHERE e.id = :id").setParameter("id", experimentId).executeUpdate();
 
 	}
 }

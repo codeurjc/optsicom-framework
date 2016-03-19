@@ -53,13 +53,13 @@ public class ScoreStatisticCalc extends RelativizerStatisticCalc {
 		for (int i = 0; i < ranking.length; i++) {
 
 			int equals = 1;
-			for (int j = i; j < (ranking.length - 1) && NumBestStatisticCalc.isSameValue(copy[j],copy[j + 1]); j++) {
+			for (int j = i; j < (ranking.length - 1) && NumBestStatisticCalc.isSameValue(copy[j], copy[j + 1]); j++) {
 				equals++;
 			}
 
 			for (int j = 0; j < equals; j++) {
 				int indexValue = j + i;
-				result[ranking[indexValue]] = (double)i;
+				result[ranking[indexValue]] = (double) i;
 			}
 			i += (equals - 1);
 		}

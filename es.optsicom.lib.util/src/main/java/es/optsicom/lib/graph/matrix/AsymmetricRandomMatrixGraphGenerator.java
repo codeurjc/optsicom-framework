@@ -10,8 +10,6 @@
  * **************************************************************************** */
 package es.optsicom.lib.graph.matrix;
 
-import java.util.Random;
-
 import es.optsicom.lib.util.RandomManager;
 
 public class AsymmetricRandomMatrixGraphGenerator {
@@ -19,7 +17,7 @@ public class AsymmetricRandomMatrixGraphGenerator {
 	public AsymmetricMatrixGraph createGraphFloat(int numberNodes, float minValue, float maxValue) {
 
 		float weights[][] = new float[numberNodes][numberNodes];
-		
+
 		for (int i = 0; i < numberNodes; i++) {
 			for (int j = 0; j < numberNodes; j++) {
 				weights[j][i] = createFloatWeight(minValue, maxValue);
@@ -35,9 +33,9 @@ public class AsymmetricRandomMatrixGraphGenerator {
 	}
 
 	public AsymmetricMatrixGraph createGraphInt(int numberNodes, int minValue, int maxValue) {
-		
+
 		float weights[][] = new float[numberNodes][numberNodes];
-		
+
 		for (int i = 0; i < numberNodes; i++) {
 			for (int j = 0; j < numberNodes; j++) {
 				weights[j][i] = createIntWeight(minValue, maxValue);
@@ -45,7 +43,7 @@ public class AsymmetricRandomMatrixGraphGenerator {
 		}
 
 		return new AsymmetricMatrixGraph(weights);
-		
+
 	}
 
 	private float createIntWeight(int minValue, int maxValue) {

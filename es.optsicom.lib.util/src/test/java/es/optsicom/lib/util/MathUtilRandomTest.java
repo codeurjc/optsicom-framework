@@ -12,8 +12,6 @@ package es.optsicom.lib.util;
 
 import java.util.Arrays;
 
-import es.optsicom.lib.util.MathUtil;
-
 public class MathUtilRandomTest {
 
 	public static void main(String[] args) {

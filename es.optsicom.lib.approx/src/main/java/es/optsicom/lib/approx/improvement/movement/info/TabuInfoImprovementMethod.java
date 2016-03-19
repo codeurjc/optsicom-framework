@@ -8,12 +8,10 @@ import es.optsicom.lib.Solution;
 import es.optsicom.lib.approx.improvement.movement.FinishGeneratingMovementsException;
 import es.optsicom.lib.approx.improvement.movement.Mode;
 import es.optsicom.lib.approx.improvement.movement.TabuProblemAdapter;
-import es.optsicom.lib.util.ArraysUtil;
 import es.optsicom.lib.util.Id;
 
 public class TabuInfoImprovementMethod<S extends Solution<I>, I extends Instance, IN>
-		extends MovementInfoImprovementMethod<S, I, IN> implements
-		MovementInfoManager<IN> {
+		extends MovementInfoImprovementMethod<S, I, IN> implements MovementInfoManager<IN> {
 
 	private Mode mode;
 
@@ -30,20 +28,17 @@ public class TabuInfoImprovementMethod<S extends Solution<I>, I extends Instance
 	private int tabuTenureInt;
 
 	private List<IN> testedMovInfo;
-	
+
 	private boolean applyLastTestedMovement;
 
-	public TabuInfoImprovementMethod(
-			MovementInfoGenerator<S, I, IN> movementGenerator, Mode mode,
-			float maxIterWoImpr, float tabuTenure,
-			TabuProblemAdapter<S, I> tabuAdapter,
-			MovementSelectorByInfo<S, IN> movSelector) {
+	public TabuInfoImprovementMethod(MovementInfoGenerator<S, I, IN> movementGenerator, Mode mode, float maxIterWoImpr,
+			float tabuTenure, TabuProblemAdapter<S, I> tabuAdapter, MovementSelectorByInfo<S, IN> movSelector) {
 		super(movementGenerator, movSelector);
-		
-		if(mode == Mode.MIXED){
+
+		if (mode == Mode.MIXED) {
 			throw new UnsupportedOperationException();
 		}
-		
+
 		this.mode = mode;
 		this.tabuAdapter = tabuAdapter;
 		this.tabuTenure = tabuTenure;
@@ -56,18 +51,17 @@ public class TabuInfoImprovementMethod<S extends Solution<I>, I extends Instance
 
 		this.memory = tabuAdapter.createMemory(solution);
 		this.tabuTenureInt = tabuAdapter.getTabuTenureInt(solution, tabuTenure);
-		int maxItersWoImprInt = tabuAdapter.getMaxItersWoImprInt(solution,
-				maxIterWoImpr);
+		int maxItersWoImprInt = tabuAdapter.getMaxItersWoImprInt(solution, maxIterWoImpr);
 
 		numIteration = 1;
 		itersWoImpr = 0;
 
 		bestSolution = (S) solution.createCopy();
-		
+
 		do {
 
 			testedMovInfo = new ArrayList<IN>();
-						
+
 			// System.out.println("NumIteration: "+numIteration);
 			applyLastTestedMovement = false;
 
@@ -86,7 +80,8 @@ public class TabuInfoImprovementMethod<S extends Solution<I>, I extends Instance
 			numIteration++;
 
 			// if(solution.getWeight() != bestSolution.getWeight()){
-			// System.out.println("NumIterations Wo Impr: "+itersWoImpr+" limit="+maxItersWoImprInt);
+			// System.out.println("NumIterations Wo Impr: "+itersWoImpr+"
+			// limit="+maxItersWoImprInt);
 			// }
 
 			if (itersWoImpr >= maxItersWoImprInt) {
@@ -100,6 +95,7 @@ public class TabuInfoImprovementMethod<S extends Solution<I>, I extends Instance
 		solution.asSolution(bestSolution);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void applyMovement() {
 
 		boolean newBestSolutionFound = false;
@@ -111,7 +107,7 @@ public class TabuInfoImprovementMethod<S extends Solution<I>, I extends Instance
 			movToApply = movSelector.selectMovementToApply(testedMovInfo);
 		}
 
-		//System.out.println("----- "+movToApply);
+		// System.out.println("----- "+movToApply);
 
 		if (movSelector.isBetterThan(movToApply, bestSolution)) {
 
@@ -123,14 +119,13 @@ public class TabuInfoImprovementMethod<S extends Solution<I>, I extends Instance
 			itersWoImpr++;
 		}
 
-		tabuAdapter.markAsTabu(memory, movToApply, numIteration,
-				tabuTenureInt);
+		tabuAdapter.markAsTabu(memory, movToApply, numIteration, tabuTenureInt);
 
 		// if(!bestMode.isImprovement(bestIncrement)){
 		// System.out.println(".");
 		// }
 
-		//double originalWeight = solution.getWeight();
+		// double originalWeight = solution.getWeight();
 		movementGenerator.applyMovement(movToApply);
 		// System.out.print(".");
 
@@ -140,7 +135,7 @@ public class TabuInfoImprovementMethod<S extends Solution<I>, I extends Instance
 		// non-improving
 		// movement is applied
 		if (newBestSolutionFound) {
-			//System.out.println("New solution found: "+solution.getWeight());
+			// System.out.println("New solution found: "+solution.getWeight());
 			bestSolution = (S) solution.createCopy();
 		}
 
@@ -149,7 +144,8 @@ public class TabuInfoImprovementMethod<S extends Solution<I>, I extends Instance
 		// if (!MathUtil.efectiveEquals(originalWeight + bestIncrement,
 		// solution.getWeight())) {
 		// throw new RuntimeException(
-		// "Applying the movement doesn't increment the solution value as expected. It should be "
+		// "Applying the movement doesn't increment the solution value as
+		// expected. It should be "
 		// + (originalWeight + bestIncrement)
 		// + " and is "
 		// + solution.getWeight());
@@ -162,27 +158,26 @@ public class TabuInfoImprovementMethod<S extends Solution<I>, I extends Instance
 	@Override
 	public void testMovement(IN info) {
 
-		boolean tabuMovement = tabuAdapter.isMarkedAsTabu(memory,
-				info, numIteration);
+		boolean tabuMovement = tabuAdapter.isMarkedAsTabu(memory, info, numIteration);
 
 		boolean aspirationCriteria = false;
 
 		if (tabuMovement) {
 			aspirationCriteria = movSelector.isBetterThan(info, bestSolution);
-//			if(aspirationCriteria){
-//				System.out.println("AS: "+info);
-//			}
+			// if(aspirationCriteria){
+			// System.out.println("AS: "+info);
+			// }
 		}
 
 		if (!tabuMovement || aspirationCriteria) {
 
 			testedMovInfo.add(this.movementGenerator.createCopy(info));
-			
+
 			if (mode == Mode.FIRST) {
-				if (movSelector.isImprovement(info)) {					
+				if (movSelector.isImprovement(info)) {
 					throw new FinishGeneratingMovementsException();
 				}
-			} 
+			}
 		}
 	}
 

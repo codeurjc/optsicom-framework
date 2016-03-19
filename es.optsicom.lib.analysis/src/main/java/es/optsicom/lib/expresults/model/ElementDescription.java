@@ -14,7 +14,6 @@ import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import es.optsicom.lib.expresults.model.DBProperties;
 import es.optsicom.lib.util.description.Descriptive;
 
 @Entity
@@ -27,7 +26,7 @@ public abstract class ElementDescription implements Descriptive {
 
 	private String name;
 
-	@OneToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private DBProperties properties;
 
 	protected ElementDescription() {
@@ -42,7 +41,7 @@ public abstract class ElementDescription implements Descriptive {
 	public long getId() {
 		return id;
 	}
-	
+
 	@JsonCreator
 	public ElementDescription(@JsonProperty("properties") DBProperties properties) {
 		this.properties = properties;
@@ -62,8 +61,7 @@ public abstract class ElementDescription implements Descriptive {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((properties == null) ? 0 : properties.hashCode());
+		result = prime * result + ((properties == null) ? 0 : properties.hashCode());
 		return result;
 	}
 
@@ -83,5 +81,5 @@ public abstract class ElementDescription implements Descriptive {
 			return false;
 		return true;
 	}
-	
+
 }

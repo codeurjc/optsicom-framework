@@ -19,7 +19,9 @@ import es.optsicom.lib.expresults.model.Execution;
 import es.optsicom.lib.util.ArraysUtil;
 
 /**
- * Se cuenta el porcentaje de veces que el número es menor o igual que cada valor del array de intervalos
+ * Se cuenta el porcentaje de veces que el número es menor o igual que cada
+ * valor del array de intervalos
+ * 
  * @author mica
  *
  */

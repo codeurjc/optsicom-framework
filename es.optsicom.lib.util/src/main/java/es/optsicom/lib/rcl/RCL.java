@@ -27,7 +27,7 @@ public class RCL {
 		int i = Arrays.binarySearch(sortedValues, thresold);
 		if (i >= 0) {
 
-			//If two equals values are in the array, it selects the smaller
+			// If two equals values are in the array, it selects the smaller
 			while (i > 0) {
 				if (sortedValues[i] == sortedValues[i - 1]) {
 					i--;
@@ -38,7 +38,7 @@ public class RCL {
 			i = -i - 1;
 		}
 
-		//System.out.println("i:" + i);
+		// System.out.println("i:" + i);
 
 		return RandomManager.nextInt(size - i) + i;
 	}

@@ -16,8 +16,8 @@ public class InstanceWriter {
 		}
 	}
 
-	public void write(String folder, String fileName, double[][] instanceDistances) throws FileNotFoundException,
-			UnsupportedEncodingException {
+	public void write(String folder, String fileName, double[][] instanceDistances)
+			throws FileNotFoundException, UnsupportedEncodingException {
 
 		File dir = new File(INSTANCE_FILES + "/" + folder);
 		if (!dir.exists()) {

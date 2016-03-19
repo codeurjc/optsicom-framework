@@ -53,8 +53,8 @@ public class MatrixGraph implements Graph {
 
 		@Override
 		public String toString() {
-			if(nodeWeights != null){
-				return "["+identifier+"|"+getWeight()+"]";
+			if (nodeWeights != null) {
+				return "[" + identifier + "|" + getWeight() + "]";
 			} else {
 				return identifier;
 			}
@@ -135,7 +135,7 @@ public class MatrixGraph implements Graph {
 		StringBuilder sb = new StringBuilder("Number of Nodes: " + getNumNodes() + "\n");
 		int numFila = 1;
 		for (float[] fila : weights) {
-			sb.append("["+numFila+"]").append(": ");
+			sb.append("[" + numFila + "]").append(": ");
 			int col = 0;
 			for (float valor : fila) {
 				sb.append(valor).append("[" + col + "], ");
@@ -278,22 +278,22 @@ public class MatrixGraph implements Graph {
 	public void setSkippedLines(List<String> skippedLines) {
 		this.skippedLines = skippedLines;
 	}
-	
+
 	public List<String> getSkippedLines() {
 		return skippedLines;
 	}
-	
+
 	public void setAdditionalInfo(String additionalInfo) {
 		this.additionalInfo = additionalInfo;
 	}
-	
+
 	@Override
 	public String getAdditionalInfo() {
 		return additionalInfo;
 	}
-	
+
 	@Override
 	public void setNodeWeights(float[] nodeWeights) {
-		this.nodeWeights = nodeWeights;		
+		this.nodeWeights = nodeWeights;
 	}
 }

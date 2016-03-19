@@ -6,8 +6,8 @@ import es.optsicom.lib.approx.improvement.TimeLimitException;
 import es.optsicom.lib.util.BestMode;
 import es.optsicom.lib.util.Id;
 
-public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extends Instance> extends
-		MovementImprovementMethod<S, I> implements MovementManager {
+public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extends Instance>
+		extends MovementImprovementMethod<S, I> implements MovementManager {
 
 	private final Mode mode;
 
@@ -32,7 +32,7 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 
 	private boolean testTabuMovements = true;
 
-	private long startTime;
+	//private long startTime;
 
 	public TabuVariableTenureImprovementMethod(MovementGenerator<S, I> movementGenerator, Mode mode,
 			float maxIterWoImpr, float tabuTenure, TabuProblemAdapter<S, I> tabuAdapter,
@@ -48,7 +48,7 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 	@Override
 	public boolean internalImproveSolution(S solution, long duration) {
 		// Hack to know when algorithm starts
-		startTime = System.currentTimeMillis();
+		//startTime = System.currentTimeMillis();
 		return super.internalImproveSolution(solution, duration);
 	}
 
@@ -86,7 +86,8 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 			tenureAdapter.finishIteration(solution, numIteration, itersWoImpr);
 
 			// if(solution.getWeight() != bestSolution.getWeight()){
-			// System.out.println("NumIterations Wo Impr: "+itersWoImpr+" limit="+maxItersWoImprInt);
+			// System.out.println("NumIterations Wo Impr: "+itersWoImpr+"
+			// limit="+maxItersWoImprInt);
 			// }
 
 			if (itersWoImpr >= maxItersWoImprInt) {
@@ -101,22 +102,25 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 
 		} while (true);
 
-		//System.out.println("Iterations: " + numIteration + "; ItersWoImp: " + itersWoImpr);
+		// System.out.println("Iterations: " + numIteration + "; ItersWoImp: " +
+		// itersWoImpr);
 
 		solution.asSolution(bestSolution);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void applyMovement() {
 
-		// System.out.println("---- ApplyMovement: " + (solutionWeight + bestIncrement) + "("+
+		// System.out.println("---- ApplyMovement: " + (solutionWeight +
+		// bestIncrement) + "("+
 		// bestIncrement+") "+ArraysUtil.toStringObj(movementAttributes));
 
-		boolean newBestSolutionFound = false;
+		//boolean newBestSolutionFound = false;
 		if (bestMode.isBetterThan(solutionWeight + bestIncrement, bestSolution.getWeight())) {
 
 			improvement = true;
 			itersWoImpr = 0;
-			newBestSolutionFound = true;
+			//newBestSolutionFound = true;
 
 			// System.out.println("BestSolFound");
 
@@ -133,7 +137,8 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 
 		int tenure = tenureAdapter.getTenure(solution, movementAttributes, numIteration, itersWoImpr);
 
-		// System.out.println("    ##-> "+(System.currentTimeMillis()-startTime)+":"+tenure);
+		// System.out.println(" ##->
+		// "+(System.currentTimeMillis()-startTime)+":"+tenure);
 
 		tabuAdapter.markAsTabu(memory, movementAttributes, numIteration, tenure);
 
@@ -158,7 +163,8 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 		// if (!MathUtil.efectiveEquals(originalWeight + bestIncrement,
 		// solution.getWeight())) {
 		// throw new RuntimeException(
-		// "Applying the movement doesn't increment the solution value as expected. It should be "
+		// "Applying the movement doesn't increment the solution value as
+		// expected. It should be "
 		// + (originalWeight + bestIncrement)
 		// + " and is "
 		// + solution.getWeight());
@@ -176,7 +182,8 @@ public class TabuVariableTenureImprovementMethod<S extends Solution<I>, I extend
 		if (tabuMovement) {
 			aspirationCriteria = bestMode.isBetterThan(increment + solutionWeight, bestSolution.getWeight());
 			// if(aspirationCriteria){
-			// System.out.println("AS: "+(increment + solutionWeight)+" > "+bestSolution.getWeight());
+			// System.out.println("AS: "+(increment + solutionWeight)+" >
+			// "+bestSolution.getWeight());
 			// }
 		}
 

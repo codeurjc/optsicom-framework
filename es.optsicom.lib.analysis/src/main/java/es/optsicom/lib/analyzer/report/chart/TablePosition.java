@@ -5,10 +5,8 @@ package es.optsicom.lib.analyzer.report.chart;
 
 import java.io.Serializable;
 
-
 /**
- * @author paco
- * Class refers to a coordinate on the table
+ * @author paco Class refers to a coordinate on the table
  */
 public class TablePosition implements Serializable {
 
@@ -16,29 +14,32 @@ public class TablePosition implements Serializable {
 
 	/** Row of the coordinate */
 	private int row;
-	
+
 	/** Column of the coordinate */
 	private int column;
-	
+
 	/**
 	 * Constructor of the class
-	 * @param row Row number of the coordinate
-	 * @param column  Column number of the coordinate
+	 * 
+	 * @param row
+	 *            Row number of the coordinate
+	 * @param column
+	 *            Column number of the coordinate
 	 * @throws ChartException
 	 */
-	public TablePosition(int row, int column)throws ChartException {
-		if ((row < 0) || (column < 0)){
-			throw new ChartException ("The values of coordinate must be positive", new ChartException());
+	public TablePosition(int row, int column) throws ChartException {
+		if ((row < 0) || (column < 0)) {
+			throw new ChartException("The values of coordinate must be positive", new ChartException());
 		}
 		this.row = row;
 		this.column = column;
 	}
-	
+
 	/**
 	 * Constructor of the class
 	 */
 	public TablePosition() {
-		
+
 	}
 
 	/**

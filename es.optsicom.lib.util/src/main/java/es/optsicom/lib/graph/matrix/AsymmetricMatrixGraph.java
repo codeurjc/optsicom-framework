@@ -76,7 +76,6 @@ public class AsymmetricMatrixGraph implements Graph {
 		}
 	}
 
-	
 	private final float weights[][];
 	private Graph totalGraph = this;
 	private final List<Node> nodes;
@@ -123,8 +122,7 @@ public class AsymmetricMatrixGraph implements Graph {
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder("Number of Nodes: "
-				+ getNumNodes() + "\n");
+		StringBuilder sb = new StringBuilder("Number of Nodes: " + getNumNodes() + "\n");
 		int numFila = 1;
 		for (float[] fila : weights) {
 			sb.append(numFila).append(": ");
@@ -256,15 +254,15 @@ public class AsymmetricMatrixGraph implements Graph {
 	public void setAdditionalInfo(String additionalInfo) {
 		this.additionalInfo = additionalInfo;
 	}
-	
+
 	@Override
 	public String getAdditionalInfo() {
 		return additionalInfo;
 	}
-	
+
 	@Override
 	public void setNodeWeights(float[] nodeWeights) {
-		this.nodeWeights = nodeWeights;		
+		this.nodeWeights = nodeWeights;
 	}
-	
+
 }

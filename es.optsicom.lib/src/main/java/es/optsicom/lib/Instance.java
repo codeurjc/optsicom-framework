@@ -21,7 +21,7 @@ public interface Instance extends Descriptive {
 	public InstanceFile getInstanceFile();
 
 	public Problem getProblem();
-	
+
 	public InstanceDescription createInstanceDescription();
 
 }

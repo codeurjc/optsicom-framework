@@ -25,16 +25,16 @@ public class MethodCompTest {
 
 	public static void main(String[] args) {
 
-		//double[] values = { 1, 1, 2, 2, 4, 4 };
+		// double[] values = { 1, 1, 2, 2, 4, 4 };
 
 		Double[] values = { -0.03, -0.02, -0.02, 0.01, 0.03, 0.03 };
-		//El resultado del rank debe ser: {1, 2.5, 2.5, 4, 5.5, 5.5}
+		// El resultado del rank debe ser: {1, 2.5, 2.5, 4, 5.5, 5.5}
 
 		System.out.println("Valores: " + Arrays.toString(values));
 
 		List<RelativizerStatisticCalc> comparators = Arrays.<RelativizerStatisticCalc> asList(new MDevStatisticCalc(),
-		        new DevStatisticCalc(), new RankStatisticCalc(), new RankStatisticCalc(BestMode.MIN_IS_BEST),
-		        new NumBestStatisticCalc(), new ScoreStatisticCalc(), new ScoreStatisticCalc(BestMode.MIN_IS_BEST));
+				new DevStatisticCalc(), new RankStatisticCalc(), new RankStatisticCalc(BestMode.MIN_IS_BEST),
+				new NumBestStatisticCalc(), new ScoreStatisticCalc(), new ScoreStatisticCalc(BestMode.MIN_IS_BEST));
 
 		for (RelativizerStatisticCalc comp : comparators) {
 			Double[] result = comp.relativize(values);

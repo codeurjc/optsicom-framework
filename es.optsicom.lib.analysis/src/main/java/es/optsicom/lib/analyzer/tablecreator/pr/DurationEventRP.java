@@ -56,18 +56,18 @@ public class DurationEventRP extends SummarizeRawProcessor {
 			}
 		}
 
-		//		System.out.println(getCookedEventsNames().get(0));
-		//		for (Long duration : durations) {
-		//			System.out.println(duration);
-		//		}
+		// System.out.println(getCookedEventsNames().get(0));
+		// for (Long duration : durations) {
+		// System.out.println(duration);
+		// }
 
 		return new Double[] { inExecSummarizeMode.summarizeValues(durations) };
 	}
 
 	@Override
 	public List<String> getCookedEventsNames() {
-		return Arrays.asList("duration from " + fromEventName + " to " + toEventName + "(" + this.inExecSummarizeMode
-		        + ")");
+		return Arrays
+				.asList("duration from " + fromEventName + " to " + toEventName + "(" + this.inExecSummarizeMode + ")");
 	}
 
 }

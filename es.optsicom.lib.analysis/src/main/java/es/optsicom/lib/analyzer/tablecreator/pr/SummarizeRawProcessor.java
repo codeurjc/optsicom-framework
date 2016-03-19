@@ -38,8 +38,8 @@ public abstract class SummarizeRawProcessor extends RawProcessor {
 		for (Execution exec : execs) {
 			values.add(cookEvents(exec));
 		}
-		
-		if(values.size() == 0){
+
+		if (values.size() == 0) {
 			throw new RuntimeException("There is no cooked values");
 		} else if (values.size() == 1) {
 			return values.get(0);
@@ -55,5 +55,5 @@ public abstract class SummarizeRawProcessor extends RawProcessor {
 	}
 
 	public abstract Double[] cookEvents(Execution exec);
-	
+
 }

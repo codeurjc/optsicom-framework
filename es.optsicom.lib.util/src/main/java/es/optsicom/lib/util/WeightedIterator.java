@@ -15,7 +15,7 @@ import java.util.Iterator;
 public class WeightedIterator<E> implements Iterator<E> {
 
 	Iterator<Weighed<E>> it;
-	
+
 	public WeightedIterator(Iterator<Weighed<E>> it) {
 		this.it = it;
 	}

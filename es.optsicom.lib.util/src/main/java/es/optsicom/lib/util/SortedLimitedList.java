@@ -22,7 +22,7 @@ public abstract class SortedLimitedList<T> {
 		super();
 		this.list = new ArrayList<T>(numElems + 1);
 		this.maxSize = numElems;
-		//Debug.debugln(" Max Size : " + maxSize);
+		// Debug.debugln(" Max Size : " + maxSize);
 	}
 
 	public abstract void add(T elem);

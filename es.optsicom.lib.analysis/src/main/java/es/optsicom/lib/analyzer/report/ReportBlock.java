@@ -9,13 +9,13 @@ public class ReportBlock {
 
 	private String name;
 	List<ReportPage> pages = new ArrayList<ReportPage>();
-	
+
 	public ReportBlock(String name, Table tt) {
 		this(name);
 		ReportPage page = new ReportPage(name, tt);
 		pages.add(page);
 	}
-	
+
 	public ReportBlock(String name, List<ReportPage> reportPages) {
 		this(name);
 		pages = reportPages;
@@ -35,9 +35,9 @@ public class ReportBlock {
 	}
 
 	public void setName(String name) {
-		this.name = name;		
+		this.name = name;
 	}
-	
+
 	public List<ReportPage> getReportPages() {
 		return this.pages;
 	}
@@ -46,5 +46,5 @@ public class ReportBlock {
 	public String toString() {
 		return "ReportBlock [name=" + name + ", pages=" + pages + "]";
 	}
-	
+
 }

@@ -10,8 +10,6 @@
  * **************************************************************************** */
 package es.optsicom.lib.rcl.test;
 
-import java.util.Random;
-
 import es.optsicom.lib.util.ArraysUtil;
 import es.optsicom.lib.util.RandomManager;
 
@@ -24,8 +22,6 @@ public class SorterTest {
 	public static void main(String[] args) {
 
 		RandomManager.setSeed(2000);
-
-		
 
 		long time = 0;
 

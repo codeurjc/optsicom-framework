@@ -28,12 +28,13 @@ public class MatrixGraphSaverSilvaFormat {
 		return instance;
 	}
 
-	private MatrixGraphSaverSilvaFormat() {}
+	private MatrixGraphSaverSilvaFormat() {
+	}
 
 	public void saveGraph(Graph graph, File file) throws IOException {
 		saveGraph(graph, new FileOutputStream(file), -1);
 	}
-	
+
 	public void saveGraph(Graph graph, OutputStream os, int decimals) {
 
 		int n = graph.getNumNodes();
@@ -52,9 +53,9 @@ public class MatrixGraphSaverSilvaFormat {
 					value = String.format("%." + decimals + "f", distance);
 				}
 
-				w.print(value+" ");
+				w.print(value + " ");
 			}
-			
+
 			w.println();
 		}
 

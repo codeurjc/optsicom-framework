@@ -13,8 +13,8 @@ package es.optsicom.lib.approx.constructive;
 import es.optsicom.lib.Instance;
 import es.optsicom.lib.Solution;
 
-public abstract class IsoIntervalConstructive<S extends Solution<I>, I extends Instance> extends
-        IntervalConstructive<S, I> {
+public abstract class IsoIntervalConstructive<S extends Solution<I>, I extends Instance>
+		extends IntervalConstructive<S, I> {
 
 	private final int numIntervals;
 
@@ -29,8 +29,9 @@ public abstract class IsoIntervalConstructive<S extends Solution<I>, I extends I
 
 	@Override
 	protected int getNumInterval(float totalPropotion) {
-		//I have to do this check to avoid problems when a method takes more time than considered
-		return Math.min((int) (totalPropotion * numIntervals), numIntervals-1);
+		// I have to do this check to avoid problems when a method takes more
+		// time than considered
+		return Math.min((int) (totalPropotion * numIntervals), numIntervals - 1);
 	}
 
 }

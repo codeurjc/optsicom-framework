@@ -57,12 +57,12 @@ public class MatrixGraphLoaderEuclidean extends MatrixGraphLoader {
 
 		int indexOfSpace = linea.indexOf(' ');
 		int numberNodes;
-		if(indexOfSpace == -1){
+		if (indexOfSpace == -1) {
 			numberNodes = Integer.parseInt(linea);
 		} else {
-			numberNodes = Integer.parseInt(linea.substring(0,indexOfSpace)); 
+			numberNodes = Integer.parseInt(linea.substring(0, indexOfSpace));
 		}
-		 
+
 		linea = br.readLine();
 		int numDimensiones = Integer.parseInt(linea);
 

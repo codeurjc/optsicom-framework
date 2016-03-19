@@ -13,10 +13,16 @@ import java.util.StringTokenizer;
 import es.optsicom.lib.graph.Graph;
 
 /**
- * <p>Loads an unweighted graph from a file in the format defined by Chaco, described
- * in the manual of Jostle software (a software tool for the Graph Partitioning Problem):</p>
+ * <p>
+ * Loads an unweighted graph from a file in the format defined by Chaco,
+ * described in the manual of Jostle software (a software tool for the Graph
+ * Partitioning Problem):
+ * </p>
  * 
- * <p><a href="http://staffweb.cms.gre.ac.uk/~c.walshaw/jostle/jostle-exe.pdf">http://staffweb.cms.gre.ac.uk/~c.walshaw/jostle/jostle-exe.pdf</a></p>
+ * <p>
+ * <a href="http://staffweb.cms.gre.ac.uk/~c.walshaw/jostle/jostle-exe.pdf">http
+ * ://staffweb.cms.gre.ac.uk/~c.walshaw/jostle/jostle-exe.pdf</a>
+ * </p>
  * 
  * @author Francisco Gortázar <patxi.gortazar@gmail.com>
  *
@@ -42,7 +48,7 @@ public class ChacoGraphLoader {
 				putCreatingIfNecessary(adjacencyMap, i, adjacentIndex);
 			}
 		}
-		
+
 		br.close();
 
 		UnweightedGraph graph = new UnweightedGraph(numNodes, numEdges, adjacencyMap);
@@ -60,13 +66,13 @@ public class ChacoGraphLoader {
 			adjacencyMap.put(i, list);
 		}
 
-//		if (adjacencyMap.containsKey(adjacentIndex)) {
-//			adjacencyMap.get(adjacentIndex).add(i);
-//		} else {
-//			List<Integer> list = new ArrayList<Integer>();
-//			list.add(i);
-//			adjacencyMap.put(adjacentIndex, list);
-//		}
+		// if (adjacencyMap.containsKey(adjacentIndex)) {
+		// adjacencyMap.get(adjacentIndex).add(i);
+		// } else {
+		// List<Integer> list = new ArrayList<Integer>();
+		// list.add(i);
+		// adjacencyMap.put(adjacentIndex, list);
+		// }
 	}
 
 }

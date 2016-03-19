@@ -1,7 +1,5 @@
 package es.optsicom.lib.analyzer.tool;
 
-import java.io.File;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -11,9 +9,7 @@ import es.optsicom.lib.expresults.db.DBManager;
 import es.optsicom.lib.expresults.model.Event;
 import es.optsicom.lib.expresults.model.Execution;
 import es.optsicom.lib.expresults.model.Experiment;
-import es.optsicom.lib.expresults.model.InstanceDescription;
 import es.optsicom.lib.expresults.model.MethodDescription;
-import es.optsicom.lib.expresults.model.StringEvent;
 
 public class ShowDBData {
 
@@ -22,10 +18,11 @@ public class ShowDBData {
 		EntityManager em = dbManager.createEntityManager();
 
 		Query q = em.createQuery("select e from Experiment e");
+		@SuppressWarnings("unchecked")
 		List<Experiment> experiments = (List<Experiment>) q.getResultList();
 
 		for (Experiment e : experiments) {
-			showExperimentInfo(em,e);
+			showExperimentInfo(em, e);
 		}
 	}
 
@@ -33,6 +30,7 @@ public class ShowDBData {
 		EntityManager em = dbManager.createEntityManager();
 
 		Query q = em.createQuery("select e from Experiment e");
+		@SuppressWarnings("unchecked")
 		List<Experiment> experiments = (List<Experiment>) q.getResultList();
 
 		for (Experiment e : experiments) {
@@ -63,27 +61,32 @@ public class ShowDBData {
 
 		System.out.println("Methods: ");
 
-		q = em.createQuery("select distinct ev.value, e.method from StringEvent ev, Execution e where e = ev.execution and ev.execution.experiment = :experiment and ev.name = :name");
+		q = em.createQuery(
+				"select distinct ev.value, e.method from StringEvent ev, Execution e where e = ev.execution and ev.execution.experiment = :experiment and ev.name = :name");
 		q.setParameter("experiment", e);
 		q.setParameter("name", "experimentMethodName");
 
+		@SuppressWarnings("unchecked")
+		List<Object[]> resultList = (List<Object[]>) q.getResultList();
 		
-		for (Object[] values : (List<Object[]>) q.getResultList()) {
+		for (Object[] values : resultList) {
 
 			String methodExpName = (String) values[0];
 			MethodDescription method = (MethodDescription) values[1];
-			System.out.println(" Method: " + methodExpName + " -> "
-					+ method);
+			System.out.println(" Method: " + methodExpName + " -> " + method);
 		}
-		
+
 		q = em.createQuery("select e from Execution e where e.experiment = :experiment");
 		q.setParameter("experiment", e);
-		
+
+		@SuppressWarnings("unchecked")
 		List<Execution> executions = (List<Execution>) q.getResultList();
-		System.out.println("Num execs: "+executions.size());
+		
+		System.out.println("Num execs: " + executions.size());
 		for (Execution exec : executions) {
 
-			System.out.println(exec.getInstance().getName()+" \t "+exec.getLastEvent(Event.OBJ_VALUE_EVENT).getValue());
+			System.out.println(
+					exec.getInstance().getName() + " \t " + exec.getLastEvent(Event.OBJ_VALUE_EVENT).getValue());
 		}
 	}
 

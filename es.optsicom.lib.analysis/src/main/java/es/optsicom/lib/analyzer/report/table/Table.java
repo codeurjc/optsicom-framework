@@ -94,9 +94,7 @@ public class Table implements ReportElement {
 		for (int i = 0; i < this.getNumRows(); i++) {
 
 			for (int j = 0; j < this.getNumColumns(); j++) {
-				sb.append(
-						"Row: " + i + " Col:" + j + " Value:"
-								+ this.cellValues[i][j]).append("\n");
+				sb.append("Row: " + i + " Col:" + j + " Value:" + this.cellValues[i][j]).append("\n");
 			}
 		}
 

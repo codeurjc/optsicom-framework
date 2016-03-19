@@ -11,15 +11,16 @@
 package es.optsicom.lib.rcl.test;
 
 import java.util.Arrays;
-import java.util.Random;
 
 import es.optsicom.lib.util.RandomManager;
 
 /**
- * Este test ha servido para comprobar experimentalmente cual puede ser la mejor estrategia con la RCL
- * Dependiendo de si el array de valores está ya ordenado o no, es más interesante una estrategia u otra.
- * Si el array de valores está ya ordenado, es mejor usar una búsqueda binaria, en cambio si el array no
- * está ordenado, es mejor NO ordenarle para seleccionar con RCL. 
+ * Este test ha servido para comprobar experimentalmente cual puede ser la mejor
+ * estrategia con la RCL Dependiendo de si el array de valores está ya ordenado
+ * o no, es más interesante una estrategia u otra. Si el array de valores está
+ * ya ordenado, es mejor usar una búsqueda binaria, en cambio si el array no
+ * está ordenado, es mejor NO ordenarle para seleccionar con RCL.
+ * 
  * @author mica
  *
  */
@@ -48,7 +49,7 @@ public class RCLTest {
 			for (int k = 0; k < NUM_TESTS_INSTANCE; k++) {
 
 				int index = RCL2.selectElem(values, 0.8);
-				//System.out.println(index);
+				System.out.println(index);
 
 			}
 			time += System.currentTimeMillis() - startTime;

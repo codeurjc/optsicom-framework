@@ -18,11 +18,13 @@ public class OnlyValueInstancesBlockBuilder extends BlockBuilder {
 
 	public void buildPages(ExperimentManager experimentResults) {
 
-		StatisticGroup[] statisticGroups = {StatisticGroup
-				.createMultipleStatisticGroup(new LastEventRP(Event.OBJ_VALUE_EVENT),
-						new Statistic[] {
-								new Statistic(new NonRelativizerStatisticCalc(SummarizeMode.FIRST, NumberType.DECIMAL), "Value")})};
-				
+		StatisticGroup[] statisticGroups = {
+				StatisticGroup
+						.createMultipleStatisticGroup(new LastEventRP(Event.OBJ_VALUE_EVENT),
+								new Statistic[] { new Statistic(
+										new NonRelativizerStatisticCalc(SummarizeMode.FIRST, NumberType.DECIMAL),
+										"Value") }) };
+
 		CommonApproxAttributeTableCreator tableCreator = new CommonApproxAttributeTableCreator(statisticGroups);
 		configTableCreator(experimentResults, tableCreator);
 		AttributedTable attTable = tableCreator.buildTable();

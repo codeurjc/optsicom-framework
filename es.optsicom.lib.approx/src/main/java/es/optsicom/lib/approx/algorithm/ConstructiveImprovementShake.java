@@ -20,7 +20,8 @@ import es.optsicom.lib.util.Id;
 import es.optsicom.lib.util.description.DescriptiveHelper;
 import es.optsicom.lib.util.description.Properties;
 
-public class ConstructiveImprovementShake<S extends Solution<I>, I extends Instance> extends AbstractApproxMethod<S, I> {
+public class ConstructiveImprovementShake<S extends Solution<I>, I extends Instance>
+		extends AbstractApproxMethod<S, I> {
 
 	public static final String ITERATIONS_PERFORMED_EVENT = "constructiveImprovement.iterationsPerformed";
 	private Constructive<S, I> constructive;

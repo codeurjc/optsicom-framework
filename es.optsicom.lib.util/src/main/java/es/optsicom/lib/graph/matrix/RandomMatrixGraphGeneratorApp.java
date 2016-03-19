@@ -20,7 +20,7 @@ public class RandomMatrixGraphGeneratorApp {
 		File dir = new File("../MavDivProblem/instancefiles2");
 		dir.mkdirs();
 
-		int[] ns = { /*25, 50, 100, 125, 150,*/200, 500 };
+		int[] ns = { /* 25, 50, 100, 125, 150, */200, 500 };
 		int numberProblems = 10;
 
 		RandomMatrixGraphGenerator creator = new RandomMatrixGraphGenerator();

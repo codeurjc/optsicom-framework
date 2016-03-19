@@ -17,14 +17,14 @@ import es.optsicom.lib.util.SummarizeMode;
 public class NonRelativizerStatisticCalc extends StatisticCalc {
 
 	private NumberType numberType;
-	
+
 	public NonRelativizerStatisticCalc(SummarizeMode summarizeMode, NumberType numberType) {
 		super(summarizeMode);
 		this.numberType = numberType;
 	}
-	
+
 	public NonRelativizerStatisticCalc(SummarizeMode summarizeMode, NumberType numberType, BestMode resultBestMode) {
-		super(summarizeMode,resultBestMode);
+		super(summarizeMode, resultBestMode);
 		this.numberType = numberType;
 	}
 

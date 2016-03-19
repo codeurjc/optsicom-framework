@@ -10,27 +10,23 @@
  * **************************************************************************** */
 package es.optsicom.lib.approx;
 
-import java.util.List;
-
 import es.optsicom.lib.Instance;
 import es.optsicom.lib.Method;
 import es.optsicom.lib.Solution;
-import es.optsicom.lib.expresults.model.MethodDescription;
 
-public interface ApproxMethod<S extends Solution<I>, I extends Instance> extends Method<S,I> {
+public interface ApproxMethod<S extends Solution<I>, I extends Instance> extends Method<S, I> {
 
 	public S getBestSolution();
 
-//	public List<S> calculateSolutions(int numberSolutions);
+	// public List<S> calculateSolutions(int numberSolutions);
 
-//	public List<S> calculateSolutions(int numberSolutions, long milliseconds);
+	// public List<S> calculateSolutions(int numberSolutions, long
+	// milliseconds);
 
 	@Deprecated
 	public void setSolutionCalculatorListener(ApproxMethodListener<S, I> listener);
 
 	@Deprecated
 	public void removeSolutionCalculatorListener(ApproxMethodListener<S, I> listener);
-
-	
 
 }

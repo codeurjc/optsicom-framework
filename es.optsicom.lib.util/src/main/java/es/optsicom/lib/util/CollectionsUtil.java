@@ -40,9 +40,9 @@ public class CollectionsUtil {
 		int index = 0;
 		E best = values.get(0);
 		if (values.size() > 1) {
-			for (int i = 1; i < values.size(); i++) {				
+			for (int i = 1; i < values.size(); i++) {
 				E value = values.get(i);
-				if(best.compareTo(value) < 0){
+				if (best.compareTo(value) < 0) {
 					best = value;
 					index = i;
 				}
@@ -50,33 +50,33 @@ public class CollectionsUtil {
 		}
 		return index;
 	}
-	
+
 	public static <E extends Comparable<E>> E maxObject(List<E> values) {
 		E best = values.get(0);
 		if (values.size() > 1) {
-			for (int i = 1; i < values.size(); i++) {				
+			for (int i = 1; i < values.size(); i++) {
 				E value = values.get(i);
-				if(best.compareTo(value) < 0){
+				if (best.compareTo(value) < 0) {
 					best = value;
 				}
 			}
 		}
 		return best;
 	}
-	
+
 	public static <E extends Comparable<E>> E maxObject(List<E> values, Comparator<E> comparator) {
 		E best = values.get(0);
 		if (values.size() > 1) {
-			for (int i = 1; i < values.size(); i++) {				
+			for (int i = 1; i < values.size(); i++) {
 				E value = values.get(i);
-				if(comparator.compare(best, value) < 0){
+				if (comparator.compare(best, value) < 0) {
 					best = value;
 				}
 			}
 		}
 		return best;
 	}
-	
+
 	public static double min(List<? extends Number> values) {
 		double min = Double.POSITIVE_INFINITY;
 		for (Number value : values) {
@@ -112,8 +112,7 @@ public class CollectionsUtil {
 		return naturals;
 	}
 
-	public static List<Integer> generateRandomNaturals(int numNaturals,
-			int from, int to) {
+	public static List<Integer> generateRandomNaturals(int numNaturals, int from, int to) {
 		List<Integer> naturals = new ArrayList<Integer>();
 		int currentNumNaturals = 0;
 		for (Integer natural : RandomList.create(createNaturalsList(from, to))) {
@@ -152,8 +151,7 @@ public class CollectionsUtil {
 	 * @param inArray
 	 * @return
 	 */
-	public static <T extends Comparable<? super T>> int[] sort(List<T> list,
-			Comparator<T> comparator) {
+	public static <T extends Comparable<? super T>> int[] sort(List<T> list, Comparator<T> comparator) {
 		return ObjectListSorter.sort(list, comparator);
 	}
 
@@ -164,14 +162,13 @@ public class CollectionsUtil {
 		}
 	}
 
-	public static <T extends Comparable<? super T>, E> void sortListsByListA(
-			List<T> listA, Comparator<T> comparator, List<E> listB) {
+	public static <T extends Comparable<? super T>, E> void sortListsByListA(List<T> listA, Comparator<T> comparator,
+			List<E> listB) {
 		int[] map = sort(listA, comparator);
 		swapByMap(listB, map);
 	}
 
-	public static <T extends Comparable<? super T>, E> void sortListsByListA(
-			List<T> listA, List<E> listB) {
+	public static <T extends Comparable<? super T>, E> void sortListsByListA(List<T> listA, List<E> listB) {
 		int[] map = sort(listA);
 		swapByMap(listB, map);
 	}

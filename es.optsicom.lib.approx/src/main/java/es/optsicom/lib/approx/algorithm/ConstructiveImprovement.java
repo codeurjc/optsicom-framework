@@ -29,7 +29,8 @@ public class ConstructiveImprovement<S extends Solution<I>, I extends Instance> 
 	private int iterationsPerformed = 0;
 	private int iterations = 1;
 
-	public ConstructiveImprovement(Constructive<S, I> constructive, ImprovementMethod<S, I> improvementMethod, int iterations) {
+	public ConstructiveImprovement(Constructive<S, I> constructive, ImprovementMethod<S, I> improvementMethod,
+			int iterations) {
 		this.constructive = constructive;
 		this.improvementMethod = improvementMethod;
 		this.iterations = iterations;
@@ -42,7 +43,7 @@ public class ConstructiveImprovement<S extends Solution<I>, I extends Instance> 
 	public ConstructiveImprovement(Constructive<S, I> constructive, int iterations) {
 		this(constructive, null, iterations);
 	}
-	
+
 	public ConstructiveImprovement(Constructive<S, I> constructive) {
 		this(constructive, null, -1);
 	}
@@ -50,29 +51,29 @@ public class ConstructiveImprovement<S extends Solution<I>, I extends Instance> 
 	@Override
 	protected void internalCalculateSolution(long duration) {
 
-		if(improvementMethod != null){
+		if (improvementMethod != null) {
 			this.improvementMethod.setImprovementMethodListener(this);
 		}
-		
-		if(duration == -1 && iterations == -1){
+
+		if (duration == -1 && iterations == -1) {
 			throw new RuntimeException("Duration=-1 and Iterations=-1 at the same time");
 		}
-		
+
 		if (duration == -1) {
 
 			constructive.initSolutionCreationByNum(iterations);
 
 			for (int i = 0; i < iterations; i++) {
 				S solution = constructive.createSolution();
-				//System.out.println("C: "+solution);
-				
+				// System.out.println("C: "+solution);
+
 				setIfBestSolution(solution);
-				
-				if(improvementMethod != null){
+
+				if (improvementMethod != null) {
 					improvementMethod.improveSolution(solution);
-					//System.out.println("I: "+solution);
+					// System.out.println("I: "+solution);
 				}
-				
+
 				setIfBestSolution(solution);
 			}
 
@@ -85,34 +86,35 @@ public class ConstructiveImprovement<S extends Solution<I>, I extends Instance> 
 			constructive.initSolutionCreationByTime(duration);
 			do {
 				S solution = constructive.createSolution();
-				//System.out.println("C: "+solution);
+				// System.out.println("C: "+solution);
 
 				setIfBestSolution(solution);
 
 				if (System.currentTimeMillis() > finishTime) {
 					break;
 				}
-				
-				if(improvementMethod != null){
+
+				if (improvementMethod != null) {
 					improvementMethod.improveSolution(solution, finishTime - System.currentTimeMillis());
-					//System.out.println("I: "+solution);
-				}				
+					// System.out.println("I: "+solution);
+				}
 
 				setIfBestSolution(solution);
 				iterationsPerformed++;
-				
-				if(iterationsPerformed == iterations){
+
+				if (iterationsPerformed == iterations) {
 					break;
 				}
 
-			//} while (iterationsPerformed < iterations && System.currentTimeMillis() < finishTime);
+				// } while (iterationsPerformed < iterations &&
+				// System.currentTimeMillis() < finishTime);
 			} while (System.currentTimeMillis() < finishTime);
 		}
-		
-		if(improvementMethod != null){
+
+		if (improvementMethod != null) {
 			this.improvementMethod.setImprovementMethodListener(null);
 		}
-		
+
 		CurrentExperiment.addEvent(ITERATIONS_PERFORMED_EVENT, iterationsPerformed);
 
 	}
@@ -170,19 +172,22 @@ public class ConstructiveImprovement<S extends Solution<I>, I extends Instance> 
 		this.iterations = maxConstructions;
 	}
 
-	public static <S extends Solution<I>, I extends Instance> Method<S,I> create(Constructive<S,I> constructive) {
+	public static <S extends Solution<I>, I extends Instance> Method<S, I> create(Constructive<S, I> constructive) {
 		return new ConstructiveImprovement<S, I>(constructive);
 	}
-	
-	public static <S extends Solution<I>, I extends Instance> Method<S,I> create(Constructive<S,I> constructive, ImprovementMethod<S,I> improvement) {
-		return new ConstructiveImprovement<S, I>(constructive,improvement);
-	}
-	
-	public static <S extends Solution<I>, I extends Instance> Method<S,I> create(Constructive<S,I> constructive, ImprovementMethod<S,I> improvement, int numIterations) {
-		return new ConstructiveImprovement<S, I>(constructive,improvement,numIterations);
+
+	public static <S extends Solution<I>, I extends Instance> Method<S, I> create(Constructive<S, I> constructive,
+			ImprovementMethod<S, I> improvement) {
+		return new ConstructiveImprovement<S, I>(constructive, improvement);
 	}
 
-	public static <S extends Solution<I>, I extends Instance> Method<S,I> create(Constructive<S,I> constructive, int numIterations) {
-		return new ConstructiveImprovement<S, I>(constructive,numIterations);
+	public static <S extends Solution<I>, I extends Instance> Method<S, I> create(Constructive<S, I> constructive,
+			ImprovementMethod<S, I> improvement, int numIterations) {
+		return new ConstructiveImprovement<S, I>(constructive, improvement, numIterations);
+	}
+
+	public static <S extends Solution<I>, I extends Instance> Method<S, I> create(Constructive<S, I> constructive,
+			int numIterations) {
+		return new ConstructiveImprovement<S, I>(constructive, numIterations);
 	}
 }

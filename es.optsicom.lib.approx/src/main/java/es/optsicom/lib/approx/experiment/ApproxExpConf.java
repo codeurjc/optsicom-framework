@@ -1,34 +1,12 @@
 package es.optsicom.lib.approx.experiment;
 
 import java.io.File;
-import java.io.IOException;
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
-import javax.persistence.NoResultException;
-
-import com.sun.star.auth.InvalidArgumentException;
-import com.sun.star.lang.IllegalArgumentException;
 
 import es.optsicom.lib.Method;
 import es.optsicom.lib.Problem;
-import es.optsicom.lib.approx.ApproxMethod;
-import es.optsicom.lib.expresults.ExperimentRepositoryFactory;
-import es.optsicom.lib.expresults.manager.ExperimentRepositoryManager;
-import es.optsicom.lib.expresults.model.ComputerDescription;
-import es.optsicom.lib.expresults.model.DBProperties;
-import es.optsicom.lib.expresults.model.Experiment;
-import es.optsicom.lib.expresults.model.InstanceDescription;
-import es.optsicom.lib.expresults.model.MethodDescription;
-import es.optsicom.lib.expresults.model.Researcher;
-import es.optsicom.lib.expresults.saver.ExperimentRepositorySaver;
-import es.optsicom.lib.expresults.saver.ExperimentSaver;
 import es.optsicom.lib.instancefile.FileInstancesRepository;
 import es.optsicom.lib.instancefile.InstanceFile;
 import es.optsicom.lib.instancefile.InstancesGroup;
@@ -76,8 +54,7 @@ public abstract class ApproxExpConf {
 			return this;
 		}
 
-		public ExpInstancesGroup addInstances(String instanceSetId,
-				int fromInstance, int toInstance) {
+		public ExpInstancesGroup addInstances(String instanceSetId, int fromInstance, int toInstance) {
 			InstanceConf conf = new InstanceConf();
 			conf.instanceSetId = instanceSetId;
 			conf.fromNumInstance = fromInstance;
@@ -141,7 +118,7 @@ public abstract class ApproxExpConf {
 
 	public void addMethod(String name, Method method) {
 		methods.add(method);
-		if(methodNames.contains(name)){
+		if (methodNames.contains(name)) {
 			throw new RuntimeException("Method names have to be unique");
 		}
 		methodNames.add(name);
@@ -203,8 +180,7 @@ public abstract class ApproxExpConf {
 		return ig;
 	}
 
-	public ExpInstancesGroup addInstances(String instanceSetId, int fromInstance,
-			int toInstance) {
+	public ExpInstancesGroup addInstances(String instanceSetId, int fromInstance, int toInstance) {
 		InstanceConf conf = new InstanceConf();
 		conf.instanceSetId = instanceSetId;
 		conf.fromNumInstance = fromInstance;
@@ -213,9 +189,9 @@ public abstract class ApproxExpConf {
 		expInstanceGroups.add(ig);
 		return ig;
 	}
-	
+
 	public void addInstancesGroup(InstancesGroup instancesGroup) {
-		instancesGroups.add(instancesGroup);		
+		instancesGroups.add(instancesGroup);
 	}
 
 	public void setTimeLimitInMillis(long millis) {
@@ -233,7 +209,7 @@ public abstract class ApproxExpConf {
 	public void setTimeLimitInHours(double hours) {
 		this.timeLimitInMillis = (long) (hours * 60 * 60 * 1000);
 	}
-	
+
 	public long getTimeLimitInMillis() {
 		return timeLimitInMillis;
 	}
@@ -282,22 +258,20 @@ public abstract class ApproxExpConf {
 		return this.name;
 	}
 
-	public void calculateInstanceFilesAndTimes(){
-		
+	public void calculateInstanceFilesAndTimes() {
+
 		InstancesRepository repository;
 		String instancesFilesDir = this.getInstancesFilesDir();
 		String useCase = this.getUseCase();
 		if (instancesFilesDir == null) {
-			repository = this.getProblem().getInstancesRepository(
-					useCase);
+			repository = this.getProblem().getInstancesRepository(useCase);
 		} else {
-			repository = this.getProblem().getInstancesRepository(
-					new File(instancesFilesDir), useCase);
+			repository = this.getProblem().getInstancesRepository(new File(instancesFilesDir), useCase);
 		}
-		
-		if(!instancesGroups.isEmpty()){
+
+		if (!instancesGroups.isEmpty()) {
 			instanceFiles = new ArrayList<InstanceFile>();
-			for(InstancesGroup instGroup : instancesGroups){
+			for (InstancesGroup instGroup : instancesGroups) {
 				instGroup.setInstancesRepository(repository);
 				instanceFiles.addAll(instGroup.getInstanceFiles());
 			}
@@ -307,9 +281,9 @@ public abstract class ApproxExpConf {
 			// if there aren't any instance configuration, all instances are
 			// used
 			this.instanceFiles = repository.getAllInstanceFiles();
-		} 
+		}
 	}
-	
+
 	private void calculateInstanceFilesAndTimes(InstancesRepository repository) {
 
 		boolean timeSet = false;
@@ -323,26 +297,22 @@ public abstract class ApproxExpConf {
 
 				if (conf.instanceName != null) {
 
-					instanceFiles.add(repository
-							.getInstanceFileByName(conf.instanceName));
+					instanceFiles.add(repository.getInstanceFileByName(conf.instanceName));
 
 				} else {
 
-					List<InstanceFile> setInstanceFiles = repository
-							.getInstanceFiles(conf.instanceSetId);
+					List<InstanceFile> setInstanceFiles = repository.getInstanceFiles(conf.instanceSetId);
 
 					if (conf.fromNumInstance != -1) {
 
-						for (InstanceFile instanceFile : setInstanceFiles
-								.subList(conf.fromNumInstance,
-										conf.toNumInstance)) {
+						for (InstanceFile instanceFile : setInstanceFiles.subList(conf.fromNumInstance,
+								conf.toNumInstance)) {
 
 							instanceFiles.add(instanceFile);
 						}
 
 					} else if (conf.numInstance != -1) {
-						instanceFiles.add(setInstanceFiles
-								.get(conf.numInstance));
+						instanceFiles.add(setInstanceFiles.get(conf.numInstance));
 					} else {
 						instanceFiles.addAll(setInstanceFiles);
 					}
@@ -351,10 +321,10 @@ public abstract class ApproxExpConf {
 
 				instanceTimeLimitsAux.add(group.getTimeLimitInMillis());
 				timeSet |= group.getTimeLimitInMillis() != -1;
-				
+
 			}
 		}
-		
+
 		if (timeSet) {
 			this.instanceTimeLimits = instanceTimeLimitsAux;
 		}

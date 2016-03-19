@@ -9,11 +9,11 @@ import es.optsicom.lib.util.description.Properties;
 public abstract class AbstractInstance implements Instance {
 
 	private InstanceFile instanceFile;
-	
+
 	public AbstractInstance(InstanceFile instanceFile) {
 		this.instanceFile = instanceFile;
 	}
-	
+
 	@Override
 	public String getId() {
 		return instanceFile.getName();
@@ -23,12 +23,12 @@ public abstract class AbstractInstance implements Instance {
 	public InstanceFile getInstanceFile() {
 		return instanceFile;
 	}
-	
+
 	@Override
 	public Properties getProperties() {
 		return DescriptiveHelper.createProperties(this);
 	}
-	
+
 	public InstanceDescription createInstanceDescription() {
 		return new InstanceDescription(new DBProperties(this.getProperties().getMap()));
 	}

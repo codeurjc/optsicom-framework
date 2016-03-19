@@ -19,7 +19,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import es.optsicom.lib.expresults.model.DBProperties;
-import es.optsicom.lib.util.description.Properties;
 
 public class FilteredRowTitles {
 
@@ -34,14 +33,14 @@ public class FilteredRowTitles {
 
 	private void processOriginalRowTitles() {
 
-		Set<Entry<String, String>> commonPropoertiesEntries = new HashSet<Map.Entry<String, String>>(originalRowTitles
-		        .get(0).getMap().entrySet());
+		Set<Entry<String, String>> commonPropoertiesEntries = new HashSet<Map.Entry<String, String>>(
+				originalRowTitles.get(0).getMap().entrySet());
 
 		for (int i = 1; i < originalRowTitles.size(); i++) {
 			commonPropoertiesEntries.retainAll(originalRowTitles.get(i).getMap().entrySet());
 		}
 
-		commonProperties = new DBProperties(new HashMap<String,String>());
+		commonProperties = new DBProperties(new HashMap<String, String>());
 		for (Entry<String, String> entry : commonPropoertiesEntries) {
 			commonProperties.put(entry.getKey(), entry.getValue());
 		}

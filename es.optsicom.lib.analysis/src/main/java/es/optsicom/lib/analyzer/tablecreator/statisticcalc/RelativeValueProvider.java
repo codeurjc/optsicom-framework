@@ -6,5 +6,5 @@ import es.optsicom.lib.expresults.model.InstanceDescription;
 public interface RelativeValueProvider {
 
 	public abstract Number getValue(InstanceDescription instance, ExperimentManager experimentResults);
-	
+
 }

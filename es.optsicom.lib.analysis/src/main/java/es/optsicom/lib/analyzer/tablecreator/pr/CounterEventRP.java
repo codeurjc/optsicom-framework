@@ -16,7 +16,6 @@ import java.util.List;
 import es.optsicom.lib.expresults.model.Event;
 import es.optsicom.lib.expresults.model.Execution;
 
-
 public class CounterEventRP extends SummarizeRawProcessor {
 
 	private String eventName;

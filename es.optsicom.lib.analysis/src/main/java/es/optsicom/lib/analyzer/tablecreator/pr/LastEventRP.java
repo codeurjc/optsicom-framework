@@ -35,7 +35,7 @@ public class LastEventRP extends SummarizeRawProcessor {
 		this.timelimit = timelimit;
 		this.source = source;
 	}
-	
+
 	public LastEventRP(String eventName, long timelimit) {
 		this.eventName = eventName;
 		this.timelimit = timelimit;
@@ -61,7 +61,7 @@ public class LastEventRP extends SummarizeRawProcessor {
 
 			switch (source) {
 			case TIMESTAMP:
-				value = ((double)event.getTimestamp()) / 1000;
+				value = ((double) event.getTimestamp()) / 1000;
 				break;
 			case VALUE:
 				Object valueAsObj = event.getValue();
@@ -70,7 +70,7 @@ public class LastEventRP extends SummarizeRawProcessor {
 				} else {
 					try {
 						value = Double.parseDouble(valueAsObj.toString());
-					} catch(NumberFormatException e){
+					} catch (NumberFormatException e) {
 						throw new AnalysisException("The event " + eventName + " is not a number");
 					}
 				}
@@ -80,7 +80,7 @@ public class LastEventRP extends SummarizeRawProcessor {
 			}
 		}
 
-		//System.out.println("Result: "+value);
+		// System.out.println("Result: "+value);
 		return new Double[] { value };
 
 	}

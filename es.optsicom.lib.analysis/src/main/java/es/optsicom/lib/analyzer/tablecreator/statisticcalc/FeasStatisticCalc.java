@@ -10,8 +10,6 @@
  * **************************************************************************** */
 package es.optsicom.lib.analyzer.tablecreator.statisticcalc;
 
-import java.util.Arrays;
-
 import es.optsicom.lib.analyzer.report.table.NumericFormat.NumberType;
 import es.optsicom.lib.util.ArraysUtil;
 import es.optsicom.lib.util.BestMode;
@@ -20,7 +18,7 @@ import es.optsicom.lib.util.SummarizeMode;
 public class FeasStatisticCalc extends RelativizerStatisticCalc {
 
 	private double feasibleLimit = 99999999;
-	
+
 	public FeasStatisticCalc(BestMode mode) {
 		super(SummarizeMode.SUM, mode, BestMode.MAX_IS_BEST);
 	}
@@ -32,20 +30,20 @@ public class FeasStatisticCalc extends RelativizerStatisticCalc {
 	@Override
 	public Double[] relativize(Double[] values, Number bestValue) {
 
-		//System.out.print("Values: "+Arrays.toString(values));
-		
+		// System.out.print("Values: "+Arrays.toString(values));
+
 		Double[] result = ArraysUtil.createDoubleArray(values.length);
 
 		for (int i = 0; i < result.length; i++) {
 
-			if(values[i] == null || Math.abs(values[i]) > feasibleLimit){
+			if (values[i] == null || Math.abs(values[i]) > feasibleLimit) {
 				result[i] = 0d;
 			} else {
 				result[i] = 1d;
 			}
 		}
-		
-		//System.out.println(" Result: "+Arrays.toString(result));
+
+		// System.out.println(" Result: "+Arrays.toString(result));
 
 		return result;
 	}

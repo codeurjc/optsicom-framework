@@ -11,7 +11,6 @@
 package es.optsicom.lib.approx.algorithm.pr;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import es.optsicom.lib.DistanceCalc;
@@ -28,7 +27,6 @@ public class EliteSet<S extends Solution<I>, I extends Instance> {
 	private int worstSolutionIndex = -1;
 	private double thresold;
 
-	@SuppressWarnings("unchecked")
 	public EliteSet(int b, DistanceCalc<S, I> distCalc, double thresold) {
 		this.b = b;
 		this.distCalc = distCalc;
@@ -39,20 +37,23 @@ public class EliteSet<S extends Solution<I>, I extends Instance> {
 	public int addSolution(S solution) {
 
 		if (numSolutions < b) {
-			//System.out.println("<b");
+			// System.out.println("<b");
 			solutions.add(solution);
 			updateBestWeight(solution, numSolutions);
 			updateWorstWeight(solution, numSolutions);
 			numSolutions++;
 			return numSolutions - 1;
 		} else {
-			//System.out.print(">b ");
-			if (solution.isBetterThan(this.solutions.get(bestSolutionIndex)) || solution.isBetterThan(this.solutions.get(worstSolutionIndex))
-			        && distCalc.calculateDistance(solution, solutions) > thresold) {
+			// System.out.print(">b ");
+			if (solution.isBetterThan(this.solutions.get(bestSolutionIndex))
+					|| solution.isBetterThan(this.solutions.get(worstSolutionIndex))
+							&& distCalc.calculateDistance(solution, solutions) > thresold) {
 
-				//System.out.println("Enter solution: " + solution.getWeight());
+				// System.out.println("Enter solution: " +
+				// solution.getWeight());
 
-				// We substitute the closer of those solutions that are worse than the given solution
+				// We substitute the closer of those solutions that are worse
+				// than the given solution
 				double lessDistance = Double.MAX_VALUE;
 				int changeIndex = -1;
 				for (int i = 0; i < solutions.size(); i++) {
@@ -68,12 +69,12 @@ public class EliteSet<S extends Solution<I>, I extends Instance> {
 					}
 				}
 
-				S oldSolution = solutions.get(changeIndex);
+				//S oldSolution = solutions.get(changeIndex);
 				solutions.set(changeIndex, solution);
 
 				updateBestWeight(solution, changeIndex);
 
-				//System.out.println("Replaced: " + oldSolution.getWeight());
+				// System.out.println("Replaced: " + oldSolution.getWeight());
 
 				if (changeIndex == worstSolutionIndex) {
 					worstSolutionIndex = -1;
@@ -90,13 +91,15 @@ public class EliteSet<S extends Solution<I>, I extends Instance> {
 		}
 
 	}
-	
-	public boolean addSolutionWithoutDiversityCheck(S solution){
-		
-		//Replace worst solution if "solution" is better than it
-		
-		if(solution.isBetterThan(solutions.get(worstSolutionIndex))){
-			//System.out.println("Replaced solution:"+solutions[worstSolutionIndex].getWeight()+" with "+solution.getWeight());
+
+	public boolean addSolutionWithoutDiversityCheck(S solution) {
+
+		// Replace worst solution if "solution" is better than it
+
+		if (solution.isBetterThan(solutions.get(worstSolutionIndex))) {
+			// System.out.println("Replaced
+			// solution:"+solutions[worstSolutionIndex].getWeight()+" with
+			// "+solution.getWeight());
 			solutions.set(worstSolutionIndex, solution);
 			updateBestWeight(solution, worstSolutionIndex);
 			worstSolutionIndex = -1;
@@ -105,21 +108,21 @@ public class EliteSet<S extends Solution<I>, I extends Instance> {
 				updateWorstWeight(element, index++);
 			}
 			return true;
-		}		
+		}
 		return false;
 	}
 
 	private void updateWorstWeight(S solution, int solutionIndex) {
 		if (worstSolutionIndex == -1 || this.solutions.get(worstSolutionIndex).isBetterThan(solution)) {
 			worstSolutionIndex = solutionIndex;
-			//System.out.println("W:" + solution.getWeight());
+			// System.out.println("W:" + solution.getWeight());
 		}
 	}
 
 	private void updateBestWeight(S solution, int solutionIndex) {
 		if (bestSolutionIndex == -1 || solution.isBetterThan(this.solutions.get(bestSolutionIndex))) {
 			bestSolutionIndex = solutionIndex;
-			//System.out.println("B:" + solution.getWeight());
+			// System.out.println("B:" + solution.getWeight());
 		}
 	}
 

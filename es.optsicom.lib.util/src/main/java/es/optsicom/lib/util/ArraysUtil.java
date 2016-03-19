@@ -12,9 +12,7 @@ package es.optsicom.lib.util;
 
 import java.security.InvalidParameterException;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public abstract class ArraysUtil {
 
@@ -40,6 +38,7 @@ public abstract class ArraysUtil {
 		return max;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static <T extends Comparable> T max(T[] values) {
 		T max = null;
 		for (T value : values) {
@@ -55,8 +54,7 @@ public abstract class ArraysUtil {
 	public static double maxWithoutInf(double[] values) {
 		double max = Double.NEGATIVE_INFINITY;
 		for (double value : values) {
-			if (value != Double.POSITIVE_INFINITY
-					&& value != Double.NEGATIVE_INFINITY) {
+			if (value != Double.POSITIVE_INFINITY && value != Double.NEGATIVE_INFINITY) {
 				if (value > max) {
 					max = value;
 				}
@@ -68,8 +66,7 @@ public abstract class ArraysUtil {
 	public static double minWithoutInf(double[] values) {
 		double min = Double.POSITIVE_INFINITY;
 		for (double value : values) {
-			if (value != Double.POSITIVE_INFINITY
-					&& value != Double.NEGATIVE_INFINITY) {
+			if (value != Double.POSITIVE_INFINITY && value != Double.NEGATIVE_INFINITY) {
 				if (value < min) {
 					min = value;
 				}
@@ -298,8 +295,7 @@ public abstract class ArraysUtil {
 		mapTo(values, destMin, destMax, min, max);
 	}
 
-	public static void mapTo(double[] values, double srcMin, double srcMax,
-			double destMin, double destMax) {
+	public static void mapTo(double[] values, double srcMin, double srcMax, double destMin, double destMax) {
 		double targetRange = destMax - destMin;
 		double sourceRange = srcMax - srcMin;
 		double ratio = targetRange / sourceRange;
@@ -308,8 +304,7 @@ public abstract class ArraysUtil {
 		}
 	}
 
-	public static void mapTo(Double[] values, double srcMin, double srcMax,
-			double destMin, double destMax) {
+	public static void mapTo(Double[] values, double srcMin, double srcMax, double destMin, double destMax) {
 		Double targetRange = destMax - destMin;
 		Double sourceRange = srcMax - srcMin;
 		Double ratio = targetRange / sourceRange;
@@ -320,8 +315,7 @@ public abstract class ArraysUtil {
 
 	public static void add(double[] array, double[] sumValues) {
 		if (array.length != sumValues.length) {
-			throw new InvalidParameterException(
-					"The arrays must have the same length.");
+			throw new InvalidParameterException("The arrays must have the same length.");
 		}
 		for (int i = 0; i < array.length; i++) {
 			array[i] += sumValues[i];
@@ -553,7 +547,7 @@ public abstract class ArraysUtil {
 		Arrays.fill(array, value);
 		return array;
 	}
-	
+
 	public static double[] createFilled(double value, int numElems) {
 		double[] array = new double[numElems];
 		Arrays.fill(array, value);
@@ -590,9 +584,9 @@ public abstract class ArraysUtil {
 	}
 
 	public static int[] createRandomNaturals(int n) {
-		return createRandomNaturals(0,n-1);
+		return createRandomNaturals(0, n - 1);
 	}
-	
+
 	public static int[] createRandomNaturals(int from, int to) {
 		int[] naturals = createNaturals(from, to);
 		suffle(naturals);
@@ -730,11 +724,11 @@ public abstract class ArraysUtil {
 		}
 		return result;
 	}
-	
+
 	public static float[] toFloatArray(double[] values) {
 		float[] result = new float[values.length];
 		for (int i = 0; i < values.length; i++) {
-			result[i] = (float)values[i];
+			result[i] = (float) values[i];
 		}
 		return result;
 	}

@@ -5,6 +5,5 @@ public interface MovementInfoManager<IN> {
 	void testMovement(IN info);
 
 	void finishMovementGroup();
-	
 
 }

@@ -7,6 +7,5 @@ public interface MovementManager {
 	void finishMovementGroup();
 
 	boolean canTestMovement(Object movementAttributes);
-	
 
 }

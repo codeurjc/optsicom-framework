@@ -5,7 +5,7 @@ public abstract class RandomizedFor {
 	public static class TrueRandomizedFor extends RandomizedFor {
 
 		private int[] randomNumbers;
-		
+
 		public TrueRandomizedFor(int max) {
 			randomNumbers = ArraysUtil.createNaturals(max);
 			ArraysUtil.suffle(randomNumbers);
@@ -24,17 +24,17 @@ public abstract class RandomizedFor {
 			return num;
 		}
 	}
-	
+
 	private static final FakeRandomizedFor FAKE_RANDOMIZED = new FakeRandomizedFor();
 
-	public static RandomizedFor create(boolean randomized, int max){
-		if(randomized){
+	public static RandomizedFor create(boolean randomized, int max) {
+		if (randomized) {
 			return new TrueRandomizedFor(max);
 		} else {
 			return FAKE_RANDOMIZED;
 		}
 	}
-	
+
 	public abstract int get(int num);
-	
+
 }

@@ -11,47 +11,46 @@ import es.optsicom.lib.util.description.MemoryProperties;
 public class GroupByInstanceMaker extends InstanceGroupMaker {
 
 	private String[] properties;
-	
+
 	public GroupByInstanceMaker(String... properties) {
 		this.properties = properties;
 	}
 
 	@Override
-	public List<InstancesGroup> createInstanceGroups(
-			List<InstanceDescription> instances) {
-		
-		Map<List<String>,InstancesGroup> groups = new HashMap<List<String>,InstancesGroup>();
-		
-		for(InstanceDescription instance : instances){
-			
+	public List<InstancesGroup> createInstanceGroups(List<InstanceDescription> instances) {
+
+		Map<List<String>, InstancesGroup> groups = new HashMap<List<String>, InstancesGroup>();
+
+		for (InstanceDescription instance : instances) {
+
 			List<String> values = new ArrayList<String>();
-			for(String property : properties){
-				values.add(instance.getProperties().get(property));	
+			for (String property : properties) {
+				values.add(instance.getProperties().get(property));
 			}
-			
+
 			InstancesGroup group = groups.get(values);
-			if(group == null){
-				
+			if (group == null) {
+
 				MemoryProperties groupProperties = new MemoryProperties();
 				StringBuilder name = new StringBuilder();
-				
-				for(int i=0; i<properties.length; i++){
-					
+
+				for (int i = 0; i < properties.length; i++) {
+
 					String propertyName = properties[i];
 					String propertyValue = values.get(i);
-					
-					name.append(propertyName).append("=");					
+
+					name.append(propertyName).append("=");
 					name.append(propertyValue).append(" ");
-					
+
 					groupProperties.put(propertyName, propertyValue);
 				}
-				
-				group = new InstancesGroup(name.toString(),groupProperties);
+
+				group = new InstancesGroup(name.toString(), groupProperties);
 				groups.put(values, group);
 			}
 			group.addInstance(instance);
 		}
-		
+
 		return new ArrayList<InstancesGroup>(groups.values());
 	}
 

@@ -14,18 +14,18 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Written by Chee Wai Lee 4/25/2002 Sorter is a static class
- * that provides methods to sort numeric data (using the simplest
- * Quicksort variant) but produce a sort map instead of the
- * actual sorted array. ***CURRENT IMP*** For now, it is hard
- * coded to do reverse sorting (with the assumption that bigger
- * is more significant). It should be written to register an
- * object that implements the java.util.Comparator interface.
+ * Written by Chee Wai Lee 4/25/2002 Sorter is a static class that provides
+ * methods to sort numeric data (using the simplest Quicksort variant) but
+ * produce a sort map instead of the actual sorted array. ***CURRENT IMP*** For
+ * now, it is hard coded to do reverse sorting (with the assumption that bigger
+ * is more significant). It should be written to register an object that
+ * implements the java.util.Comparator interface.
  */
 
 public class ObjectListSorter {
 
-	public static <T extends Comparable<? super T>> int[] sort(List<T> inArray, Comparator<T> comparator, int begin, int end) {
+	public static <T extends Comparable<? super T>> int[] sort(List<T> inArray, Comparator<T> comparator, int begin,
+			int end) {
 		int sortMap[] = new int[end - begin];
 		// double workArray[] = new double[inArray.length];
 
@@ -60,10 +60,11 @@ public class ObjectListSorter {
 	// }
 
 	/**
-	 * Invariant: Every element to the left of the pivot is smaller
-	 * than the pivot element.
+	 * Invariant: Every element to the left of the pivot is smaller than the
+	 * pivot element.
 	 */
-	private static <T extends Comparable<? super T>> void qSort(int[] map, List<T> array, Comparator<T> comparator, int low, int high) {
+	private static <T extends Comparable<? super T>> void qSort(int[] map, List<T> array, Comparator<T> comparator,
+			int low, int high) {
 		// test termination condition
 		if (low >= high) {
 			return;
@@ -103,9 +104,9 @@ public class ObjectListSorter {
 		qSort(map, array, comparator, low, pivot - 1);
 		qSort(map, array, comparator, pivot + 1, high);
 	}
-	
-	private static <T extends Comparable<? super T>> int compare(Comparator<T> comparator, T objA, T objB){
-		if(comparator != null){
+
+	private static <T extends Comparable<? super T>> int compare(Comparator<T> comparator, T objA, T objB) {
+		if (comparator != null) {
 			return comparator.compare(objA, objB);
 		} else {
 			return objA.compareTo(objB);
@@ -121,7 +122,7 @@ public class ObjectListSorter {
 		map[idx2] = mapTemp;
 
 		arrayTemp = array.get(idx1);
-		array.set(idx1,array.get(idx2));
-		array.set(idx2,arrayTemp);
+		array.set(idx1, array.get(idx2));
+		array.set(idx2, arrayTemp);
 	}
 }

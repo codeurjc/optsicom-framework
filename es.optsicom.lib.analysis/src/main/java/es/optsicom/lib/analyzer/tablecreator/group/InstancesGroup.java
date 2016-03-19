@@ -13,8 +13,8 @@ import es.optsicom.lib.util.description.Properties;
 public class InstancesGroup implements Descriptive {
 
 	private String name;
-	private MemoryProperties customProps;	
-	private List<InstanceDescription> instances;	
+	private MemoryProperties customProps;
+	private List<InstanceDescription> instances;
 
 	public InstancesGroup(String name, List<InstanceDescription> instances) {
 		this(name, new MemoryProperties(), instances);
@@ -27,7 +27,7 @@ public class InstancesGroup implements Descriptive {
 	public InstancesGroup(String name, MemoryProperties customProps) {
 		this(name, customProps, new ArrayList<InstanceDescription>());
 	}
-	
+
 	public InstancesGroup(String name, MemoryProperties customProps, List<InstanceDescription> instances) {
 		this.name = name;
 		this.customProps = customProps;
@@ -40,7 +40,7 @@ public class InstancesGroup implements Descriptive {
 	}
 
 	@Id
-	public String getName(){
+	public String getName() {
 		return name;
 	}
 
@@ -48,17 +48,16 @@ public class InstancesGroup implements Descriptive {
 	public Properties getCustomProps() {
 		return customProps;
 	}
-	
+
 	public void addInstance(InstanceDescription instance) {
-		this.instances.add(instance);		
+		this.instances.add(instance);
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((instances == null) ? 0 : instances.hashCode());
+		result = prime * result + ((instances == null) ? 0 : instances.hashCode());
 		return result;
 	}
 
@@ -78,7 +77,7 @@ public class InstancesGroup implements Descriptive {
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
 		return name;
@@ -87,5 +86,5 @@ public class InstancesGroup implements Descriptive {
 	public Properties getProperties() {
 		return DescriptiveHelper.createProperties(this);
 	}
-	
+
 }

@@ -10,8 +10,6 @@
  * **************************************************************************** */
 package es.optsicom.lib.util;
 
-import es.optsicom.lib.util.RandomizedSelector;
-
 public class RandomizedSelectorTest {
 
 	private static final int NUM_CREATIONS = 100000;

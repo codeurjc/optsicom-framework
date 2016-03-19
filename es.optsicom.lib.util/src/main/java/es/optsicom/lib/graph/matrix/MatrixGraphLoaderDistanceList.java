@@ -36,12 +36,12 @@ public class MatrixGraphLoaderDistanceList extends MatrixGraphLoader {
 			}
 
 			String additionalInfo = null;
-			if(linea.contains(" ")){
+			if (linea.contains(" ")) {
 				int indexOf = linea.indexOf(' ');
-				additionalInfo = linea.substring(indexOf,linea.length());
-				linea = linea.substring(0,indexOf);
+				additionalInfo = linea.substring(indexOf, linea.length());
+				linea = linea.substring(0, indexOf);
 			}
-			
+
 			int numberNodes = Integer.parseInt(linea);
 
 			float weights[][] = new float[numberNodes - 1][];
@@ -68,13 +68,13 @@ public class MatrixGraphLoaderDistanceList extends MatrixGraphLoader {
 			} else {
 				mg = new MatrixGraph(weights, totalNodes);
 			}
-			
+
 			mg.setAdditionalInfo(additionalInfo);
-			
+
 			return mg;
 
 		} catch (NumberFormatException e) {
-			throw new FormatException("Format error",e);
+			throw new FormatException("Format error", e);
 		}
 	}
 

@@ -10,7 +10,6 @@
  * **************************************************************************** */
 package es.optsicom.lib.util.description;
 
-import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -32,15 +31,12 @@ public class DescriptiveHelper {
 		return properties;
 	}
 
-	private static void putProperties(String prefix, Descriptive obj,
-			MemoryProperties properties) {
+	private static void putProperties(String prefix, Descriptive obj, MemoryProperties properties) {
 
-		properties.put(getPropName(prefix, CLASS_NAME), obj.getClass()
-				.getName());
+		properties.put(getPropName(prefix, CLASS_NAME), obj.getClass().getName());
 
 		for (Method method : obj.getClass().getMethods()) {
-			if (method.isAnnotationPresent(Id.class)
-					&& method.getParameterTypes().length == 0
+			if (method.isAnnotationPresent(Id.class) && method.getParameterTypes().length == 0
 					&& method.getReturnType() != void.class) {
 
 				String methodName = method.getName();
@@ -73,8 +69,7 @@ public class DescriptiveHelper {
 		}
 	}
 
-	private static void processValue(MemoryProperties description,
-			String propName, Object value) {
+	private static void processValue(MemoryProperties description, String propName, Object value) {
 
 		if (value == null) {
 
@@ -98,7 +93,7 @@ public class DescriptiveHelper {
 
 		} else if (value instanceof List) {
 
-			List elements = (List) value;
+			List<?> elements = (List<?>) value;
 			int counter = 0;
 			for (Object elem : elements) {
 				processValue(description, propName + "." + counter, elem);
@@ -109,15 +104,14 @@ public class DescriptiveHelper {
 
 			description.put(propName, value.toString());
 
-		} else if (value.getClass().isArray() || value instanceof Number || value instanceof Character || value instanceof String ||
-				value instanceof Boolean) {
+		} else if (value.getClass().isArray() || value instanceof Number || value instanceof Character
+				|| value instanceof String || value instanceof Boolean) {
 
 			description.put(propName, ArraysUtil.toStringObj(value));
 
 		} else {
 
-			description.put(propName + "." + CLASS_NAME, value.getClass()
-					.getSimpleName());
+			description.put(propName + "." + CLASS_NAME, value.getClass().getSimpleName());
 			description.put(propName + ".toString", value.toString());
 
 		}

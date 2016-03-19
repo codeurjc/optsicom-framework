@@ -25,11 +25,11 @@ public class TableValue implements Comparable<TableValue> {
 	}
 
 	public int compareTo(TableValue o) {
-		if(value == null && o.value == null){
+		if (value == null && o.value == null) {
 			return 0;
-		} else if(value == null){
+		} else if (value == null) {
 			return 1;
-		} else if(o.value == null){
+		} else if (o.value == null) {
 			return -1;
 		} else {
 			return Double.compare(this.value, o.value);

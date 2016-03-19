@@ -20,58 +20,57 @@ import org.codehaus.jackson.annotate.JsonPropertyOrder;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
-import es.optsicom.lib.expresults.model.ComputerDescription;
-import es.optsicom.lib.expresults.model.InstanceDescription;
-import es.optsicom.lib.expresults.model.MethodDescription;
-import es.optsicom.lib.expresults.model.Researcher;
 import es.optsicom.lib.util.BestMode;
 
 @Entity
-@JsonPropertyOrder(value = {"name","date","description","timeLimit","maxTimeLimit","problemBestMode","problemName","recordEvolution","useCase","numExecs","researcher"})
-@JsonSerialize(include=Inclusion.NON_NULL)
+@JsonPropertyOrder(value = { "name", "date", "description", "timeLimit", "maxTimeLimit", "problemBestMode",
+		"problemName", "recordEvolution", "useCase", "numExecs", "researcher" })
+@JsonSerialize(include = Inclusion.NON_NULL)
 public class Experiment {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	
+
 	@ManyToOne
 	private Researcher researcher;
 
 	@ManyToMany
 	private List<InstanceDescription> instances = new ArrayList<InstanceDescription>();
-	
+
 	@ManyToMany
-	private List<MethodDescription> methods = new ArrayList<MethodDescription>();	
-	
+	private List<MethodDescription> methods = new ArrayList<MethodDescription>();
+
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
-	
+
 	@ManyToOne
 	private ComputerDescription computer;
-	
+
 	private long timeLimit;
-	
+
 	private long maxTimeLimit;
-	
+
 	private BestMode problemBestMode;
-	
+
 	private String problemName;
-	
+
 	private boolean recordEvolution;
-	
+
 	private String name;
 
 	private String useCase;
-	
+
 	private String description;
-	
+
 	private int numExecs;
-	
-	public Experiment() {}
-		
+
+	public Experiment() {
+	}
+
 	@JsonCreator
-	public Experiment(@JsonProperty("name") String name, @JsonProperty("researcher") Researcher researcher, @JsonProperty("date") Date date, @JsonProperty("computer") ComputerDescription computer) {
+	public Experiment(@JsonProperty("name") String name, @JsonProperty("researcher") Researcher researcher,
+			@JsonProperty("date") Date date, @JsonProperty("computer") ComputerDescription computer) {
 		super();
 		this.researcher = researcher;
 		this.date = date;
@@ -82,46 +81,42 @@ public class Experiment {
 	public Researcher getResearcher() {
 		return researcher;
 	}
-	
+
 	public List<InstanceDescription> getInstances() {
 		return instances;
 	}
-	
+
 	public List<MethodDescription> getMethods() {
 		return methods;
 	}
-	
+
 	public Date getDate() {
 		return date;
 	}
-	
+
 	public ComputerDescription getComputer() {
 		return computer;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
 
-	
 	@Override
 	public String toString() {
-		return "Experiment [id=" + id + ", researcher=" + researcher
-				+ ", instances=" + instances + ", methods=" + methods
-				+ ", date=" + date + ", computer=" + computer + ", timeLimit="
-				+ timeLimit + ", maxTimeLimit=" + maxTimeLimit
-				+ ", problemBestMode=" + problemBestMode + ", problemName="
-				+ problemName + ", recordEvolution=" + recordEvolution
-				+ ", name=" + name + ", useCase=" + useCase + ", description="
+		return "Experiment [id=" + id + ", researcher=" + researcher + ", instances=" + instances + ", methods="
+				+ methods + ", date=" + date + ", computer=" + computer + ", timeLimit=" + timeLimit + ", maxTimeLimit="
+				+ maxTimeLimit + ", problemBestMode=" + problemBestMode + ", problemName=" + problemName
+				+ ", recordEvolution=" + recordEvolution + ", name=" + name + ", useCase=" + useCase + ", description="
 				+ description + ", numExecs=" + numExecs + "]";
 	}
 
 	public void setInstances(List<InstanceDescription> instances) {
-		this.instances = instances;		
-	}	
-	
+		this.instances = instances;
+	}
+
 	public void setMethods(List<MethodDescription> methods) {
-		this.methods = methods;		
+		this.methods = methods;
 	}
 
 	@JsonIgnore
@@ -132,7 +127,7 @@ public class Experiment {
 	public void setTimeLimit(long timeLimit) {
 		this.timeLimit = timeLimit;
 	}
-	
+
 	public long getTimeLimit() {
 		return timeLimit;
 	}
@@ -193,5 +188,4 @@ public class Experiment {
 		this.numExecs = numExecs;
 	}
 
-	
 }

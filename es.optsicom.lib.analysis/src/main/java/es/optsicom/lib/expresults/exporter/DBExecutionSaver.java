@@ -15,16 +15,15 @@ public class DBExecutionSaver {
 	private long startTime;
 	private long executionTime;
 
-	public DBExecutionSaver(EntityManager em,
-			ExperimentExporter experimentSaver, InstanceDescription instance,
+	public DBExecutionSaver(EntityManager em, ExperimentExporter experimentSaver, InstanceDescription instance,
 			MethodDescription method, long timeLimit) {
 		this.em = em;
 		this.expSaver = experimentSaver;
 
-		//TODO This can be optimized reusing MethodDescription object from
-		//Experiment configuration. Although this require associate the
-		//MethodDescription to method object.
-		method = expSaver.findMethodDescription(em,method.getProperties().toString());
+		// TODO This can be optimized reusing MethodDescription object from
+		// Experiment configuration. Although this require associate the
+		// MethodDescription to method object.
+		method = expSaver.findMethodDescription(em, method.getProperties().toString());
 		instance = expSaver.findInstanceDescription(em, instance.getProperties().toString());
 
 		this.execution = new Execution(experimentSaver.getExperiment(), method, instance);
@@ -72,8 +71,7 @@ public class DBExecutionSaver {
 
 	}
 
-	protected void addSolutionEvents(double solutionValue, Object solution,
-			long timestamp) {
+	protected void addSolutionEvents(double solutionValue, Object solution, long timestamp) {
 		Event event = Event.createEvent(execution, timestamp, Event.OBJ_VALUE_EVENT, solutionValue);
 		execution.addEvent(event);
 

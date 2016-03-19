@@ -25,8 +25,9 @@ import es.optsicom.lib.util.SummarizeMode;
  * than all of them. The score of a strategy is the sum of the scores obtained
  * for all instances.
  * 
- * The difference of ScoreFeas with Score is that in ScoreFeas all infeasible 
- * solutions has the same ranking regarding to the number of violated constraints
+ * The difference of ScoreFeas with Score is that in ScoreFeas all infeasible
+ * solutions has the same ranking regarding to the number of violated
+ * constraints
  * 
  * Obtenido del [Ribeiro2002].
  * 
@@ -38,7 +39,7 @@ import es.optsicom.lib.util.SummarizeMode;
 public class ScoreFeasStatisticCalc extends RelativizerStatisticCalc {
 
 	private double feasibleLimit = 99999999;
-	
+
 	public ScoreFeasStatisticCalc(BestMode mode) {
 		super(SummarizeMode.SUM, mode, BestMode.MIN_IS_BEST);
 	}
@@ -53,24 +54,24 @@ public class ScoreFeasStatisticCalc extends RelativizerStatisticCalc {
 		Double[] result = ArraysUtil.createDoubleArray(values.length);
 		Double[] copy = values.clone();
 
-		for(int i=0; i<copy.length; i++){
+		for (int i = 0; i < copy.length; i++) {
 			if (Math.abs(copy[i]) > feasibleLimit) {
 				copy[i] = copy[i] > 0 ? feasibleLimit : -feasibleLimit;
-			}	
-		}	
-		
+			}
+		}
+
 		int[] ranking = ArraysUtil.sort(copy, bestMode);
 
 		for (int i = 0; i < ranking.length; i++) {
 
 			int equals = 1;
-			for (int j = i; j < (ranking.length - 1) && NumBestStatisticCalc.isSameValue(copy[j],copy[j + 1]); j++) {
+			for (int j = i; j < (ranking.length - 1) && NumBestStatisticCalc.isSameValue(copy[j], copy[j + 1]); j++) {
 				equals++;
 			}
 
 			for (int j = 0; j < equals; j++) {
 				int indexValue = j + i;
-				result[ranking[indexValue]] = (double)i;
+				result[ranking[indexValue]] = (double) i;
 			}
 			i += (equals - 1);
 		}

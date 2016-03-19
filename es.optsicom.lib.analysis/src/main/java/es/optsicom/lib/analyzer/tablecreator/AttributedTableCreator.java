@@ -12,7 +12,6 @@ package es.optsicom.lib.analyzer.tablecreator;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -23,16 +22,13 @@ import es.optsicom.lib.analyzer.report.table.NumericFormat;
 import es.optsicom.lib.analyzer.tablecreator.atttable.Attribute;
 import es.optsicom.lib.analyzer.tablecreator.atttable.AttributedTable;
 import es.optsicom.lib.analyzer.tablecreator.atttable.TableValue;
-import es.optsicom.lib.analyzer.tablecreator.group.InstancesGroup;
 import es.optsicom.lib.analyzer.tablecreator.group.InstanceGroupMaker;
+import es.optsicom.lib.analyzer.tablecreator.group.InstancesGroup;
 import es.optsicom.lib.analyzer.tablecreator.pr.RawProcessor;
 import es.optsicom.lib.analyzer.tablecreator.statisticcalc.RelativeValueProvider;
 import es.optsicom.lib.analyzer.tablecreator.statisticcalc.RelativizerStatisticCalc;
 import es.optsicom.lib.analyzer.tablecreator.statisticcalc.StatisticCalc;
-import es.optsicom.lib.expresults.manager.ExecutionManager;
 import es.optsicom.lib.expresults.manager.ExperimentManager;
-import es.optsicom.lib.expresults.model.ElementDescription;
-import es.optsicom.lib.expresults.model.Event;
 import es.optsicom.lib.expresults.model.Execution;
 import es.optsicom.lib.expresults.model.InstanceDescription;
 import es.optsicom.lib.expresults.model.MethodDescription;
@@ -173,8 +169,8 @@ public class AttributedTableCreator {
 	}
 
 	public AttributedTable buildTable() {
-		
-		//checkResults();
+
+		// checkResults();
 
 		List<Statistic> statistics = new ArrayList<Statistic>();
 		for (StatisticGroup statisticGroup : statisticGroups) {
@@ -187,7 +183,7 @@ public class AttributedTableCreator {
 			numberFormats.add(new NumericFormat(statistic.getNumberType(), 2));
 		}
 
-		//We create a new list to avoid modify the original instances List 
+		// We create a new list to avoid modify the original instances List
 		List<InstanceDescription> instances = new ArrayList<InstanceDescription>(experimentResults.getInstances());
 
 		expMethodNames = new HashMap<MethodDescription, String>();
@@ -195,12 +191,11 @@ public class AttributedTableCreator {
 		for (MethodDescription method : experimentResults.getMethods()) {
 
 			methods.add(method);
-			expMethodNames.put(method,
-					experimentResults.getExperimentMethodName(method));
+			expMethodNames.put(method, experimentResults.getExperimentMethodName(method));
 
 		}
-		
-		if(methods.size() == 0){
+
+		if (methods.size() == 0) {
 			throw new RuntimeException("There is no methods in the experiment");
 		}
 
@@ -210,7 +205,7 @@ public class AttributedTableCreator {
 		// Aquí es donde hay que ordenar por título.
 		sortDescriptiveByTitles(methods, methodTitles);
 
-		if(instanceGroupMaker == null) {
+		if (instanceGroupMaker == null) {
 			instanceTitles = createTitles(instanceAliases, instances, null);
 			sortDescriptiveByTitles(instances, instanceTitles);
 		}
@@ -225,29 +220,25 @@ public class AttributedTableCreator {
 		if (instanceGroupMaker == null) {
 
 			// Creamos la attributed table
-			table = createAttributedTableInstances(methods, instances,
-					statistics, numberFormats,
+			table = createAttributedTableInstances(methods, instances, statistics, numberFormats,
 					valuesByMethodByInstanceByStatistic);
 
 		} else {
 
-			List<InstancesGroup> instanceGroups = instanceGroupMaker
-					.createInstanceGroups(instances);
+			List<InstancesGroup> instanceGroups = instanceGroupMaker.createInstanceGroups(instances);
 
-			instanceGroupTitles = createTitles(instanceGroupAliases,
-					instanceGroups, null);
+			instanceGroupTitles = createTitles(instanceGroupAliases, instanceGroups, null);
 
 			sortDescriptiveByTitles(instanceGroups, instanceGroupTitles);
 
 			// Resumimos los valores de los estadísticas de las instancias
 			// de cada grupo por cada método
 			List<List<List<TableValue>>> valuesByMethodByInstanceGroupByStatistic = summarizeInstanceGroupValues(
-					methods, instanceGroups, instances, statistics,
-					valuesByMethodByInstanceByStatistic);
+					methods, instanceGroups, instances, statistics, valuesByMethodByInstanceByStatistic);
 
 			// Creamos la attributed table
-			table = createAttributedTable(methods, instanceGroups, statistics,
-					numberFormats, valuesByMethodByInstanceGroupByStatistic);
+			table = createAttributedTable(methods, instanceGroups, statistics, numberFormats,
+					valuesByMethodByInstanceGroupByStatistic);
 		}
 
 		return table;
@@ -256,57 +247,61 @@ public class AttributedTableCreator {
 
 	// Checks that results seem ok
 	private void checkResults() {
-		
+
 		System.out.println("Checking results...");
-		
+
 		List<InstanceDescription> instances = experimentResults.getInstances();
 		List<MethodDescription> methods = experimentResults.getMethods();
-		for(InstanceDescription id : instances) {
-			for(MethodDescription md : methods) {
+		for (InstanceDescription id : instances) {
+			for (MethodDescription md : methods) {
 				List<Execution> executions = experimentResults.getExecutions(id, md);
-				if(executions.isEmpty()) {
+				if (executions.isEmpty()) {
 					throw new Error("No executions for instance and method:\n\t" + id + "\n\t" + md);
 				}
-				for(Execution exec : executions) {
-					if(exec.getInstance() == null) {
-						throw new Error("Null instance in execution for method " + md + " and experiment declared instance " + id);
+				for (Execution exec : executions) {
+					if (exec.getInstance() == null) {
+						throw new Error("Null instance in execution for method " + md
+								+ " and experiment declared instance " + id);
 					}
-					if(!exec.getInstance().equals(id)) {
-						throw new Error("Instance " + id + " in experiment is different from instance in execution (" + exec.getInstance() + " for method " + md);
+					if (!exec.getInstance().equals(id)) {
+						throw new Error("Instance " + id + " in experiment is different from instance in execution ("
+								+ exec.getInstance() + " for method " + md);
 					}
-					if(exec.getMethod() == null) {
-						throw new Error("Null method in execution for declared method " + md + " and experiment declared instance " + id);						
+					if (exec.getMethod() == null) {
+						throw new Error("Null method in execution for declared method " + md
+								+ " and experiment declared instance " + id);
 					}
-					if(!exec.getMethod().equals(md)) {
-						throw new Error("Method " + md + " in experiment is different from method in execution (" + exec.getMethod() + " for instance " + id);
+					if (!exec.getMethod().equals(md)) {
+						throw new Error("Method " + md + " in experiment is different from method in execution ("
+								+ exec.getMethod() + " for instance " + id);
 					}
-					if(exec.getEvents().isEmpty()) {
-						throw new Error("No events for execution #" + exec.getNumExecution() + " for instance " + id + " and method " + md);
+					if (exec.getEvents().isEmpty()) {
+						throw new Error("No events for execution #" + exec.getNumExecution() + " for instance " + id
+								+ " and method " + md);
 					}
-//					if(exec.getLastEvent(Event.FINISH_TIME_EVENT) == null) {
-//						throw new Error("There is no FINISH_TIME_EVENT");
-//					}
-//					if(exec.getExecutionTime() <= 0) {
-//						throw new Error("Impossible execution time: " + exec.getExecutionTime());
-//					}					
+					// if(exec.getLastEvent(Event.FINISH_TIME_EVENT) == null) {
+					// throw new Error("There is no FINISH_TIME_EVENT");
+					// }
+					// if(exec.getExecutionTime() <= 0) {
+					// throw new Error("Impossible execution time: " +
+					// exec.getExecutionTime());
+					// }
 				}
 			}
 		}
-		
+
 		System.out.println("Check ok");
-		
-	}
-
-	private void sortDescriptiveByTitles(
-			List<? extends Descriptive> descriptive, List<String> names) {
-
-		CollectionsUtil.sortListsByListA(names, Strings.getNaturalComparator(),
-				descriptive);
 
 	}
 
-	private List<List<List<TableValue>>> createValuesByMethodByInstanceByStatistic(
-			List<MethodDescription> methods, List<InstanceDescription> instances) {
+	private void sortDescriptiveByTitles(List<? extends Descriptive> descriptive, List<String> names) {
+
+		CollectionsUtil.sortListsByListA(names, Strings.getNaturalComparator(), descriptive);
+
+	}
+
+	private List<List<List<TableValue>>> createValuesByMethodByInstanceByStatistic(List<MethodDescription> methods,
+			List<InstanceDescription> instances) {
 
 		// Method x Instance x Statistic
 		List<List<List<TableValue>>> valuesByMethodByInstanceByStatistic = new ArrayList<List<List<TableValue>>>();
@@ -316,11 +311,11 @@ public class AttributedTableCreator {
 
 		// For each instance...
 		Iterator<InstanceDescription> it = instances.iterator();
-		while(it.hasNext()){
-		
+		while (it.hasNext()) {
+
 			InstanceDescription instance = it.next();
-			
-		//for (InstanceDescription instance : instances) {
+
+			// for (InstanceDescription instance : instances) {
 
 			List<List<TableValue>> valuesByStatisticByMethod = new ArrayList<List<TableValue>>();
 
@@ -335,46 +330,39 @@ public class AttributedTableCreator {
 			for (MethodDescription method : methods) {
 				log("  Method:" + method);
 
-				List<Execution> execs = experimentResults.getExecutions(
-						instance, method);
+				List<Execution> execs = experimentResults.getExecutions(instance, method);
 
 				if (execs == null || execs.size() == 0) {
-					log("Method '"
-							+ method
-							+ "' doesn't contain execution information for instance '"
-							+ instance + "'");
-					
+					log("Method '" + method + "' doesn't contain execution information for instance '" + instance
+							+ "'");
+
 					it.remove();
-					valuesByInstanceByStatisticByMethod.remove(valuesByInstanceByStatisticByMethod.size()-1);
+					valuesByInstanceByStatisticByMethod.remove(valuesByInstanceByStatisticByMethod.size() - 1);
 					break;
-					
+
 				} else {
 					proccessMethod(execs, byMethodCookedEvents);
 				}
 			}
-			
-			if(byMethodCookedEvents.isEmpty()){
+
+			if (byMethodCookedEvents.isEmpty()) {
 				System.out.println("WARNING: byMyehtodCookedEvents is empty");
 			} else {
 
-			List<List<TableValue>> valuesByMethodByStatistic = fromCookedEventsToStatisticValues(
-					methods, byMethodCookedEvents, this.relativizeMode,
-					instance, experimentResults);
+				List<List<TableValue>> valuesByMethodByStatistic = fromCookedEventsToStatisticValues(methods,
+						byMethodCookedEvents, this.relativizeMode, instance, experimentResults);
 
-			for (int numStatistic = 0; numStatistic < valuesByMethodByStatistic
-					.get(0).size(); numStatistic++) {
-				List<TableValue> valuesByStatistic = new ArrayList<TableValue>();
-				valuesByStatisticByMethod.add(valuesByStatistic);
-				// Add valuesByMethodByStatistic to valuesByStatisticByMethod
-				for (int numMethod = 0; numMethod < valuesByMethodByStatistic
-						.size(); numMethod++) {
-					valuesByStatistic.add(valuesByMethodByStatistic.get(
-							numMethod).get(numStatistic));
+				for (int numStatistic = 0; numStatistic < valuesByMethodByStatistic.get(0).size(); numStatistic++) {
+					List<TableValue> valuesByStatistic = new ArrayList<TableValue>();
+					valuesByStatisticByMethod.add(valuesByStatistic);
+					// Add valuesByMethodByStatistic to
+					// valuesByStatisticByMethod
+					for (int numMethod = 0; numMethod < valuesByMethodByStatistic.size(); numMethod++) {
+						valuesByStatistic.add(valuesByMethodByStatistic.get(numMethod).get(numStatistic));
+					}
 				}
-			}
 
-			addToInstanceValues(valuesByMethodByInstanceByStatistic,
-					valuesByMethodByStatistic);
+				addToInstanceValues(valuesByMethodByInstanceByStatistic, valuesByMethodByStatistic);
 			}
 
 		}
@@ -384,24 +372,20 @@ public class AttributedTableCreator {
 			statistics.addAll(statGroup.getStatisticList());
 		}
 
-		processValuesByInstanceGroupByStatisticByMethod(statistics,
-				valuesByInstanceByStatisticByMethod);
+		processValuesByInstanceGroupByStatisticByMethod(statistics, valuesByInstanceByStatisticByMethod);
 
 		return valuesByMethodByInstanceByStatistic;
 	}
 
-	private AttributedTable createAttributedTableInstances(
-			List<MethodDescription> methods,
-			List<InstanceDescription> instances, List<Statistic> statistics,
-			List<NumericFormat> numberFormats,
+	private AttributedTable createAttributedTableInstances(List<MethodDescription> methods,
+			List<InstanceDescription> instances, List<Statistic> statistics, List<NumericFormat> numberFormats,
 			List<List<List<TableValue>>> valuesByMethodByInstanceByStatistic) {
 
-		List<Attribute> methodsAsAttributes = createAttributesFromDescriptives(
-				METHOD_ATT_NAME, methods, methodTitles);
-		List<Attribute> instancesAsAttributes = createAttributesFromDescriptives(
-				INSTANCE_ATT_NAME, instances, instanceTitles);
-		List<Attribute> statisticsAsAttributes = createAttributesFromDescriptives(
-				STATISTIC_ATT_NAME, statistics, statisticTitles);
+		List<Attribute> methodsAsAttributes = createAttributesFromDescriptives(METHOD_ATT_NAME, methods, methodTitles);
+		List<Attribute> instancesAsAttributes = createAttributesFromDescriptives(INSTANCE_ATT_NAME, instances,
+				instanceTitles);
+		List<Attribute> statisticsAsAttributes = createAttributesFromDescriptives(STATISTIC_ATT_NAME, statistics,
+				statisticTitles);
 
 		AttributedTable table = new AttributedTable();
 		table.addSortedAttributes(METHOD_ATT_NAME, methodsAsAttributes);
@@ -411,11 +395,8 @@ public class AttributedTableCreator {
 		for (int i = 0; i < methods.size(); i++) {
 			for (int j = 0; j < instances.size(); j++) {
 				for (int k = 0; k < statistics.size(); k++) {
-					table.addValue(valuesByMethodByInstanceByStatistic.get(i)
-							.get(j).get(k), numberFormats.get(k),
-							methodsAsAttributes.get(i),
-							instancesAsAttributes.get(j),
-							statisticsAsAttributes.get(k));
+					table.addValue(valuesByMethodByInstanceByStatistic.get(i).get(j).get(k), numberFormats.get(k),
+							methodsAsAttributes.get(i), instancesAsAttributes.get(j), statisticsAsAttributes.get(k));
 				}
 			}
 		}
@@ -517,33 +498,26 @@ public class AttributedTableCreator {
 	// return null;
 	// }
 
-	private AttributedTable createAttributedTable(
-			List<MethodDescription> methods,
-			List<InstancesGroup> instanceGroups,
-			List<Statistic> statistics,
-			List<NumericFormat> numberFormats,
+	private AttributedTable createAttributedTable(List<MethodDescription> methods, List<InstancesGroup> instanceGroups,
+			List<Statistic> statistics, List<NumericFormat> numberFormats,
 			List<List<List<TableValue>>> valuesByMethodByInstanceGroupByStatistic) {
 
-		List<Attribute> methodsAsAttributes = createAttributesFromDescriptives(
-				METHOD_ATT_NAME, methods, methodTitles);
-		List<Attribute> instanceGroupsAsAttributes = createAttributesFromDescriptives(
-				INSTANCEGROUP_ATT_NAME, instanceGroups, instanceGroupTitles);
-		List<Attribute> statisticsAsAttributes = createAttributesFromDescriptives(
-				STATISTIC_ATT_NAME, statistics, statisticTitles);
+		List<Attribute> methodsAsAttributes = createAttributesFromDescriptives(METHOD_ATT_NAME, methods, methodTitles);
+		List<Attribute> instanceGroupsAsAttributes = createAttributesFromDescriptives(INSTANCEGROUP_ATT_NAME,
+				instanceGroups, instanceGroupTitles);
+		List<Attribute> statisticsAsAttributes = createAttributesFromDescriptives(STATISTIC_ATT_NAME, statistics,
+				statisticTitles);
 
 		AttributedTable table = new AttributedTable();
 		table.addSortedAttributes(METHOD_ATT_NAME, methodsAsAttributes);
-		table.addSortedAttributes(INSTANCEGROUP_ATT_NAME,
-				instanceGroupsAsAttributes);
+		table.addSortedAttributes(INSTANCEGROUP_ATT_NAME, instanceGroupsAsAttributes);
 		table.addSortedAttributes(STATISTIC_ATT_NAME, statisticsAsAttributes);
 
 		for (int i = 0; i < methods.size(); i++) {
 			for (int j = 0; j < instanceGroups.size(); j++) {
 				for (int k = 0; k < statistics.size(); k++) {
-					table.addValue(valuesByMethodByInstanceGroupByStatistic
-							.get(i).get(j).get(k), numberFormats.get(k),
-							methodsAsAttributes.get(i),
-							instanceGroupsAsAttributes.get(j),
+					table.addValue(valuesByMethodByInstanceGroupByStatistic.get(i).get(j).get(k), numberFormats.get(k),
+							methodsAsAttributes.get(i), instanceGroupsAsAttributes.get(j),
 							statisticsAsAttributes.get(k));
 				}
 			}
@@ -552,8 +526,7 @@ public class AttributedTableCreator {
 		return table;
 	}
 
-	private List<String> createTitles(List<Alias> aliases,
-			List<? extends Descriptive> descriptions,
+	private List<String> createTitles(List<Alias> aliases, List<? extends Descriptive> descriptions,
 			Map<? extends Descriptive, String> expNames) {
 
 		List<String> titles = new ArrayList<String>();
@@ -575,8 +548,7 @@ public class AttributedTableCreator {
 			List<String> newTitles = new ArrayList<String>();
 			for (int i = 0; i < descriptions.size(); i++) {
 				Descriptive description = descriptions.get(i);
-				String alias = aliasesMap.get(description.getProperties()
-						.toString());
+				String alias = aliasesMap.get(description.getProperties().toString());
 				if (alias != null) {
 					newTitles.add(alias);
 				} else {
@@ -587,21 +559,18 @@ public class AttributedTableCreator {
 			titles = newTitles;
 		}
 
-		DescriptiveTitlesManager titlesManager = new DescriptiveTitlesManager(
-				titles, descriptions);
+		DescriptiveTitlesManager titlesManager = new DescriptiveTitlesManager(titles, descriptions);
 
 		return titlesManager.getUniqueTitles();
 
 	}
 
-	private List<Attribute> createAttributesFromDescriptives(
-			String attributeName, List<? extends Descriptive> descriptives,
-			List<String> titles) {
+	private List<Attribute> createAttributesFromDescriptives(String attributeName,
+			List<? extends Descriptive> descriptives, List<String> titles) {
 
 		List<Attribute> attributes = new ArrayList<Attribute>();
 		for (int i = 0; i < descriptives.size(); i++) {
-			attributes.add(new Attribute(attributeName, descriptives.get(i),
-					titles.get(i)));
+			attributes.add(new Attribute(attributeName, descriptives.get(i), titles.get(i)));
 		}
 
 		return attributes;
@@ -613,8 +582,7 @@ public class AttributedTableCreator {
 		}
 	}
 
-	private void proccessMethod(List<Execution> execs,
-			List<List<Double[]>> byMethodCookedEvents) throws Error {
+	private void proccessMethod(List<Execution> execs, List<List<Double[]>> byMethodCookedEvents) throws Error {
 
 		List<Double[]> cookedEventsByRP = new ArrayList<Double[]>();
 
@@ -625,7 +593,7 @@ public class AttributedTableCreator {
 			try {
 				Double[] cookedEvents = rawProcessor.cookEvents(execs);
 
-				// System.out.println("     RawProcessor: "
+				// System.out.println(" RawProcessor: "
 				// + rawProcessor.getClass().getSimpleName() + " -> "
 				// + Arrays.toString(cookedEvents));
 
@@ -633,15 +601,13 @@ public class AttributedTableCreator {
 
 				// if (!cookedNamesTest) {
 				if (rawProcessor.getCookedEventsNames().size() != cookedEvents.length) {
-					throw new Error("RawProcessor "
-							+ rawProcessor.getClass().getName()
+					throw new Error("RawProcessor " + rawProcessor.getClass().getName()
 							+ " isn't coherent in cookedEvents and its names");
 				}
 				// }
 			} catch (AnalysisException e) {
-				throw new AnalysisException(
-						"Error processing events of method: "
-								+ execs.get(0).getMethod().getName(), e);
+				throw new AnalysisException("Error processing events of method: " + execs.get(0).getMethod().getName(),
+						e);
 			}
 
 		}
@@ -651,8 +617,7 @@ public class AttributedTableCreator {
 		byMethodCookedEvents.add(cookedEventsByRP);
 	}
 
-	private void addToInstanceValues(
-			List<List<List<TableValue>>> methodsByInstanceColumnValues,
+	private void addToInstanceValues(List<List<List<TableValue>>> methodsByInstanceColumnValues,
 			List<List<TableValue>> methodColumnValues) {
 		// For each method are set relativized column values in a data structure
 		for (int k = 0; k < methodColumnValues.size(); k++) {
@@ -668,10 +633,8 @@ public class AttributedTableCreator {
 		}
 	}
 
-	private List<List<TableValue>> fromCookedEventsToStatisticValues(
-			List<MethodDescription> methods,
-			List<List<Double[]>> cookedEventsByMethod,
-			RelativizeMode relativizeMode, InstanceDescription instance,
+	private List<List<TableValue>> fromCookedEventsToStatisticValues(List<MethodDescription> methods,
+			List<List<Double[]>> cookedEventsByMethod, RelativizeMode relativizeMode, InstanceDescription instance,
 			ExperimentManager experimentResults) {
 
 		log("Relativize and transform cookedEvent in statistic values");
@@ -682,27 +645,22 @@ public class AttributedTableCreator {
 		int numMethods = cookedEventsByMethod.size();
 
 		// For each StatisticGroup
-		for (int numStatGroup = 0; numStatGroup < cookedEventsByMethod.get(0)
-				.size(); numStatGroup++) {
+		for (int numStatGroup = 0; numStatGroup < cookedEventsByMethod.get(0).size(); numStatGroup++) {
 
-			log("Raw Processor: "
-					+ statisticGroups.get(numStatGroup).getRawProcessor()
-							.getClass().getSimpleName());
+			log("Raw Processor: " + statisticGroups.get(numStatGroup).getRawProcessor().getClass().getSimpleName());
 
 			// For each statistic of each statisticGroup
-			for (int numStatistic = 0; numStatistic < cookedEventsByMethod.get(
-					0).get(numStatGroup).length; numStatistic++) {
+			for (int numStatistic = 0; numStatistic < cookedEventsByMethod.get(0)
+					.get(numStatGroup).length; numStatistic++) {
 
 				Double[] cookedEvents = ArraysUtil.createDoubleArray(numMethods);
 
 				// For each method
 				for (int numMethod = 0; numMethod < numMethods; numMethod++) {
-					cookedEvents[numMethod] = cookedEventsByMethod.get(
-							numMethod).get(numStatGroup)[numStatistic];
+					cookedEvents[numMethod] = cookedEventsByMethod.get(numMethod).get(numStatGroup)[numStatistic];
 				}
 
-				Statistic[] statistics = statisticGroups.get(numStatGroup)
-						.getStatistics()[numStatistic];
+				Statistic[] statistics = statisticGroups.get(numStatGroup).getStatistics()[numStatistic];
 
 				for (Statistic statistic : statistics) {
 
@@ -715,18 +673,15 @@ public class AttributedTableCreator {
 					if (statisticCalc instanceof RelativizerStatisticCalc) {
 
 						RelativizerStatisticCalc rsc = (RelativizerStatisticCalc) statisticCalc;
-						RelativeValueProvider rvp = rsc
-								.getRelativeValueProvider();
+						RelativeValueProvider rvp = rsc.getRelativeValueProvider();
 						if (rvp != null) {
 
-							relativizedValues = statisticCalc.relativize(
-									cookedEvents.clone(),
+							relativizedValues = statisticCalc.relativize(cookedEvents.clone(),
 									rvp.getValue(instance, experimentResults));
 
 						} else {
 
-							relativizedValues = statisticCalc.relativize(
-									cookedEvents.clone(), null);
+							relativizedValues = statisticCalc.relativize(cookedEvents.clone(), null);
 
 						}
 					} else {
@@ -734,8 +689,7 @@ public class AttributedTableCreator {
 					}
 
 					for (int numMethod = 0; numMethod < numMethods; numMethod++) {
-						log("    Method: " + methods.get(numMethod) + ": "
-								+ cookedEvents[numMethod] + " -> "
+						log("    Method: " + methods.get(numMethod) + ": " + cookedEvents[numMethod] + " -> "
 								+ relativizedValues[numMethod]);
 					}
 
@@ -747,12 +701,10 @@ public class AttributedTableCreator {
 							statisticValues = new ArrayList<TableValue>();
 							statisticValuesByMethod.add(statisticValues);
 						} else {
-							statisticValues = statisticValuesByMethod
-									.get(numMethod);
+							statisticValues = statisticValuesByMethod.get(numMethod);
 						}
 
-						TableValue tableValue = new TableValue(
-								relativizedValues[numMethod]);
+						TableValue tableValue = new TableValue(relativizedValues[numMethod]);
 
 						statisticValues.add(tableValue);
 					}
@@ -762,10 +714,8 @@ public class AttributedTableCreator {
 		return statisticValuesByMethod;
 	}
 
-	private List<List<List<TableValue>>> summarizeInstanceGroupValues(
-			List<MethodDescription> methods,
-			List<InstancesGroup> instanceGroups,
-			List<InstanceDescription> instances, List<Statistic> statistics,
+	private List<List<List<TableValue>>> summarizeInstanceGroupValues(List<MethodDescription> methods,
+			List<InstancesGroup> instanceGroups, List<InstanceDescription> instances, List<Statistic> statistics,
 			List<List<List<TableValue>>> valuesByMethodByInstanceByStatistic) {
 
 		// Calculamos el número de grupo al que pertenece cada instancia.
@@ -783,34 +733,28 @@ public class AttributedTableCreator {
 		for (int numMethod = 0; numMethod < methods.size(); numMethod++) {
 
 			List<List<TableValue>> valuesByInstanceGroupByStatistic = new ArrayList<List<TableValue>>();
-			valuesByMethodByInstanceGroupByStatistic
-					.add(valuesByInstanceGroupByStatistic);
+			valuesByMethodByInstanceGroupByStatistic.add(valuesByInstanceGroupByStatistic);
 
 			// Creamos una lista vací­a para cada InstanceGroup
 			for (int j = 0; j < instanceGroups.size(); j++) {
-				valuesByInstanceGroupByStatistic
-						.add(new ArrayList<TableValue>());
+				valuesByInstanceGroupByStatistic.add(new ArrayList<TableValue>());
 			}
 
 			List<List<List<TableValue>>> valuesByInstanceGroupByInstanceByStatistic = new ArrayList<List<List<TableValue>>>();
 			// Creamos una lista vacÃ­a para cada InstanceGroup
 			for (int j = 0; j < instanceGroups.size(); j++) {
-				valuesByInstanceGroupByInstanceByStatistic
-						.add(new ArrayList<List<TableValue>>());
+				valuesByInstanceGroupByInstanceByStatistic.add(new ArrayList<List<TableValue>>());
 			}
 
 			// Recolectamos las instancias de cada grupo en
 			// valuesByInstanceGroupByInstanceByStatistic
 			for (int j = 0; j < instances.size(); j++) {
 
-				List<TableValue> valuesByInstanceByStatistics = valuesByMethodByInstanceByStatistic
-						.get(numMethod).get(j);
-				int instanceGroupNum = instancesGroupIndex
-						.get(instances.get(j));
+				List<TableValue> valuesByInstanceByStatistics = valuesByMethodByInstanceByStatistic.get(numMethod)
+						.get(j);
+				int instanceGroupNum = instancesGroupIndex.get(instances.get(j));
 
-				valuesByInstanceGroupByInstanceByStatistic
-						.get(instanceGroupNum)
-						.add(valuesByInstanceByStatistics);
+				valuesByInstanceGroupByInstanceByStatistic.get(instanceGroupNum).add(valuesByInstanceByStatistics);
 
 			}
 
@@ -818,32 +762,27 @@ public class AttributedTableCreator {
 			for (int numStatistic = 0; numStatistic < statistics.size(); numStatistic++) {
 
 				// En cada uno de los grupos de instancias
-				for (int numInstanceGroup = 0; numInstanceGroup < instanceGroups
-						.size(); numInstanceGroup++) {
+				for (int numInstanceGroup = 0; numInstanceGroup < instanceGroups.size(); numInstanceGroup++) {
 
 					List<List<TableValue>> valuesByInstanceByStatistic = valuesByInstanceGroupByInstanceByStatistic
 							.get(numInstanceGroup);
 
-					Double[] groupInstanceValues = ArraysUtil.createDoubleArray(valuesByInstanceByStatistic
-							.size());
+					Double[] groupInstanceValues = ArraysUtil.createDoubleArray(valuesByInstanceByStatistic.size());
 
 					for (int l = 0; l < valuesByInstanceByStatistic.size(); l++) {
-						groupInstanceValues[l] = valuesByInstanceByStatistic
-								.get(l).get(numStatistic).getValue();
+						groupInstanceValues[l] = valuesByInstanceByStatistic.get(l).get(numStatistic).getValue();
 					}
 
 					Statistic statistic = statistics.get(numStatistic);
-					valuesByInstanceGroupByStatistic.get(numInstanceGroup).add(
-							new TableValue(statistic.getStatisticCalc()
-									.summarize(groupInstanceValues)));
+					valuesByInstanceGroupByStatistic.get(numInstanceGroup)
+							.add(new TableValue(statistic.getStatisticCalc().summarize(groupInstanceValues)));
 				}
 
 			}
 
 		}
 
-		processValuesByInstanceGroupByStatisticByMethod(
-				statistics,
+		processValuesByInstanceGroupByStatisticByMethod(statistics,
 				transformToValuesByInstanceGroupByStatisticByMethod(valuesByMethodByInstanceGroupByStatistic));
 
 		return valuesByMethodByInstanceGroupByStatistic;
@@ -855,25 +794,22 @@ public class AttributedTableCreator {
 
 		List<List<List<TableValue>>> valuesByInstanceGroupByStatisticByMethod = new ArrayList<List<List<TableValue>>>();
 
-		for (int numInstanceGroup = 0; numInstanceGroup < valuesByMethodByInstanceGroupByStatistic
-				.get(0).size(); numInstanceGroup++) {
+		for (int numInstanceGroup = 0; numInstanceGroup < valuesByMethodByInstanceGroupByStatistic.get(0)
+				.size(); numInstanceGroup++) {
 
 			ArrayList<List<TableValue>> valuesByStatisticByMethod = new ArrayList<List<TableValue>>();
 
-			valuesByInstanceGroupByStatisticByMethod
-					.add(valuesByStatisticByMethod);
+			valuesByInstanceGroupByStatisticByMethod.add(valuesByStatisticByMethod);
 
-			for (int numStatistic = 0; numStatistic < valuesByMethodByInstanceGroupByStatistic
-					.get(0).get(0).size(); numStatistic++) {
+			for (int numStatistic = 0; numStatistic < valuesByMethodByInstanceGroupByStatistic.get(0).get(0)
+					.size(); numStatistic++) {
 
 				List<TableValue> valuesByMethod = new ArrayList<TableValue>();
 				valuesByStatisticByMethod.add(valuesByMethod);
 
-				for (int numMethod = 0; numMethod < valuesByMethodByInstanceGroupByStatistic
-						.size(); numMethod++) {
+				for (int numMethod = 0; numMethod < valuesByMethodByInstanceGroupByStatistic.size(); numMethod++) {
 
-					valuesByMethod.add(valuesByMethodByInstanceGroupByStatistic
-							.get(numMethod).get(numInstanceGroup)
+					valuesByMethod.add(valuesByMethodByInstanceGroupByStatistic.get(numMethod).get(numInstanceGroup)
 							.get(numStatistic));
 
 				}
@@ -896,28 +832,25 @@ public class AttributedTableCreator {
 	 * @param statistics
 	 * @param valuesByMethodByInstanceGroupByStatistic
 	 */
-	private void processValuesByInstanceGroupByStatisticByMethod(
-			List<Statistic> statistics,
+	private void processValuesByInstanceGroupByStatisticByMethod(List<Statistic> statistics,
 			List<List<List<TableValue>>> valuesByInstanceGroupByStatisticByMethod) {
 
 		for (int numInstanceGroup = 0; numInstanceGroup < valuesByInstanceGroupByStatisticByMethod
 				.size(); numInstanceGroup++) {
 
-			for (int numStatistic = 0; numStatistic < valuesByInstanceGroupByStatisticByMethod
-					.get(0).size(); numStatistic++) {
+			for (int numStatistic = 0; numStatistic < valuesByInstanceGroupByStatisticByMethod.get(0)
+					.size(); numStatistic++) {
 
-				List<TableValue> valuesByMethod = valuesByInstanceGroupByStatisticByMethod
-						.get(numInstanceGroup).get(numStatistic);
+				List<TableValue> valuesByMethod = valuesByInstanceGroupByStatisticByMethod.get(numInstanceGroup)
+						.get(numStatistic);
 
 				Statistic statistic = statistics.get(numStatistic);
-				BestMode resultsBestMode = statistic.getStatisticCalc()
-						.getResultsBestMode();
+				BestMode resultsBestMode = statistic.getStatisticCalc().getResultsBestMode();
 
 				if (resultsBestMode != null) {
 
 					if (resultsBestMode == BestMode.MAX_IS_BEST) {
-						Collections.sort(valuesByMethod,
-								Collections.reverseOrder());
+						Collections.sort(valuesByMethod, Collections.reverseOrder());
 					} else {
 						Collections.sort(valuesByMethod);
 					}
@@ -931,8 +864,7 @@ public class AttributedTableCreator {
 							firstValue = value.getValue();
 							firstValueSet = true;
 						} else {
-							if (MathUtil.efectiveEqualsDouble(value.getValue(),
-									firstValue, 0.0001)) {
+							if (MathUtil.efectiveEqualsDouble(value.getValue(), firstValue, 0.0001)) {
 								value.setColor(CELL_COLOR);
 							} else {
 								break;

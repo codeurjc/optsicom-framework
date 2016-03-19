@@ -37,11 +37,9 @@ public class PropertiesManager {
 
 		if (property == null) {
 			property = properties.getProperty(key);
-			System.out.println("PropertiesManager.file.get." + key + "="
-					+ property);
+			System.out.println("PropertiesManager.file.get." + key + "=" + property);
 		} else {
-			System.out.println("PropertiesManager.system.get." + key + "="
-					+ property);
+			System.out.println("PropertiesManager.system.get." + key + "=" + property);
 		}
 
 		return property;
@@ -53,8 +51,7 @@ public class PropertiesManager {
 		Path propertiesFile = null;
 		try {
 
-			String location = System
-					.getProperty(OPTSICOM_PROPERTIES_LOCATION_PROPERTY);
+			String location = System.getProperty(OPTSICOM_PROPERTIES_LOCATION_PROPERTY);
 
 			if (location != null) {
 				propertiesFile = Paths.get(location);
@@ -64,8 +61,7 @@ public class PropertiesManager {
 				}
 
 				if (!Files.exists(propertiesFile)) {
-					log.warn("Optsicom properties not found in path '"
-							+ propertiesFile + "'. Searching in workdir: '"
+					log.warn("Optsicom properties not found in path '" + propertiesFile + "'. Searching in workdir: '"
 							+ Paths.get("").toAbsolutePath() + "'");
 				}
 			}
@@ -73,21 +69,18 @@ public class PropertiesManager {
 			if (propertiesFile == null) {
 				propertiesFile = Paths.get(PROPERTIES_FILE);
 				if (!Files.exists(propertiesFile)) {
-					propertiesFile = Paths.get(System.getProperty("user.home"),
-							".optsicom", PROPERTIES_FILE);
+					propertiesFile = Paths.get(System.getProperty("user.home"), ".optsicom", PROPERTIES_FILE);
 				}
 			}
 
 			if (Files.exists(propertiesFile)) {
-				properties.load(Files.newBufferedReader(propertiesFile,
-						Charset.forName("utf-8")));
+				properties.load(Files.newBufferedReader(propertiesFile, Charset.forName("utf-8")));
 			} else {
 				log.debug("File optsicom.properties not found. Resorting to default values");
 			}
 
 		} catch (Exception e) {
-			throw new Error("Couldn't load properties from file '"
-					+ propertiesFile + "'", e);
+			throw new Error("Couldn't load properties from file '" + propertiesFile + "'", e);
 		}
 	}
 }

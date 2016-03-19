@@ -16,13 +16,8 @@ import es.optsicom.lib.analyzer.tablecreator.atttable.AttributedTableTitleTableC
 import es.optsicom.lib.analyzer.tablecreator.pr.LastEventRP;
 import es.optsicom.lib.analyzer.tablecreator.pr.LastEventRP.Source;
 import es.optsicom.lib.analyzer.tablecreator.statisticcalc.DevStatisticCalc;
-import es.optsicom.lib.analyzer.tablecreator.statisticcalc.FeasAllDevStatisticCalc;
-import es.optsicom.lib.analyzer.tablecreator.statisticcalc.FeasDevStatisticCalc;
-import es.optsicom.lib.analyzer.tablecreator.statisticcalc.FeasNumBestStatisticCalc;
-import es.optsicom.lib.analyzer.tablecreator.statisticcalc.FeasStatisticCalc;
 import es.optsicom.lib.analyzer.tablecreator.statisticcalc.NonRelativizerStatisticCalc;
 import es.optsicom.lib.analyzer.tablecreator.statisticcalc.NumBestStatisticCalc;
-import es.optsicom.lib.analyzer.tablecreator.statisticcalc.ScoreFeasStatisticCalc;
 import es.optsicom.lib.analyzer.tablecreator.statisticcalc.ScoreStatisticCalc;
 import es.optsicom.lib.expresults.manager.ExperimentManager;
 import es.optsicom.lib.expresults.model.Event;
@@ -37,61 +32,50 @@ public class InstancesBlockBuilder extends BlockBuilder {
 		BestMode bestMode = experimentResults.getProblemBestMode();
 
 		StatisticGroup[] statisticGroups = {
+				StatisticGroup.createMultipleStatisticGroup(new LastEventRP(Event.OBJ_VALUE_EVENT), new Statistic[] {
+
+						new Statistic(new DevStatisticCalc(bestMode), "Dev"),
+						new Statistic(new NumBestStatisticCalc(bestMode), "#Best"),
+						new Statistic(new ScoreStatisticCalc(bestMode), "Score"),
+
+						// new Statistic(new FeasStatisticCalc(
+						// bestMode), "Feas"),
+						// new Statistic(new FeasDevStatisticCalc(
+						// bestMode), "DevFeas"),
+						// new Statistic(new FeasAllDevStatisticCalc(
+						// bestMode), "DevAllFeas"),
+						// new Statistic(new FeasNumBestStatisticCalc(
+						// bestMode), "#BestFeas"),
+						// new Statistic(new ScoreStatisticCalc(
+						// bestMode), "Score"),
+						// new Statistic(new ScoreFeasStatisticCalc(
+						// bestMode), "ScoreFeas"),
+						new Statistic(new NonRelativizerStatisticCalc(SummarizeMode.FIRST, NumberType.DECIMAL),
+								"Value") }),
+
 				StatisticGroup
-						.createMultipleStatisticGroup(new LastEventRP(
-								Event.OBJ_VALUE_EVENT), new Statistic[] {
-							
-								new Statistic(new DevStatisticCalc(bestMode),
-										"Dev"),
-								new Statistic(
-										new NumBestStatisticCalc(bestMode),
-										"#Best"),
-								new Statistic(new ScoreStatisticCalc(bestMode),
-										"Score"),
+						.createMultipleStatisticGroup(
+								new LastEventRP(Event.FINISH_TIME_EVENT)
+										.setSource(
+												Source.TIMESTAMP),
+								new Statistic[] { new Statistic(new NonRelativizerStatisticCalc(SummarizeMode.AVERAGE,
+										NumberType.DECIMAL, BestMode.MIN_IS_BEST), "Time") }),
 
-//								new Statistic(new FeasStatisticCalc(
-//										bestMode), "Feas"),
-//								new Statistic(new FeasDevStatisticCalc(
-//										bestMode), "DevFeas"),
-//								new Statistic(new FeasAllDevStatisticCalc(
-//										bestMode), "DevAllFeas"),
-//								new Statistic(new FeasNumBestStatisticCalc(
-//										bestMode), "#BestFeas"),
-//								new Statistic(new ScoreStatisticCalc(
-//										bestMode), "Score"), 
-//								new Statistic(new ScoreFeasStatisticCalc(
-//										bestMode), "ScoreFeas"),
-								new Statistic(
-										new NonRelativizerStatisticCalc(
-												SummarizeMode.FIRST,
-												NumberType.DECIMAL), "Value") }),
+				StatisticGroup
+						.createMultipleStatisticGroup(
+								new LastEventRP(Event.OBJ_VALUE_EVENT)
+										.setSource(
+												Source.TIMESTAMP),
+								new Statistic[] { new Statistic(new NonRelativizerStatisticCalc(SummarizeMode.FIRST,
+										NumberType.DECIMAL, BestMode.MIN_IS_BEST), "Time to best") }),
 
-				StatisticGroup.createMultipleStatisticGroup(new LastEventRP(
-						Event.FINISH_TIME_EVENT).setSource(Source.TIMESTAMP),
+				StatisticGroup.createMultipleStatisticGroup(
+						new LastEventRP("constructiveImprovement.iterationsPerformed"),
 						new Statistic[] { new Statistic(
-								new NonRelativizerStatisticCalc(
-										SummarizeMode.AVERAGE,
-										NumberType.DECIMAL,
-										BestMode.MIN_IS_BEST), "Time") }),
+								new NonRelativizerStatisticCalc(SummarizeMode.AVERAGE, NumberType.INTEGER),
+								"#Const") }) };
 
-				StatisticGroup.createMultipleStatisticGroup(new LastEventRP(
-						Event.OBJ_VALUE_EVENT).setSource(Source.TIMESTAMP),
-						new Statistic[] { new Statistic(
-								new NonRelativizerStatisticCalc(
-										SummarizeMode.FIRST,
-										NumberType.DECIMAL,
-										BestMode.MIN_IS_BEST), 
-								"Time to best") }),
-																
-				StatisticGroup.createMultipleStatisticGroup(new LastEventRP(
-						"constructiveImprovement.iterationsPerformed"),
-						new Statistic[] { new Statistic(
-								new NonRelativizerStatisticCalc(
-										SummarizeMode.AVERAGE,
-										NumberType.INTEGER), "#Const") }) };
-
-		CommonApproxAttributeTableCreator tableCreator = new CommonApproxAttributeTableCreator(
-				statisticGroups);
+		CommonApproxAttributeTableCreator tableCreator = new CommonApproxAttributeTableCreator(statisticGroups);
 		configTableCreator(experimentResults, tableCreator);
 		AttributedTable attTable = tableCreator.buildTable();
 

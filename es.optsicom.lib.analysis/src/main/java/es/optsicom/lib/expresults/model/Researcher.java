@@ -6,20 +6,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 @Entity
 public class Researcher {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	
+
 	private String name;
-	
-	Researcher() {}
-	
+
+	Researcher() {
+	}
+
 	@JsonCreator
 	public Researcher(@JsonProperty("name") String name) {
 		super();
@@ -34,6 +34,5 @@ public class Researcher {
 	public String toString() {
 		return "Researcher [id=" + id + ", name=" + name + "]";
 	}
-	
-	
+
 }

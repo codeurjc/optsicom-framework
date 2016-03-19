@@ -10,20 +10,20 @@ public class Attribute implements Comparable<Attribute> {
 
 	private String name;
 	private Object value;
-	
+
 	// El titleText se utiliza para mostrar el valor en una SheetTable.
 	// Si no existe, su hace un toString() del value. Su valor
-	// se indica con el alias por defecto del objeto o bien con un 
-	// alias especificado en el TableConfiguration. 
+	// se indica con el alias por defecto del objeto o bien con un
+	// alias especificado en el TableConfiguration.
 	private String titleText;
-	
+
 	public Attribute(String name, Object value, String titleText) {
 		super();
 		this.name = name;
 		this.value = value;
 		this.titleText = titleText;
 	}
-	
+
 	public Attribute(String name, Object value) {
 		this(name, value, null);
 	}
@@ -35,13 +35,13 @@ public class Attribute implements Comparable<Attribute> {
 	public Object getValue() {
 		return value;
 	}
-	
+
 	public void setTitleText(String titleText) {
 		this.titleText = titleText;
 	}
-	
+
 	public String getTitle() {
-		if(titleText == null){
+		if (titleText == null) {
 			titleText = value.toString();
 		}
 		return titleText;
@@ -78,21 +78,20 @@ public class Attribute implements Comparable<Attribute> {
 		return true;
 	}
 
-	
 	@Override
 	public String toString() {
-		return "Attribute [name=" + name + ", value=" + value + ", titleText="
-				+ titleText + "]";
+		return "Attribute [name=" + name + ", value=" + value + ", titleText=" + titleText + "]";
 	}
 
+	@SuppressWarnings("unchecked")
 	public int compareTo(Attribute att) {
-		if(value instanceof Comparable){
-			return ((Comparable)value).compareTo(att.value);
-		} else if(value instanceof Descriptive){
+		if (value instanceof Comparable) {
+			return ((Comparable<Object>) value).compareTo(att.value);
+		} else if (value instanceof Descriptive) {
 			Descriptive dValue = (Descriptive) value;
-			return dValue.getProperties().compareTo(((Descriptive)att.value).getProperties());
+			return dValue.getProperties().compareTo(((Descriptive) att.value).getProperties());
 		} else {
-			return Strings.compareNatural(value.toString(),att.value.toString());
+			return Strings.compareNatural(value.toString(), att.value.toString());
 		}
 	}
 }

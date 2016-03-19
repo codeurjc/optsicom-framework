@@ -67,7 +67,8 @@ public class ArcImpl implements Arc {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see es.optsicom.graph.matrix.Arc#compareTo(es.optsicom.graph.matrix.ArcImpl)
+	 * @see
+	 * es.optsicom.graph.matrix.Arc#compareTo(es.optsicom.graph.matrix.ArcImpl)
 	 */
 	public int compareTo(Arc o) {
 		if (weight > o.getWeight()) {

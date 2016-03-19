@@ -17,11 +17,11 @@ public class FiltersAndAliases {
 	public void setMethodAliases(List<Alias> methodAliases) {
 		this.methodAliases = methodAliases;
 	}
-	
+
 	public List<Alias> getMethodAliases() {
 		return methodAliases;
 	}
-	
+
 	public ElementFilter getMethodFilter() {
 		return methodFilter;
 	}

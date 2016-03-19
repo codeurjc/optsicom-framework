@@ -10,12 +10,12 @@
  * **************************************************************************** */
 package es.optsicom.lib.graph.matrix;
 
-import java.util.List;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
@@ -29,10 +29,10 @@ public class MatrixGraphLoaderSquareSkippingLines extends MatrixGraphLoader {
 
 	private int numLinesToSkip;
 
-	public MatrixGraphLoaderSquareSkippingLines(int numLinesToSkip){
+	public MatrixGraphLoaderSquareSkippingLines(int numLinesToSkip) {
 		this.numLinesToSkip = numLinesToSkip;
 	}
-	
+
 	@Override
 	public MatrixGraph loadGraph(InputStream is) throws IOException, FormatException {
 
@@ -56,28 +56,28 @@ public class MatrixGraphLoaderSquareSkippingLines extends MatrixGraphLoader {
 		float[][] weights = createSymmetricMatrix(numNodes);
 
 		String line = br.readLine();
-		
+
 		int numLine = 1;
-		while (line != null) {			
-			readLine(weights, line, numLine);			
+		while (line != null) {
+			readLine(weights, line, numLine);
 			line = br.readLine();
 			numLine++;
 		}
 
-		if (numLine < numNodes-1) {
-			throw new FormatException("The file should have at least "+numNodes+" lines with matrix data");
+		if (numLine < numNodes - 1) {
+			throw new FormatException("The file should have at least " + numNodes + " lines with matrix data");
 		}
 
 		MatrixGraph matrixGraph = new MatrixGraph(weights);
-		
+
 		matrixGraph.setSkippedLines(skippedLines);
-		
+
 		return matrixGraph;
 	}
 
 	private void readLine(float[][] weights, String line, int numLine) throws FormatException {
-		
-		StringTokenizer st = new StringTokenizer(line);		
+
+		StringTokenizer st = new StringTokenizer(line);
 
 		int numValuesToLoad = numLine;
 		for (int i = 0; i < numValuesToLoad; i++) {
@@ -86,13 +86,14 @@ public class MatrixGraphLoaderSquareSkippingLines extends MatrixGraphLoader {
 			try {
 				value = st.nextToken();
 			} catch (NoSuchElementException e) {
-				throw new FormatException("Exception reading line " + line + ". It should have at least "
-						+ numValuesToLoad + " elements", e);
+				throw new FormatException(
+						"Exception reading line " + line + ". It should have at least " + numValuesToLoad + " elements",
+						e);
 			}
 			try {
-				weights[numLine-1][i] = Float.parseFloat(value);
+				weights[numLine - 1][i] = Float.parseFloat(value);
 			} catch (NumberFormatException e) {
-				throw new FormatException("Token "+value+" should be a number", e);
+				throw new FormatException("Token " + value + " should be a number", e);
 			}
 		}
 	}

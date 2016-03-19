@@ -17,7 +17,8 @@ import es.optsicom.lib.util.SummarizeMode;
 
 /**
  * This statistic calculates deviation between solutions. If there is a
- * infeasible solution, it won't be considered in the average dev for this particular method.
+ * infeasible solution, it won't be considered in the average dev for this
+ * particular method.
  * 
  * @author Mica
  * 
@@ -47,7 +48,7 @@ public class FeasDevStatisticCalc extends RelativizerStatisticCalc {
 		}
 
 		for (int i = 0; i < values.length; i++) {
-			if(values[i] == null) {
+			if (values[i] == null) {
 				result[i] = null;
 			} else if (Math.abs(values[i]) > feasibleLimit) {
 				result[i] = null;

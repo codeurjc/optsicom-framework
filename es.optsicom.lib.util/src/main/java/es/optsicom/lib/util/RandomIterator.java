@@ -14,12 +14,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 public class RandomIterator<T> implements Iterator<T> {
 
 	private List<? extends T> list;
-	
+
 	public RandomIterator(Collection<? extends T> list) {
 		this.list = new ArrayList<T>(list);
 	}

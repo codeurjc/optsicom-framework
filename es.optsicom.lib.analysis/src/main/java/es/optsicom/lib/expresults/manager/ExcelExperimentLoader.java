@@ -1,6 +1,5 @@
 package es.optsicom.lib.expresults.manager;
 
-import java.awt.Desktop;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,12 +18,6 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
-import es.optsicom.lib.analyzer.DefaultReportConf;
-import es.optsicom.lib.analyzer.ReportConf;
-import es.optsicom.lib.analyzer.tablecreator.filter.ElementFilter;
-import es.optsicom.lib.analyzer.tablecreator.filter.ExplicitElementsFilter;
-import es.optsicom.lib.analyzer.tablecreator.filter.OrElementsFilter;
-import es.optsicom.lib.analyzer.tablecreator.filter.PropertiesFilter;
 import es.optsicom.lib.expresults.model.ComputerDescription;
 import es.optsicom.lib.expresults.model.DBProperties;
 import es.optsicom.lib.expresults.model.DoubleEvent;
@@ -36,7 +29,6 @@ import es.optsicom.lib.expresults.model.MethodDescription;
 import es.optsicom.lib.expresults.model.NonValueEvent;
 import es.optsicom.lib.expresults.model.Researcher;
 import es.optsicom.lib.util.BestMode;
-import es.optsicom.lib.util.description.Properties;
 
 public class ExcelExperimentLoader {
 
@@ -60,18 +52,15 @@ public class ExcelExperimentLoader {
 	private Experiment experiment;
 	private Map<MethodDescription, String> memMethodNames;
 
-	public static MemoryExperimentManager load(File excelFile, int numSheet)
-			throws IOException {
+	public static MemoryExperimentManager load(File excelFile, int numSheet) throws IOException {
 		return new ExcelExperimentLoader().internalLoad(excelFile, numSheet);
 	}
 
-	public static MemoryExperimentManager load(File excelFile)
-			throws IOException {
+	public static MemoryExperimentManager load(File excelFile) throws IOException {
 		return new ExcelExperimentLoader().internalLoad(excelFile, 0);
 	}
 
-	private MemoryExperimentManager internalLoad(File excelFile, int numSheet)
-			throws IOException {
+	private MemoryExperimentManager internalLoad(File excelFile, int numSheet) throws IOException {
 
 		this.excelFile = excelFile;
 
@@ -104,9 +93,8 @@ public class ExcelExperimentLoader {
 
 		data = new HashMap<InstanceDescription, Map<MethodDescription, List<Execution>>>();
 
-		experiment = new Experiment(excelFile.getName(), new Researcher(
-				"Researcher"), new Date(excelFile.lastModified()),
-				new ComputerDescription("Computer"));
+		experiment = new Experiment(excelFile.getName(), new Researcher("Researcher"),
+				new Date(excelFile.lastModified()), new ComputerDescription("Computer"));
 		experiment.setProblemBestMode(BestMode.MAX_IS_BEST);
 		experiment.setMethods(methods);
 
@@ -127,16 +115,13 @@ public class ExcelExperimentLoader {
 				double value = getCellValueAsNumber(sheet, row, col);
 				long time = (long) (getCellValueAsNumber(sheet, row, col + 1) * 1000);
 
-				// System.out.println("   Method " +
+				// System.out.println(" Method " +
 				// method.getName()+" : "+value);
-				// System.out.println("      Time : " + time);
+				// System.out.println(" Time : " + time);
 
-				Execution execution = new Execution(experiment, method,
-						instance);
-				execution.addEvent(new DoubleEvent(execution, time,
-						Event.OBJ_VALUE_EVENT, value));
-				execution.addEvent(new NonValueEvent(execution, time,
-						Event.FINISH_TIME_EVENT));
+				Execution execution = new Execution(experiment, method, instance);
+				execution.addEvent(new DoubleEvent(execution, time, Event.OBJ_VALUE_EVENT, value));
+				execution.addEvent(new NonValueEvent(execution, time, Event.FINISH_TIME_EVENT));
 
 				methodsMap.put(method, Arrays.asList(execution));
 			}
@@ -155,8 +140,7 @@ public class ExcelExperimentLoader {
 
 				Map<String, String> props = new HashMap<String, String>();
 				for (int j = 0; j < this.instanceChars.size(); j++) {
-					props.put(instanceChars.get(j),
-							getCellValueAsString(sheet, i, j + 1));
+					props.put(instanceChars.get(j), getCellValueAsString(sheet, i, j + 1));
 				}
 				DBProperties properties = new DBProperties(props);
 				instances.add(new InstanceDescription(properties));
@@ -174,8 +158,7 @@ public class ExcelExperimentLoader {
 			String cellValue = getCellValueAsString(sheet, dataRow - 1, i);
 			if (cellValue != null && !cellValue.isEmpty()) {
 				methodNames.add(cellValue);
-				MethodDescription methodDescription = new MethodDescription(
-						cellValue);
+				MethodDescription methodDescription = new MethodDescription(cellValue);
 				methods.add(methodDescription);
 				memMethodNames.put(methodDescription, cellValue);
 			} else {
@@ -206,9 +189,7 @@ public class ExcelExperimentLoader {
 
 		if (row == MAX_ROWS) {
 			throw new RuntimeException(
-					"Max rows limit ("
-							+ MAX_ROWS
-							+ ") reached without found \"Instance\" cell value in column 0.");
+					"Max rows limit (" + MAX_ROWS + ") reached without found \"Instance\" cell value in column 0.");
 		}
 
 		dataRow = row + 2;
@@ -222,8 +203,7 @@ public class ExcelExperimentLoader {
 		algCol = col;
 	}
 
-	private void loadExcelSheet(int numSheet) throws FileNotFoundException,
-			IOException {
+	private void loadExcelSheet(int numSheet) throws FileNotFoundException, IOException {
 		InputStream is = new FileInputStream(excelFile);
 		HSSFWorkbook excel = new HSSFWorkbook(new POIFSFileSystem(is));
 

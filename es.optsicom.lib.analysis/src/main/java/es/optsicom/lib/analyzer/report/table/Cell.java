@@ -23,7 +23,7 @@ public class Cell {
 
 	public Cell() {
 	}
-	
+
 	public Cell(Object value, CellFormat format) {
 		super();
 		this.value = value;

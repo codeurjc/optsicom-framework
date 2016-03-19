@@ -52,10 +52,10 @@ public class NumericFormat extends CellFormat {
 	@Override
 	public String format(Object value, Locale locale) {
 
-		if(value == null){
+		if (value == null) {
 			return "";
 		}
-		
+
 		if (type == null) {
 			return String.format(locale, "%." + numDecimals + "f", value);
 		} else {
@@ -66,29 +66,32 @@ public class NumericFormat extends CellFormat {
 				return String.format(locale, "%." + numDecimals + "f", value);
 			case PERCENT:
 				return String.format(locale, "%." + numDecimals + "f%%", ((Number) value).doubleValue() * 100);
-				//return String.format(locale, "%." + numDecimals + "f", ((Number) value).doubleValue());
-				//return String.format(locale, "%." + numDecimals + "f", ((Number) value).doubleValue() * 100);
+			// return String.format(locale, "%." + numDecimals + "f", ((Number)
+			// value).doubleValue());
+			// return String.format(locale, "%." + numDecimals + "f", ((Number)
+			// value).doubleValue() * 100);
 			case TIME:
 
-//				long time = ((Number) value).longValue();
-//
-//				long numMin = time / (1000 * 60);
-//
-//				long numSecs = time / 1000;
-//
-//				if (numMin == 0) {
-//					if (numSecs == 0) {
-//						return String.format(locale, (time % 1000) + "ms");
-//					} else {
-//						return String.format(locale, "%1$tSs", new Date(time));
-//					}
-//				} else {
-//					return String.format(locale, "%1$tMm %1$tSs", new Date(time));
-//				}
+				// long time = ((Number) value).longValue();
+				//
+				// long numMin = time / (1000 * 60);
+				//
+				// long numSecs = time / 1000;
+				//
+				// if (numMin == 0) {
+				// if (numSecs == 0) {
+				// return String.format(locale, (time % 1000) + "ms");
+				// } else {
+				// return String.format(locale, "%1$tSs", new Date(time));
+				// }
+				// } else {
+				// return String.format(locale, "%1$tMm %1$tSs", new
+				// Date(time));
+				// }
 
 				long time = ((Number) value).longValue();
-				return String.format(locale, "%." + numDecimals + "f", ((float)time)/1000);
-				
+				return String.format(locale, "%." + numDecimals + "f", ((float) time) / 1000);
+
 			default:
 				return String.format(locale, "%." + numDecimals + "f", value);
 			}
@@ -97,9 +100,7 @@ public class NumericFormat extends CellFormat {
 
 	@Override
 	public String toString() {
-		return "NumberFormat [type=" + type + ", numDecimals=" + numDecimals
-				+ "]";
+		return "NumberFormat [type=" + type + ", numDecimals=" + numDecimals + "]";
 	}
-	
-	
+
 }

@@ -23,8 +23,8 @@ import es.optsicom.lib.util.Log;
 import es.optsicom.lib.util.RandomManager;
 import es.optsicom.lib.util.RandomizedSelector;
 
-public abstract class AbstractPathRelinking<S extends Solution<I>, I extends Instance> extends
-        AbstractApproxMethod<S, I> {
+public abstract class AbstractPathRelinking<S extends Solution<I>, I extends Instance>
+		extends AbstractApproxMethod<S, I> {
 
 	private final int MAX_RETRIES;
 
@@ -36,11 +36,11 @@ public abstract class AbstractPathRelinking<S extends Solution<I>, I extends Ins
 	protected int thresold;
 
 	protected EliteSet<S, I> es;
-	
+
 	protected long finishTime = Long.MAX_VALUE;
 
 	public AbstractPathRelinking(Constructive<S, I> constructive, PathRelinking<S, I> pathRelinking,
-	        ImprovementMethod<S, I> improvement, DistanceCalc<S, I> distCalc, int thresold) {
+			ImprovementMethod<S, I> improvement, DistanceCalc<S, I> distCalc, int thresold) {
 		this.constructive = constructive;
 		this.pathRelinking = pathRelinking;
 		this.improvement = improvement;
@@ -81,15 +81,15 @@ public abstract class AbstractPathRelinking<S extends Solution<I>, I extends Ins
 		for (int i = 0; i < numConstructions; i++) {
 			S solution = constructive.createSolution();
 			setIfBestSolution(solution);
-			
+
 			if (System.currentTimeMillis() > finishTime) {
 				return;
 			}
-			
-			improvement.improveSolution(solution,finishTime - System.currentTimeMillis());
+
+			improvement.improveSolution(solution, finishTime - System.currentTimeMillis());
 			setIfBestSolution(solution);
 			es.addSolution(solution);
-			
+
 			if (System.currentTimeMillis() > finishTime) {
 				return;
 			}
@@ -109,7 +109,7 @@ public abstract class AbstractPathRelinking<S extends Solution<I>, I extends Ins
 
 		S esSol;
 		int retries = 0;
-		do { 
+		do {
 			esSol = RandomizedSelector.selectRandomlyObject(es.getSolutions());
 			retries++;
 			if (retries > MAX_RETRIES) {
@@ -126,16 +126,20 @@ public abstract class AbstractPathRelinking<S extends Solution<I>, I extends Ins
 		}
 
 	}
-	
-	//Es una versión simplificada del método doDynEliteSetIteration. Es simplificada porque 
-	//la selección del la solución del ES se realiza de forma totalmente aleatoria, en vez vez
-	//de realizarse de forma proporcional a la calidad. Además, también es una versión simplificada
-	//porque no tiene control de diversidad al insertar una solución al ES. Simplemente añade una
-	//solución si es mejor que la peor del ES. 
+
+	// Es una versión simplificada del método doDynEliteSetIteration. Es
+	// simplificada porque
+	// la selección del la solución del ES se realiza de forma totalmente
+	// aleatoria, en vez vez
+	// de realizarse de forma proporcional a la calidad. Además, también es una
+	// versión simplificada
+	// porque no tiene control de diversidad al insertar una solución al ES.
+	// Simplemente añade una
+	// solución si es mejor que la peor del ES.
 	protected void doSimpleDynEliteSetIteration(long finishTime) {
 
-		//System.out.println("SimpleDynEliteSetIteration");
-		
+		// System.out.println("SimpleDynEliteSetIteration");
+
 		S solution = constructive.createSolution();
 		setIfBestSolution(solution);
 		improvement.improveSolution(solution, finishTime - System.currentTimeMillis());
@@ -159,15 +163,15 @@ public abstract class AbstractPathRelinking<S extends Solution<I>, I extends Ins
 		} while (esSol.equals(solution));
 
 		S prSol = this.pathRelinking.pathRelinking(solution, esSol);
-		//System.out.println("PathRelinking: "+prSol.getWeight());
+		// System.out.println("PathRelinking: "+prSol.getWeight());
 		if (prSol != null) {
-			
+
 			if (System.currentTimeMillis() > finishTime) {
 				return;
 			}
-			
+
 			improvement.improveSolution(prSol, finishTime - System.currentTimeMillis());
-			//System.out.println("ImprovedSolution: "+prSol.getWeight());
+			// System.out.println("ImprovedSolution: "+prSol.getWeight());
 			setIfBestSolution(prSol);
 			es.addSolutionWithoutDiversityCheck(prSol);
 		}
@@ -182,7 +186,5 @@ public abstract class AbstractPathRelinking<S extends Solution<I>, I extends Ins
 	public void setEliteSetSize(int eliteSetSize) {
 		this.eliteSetSize = eliteSetSize;
 	}
-	
-	
 
 }

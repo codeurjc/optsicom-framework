@@ -6,9 +6,10 @@ package es.optsicom.lib.analyzer.report.chart;
 import java.io.Serializable;
 
 /**
- * @author paco
- * Specifies if the data series displayed in the chart, take their values 
- * from the row or the column 
+ * @author paco Specifies if the data series displayed in the chart, take their
+ *         values from the row or the column
  */
 
-public enum ChartSourceType implements Serializable{COLUMN, ROW};
+public enum ChartSourceType implements Serializable {
+	COLUMN, ROW
+};
