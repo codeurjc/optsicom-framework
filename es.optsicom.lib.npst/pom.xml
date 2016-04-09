@@ -9,6 +9,11 @@
 	<name>npst</name>
 	<url>http://maven.apache.org</url>
 
+	<properties>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+	</properties>
+
 	<parent>
 		<groupId>es.optsicom.lib</groupId>
 		<artifactId>es.optsicom.lib.parent</artifactId>

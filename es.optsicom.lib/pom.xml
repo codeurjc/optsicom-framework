@@ -9,6 +9,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>es.optsicom.lib</artifactId>
 	<name>Optsicom core</name>
+	
+	<properties>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+	</properties>	
 
 	<dependencies>
 		<dependency>
@@ -18,9 +23,6 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-		
-
-
 	</dependencies>
 
 	<build>

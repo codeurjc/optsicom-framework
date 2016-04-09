@@ -10,6 +10,11 @@
 	<artifactId>es.optsicom.lib.util</artifactId>
 	<name>Optsicom util</name>
 
+	<properties>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+	</properties>
+
 	<build>
 		<plugins>
 			<plugin>
