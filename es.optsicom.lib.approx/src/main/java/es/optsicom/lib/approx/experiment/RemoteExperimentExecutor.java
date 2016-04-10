@@ -1,5 +1,6 @@
 package es.optsicom.lib.approx.experiment;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import es.optsicom.lib.experiment.CurrentExperiment;
 import es.optsicom.lib.experiment.ExecutionLogger.Event;
 import es.optsicom.lib.expresults.saver.ExecutionSaver;
 import es.optsicom.lib.instancefile.InstanceFile;
+import es.optsicom.lib.instancefile.InstancesRepository;
 import es.optsicom.lib.util.RandomManager;
 
 public class RemoteExperimentExecutor implements Serializable {
@@ -36,7 +38,10 @@ public class RemoteExperimentExecutor implements Serializable {
 			});
 
 			ApproxExpConf expConf = clazz.newInstance();
-			expConf.calculateInstanceFilesAndTimes();
+			
+			InstancesRepository repository = createInstancesRepository(expConf);
+			
+			expConf.calculateInstanceFilesAndTimes(repository);
 
 			Method method = expConf.getMethods().get(methodIndex);
 			InstanceFile instanceFile = expConf.getInstanceFiles().get(instanceIndex);
@@ -64,6 +69,18 @@ public class RemoteExperimentExecutor implements Serializable {
 
 		} catch (Exception e) {
 			throw new RuntimeException("Exception creating ApproxExpConf in remote JVM", e);
+		}
+	}
+	
+	private InstancesRepository createInstancesRepository(ApproxExpConf approxExpConf) {
+		
+		String instancesFilesDir = approxExpConf.getInstancesFilesDir();
+		String useCase = approxExpConf.getUseCase();
+		
+		if (instancesFilesDir == null) {
+			return approxExpConf.getProblem().getInstancesRepository(useCase);
+		} else {
+			return approxExpConf.getProblem().getInstancesRepository(new File(instancesFilesDir), useCase);
 		}
 	}
 

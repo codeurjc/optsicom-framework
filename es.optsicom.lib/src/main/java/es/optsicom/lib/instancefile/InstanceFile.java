@@ -13,6 +13,7 @@ package es.optsicom.lib.instancefile;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Path;
 
 import es.optsicom.lib.Instance;
 import es.optsicom.lib.expresults.model.DBProperties;
@@ -26,7 +27,7 @@ public class InstanceFile implements Serializable, Descriptive {
 
 	private static final long serialVersionUID = 4199908568822373015L;
 
-	protected File file;
+	protected Path file;
 
 	private InstancesRepository repository;
 
@@ -37,7 +38,11 @@ public class InstanceFile implements Serializable, Descriptive {
 
 	private Properties properties;
 
-	public InstanceFile(InstancesRepository repository, File file, String useCase, String instanceSetId,
+	public InstanceFile(InstancesRepository repository, File file, String useCase, String instanceSetId, String fileName) {
+		this(repository, file.toPath(), useCase, instanceSetId, fileName);
+	}
+	
+	public InstanceFile(InstancesRepository repository, Path file, String useCase, String instanceSetId,
 			String fileName) {
 		this.file = file;
 		this.useCase = useCase;
@@ -52,6 +57,10 @@ public class InstanceFile implements Serializable, Descriptive {
 	}
 
 	public File getFile() {
+		return file.toFile();
+	}
+	
+	public Path getPath() {
 		return file;
 	}
 

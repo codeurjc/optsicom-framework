@@ -13,6 +13,7 @@ package es.optsicom.lib;
 import java.io.File;
 import java.util.Comparator;
 
+import es.optsicom.lib.instancefile.FileInstancesRepository;
 import es.optsicom.lib.instancefile.InstancesRepository;
 import es.optsicom.lib.util.BestMode;
 
@@ -24,7 +25,7 @@ import es.optsicom.lib.util.BestMode;
 public abstract class Problem {
 
 	private BestMode mode;
-	
+
 	private Comparator<Solution> qualityComparator;
 	private String name;
 
@@ -67,7 +68,7 @@ public abstract class Problem {
 	}
 
 	public InstancesRepository getInstancesRepository() {
-		return getInstancesRepository(InstancesRepository.DEFAULT_INSTANCE_FILE_DIR,
+		return getInstancesRepository(InstancesRepository.getDefaultInstancesDirOrZip().toFile(),
 				InstancesRepository.DEFAULT_USE_CASE);
 	}
 
@@ -75,9 +76,12 @@ public abstract class Problem {
 		if (useCase == null) {
 			useCase = InstancesRepository.DEFAULT_USE_CASE;
 		}
-		return getInstancesRepository(InstancesRepository.DEFAULT_INSTANCE_FILE_DIR, useCase);
+		return getInstancesRepository(InstancesRepository.getDefaultInstancesDirOrZip().toFile(), useCase);
 	}
 
+	// TODO Cache this result to avoid creating new InstancesRepositories for
+	// each call. Also think about InstancesRepository lifecycle. As InstancesRepository can be connected
+	// to a zip file, this connection is maintained until close() is explicitely invoked in ZipFileSystem
 	public abstract InstancesRepository getInstancesRepository(File instanceFileDir, String useCase);
 
 	public SolutionFactory getDefaultFactory() {

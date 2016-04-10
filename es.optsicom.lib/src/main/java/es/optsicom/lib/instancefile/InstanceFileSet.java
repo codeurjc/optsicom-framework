@@ -12,6 +12,7 @@ package es.optsicom.lib.instancefile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,13 +23,17 @@ public class InstanceFileSet {
 	protected List<InstanceFile> instanceFiles;
 	protected List<Instance> instances;
 	private String id;
-	private File instanceFilesDir;
+	private Path instanceFilesDir;
 
 	public InstanceFileSet() {
 		this.instanceFiles = new ArrayList<InstanceFile>();
 	}
 
 	public InstanceFileSet(File instanceFilesDirectory) {
+		this(instanceFilesDirectory.toPath());
+	}
+	
+	public InstanceFileSet(Path instanceFilesDirectory) {
 		this.instanceFilesDir = instanceFilesDirectory;
 		this.instanceFiles = new ArrayList<InstanceFile>();
 	}
@@ -61,10 +66,18 @@ public class InstanceFileSet {
 	}
 
 	public File getInstanceFilesDir() {
-		return instanceFilesDir;
+		return instanceFilesDir.toFile();
 	}
 
 	public void setInstanceFilesDir(File instanceFilesDir) {
+		setInstanceFilesDir(instanceFilesDir.toPath());
+	}
+	
+	public Path getInstanceFilesDirAsPath() {
+		return instanceFilesDir;
+	}
+
+	public void setInstanceFilesDir(Path instanceFilesDir) {
 		this.instanceFilesDir = instanceFilesDir;
 	}
 

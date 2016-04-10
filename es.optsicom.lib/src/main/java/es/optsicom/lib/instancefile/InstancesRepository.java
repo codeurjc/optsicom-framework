@@ -10,8 +10,9 @@
  * **************************************************************************** */
 package es.optsicom.lib.instancefile;
 
-import java.io.File;
+import java.io.Closeable;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -23,11 +24,12 @@ import java.util.Map;
 import es.optsicom.lib.Instance;
 import es.optsicom.lib.expresults.model.InstanceDescription;
 
-public abstract class InstancesRepository {
+public abstract class InstancesRepository implements Closeable {
 
 	public static final String DEFAULT_USE_CASE = "default";
 	public static final String INSTANCE_ID_PATH_SEPARATOR = "/";
-	public static final File DEFAULT_INSTANCE_FILE_DIR = new File("instance_files");
+	public static final Path DEFAULT_INSTANCE_FILE_DIR = Paths.get("instance_files");
+	public static final Path DEFAULT_INSTANCE_FILE_ZIP = Paths.get("instance_files.zip");
 
 	// Key is the instance type (it may contain several levels separated by
 	// INSTANCE_ID_PATH_SEPARATOR)
@@ -131,5 +133,24 @@ public abstract class InstancesRepository {
 		}
 		throw new RuntimeException("Instance with file name \"" + instanceFileName + "\" doesn't exist in "
 				+ instanceSetId + " instance set.");
+	}
+	
+	public static Path getDefaultInstancesDirOrZip() {
+		if (Files.exists(FileInstancesRepository.DEFAULT_INSTANCE_FILE_DIR)) {
+			return FileInstancesRepository.DEFAULT_INSTANCE_FILE_DIR;
+		} else if (Files.exists(FileInstancesRepository.DEFAULT_INSTANCE_FILE_ZIP)) {
+			return FileInstancesRepository.DEFAULT_INSTANCE_FILE_ZIP;
+		} else {
+			throw new RuntimeException("Searching instance files in default folder ("
+					+ FileInstancesRepository.DEFAULT_INSTANCE_FILE_DIR.toAbsolutePath()
+					+ ") and in default .zip file ("
+					+ FileInstancesRepository.DEFAULT_INSTANCE_FILE_ZIP.toAbsolutePath()
+					+ "), but none of them exists");
+		}
+	}
+	
+	@Override
+	public void close(){
+		
 	}
 }

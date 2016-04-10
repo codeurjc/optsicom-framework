@@ -11,23 +11,33 @@
 package es.optsicom.lib.graph.matrix;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import es.optsicom.lib.graph.Graph;
 
 public abstract class MatrixGraphLoader {
 
-	public Graph loadGraph(File file) throws IOException, FormatException {
-		return loadGraph(new FileInputStream(file));
+	public Graph loadGraph(Path file) throws IOException, FormatException {
+		try(InputStream is = Files.newInputStream(file)){
+			return loadGraph(is);
+		}
 	}
-
+	
+	public Graph loadGraph(File file) throws IOException, FormatException {
+		return loadGraph(file.toPath());
+	}
+	
 	public Graph loadGraph(File file, int totalNodes) throws IOException, FormatException {
-		FileInputStream fis = new FileInputStream(file);
-		Graph g = loadGraph(fis, totalNodes);
-		fis.close();
-		return g;
+		return loadGraph(file.toPath(), totalNodes);
+	}
+	
+	public Graph loadGraph(Path file, int totalNodes) throws IOException, FormatException {
+		try(InputStream is = Files.newInputStream(file)){
+			return loadGraph(is,totalNodes);
+		}
 	}
 
 	public Graph loadGraph(InputStream is) throws IOException, FormatException {

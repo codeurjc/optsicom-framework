@@ -1,6 +1,5 @@
 package es.optsicom.lib.approx.experiment;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -258,25 +257,20 @@ public abstract class ApproxExpConf {
 		return this.name;
 	}
 
-	public void calculateInstanceFilesAndTimes() {
-
-		InstancesRepository repository;
-		String instancesFilesDir = this.getInstancesFilesDir();
-		String useCase = this.getUseCase();
-		if (instancesFilesDir == null) {
-			repository = this.getProblem().getInstancesRepository(useCase);
-		} else {
-			repository = this.getProblem().getInstancesRepository(new File(instancesFilesDir), useCase);
-		}
+	public void calculateInstanceFilesAndTimes(InstancesRepository repository) {
 
 		if (!instancesGroups.isEmpty()) {
+
 			instanceFiles = new ArrayList<InstanceFile>();
 			for (InstancesGroup instGroup : instancesGroups) {
 				instGroup.setInstancesRepository(repository);
 				instanceFiles.addAll(instGroup.getInstanceFiles());
 			}
+
 		} else if (!this.getInstanceGroups().isEmpty()) {
-			this.calculateInstanceFilesAndTimes(repository);
+
+			this.calculateInstanceFilesAndTimesWithDifferentTimes(repository);
+
 		} else {
 			// if there aren't any instance configuration, all instances are
 			// used
@@ -284,7 +278,7 @@ public abstract class ApproxExpConf {
 		}
 	}
 
-	private void calculateInstanceFilesAndTimes(InstancesRepository repository) {
+	private void calculateInstanceFilesAndTimesWithDifferentTimes(InstancesRepository repository) {
 
 		boolean timeSet = false;
 

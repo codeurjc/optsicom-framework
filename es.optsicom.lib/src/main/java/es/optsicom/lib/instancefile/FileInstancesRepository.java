@@ -11,39 +11,51 @@
 package es.optsicom.lib.instancefile;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.DirectoryStream.Filter;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import es.optsicom.lib.util.Strings;
 
 public abstract class FileInstancesRepository extends InstancesRepository {
 
-	private File instancesDir;
+	private Path instancesDirOrZip;
+	private FileSystem zipFs;
 
 	public FileInstancesRepository() {
-		this(InstancesRepository.DEFAULT_INSTANCE_FILE_DIR, InstancesRepository.DEFAULT_USE_CASE);
+		this(getDefaultInstancesDirOrZip(), InstancesRepository.DEFAULT_USE_CASE);
 	}
 
 	public FileInstancesRepository(boolean populate) {
-		this(InstancesRepository.DEFAULT_INSTANCE_FILE_DIR, InstancesRepository.DEFAULT_USE_CASE, populate);
+		this(getDefaultInstancesDirOrZip(), InstancesRepository.DEFAULT_USE_CASE, populate);
 	}
 
 	public FileInstancesRepository(String useCase) {
-		this(InstancesRepository.DEFAULT_INSTANCE_FILE_DIR, useCase);
+		this(getDefaultInstancesDirOrZip(), useCase);
 	}
 
-	public FileInstancesRepository(File instancesDir, String useCase) {
-		this(instancesDir, useCase, true);
+	public FileInstancesRepository(File instancesDirOrZip, String useCase) {
+		this(instancesDirOrZip.toPath(), useCase, true);
 	}
 
-	public FileInstancesRepository(File instancesDir, String useCase, boolean populate) {
+	public FileInstancesRepository(File instancesDirOrZip, String useCase, boolean populate) {
+		this(instancesDirOrZip.toPath(), useCase, populate);
+	}
+
+	public FileInstancesRepository(Path instancesDirOrZip, String useCase) {
+		this(instancesDirOrZip, useCase, true);
+	}
+
+	public FileInstancesRepository(Path instancesDirOrZip, String useCase, boolean populate) {
 		super(useCase);
-		this.instancesDir = instancesDir;
+		this.instancesDirOrZip = instancesDirOrZip;
 		if (populate) {
 			populate();
 		}
@@ -55,37 +67,72 @@ public abstract class FileInstancesRepository extends InstancesRepository {
 
 	protected void populate() {
 
-		File instanceFilesDir = new File(instancesDir, useCase);
+		try {
 
-		if (useCase.equals("default") && !instanceFilesDir.exists()) {
-			// Assuming instances are not separated by useCases
-			instanceFilesDir = instancesDir;
+			Path instanceFilesDir = calculateInstancesFolderPath();
+
+			loadInstaceFiles(instanceFilesDir);
+
+		} catch (IOException e) {
+			throw new RuntimeException("Exception loading instance files", e);
+		}
+	}
+
+	private Path calculateInstancesFolderPath() throws IOException {
+
+		Path instanceFilesDir;
+
+		if (Files.isDirectory(instancesDirOrZip)) {
+
+			instanceFilesDir = instancesDirOrZip;
+
+		} else {
+
+			if (!instancesDirOrZip.getFileName().toString().endsWith(".zip")) {
+				throw new RuntimeException(
+						"InstanceFiles must be a folder or a .zip file but it is a file without .zip extension ("
+								+ instancesDirOrZip.toAbsolutePath() + ")");
+			}
+
+			zipFs = FileSystems.newFileSystem(instancesDirOrZip, null);
+			instanceFilesDir = zipFs.getPath("/");
 		}
 
-		List<File> directoriesWithFiles = getAllDirsWithFiles(instanceFilesDir);
-		for (File fileSetDirectory : directoriesWithFiles) {
+		// If useCase is default one it is possible to omit it from file system
+		if (!useCase.equals(InstancesRepository.DEFAULT_USE_CASE) || Files.exists(instanceFilesDir.resolve(useCase))) {
+			instanceFilesDir = instanceFilesDir.resolve(useCase);
+		}
+
+		return instanceFilesDir;
+	}
+
+	private void loadInstaceFiles(Path instanceFilesDir) throws IOException {
+
+		List<Path> directoriesWithFiles = getAllDirsWithFiles(instanceFilesDir);
+
+		for (Path fileSetDirectory : directoriesWithFiles) {
+
 			InstanceFileSet instanceFileSet = new InstanceFileSet(fileSetDirectory);
 
-			String instanceSetId = fileSetDirectory.getAbsolutePath()
-					.substring(instanceFilesDir.getAbsolutePath().length() + 1);
+			String instanceSetId = instanceFilesDir.relativize(fileSetDirectory).toString();
+
+			if (instanceSetId.endsWith(Character.toString(File.separatorChar))) {
+				instanceSetId = instanceSetId.substring(0, instanceSetId.length() - 1);
+			}
+
 			instanceFileSet.setId(instanceSetId.replace(File.separatorChar,
 					InstancesRepository.INSTANCE_ID_PATH_SEPARATOR.charAt(0)));
 
-			File[] instanceFiles = fileSetDirectory.listFiles(new FileFilter() {
-				@Override
-				public boolean accept(File file) {
-					return !file.isHidden() && !file.isDirectory();
-				}
-			});
+			List<Path> instanceFiles = listFiles(fileSetDirectory,
+					file -> !Files.isHidden(file) && !Files.isDirectory(file));
 
-			Collections.sort(Arrays.asList(instanceFiles), new Comparator<File>() {
-				public int compare(File f1, File f2) {
-					return Strings.compareNatural(f1.getName(), f2.getName());
-				}
-			});
+			Collections.sort(instanceFiles,
+					(f1, f2) -> Strings.compareNatural(f1.getFileName().toString(), f2.getFileName().toString()));
 
-			for (File file : instanceFiles) {
-				InstanceFile instanceFile = new InstanceFile(this, file, useCase, instanceSetId, file.getName());
+			for (Path file : instanceFiles) {
+
+				InstanceFile instanceFile = new InstanceFile(this, file, useCase, instanceSetId,
+						file.getFileName().toString());
 
 				instanceFileSet.addInstanceFile(instanceFile);
 
@@ -102,40 +149,51 @@ public abstract class FileInstancesRepository extends InstancesRepository {
 		}
 	}
 
+	private List<Path> listFiles(Path directory, Filter<Path> filter) throws IOException {
+		List<Path> files = new ArrayList<>();
+		try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(directory, filter)) {
+			directoryStream.forEach(p -> files.add(p));
+		}
+		return files;
+	}
+
 	/**
 	 * @param instanceFilesDir
 	 * @return
+	 * @throws IOException
 	 */
-	private List<File> getAllDirsWithFiles(File instanceFilesDir) {
-		List<File> dirsWithFiles = new ArrayList<File>();
+	private List<Path> getAllDirsWithFiles(Path instanceFilesDir) throws IOException {
 
-		if (!instanceFilesDir.exists()) {
+		List<Path> dirsWithFiles = new ArrayList<Path>();
+
+		if (!Files.exists(instanceFilesDir)) {
 			throw new RuntimeException("The directory \"" + instanceFilesDir + "\" doesn't exist.");
 		}
 
-		File[] directories = instanceFilesDir.listFiles(new FileFilter() {
+		List<Path> directories = listFiles(instanceFilesDir, path -> Files.isDirectory(path) && !Files.isHidden(path));
 
-			public boolean accept(File pathname) {
-				return pathname.isDirectory() && !pathname.isHidden();
-			}
-		});
+		List<Path> files = listFiles(instanceFilesDir, path -> !Files.isDirectory(path) && !Files.isHidden(path));
 
-		File[] files = instanceFilesDir.listFiles(new FileFilter() {
-
-			public boolean accept(File pathname) {
-				return pathname.isFile();
-			}
-		});
-
-		for (File f : directories) {
-			dirsWithFiles.addAll(getAllDirsWithFiles(f));
+		for (Path dir : directories) {
+			dirsWithFiles.addAll(getAllDirsWithFiles(dir));
 		}
 
-		if (files.length > 0 && directories.length == 0) {
+		if (!files.isEmpty() && directories.isEmpty()) {
 			dirsWithFiles.add(instanceFilesDir);
 		}
 
 		return dirsWithFiles;
+	}
+
+	@Override
+	public void close() {
+		if (zipFs != null) {
+			try {
+				zipFs.close();
+			} catch (IOException e) {
+				throw new RuntimeException("Exception closing "+this.getClass().getName(), e);
+			}
+		}
 	}
 
 	public void loadProperties(InstanceFile instanceFile) throws IOException {

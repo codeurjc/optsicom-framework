@@ -2,6 +2,7 @@ package es.optsicom.lib.instancefile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 
 import es.optsicom.lib.Instance;
 
@@ -16,23 +17,31 @@ public class FileInstancesRepositoryWithLoader extends FileInstancesRepository {
 	}
 
 	public FileInstancesRepositoryWithLoader(boolean populate, InstanceLoader instanceLoader) {
-		this(FileInstancesRepository.DEFAULT_INSTANCE_FILE_DIR, FileInstancesRepository.DEFAULT_USE_CASE, populate,
-				instanceLoader);
+		this(getDefaultInstancesDirOrZip(), FileInstancesRepository.DEFAULT_USE_CASE, populate, instanceLoader);
 	}
 
 	public FileInstancesRepositoryWithLoader(String useCase, InstanceLoader instanceLoader) {
-		this(InstancesRepository.DEFAULT_INSTANCE_FILE_DIR, useCase, true, instanceLoader);
+		this(getDefaultInstancesDirOrZip(), useCase, true, instanceLoader);
 	}
 
 	public FileInstancesRepositoryWithLoader(File instancesDir, String useCase, InstanceLoader instanceLoader) {
 		this(instancesDir, useCase, true, instanceLoader);
 	}
 
+	public FileInstancesRepositoryWithLoader(Path instancesDir, String useCase, InstanceLoader instanceLoader) {
+		this(instancesDir, useCase, true, instanceLoader);
+	}
+
 	public FileInstancesRepositoryWithLoader(String useCase, boolean populate, InstanceLoader instanceLoader) {
-		this(InstancesRepository.DEFAULT_INSTANCE_FILE_DIR, useCase, populate, instanceLoader);
+		this(getDefaultInstancesDirOrZip(), useCase, populate, instanceLoader);
 	}
 
 	public FileInstancesRepositoryWithLoader(File instancesDir, String useCase, boolean populate,
+			InstanceLoader instanceLoader) {
+		this(instancesDir.toPath(), useCase, populate, instanceLoader);
+	}
+
+	public FileInstancesRepositoryWithLoader(Path instancesDir, String useCase, boolean populate,
 			InstanceLoader instanceLoader) {
 		super(instancesDir, useCase, false);
 		this.instanceLoader = instanceLoader;

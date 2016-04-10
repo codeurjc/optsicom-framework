@@ -1,5 +1,6 @@
 package es.optsicom.lib.approx.experiment;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ import es.optsicom.lib.expresults.model.MethodDescription;
 import es.optsicom.lib.expresults.model.Researcher;
 import es.optsicom.lib.expresults.saver.ExperimentSaver;
 import es.optsicom.lib.instancefile.InstanceFile;
+import es.optsicom.lib.instancefile.InstancesRepository;
 
 public class FastExperimentExecutor {
 
@@ -47,6 +49,7 @@ public class FastExperimentExecutor {
 	private DBManager dbManager;
 
 	private String name = "";
+	private InstancesRepository repository;
 
 	public FastExperimentExecutor(ApproxExpConf approxExpConf) {
 		this.approxExpConf = approxExpConf;
@@ -127,8 +130,10 @@ public class FastExperimentExecutor {
 		if (approxExpConf.getComputerName() == null) {
 			throw new RuntimeException("ComputerDescription name must be filled");
 		}
+		
+		createInstancesRepository(approxExpConf);
 
-		ApproxMethodExperiment<?,?> exp = createApproxMethodExperiment(approxExpConf);
+		ApproxMethodExperiment<?, ?> exp = createApproxMethodExperiment(approxExpConf);
 
 		ExperimentSaver expSaver = persistExperiment(approxExpConf, expRepoFactory);
 
@@ -137,12 +142,18 @@ public class FastExperimentExecutor {
 			exp.executeExperiment(expSaver, localExecution);
 
 		} catch (Exception e) {
+			
 			throw new RuntimeException("Exception executing experiment", e);
-		}
+		
+		} finally {
+			
+			repository.close();
+		}		
 
 		return expSaver.getExperimentId();
-
 	}
+	
+	
 
 	private ExperimentSaver persistExperiment(ApproxExpConf approxExpConf, ExperimentRepositoryFactory expRepoFactory) {
 
@@ -152,7 +163,7 @@ public class FastExperimentExecutor {
 
 		expSaver.setExperiment(expdb);
 
-		for (Method<?,?> method : approxExpConf.getMethods()) {
+		for (Method<?, ?> method : approxExpConf.getMethods()) {
 			MethodDescription methodDesc;
 			try {
 				methodDesc = expSaver.findMethodDescription(method.getProperties().toString());
@@ -225,10 +236,22 @@ public class FastExperimentExecutor {
 		Experiment expdb = new Experiment(approxExpConf.getName(), researcher, new Date(), computer);
 		return expdb;
 	}
+	
+	private void createInstancesRepository(ApproxExpConf approxExpConf) {
+		
+		String instancesFilesDir = approxExpConf.getInstancesFilesDir();
+		String useCase = approxExpConf.getUseCase();
+		
+		if (instancesFilesDir == null) {
+			repository = approxExpConf.getProblem().getInstancesRepository(useCase);
+		} else {
+			repository = approxExpConf.getProblem().getInstancesRepository(new File(instancesFilesDir), useCase);
+		}
+	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private ApproxMethodExperiment createApproxMethodExperiment(ApproxExpConf approxExpConf) {
-		
+
 		List<ApproxMethod> approxMethods = new ArrayList<ApproxMethod>();
 
 		for (Method m : approxExpConf.getMethods()) {
@@ -238,7 +261,7 @@ public class FastExperimentExecutor {
 		ApproxMethodExperiment exp = new ApproxMethodExperiment(approxExpConf, approxMethods,
 				approxExpConf.getNumExecs());
 
-		approxExpConf.calculateInstanceFilesAndTimes();
+		approxExpConf.calculateInstanceFilesAndTimes(repository);
 
 		exp.setInstanceTimeLimits(approxExpConf.getInstanceTimeLimits());
 		exp.setInstanceFiles(approxExpConf.getInstanceFiles());
