@@ -1,0 +1,16 @@
+#breadcrumb {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#breadcrumb-item {
+  display: inline-block;
+}
+
+#breadcrumb-item a,
+#breadcrumb-item span {
+  text-align: center;
+  padding: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
