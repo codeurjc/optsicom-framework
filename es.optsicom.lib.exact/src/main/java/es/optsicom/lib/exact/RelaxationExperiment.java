@@ -21,12 +21,7 @@ import es.optsicom.lib.Instance;
 import es.optsicom.lib.Solution;
 import es.optsicom.lib.exact.cplex.CplexFormRelaxation;
 import es.optsicom.lib.experiment.CurrentExperiment;
-import es.optsicom.lib.experiment.Event;
-import es.optsicom.lib.experiment.Execution;
-import es.optsicom.lib.experiment.ExecutionHelper;
 import es.optsicom.lib.experiment.ExperimentExecution;
-import es.optsicom.lib.experiment.InstanceDescriptorHelper;
-import es.optsicom.lib.experiment.MethodDescription;
 import es.optsicom.lib.instancefile.InstanceFile;
 import es.optsicom.lib.util.description.Properties;
 

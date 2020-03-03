@@ -116,7 +116,7 @@ public class FastExperimentExecutor {
 			reportCreator.setReportConf(reportConf);
 		}
 
-		// reportCreator.createReportAndShow();
+		reportCreator.createReportAndShow();
 
 		return experimentId;
 	}

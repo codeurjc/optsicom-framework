@@ -9,13 +9,13 @@ import es.optsicom.lib.expresults.model.MethodDescription;
 
 public class DBExecutionSaver implements ExecutionSaver {
 
-	private ExperimentSaver expSaver;
+	private DBManagerExperimentSaver expSaver;
 	private EntityManager em;
 	private Execution execution;
 	private long startTime;
 	private long executionTime;
 
-	public DBExecutionSaver(EntityManager em, ExperimentSaver experimentSaver, InstanceDescription instance,
+	public DBExecutionSaver(EntityManager em, DBManagerExperimentSaver experimentSaver, InstanceDescription instance,
 			MethodDescription method, long timeLimit) {
 		this.em = em;
 		this.expSaver = experimentSaver;

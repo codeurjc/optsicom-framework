@@ -11,7 +11,7 @@ public class ExperimentRepositorySaver {
 	}
 
 	public ExperimentSaver createExperimentSaver() {
-		return new ExperimentSaver(dbManager);
+		return new DBManagerExperimentSaver(dbManager);
 	}
 
 }

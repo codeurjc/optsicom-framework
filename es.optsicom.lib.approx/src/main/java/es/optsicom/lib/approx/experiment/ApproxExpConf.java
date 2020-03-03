@@ -12,7 +12,7 @@ import es.optsicom.lib.instancefile.InstancesGroup;
 import es.optsicom.lib.instancefile.InstancesRepository;
 
 @SuppressWarnings("rawtypes")
-public abstract class ApproxExpConf {
+public class ApproxExpConf {
 
 	public static class ExpInstancesGroup {
 

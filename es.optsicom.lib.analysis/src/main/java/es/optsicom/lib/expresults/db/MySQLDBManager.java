@@ -100,7 +100,7 @@ public class MySQLDBManager extends DBManager {
 		Map<String, String> properties = new HashMap<String, String>();
 
 		properties.put("eclipselink.jdbc.url", "jdbc:mysql://" + host + ":" + port + "/" + database);
-		properties.put("eclipselink.jdbc.driver", "com.mysql.jdbc.Driver");
+		properties.put("eclipselink.jdbc.driver", "com.mysql.cj.jdbc.Driver");
 		properties.put("eclipselink.logging.level", "WARNING");
 		properties.put("eclipselink.target-database", "MYSQL");
 		properties.put("eclipselink.jdbc.user", user);
@@ -186,7 +186,7 @@ public class MySQLDBManager extends DBManager {
 		Map<String, String> properties = new HashMap<String, String>();
 
 		properties.put("eclipselink.jdbc.url", "jdbc:mysql://" + host + ":" + port + "/" + database);
-		properties.put("eclipselink.jdbc.driver", "com.mysql.jdbc.Driver");
+		properties.put("eclipselink.jdbc.driver", "com.mysql.cj.jdbc.Driver");
 		properties.put("eclipselink.logging.level", "WARNING");
 		properties.put("eclipselink.target-database", "MYSQL");
 		properties.put("eclipselink.jdbc.user", user);
