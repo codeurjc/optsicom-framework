@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Router } from '@angular/router';
+import { LastPageVisitedService } from 'src/app/services/last-page-visited.service';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,8 @@ export class LoginComponent implements OnInit {
   public errorLogin: boolean = false;
 
   constructor(private router: Router,
-    private authenticationService: AuthenticationService) { }
+    private authenticationService: AuthenticationService,
+    private lastPageVisitedService: LastPageVisitedService) { }
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -30,7 +32,11 @@ export class LoginComponent implements OnInit {
 
     this.authenticationService.login(userName, pass).subscribe(
       () => {
-        this.router.navigate(['']);
+        if (this.lastPageVisitedService.existLastPage()) {
+          this.router.navigateByUrl(this.lastPageVisitedService.getLastPage());
+        } else {
+          this.router.navigate(['']);
+        }
       },
       () => {
         this.errorLogin = true;

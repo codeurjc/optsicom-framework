@@ -6,6 +6,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 /* HTTP Interceptor */
 import { XMLRequestInterceptor } from "./http-interceptor/xmlrequest-interceptor";
+import { ErrorInterceptor } from "./http-interceptor/error-interceptor";
 
 /* Pipes */
 import { ShowExperimentMode } from './pipes/experiment-mode';
@@ -32,6 +33,9 @@ import { YesNoDialogComponent } from './common-dialogs/yes-no-dialog/yes-no-dial
 /* Common components */
 import { BreadcrumbComponent } from './common-components/breadcrumb/breadcrumb.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+
+/* Services */
+import { LastPageVisitedService } from './services/last-page-visited.service';
 
 @NgModule({
   declarations: [
@@ -95,7 +99,15 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
       provide: HTTP_INTERCEPTORS,
       useClass: XMLRequestInterceptor,
       multi: true,
-    }
+    },
+    /* Save the last page visited */
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
+      multi: true,
+    },
+    /* Last Page Visited Service */
+    LastPageVisitedService
   ]
 })
 export class SharedModule { }
