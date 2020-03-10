@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BreadcrumbService } from '../common-components/breadcrumb/breadcrumb.service';
 import { Title } from '@angular/platform-browser';
-import { Experiment } from '../classes/experiment';
+import { Experiment } from '../classes/experiment-clasess';
 
 @Injectable({
   providedIn: 'root'

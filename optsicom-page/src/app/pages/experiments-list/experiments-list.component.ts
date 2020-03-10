@@ -1,14 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ExperimentsService } from 'src/app/services/experiments.service';
-import { Experiment } from 'src/app/classes/experiment';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { YesNoDialogComponent } from 'src/app/common-dialogs/yes-no-dialog/yes-no-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
-import { TransitiveCompileNgModuleMetadata } from '@angular/compiler';
 import { Router } from '@angular/router';
+import { Experiment } from 'src/app/classes/experiment-clasess';
 
 @Component({
   selector: 'app-experiments-list',

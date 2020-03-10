@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { BestMode } from '../classes/bestmode';
+import { BestMode } from '../classes/experiment-clasess';
 
 @Pipe({ name: 'showExperimentMode' })
 export class ShowExperimentMode implements PipeTransform {

@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Experiment } from 'src/app/classes/experiment';
-import { ExperimentMethodName } from 'src/app/classes/experimentmethodname';
 import { ExperimentsService } from 'src/app/services/experiments.service';
 import { NavigationService } from 'src/app/services/navigation.service';
-import { ElementDescription } from 'src/app/classes/elementdescription';
 import { Sort } from '@angular/material/sort';
-import { forkJoin } from 'rxjs';
 import { YesNoDialogComponent } from 'src/app/common-dialogs/yes-no-dialog/yes-no-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
+import { Experiment, ExperimentMethodName, ElementDescription } from 'src/app/classes/experiment-clasess';
 
 @Component({
   selector: 'app-experiment',

@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
-import { Experiment } from '../classes/experiment';
-import { ExperimentMethodName } from '../classes/experimentmethodname';
-import { CompleteExperimentInfo } from '../classes/completeexperimentinfo';
+import { Experiment, CompleteExperimentInfo } from '../classes/experiment-clasess';
 
 const baseAPI = environment.baseAPI;
 
