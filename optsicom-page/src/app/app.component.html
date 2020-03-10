@@ -2,15 +2,15 @@
   <optsicom-header></optsicom-header>
 </header>
 
-<div fxLayout="column" fxLayoutAlign="center center" class="principal-content">
-  
-  <mat-card class="breadcrumb-card">
-    <mat-card-content>
-      <breadcrumb></breadcrumb>
-    </mat-card-content>
-  </mat-card>
+<div class="principal-content">
 
-  <router-outlet></router-outlet>
+  <mat-toolbar class="breadcrumb-card">
+      <breadcrumb></breadcrumb>
+  </mat-toolbar>
+
+  <div class="router-content">
+    <router-outlet></router-outlet>
+  </div>
 
 </div>
 

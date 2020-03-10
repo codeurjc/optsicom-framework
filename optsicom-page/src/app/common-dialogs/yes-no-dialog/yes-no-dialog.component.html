@@ -1,0 +1,18 @@
+<div fxLayout="row">
+    <div fxFlex="90">
+        <p mat-dialog-title [innerHTML]="messageYesNo.message"></p>
+    </div>
+
+    <div class="close-button" fxFlex="10">
+        <button mat-icon-button mat-dialog-close>
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+</div>
+
+<div mat-dialog-actions fxLayoutAlign="center center">
+    <button mat-raised-button id="btnNo" color="accent" class="text-upper" style="width: 40%;" mat-dialog-close
+        cdkFocusInitial>{{messageYesNo.buttonNo}}</button>
+    <button mat-raised-button id="btnYes" color="primary" class="text-upper" [mat-dialog-close]="true"
+        style="width: 40%;">{{messageYesNo.buttonYes}}</button>
+</div>

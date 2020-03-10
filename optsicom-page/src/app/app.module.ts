@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 /* Routing */
 import { AppRoutingModule } from './app-routing.module';
@@ -16,19 +17,27 @@ import { ExperimentsListComponent } from './pages/experiments-list/experiments-l
 import { SharedModule } from './shared.module';
 
 /* Services */
-import { BreadcrumbService } from './breadcrumb/breadcrumb.service';
+import { BreadcrumbService } from './common-components/breadcrumb/breadcrumb.service';
+import { ExperimentComponent } from './pages/experiment/experiment.component';
+import { ReportComponent } from './pages/report/report.component';
+import { LoginComponent } from './pages/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    ExperimentsListComponent
+    ExperimentsListComponent,
+    ExperimentComponent,
+    ReportComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     /* Shared Modules */
     SharedModule

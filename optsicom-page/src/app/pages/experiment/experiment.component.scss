@@ -1,0 +1,127 @@
+/* Personalised themes */
+@import '~@angular/material/theming';
+$header-table: mat-palette($mat-blue-gray, 800);
+
+/* Experiment card */
+
+.experiment-card {
+    margin-top: 2em;
+}
+
+/* General data section */
+
+.general-data {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.general-data .content {
+    margin-top: 2em;
+}
+
+.general-data table {
+    width: 100%;
+    border: 1px solid #ddd;
+}
+
+.general-data th {
+    text-align: left;
+}
+
+.general-data tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+.general-data tr:hover {
+    background-color: #ddd;
+}
+
+/* Experiment methods section */
+
+.experiment-methods {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 2em;
+}
+
+.experiment-methods .method {
+    margin-top: 2em;
+}
+
+.experiment-methods table {
+    width: 100%;
+    border: 1px solid #ddd;
+}
+
+.experiment-methods th {
+    text-align: left;
+}
+
+.experiment-methods tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+.experiment-methods tr:hover {
+    background-color: #ddd;
+}
+
+/* Experiment instances section */
+
+.experiment-instances {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 2em;
+}
+
+.experiment-instances .content {
+    margin-top: 2em;
+}
+
+.experiment-instances th {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+  background-color: mat-color($header-table);
+  color: white;
+}
+
+.experiment-instances table {
+    width: 100%;
+    border: 1px solid #ddd;
+}
+
+.experiment-instances th {
+    text-align: left;
+}
+
+.experiment-instances tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+.experiment-instances tr:hover {
+    background-color: #ddd;
+}
+
+::ng-deep .mat-sort-header-container {
+    display: flex;
+    justify-content: center;
+    color: white;
+}
+
+::ng-deep .mat-sort-header-arrow {
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .general-data {
+        width: 100%;
+    }
+
+    .experiment-methods {
+        width: 100%;
+    }
+
+    .experiment-instances {
+        width: 100%;
+    }
+}

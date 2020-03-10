@@ -1,0 +1,29 @@
+.row-height {
+    height: 100%
+}
+
+.login-card {
+    width: 500px;
+}
+
+.login-card-content {
+    width: 90%;
+    margin: 0 auto;
+    padding: 2% 2% 5%;
+}
+
+.input-form {
+    width: 95%;
+    padding: 2% 2% 2%;
+}
+
+.button-form {
+    width: 100%;
+}
+
+/* Mobiles */
+@media (max-width:481px) {
+    .login-card {
+        width: 300px;
+    }
+}

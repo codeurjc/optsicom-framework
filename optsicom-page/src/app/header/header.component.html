@@ -1,7 +1,16 @@
 <mat-toolbar color="primary">
     <mat-toolbar-row>
-        <div [routerLink]="['/']">
+        <div [routerLink]="['/']" class="logo">
             <span>Optsicom Experiments</span>
+        </div>
+
+        <span class="menu-spacer"></span>
+
+        <div fxLayout="row" fxShow="true">
+
+            <mat-divider [vertical]="true"></mat-divider>
+
+            <button *ngIf="authenticationService.isLogin" (click)="disconnect()" mat-raised-button>Disconnect</button>
         </div>
     </mat-toolbar-row>
 </mat-toolbar>

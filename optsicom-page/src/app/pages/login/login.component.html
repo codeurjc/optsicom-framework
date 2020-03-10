@@ -1,0 +1,39 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+    <form [formGroup]="form" autocomplete="off">
+        <div>
+            <mat-card class="login-card">
+                <div class="login-card-content">
+                    <mat-card-title>Welcome to <i>Optsicom Web Page</i></mat-card-title>
+                        
+                    <mat-card-subtitle>In order to manage your experiments, please login
+                    </mat-card-subtitle>
+
+                    <div>
+                        <mat-form-field color="accent" class="input-form">
+                            <mat-icon matSuffix>face</mat-icon>
+                            <input id="inputUser" name="email_login" matInput formControlName="email"
+                                placeholder="User name">
+                        </mat-form-field>
+
+                        <mat-form-field color="accent" class="input-form">
+                            <mat-icon class="cursor-pointer" matSuffix (click)="hide = !hide">
+                                {{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            <input id="inputPass" matInput formControlName="pass" placeholder="Password"
+                                [type]="hide ? 'password' : 'text'">
+                        </mat-form-field>
+
+                        <div *ngIf="errorLogin">
+                            <p [style.display]="errorLogin ? 'block' : 'none'" style="color: red;" class="text-center">
+                                The user name or password don't are correct</p>
+                        </div>
+
+                        <button id="btnEnter" mat-raised-button class="text-upper button-form" color="primary"
+                            (click)="login()" [disabled]="!form.valid">
+                            entrar
+                        </button>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+    </form>
+</div>
