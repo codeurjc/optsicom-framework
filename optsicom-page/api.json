@@ -1,0 +1,178 @@
+{
+	"info": {
+		"_postman_id": "4bb97c74-9ef8-4e4c-b598-5ea9a09733d5",
+		"name": "Optisom API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/api/logIn",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"logIn"
+					]
+				},
+				"description": "Login into optsicom page with basic http auth"
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/api/logOut",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"logOut"
+					]
+				},
+				"description": "Logout basic auth"
+			},
+			"response": []
+		},
+		{
+			"name": "Experiments",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/experiments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"experiments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Experiment",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/api/experiment/{experimentId}",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"experiment",
+						"{experimentId}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Experiment",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/api/experiment/{experimentId}",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"experiment",
+						"{experimentId}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Report Experiment",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/api/report",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"report"
+					],
+					"query": [
+						{
+							"key": "expIds",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "methodIds",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "0pts1c0m",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "researcher",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "42b2d1b9-c9a4-41aa-8301-e35e873c690f",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "63d0bfa9-f845-4d6f-80f6-46929e071cc0",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

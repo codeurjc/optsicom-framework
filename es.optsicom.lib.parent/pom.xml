@@ -12,7 +12,7 @@
 		<module>../es.optsicom.lib.analysis</module>
 		<module>../es.optsicom.lib.approx</module>
 		<module>../es.optsicom.lib.npst</module>
-		<module>../es.optsicom.lib.web</module>
+		<module>../optsicom-page/es.optsicom.lib.web</module>
 	</modules>
 
 	<properties>

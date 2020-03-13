@@ -1,0 +1,24 @@
+ 
+version: '3'
+
+services:
+  optsicomweb-mysql:
+    image: mysql:latest
+    environment:
+      - MYSQL_USER=${DB_USER:-root}
+      - MYSQL_ROOT_PASSWORD=${DB_PASS:-0pts1c0m}
+      - MYSQL_DATABASE=${DB_SCHEMA:-optsicom}
+  
+  optsicomweb:
+    image: ${IMAGE_NAME:-optsicomweb}
+    command: ["./wait-for-it.sh", "optsicomweb-mysql:3306", "--", "java", "-jar", "/home/optsicom/optsicomweb.jar"]
+    ports:
+      - ${PORT:-5000:5000}
+    depends_on:
+      - optsicomweb-mysql
+    environment:
+      - DB_HOST=optsicomweb-mysql
+      - DB_PORT=3306
+      - DB_SCHEMA=${DB_SCHEMA:-optsicom}
+      - DB_USER=${DB_USER:-root}
+      - DB_PASS=${DB_PASS:-0pts1c0m}
