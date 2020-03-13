@@ -6,9 +6,11 @@ import { ExperimentsListComponent } from './pages/experiments-list/experiments-l
 import { ExperimentComponent } from './pages/experiment/experiment.component';
 import { ReportComponent } from './pages/report/report.component';
 import { LoginComponent } from './pages/login/login.component';
+import { ErrorPageComponent } from './pages/error-page/error-page.component';
 
 /* Guards */
 import { AuthGuard } from './guard/auth.guard';
+import { ControlCorrectExperimentGuard } from './guard/correct-content/control-correct-experiment';
 
 const routes: Routes = [
   /* Redirect principal page */
@@ -31,18 +33,24 @@ const routes: Routes = [
       {
         path: ':experimentId',
         component: ExperimentComponent,
+        canActivate: [ControlCorrectExperimentGuard]
       },
       /* Experiment single report page */
       {
         path: ':experimentId/report',
         component: ReportComponent,
+        canActivate: [ControlCorrectExperimentGuard]
       },
     ]
     , canActivate: [AuthGuard]
   },
 
   /* Login page */
-  { path: 'login', component: LoginComponent, canActivate: [AuthGuard] }
+  { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
+
+  /* Error pages */
+  { path: 'errorpage', component: ErrorPageComponent },
+  { path: '**', redirectTo: 'errorpage', pathMatch: 'full' }
 ];
 
 @NgModule({

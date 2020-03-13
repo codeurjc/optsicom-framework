@@ -39,12 +39,12 @@ export enum BestMode {
 	MAX_IS_BEST = "MAX_IS_BEST", 
 }
 
-export class CompleteExperimentInfo {
+export class ExperimentRest {
     public experiment: Experiment;
-    public methodNames: Array<ExperimentMethodName>
+    public methodNames: Array<MethodName>
 }
 
-export class ExperimentMethodName {
+export class MethodName {
     public name: string;
     public method: ElementDescription;
 }

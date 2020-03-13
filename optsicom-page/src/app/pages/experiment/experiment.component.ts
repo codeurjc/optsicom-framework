@@ -6,7 +6,7 @@ import { Sort } from '@angular/material/sort';
 import { YesNoDialogComponent } from 'src/app/common-dialogs/yes-no-dialog/yes-no-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import { Experiment, ExperimentMethodName, ElementDescription } from 'src/app/classes/experiment-clasess';
+import { Experiment, MethodName, ElementDescription } from 'src/app/classes/experiment-clasess';
 
 @Component({
   selector: 'app-experiment',
@@ -18,35 +18,24 @@ export class ExperimentComponent implements OnInit {
   public loadingInfo: boolean = false;
 
   public experiment: Experiment;
-  public methods: Array<ExperimentMethodName>;
+  public methods: Array<MethodName>;
   public instances: Array<ElementDescription>;
 
   constructor(private router: Router,
-    private activatedRoute: ActivatedRoute,
     private experimentsService: ExperimentsService,
     private navigationService: NavigationService,
     public dialog: MatDialog,
     public snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe(
-      (params) => {
-        let experimentId = params["experimentId"];
+    this.loadingInfo = true;
 
-        this.loadingInfo = true;
+    this.experiment = this.experimentsService.getLoadExperimentRest().experiment;
+    this.methods = this.experimentsService.getLoadExperimentRest().methodNames;
+    this.instances = this.experimentsService.getLoadExperimentRest().experiment.instances;
 
-        this.experimentsService.getExperiment(experimentId).subscribe(
-          (expInfo) => {
-            this.experiment = expInfo.experiment;
-            this.methods = expInfo.methodNames;
-            this.instances = expInfo.experiment.instances;
-
-            this.navigationService.addExperimentName(this.experiment);
-            this.loadingInfo = false;
-          }
-        );
-      }
-    );
+    this.navigationService.addExperimentName(this.experiment);
+    this.loadingInfo = false;
   }
 
   sortData(sort: Sort) {

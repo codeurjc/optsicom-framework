@@ -13,6 +13,7 @@ export class NavigationService {
   ) {
     this.breadcrumbService.addFriendlyNameForRoute("/experiments", "Experiments");
     this.breadcrumbService.addFriendlyNameForRoute("/login", "Login Page");
+    this.breadcrumbService.addFriendlyNameForRoute("/errorpage", "Error Page");
     this.breadcrumbService.addFriendlyNameForRouteRegex(".*/report", "Report");
     this.breadcrumbService.addFriendlyNameForRouteRegex(".*/comparereport", "Comparative Report");
   }

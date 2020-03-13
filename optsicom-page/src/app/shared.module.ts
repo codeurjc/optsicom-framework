@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 /* Flex Layout */
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -10,6 +13,7 @@ import { ErrorInterceptor } from "./http-interceptor/error-interceptor";
 
 /* Pipes */
 import { ShowExperimentMode } from './pipes/experiment-mode';
+import { ShowRestCell } from './pipes/cell-values';
 
 /* Material Components */
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -32,7 +36,7 @@ import { YesNoDialogComponent } from './common-dialogs/yes-no-dialog/yes-no-dial
 
 /* Common components */
 import { BreadcrumbComponent } from './common-components/breadcrumb/breadcrumb.component';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TableComponent } from './common-components/table/table.component';
 
 /* Services */
 import { LastPageVisitedService } from './services/last-page-visited.service';
@@ -41,13 +45,18 @@ import { LastPageVisitedService } from './services/last-page-visited.service';
   declarations: [
     /* Common components */
     BreadcrumbComponent,
+    TableComponent,
     /* MatDialogs */
     YesNoDialogComponent,
     /* Pipes */
-    ShowExperimentMode
+    ShowExperimentMode,
+    ShowRestCell
   ],
   imports: [
     CommonModule,
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
     /* FlexLayout */
     FlexLayoutModule,
     /* Material Components */
@@ -68,8 +77,10 @@ import { LastPageVisitedService } from './services/last-page-visited.service';
   ], exports: [
     /* Common components */
     BreadcrumbComponent,
+    TableComponent,
     /* Pipes */
     ShowExperimentMode,
+    ShowRestCell,
     /* MatDialogs */
     YesNoDialogComponent,
     /* FlexLayout */

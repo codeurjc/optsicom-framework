@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { ExperimentsListComponent } from './pages/experiments-list/experiments-list.component';
+import { ErrorPageComponent } from './pages/error-page/error-page.component';
 
 /* Shared Modules */
 import { SharedModule } from './shared.module';
@@ -30,6 +31,7 @@ import { LoginComponent } from './pages/login/login.component';
     ExperimentsListComponent,
     ExperimentComponent,
     ReportComponent,
+    ErrorPageComponent,
     LoginComponent
   ],
   imports: [
