@@ -9,4 +9,4 @@ derby_exp_repo
 optsicom.properties
 
 # Docker
-docker/optsicomweb.jar
+docker/web/optsicomweb.jar
