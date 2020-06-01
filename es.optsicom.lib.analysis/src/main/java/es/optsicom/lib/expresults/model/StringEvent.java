@@ -9,7 +9,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 @Entity
 public class StringEvent extends Event {
 
-	@Column(length = 20000, columnDefinition = "text")
+	@Column(length = 20000)
 	private String value;
 
 	public StringEvent() {

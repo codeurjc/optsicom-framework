@@ -38,7 +38,7 @@ public class DBProperties implements Properties {
 	@ElementCollection(fetch = FetchType.LAZY)
 	private Map<String, String> props;
 
-	@Column(length = 20000, columnDefinition = "text")
+	@Column(length = 20000)
 	protected String propsAsString;
 
 	public DBProperties() {
