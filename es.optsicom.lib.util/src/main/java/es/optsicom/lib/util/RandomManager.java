@@ -78,5 +78,8 @@ public class RandomManager {
 	public static boolean nextBoolean() {
 		return RandomManager.nextInt(2) == 1 ? true : false;
 	}
-
+	
+	public static Random getRandom() {
+		return random;
+	}
 }
