@@ -18,7 +18,7 @@ import es.optsicom.lib.expresults.model.Experiment;
 @Component
 public class ExperimentService {
 
-	ExperimentRepositoryManager expRepoManager;
+	private ExperimentRepositoryManager expRepoManager;
 	private DBManager dbManager;
 
 	@PostConstruct
@@ -33,12 +33,19 @@ public class ExperimentService {
 
 	}
 
+	public Experiment findExperimentById(long id) {
+		return expRepoManager.findExperiment(id);
+	}
+
 	public ExperimentManager findExperimentManagerById(long id) {
 		return expRepoManager.findExperimentManagerById(id);
 	}
 
-	public Experiment findExperimentById(long id) {
-		return expRepoManager.findExperiment(id);
+	public void removeExperiment(long experimentId) {
+
+		expRepoManager.beginTx();
+		expRepoManager.removeExperiment(experimentId);
+		expRepoManager.commitTx();
 	}
 
 	public List<Experiment> findExperiments() {
@@ -48,14 +55,4 @@ public class ExperimentService {
 	public DBManager getDBManager() {
 		return dbManager;
 	}
-
-	public void removeExperiment(long experimentId) {
-
-		expRepoManager.beginTx();
-
-		expRepoManager.removeExperiment(experimentId);
-
-		expRepoManager.commitTx();
-	}
-
 }
