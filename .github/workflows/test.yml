@@ -1,4 +1,4 @@
-name: Testing Actions
+name: Optsicom Web Image
   
 on:
   push:
@@ -6,18 +6,22 @@ on:
       - test-actions
 
 jobs:
-  test:
+  cd:
     runs-on: ubuntu-18.04
     container:
       image: codeurjc/optsicom-builder
 
     steps:
-      - uses: actions/checkout@v2  
+      - uses: actions/checkout@v2
       - name: Compile Optsicom Web
         run: |
           cd adm-scripts
           ./compile_optsicom_web.sh install_dependencies
-      - name: Create docker image
+      - name: Docker login
+        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build docker image
         run: |
           cd es.optsicom.lib.web/docker/optsicom-web
           ./create_image.sh
+      - name: Docker push
+        run: docker push codeurjc/optsicom-web
