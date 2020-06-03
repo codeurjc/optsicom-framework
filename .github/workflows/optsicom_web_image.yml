@@ -6,7 +6,7 @@ on:
       - test-actions
 
 jobs:
-  cd:
+  create_image:
     runs-on: ubuntu-18.04
     container:
       image: codeurjc/optsicom-builder
