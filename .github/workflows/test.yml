@@ -11,6 +11,6 @@ jobs:
     container:
       image: codeurjc/optsicom-builder
 
-      steps:
-        - name: Test
-          run: echo hola
+    steps:
+      - name: Test
+      run: echo hola
