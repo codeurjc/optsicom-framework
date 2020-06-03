@@ -8,8 +8,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-18.04
-      container:
-        image: codeurjc/optsicom-builder
+    container:
+      image: codeurjc/optsicom-builder
 
       steps:
         - name: Test
