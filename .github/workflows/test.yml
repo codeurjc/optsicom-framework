@@ -9,7 +9,7 @@ jobs:
   test:
     runs-on: ubuntu-18.04
       container:
-      image: codeurjc/optsicom-builder
+        image: codeurjc/optsicom-builder
 
       steps:
         - name: Test
