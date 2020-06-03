@@ -12,5 +12,8 @@ jobs:
       image: codeurjc/optsicom-builder
 
     steps:
+      - uses: actions/checkout@v2  
       - name: Test
-        run: echo hola
+        run: |
+          cd adm-scripts
+          ./compile_optsicom_web.sh install_dependencies
