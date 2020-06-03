@@ -2,23 +2,25 @@
 version: '3.1'
 
 services:
-  optsicomweb-mysql:
-    image: mysql:latest
+  database:
+    image: mysql:8.0.20
+    command: --character-set-server=utf8 --collation-server=utf8_general_ci
     environment:
-      - MYSQL_USER=${DB_USER:-root}
-      - MYSQL_ROOT_PASSWORD=${DB_PASS:-0pts1c0m}
-      - MYSQL_DATABASE=${DB_SCHEMA:-optsicom}
+      - MYSQL_USER=root
+      - MYSQL_ROOT_PASSWORD=${OPTSCIOM_DB_SECRET}
+      - MYSQL_DATABASE=optsicom
   
-  optsicomweb:
-    image: ${IMAGE_NAME:-optsicomweb}
-    command: ["./wait-for-it.sh", "optsicomweb-mysql:3306", "--", "java", "-jar", "/home/optsicom/optsicomweb.jar"]
+  optsicom-web:
+    image: codeurjc/optsicom-web:latest
     ports:
-      - ${PORT:-5000:5000}
+      - 5000:5000
     depends_on:
-      - optsicomweb-mysql
+      - database
     environment:
-      - DB_HOST=optsicomweb-mysql
-      - DB_PORT=3306
-      - DB_SCHEMA=${DB_SCHEMA:-optsicom}
-      - DB_USER=${DB_USER:-root}
-      - DB_PASS=${DB_PASS:-0pts1c0m}
+      - OPTSICOM_DB_HOST=database
+      - OPTSICOM_DB_PORT=3306
+      - OPTSICOM_DB_SCHEMA=optsicom
+      - OPTSICOM_DB_USER=root
+      - OPTSCIOM_DB_SECRET=${OPTSCIOM_DB_SECRET}
+      - OPTSICOM_API_USER=${OPTSICOM_API_USER}
+      - OPTSICOM_API_SECRET=${OPTSICOM_API_SECRET}

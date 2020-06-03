@@ -52,8 +52,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
 		// Obtain user and secret
-		String user = env.getProperty("optsicom.web.user");
-		String secret = env.getProperty("optsicom.web.secret");
+		String user = env.getProperty("optsicom.api.user");
+		String secret = env.getProperty("optsicom.api.secret");
 
 		auth.inMemoryAuthentication().withUser(user).password(encoder.encode(secret)).roles("ADMIN");
 	}
