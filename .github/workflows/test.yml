@@ -1,0 +1,16 @@
+name: Testing Actions
+  
+on:
+    push:
+        branches:
+            - test-actions
+
+jobs:
+    test:
+        runs-on: ubuntu-18.04
+        container:
+            image: codeurjc/optsicom-builder
+
+        steps:
+            - name: Test
+            run: echo hola
