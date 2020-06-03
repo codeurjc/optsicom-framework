@@ -1,4 +1,4 @@
-name: Optsicom Web Image
+name: Optsicom Builder Image
   
 on:
   push:

@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - test-actions
+    paths:
+      - 'es.optsicom.lib.web/**'
+      - '!es.optsicom.lib.web/docker/optsicom-builder/**'
 
 jobs:
   create_image:
