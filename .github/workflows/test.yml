@@ -13,7 +13,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2  
-      - name: Test
+      - name: Compile Optsicom Web
         run: |
           cd adm-scripts
           ./compile_optsicom_web.sh install_dependencies
+      - name: Create docker image
+        run: |
+          cd es.optsicom.lib.web/docker/optsicom-web
+          ./create_image.sh
