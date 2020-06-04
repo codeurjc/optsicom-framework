@@ -61,5 +61,6 @@ RUN chown 1000:1000 /workdir
 # Define enviroment variables
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 
+
 # Define workdir
 WORKDIR /workdir
