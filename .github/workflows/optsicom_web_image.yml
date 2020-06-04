@@ -32,6 +32,6 @@ jobs:
           docker tag codeurjc/optsicom-web codeurjc/optsicom-web:latest
       - name: Docker push
         run: |
-          docker push codeurjc/optsicom-web codeurjc/optsicom-web:master
-          docker push codeurjc/optsicom-web codeurjc/optsicom-web:latest
+          docker push codeurjc/optsicom-web:master
+          docker push codeurjc/optsicom-web:latest
 
