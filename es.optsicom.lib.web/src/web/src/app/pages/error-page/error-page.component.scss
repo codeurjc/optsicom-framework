@@ -1,0 +1,40 @@
+/* Personalised themes */
+@import '~@angular/material/theming';
+$primary:  mat-palette($mat-blue-gray, 800);
+
+.primary-color {
+    color: mat-color($primary);
+}
+
+/* MatCard */ 
+.main-card { 
+    color: mat-color($mat-gray, 700);
+    margin-top: 3em;
+    width: 50%;
+}
+
+.error-text {
+    text-align: center;
+}
+
+.error-text h1 {
+    font-size: 3em;
+}
+
+.error-text h3 {
+    font-size: 2em;
+}
+
+.error-text p {
+    font-size: 1em;
+}
+
+.error-text button {
+    width: 200px;
+}
+
+.mat-icon {
+    font-size: 200px;
+    position: relative;
+    left: -88px;
+}

@@ -1,0 +1,42 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+    <span class="spacer"></span>
+
+    <mat-form-field>
+        <mat-label>Show Columns</mat-label>
+        <mat-select [formControl]="showColumnsForm" (selectionChange)="selectColumns($event)" multiple>
+            <mat-option *ngFor="let column of allSelectColumns" [value]="column">
+                {{column | titlecase}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+
+<table matSort (matSortChange)="sortData($event)">
+    <thead>
+        <ng-container *ngFor="let columnTitle of columnsTitles; let i = index">
+            <tr *ngIf="i < (columnsTitles.length - 1)">
+                <ng-container *ngFor="let column of columnTitle">
+                    <th [ngStyle]="column.ngStyle" [attr.colspan]="column.colSpan">{{column.name | titlecase}}</th>
+                </ng-container>
+            </tr>
+
+            <tr *ngIf="i == (columnsTitles.length - 1)">
+                <ng-container *ngFor="let column of columnTitle; let j = index">
+                    <th mat-sort-header="col-{{j}}" [attr.colspan]="column.colSpan" [ngStyle]="column.ngStyle">
+                        {{column.name | titlecase}}</th>
+                </ng-container>
+            </tr>
+        </ng-container>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let row of cellValues">
+            <ng-container *ngFor="let value of row; let j = index">
+                <td *ngIf="value.synthetic" [ngStyle]="value.ngStyle">{{value.cell.value}}</td>
+                <td *ngIf="!value.synthetic" [ngStyle]="value.ngStyle" class="{{value.cssClass}}">
+                    {{value.cell | showRestCell}}</td>
+            </ng-container>
+        </tr>
+    </tbody>
+
+</table>

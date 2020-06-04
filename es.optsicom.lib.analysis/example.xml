@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<experiment_result timestamp="3433">
+
+	<author>Micael Gallego</author>
+	<description>Ejecución bla bla...</description>
+	
+	<events_decl>
+		<event_decl name="kkk" type="number" description="aaa"/>
+		<event_decl name="sss" type="boolean" description="ddd"/>	
+	</events_decl>
+	
+	<i_m_executions>
+	
+		<instance id="i33.txt" />
+		<method id="Grasp" />
+		
+		<execution>
+			<event_pack timestamp="23423">
+				<event name="kkk" value="99" />
+				<event name="sss" value="true" />
+				<event name="objvalue" value="112" />
+			</event_pack>
+			<event_pack timestamp="234253">
+				<event name="kkk" value="100" />
+				<event name="objvalue" value="234" />  
+			</event_pack>
+			<event timestamp="234257" name="kkk" value="100" />
+			<event timestamp="234258" name="kkk" value="100" />
+			<event timestamp="234259" name="kkk" value="100" />
+			<event timestamp="234259" name="finish" />
+		</execution>					
+		
+		<execution>
+			<event_pack timestamp="23423">
+				<event name="kkk" value="99" />
+				<event name="sss" value="true" />
+				<event name="objvalue" value="112" />
+			</event_pack>
+			<event_pack timestamp="234253">
+				<event name="kkk" value="100" />
+				<event name="objvalue" value="234" />  
+			</event_pack>
+			<event timestamp="234257" name="kkk" value="100" />
+			<event timestamp="234258" name="kkk" value="100" />
+			<event timestamp="234259" name="kkk" value="100" />
+			<event timestamp="234259" name="finish" />
+		</execution>
+		
+	</i_m_executions>
+
+</experiment_result>

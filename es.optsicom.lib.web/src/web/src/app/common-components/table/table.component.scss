@@ -1,0 +1,40 @@
+/* Personalised themes */
+@import '~@angular/material/theming';
+$header-table: mat-palette($mat-blue-gray, 800);
+
+  
+table {
+    width: 100%;
+    border: 1px solid #ddd;
+}
+
+table th {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    background-color: mat-color($header-table);
+    color: white;
+}
+
+  
+table tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+  
+table tr:hover {
+    background-color: #ddd;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+  
+::ng-deep .mat-sort-header-container {
+    display: flex;
+    justify-content: center;
+    color: white;
+}
+  
+::ng-deep .mat-sort-header-arrow {
+    color: white;
+}

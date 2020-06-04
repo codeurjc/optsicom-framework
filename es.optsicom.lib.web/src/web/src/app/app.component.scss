@@ -1,0 +1,22 @@
+.principal-content {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.breadcrumb-card {
+    margin-top: 2em;
+    width: 100%;
+}
+
+.router-content {
+    margin-top: 2em;
+    margin-bottom: 2em;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .principal-content {
+        width: 95%;
+        margin: 0 auto;
+    }
+}

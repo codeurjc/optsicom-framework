@@ -1,0 +1,54 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>es.optsicom.lib.parent</artifactId>
+		<groupId>es.optsicom.lib</groupId>
+		<version>0.12.0-SNAPSHOT</version>
+		<relativePath>../es.optsicom.lib.parent</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>es.optsicom.lib.approx</artifactId>
+	<name>Optsicom metaheuristics</name>
+	<packaging>jar</packaging>
+
+	<properties>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>javax.persistence</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>es.optsicom.lib</groupId>
+			<artifactId>es.optsicom.lib.analysis</artifactId>
+			<version>0.12.0-SNAPSHOT</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>es.optsicom.lib</groupId>
+			<artifactId>es.optsicom.lib</artifactId>
+			<version>0.12.0-SNAPSHOT</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+			</plugin>
+
+		</plugins>
+	</build>
+</project>

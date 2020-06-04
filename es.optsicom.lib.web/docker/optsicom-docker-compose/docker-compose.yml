@@ -1,0 +1,26 @@
+ 
+version: '3.1'
+
+services:
+  database:
+    image: mysql:8.0.20
+    command: --character-set-server=utf8 --collation-server=utf8_general_ci
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_ROOT_PASSWORD=${OPTSCIOM_DB_SECRET}
+      - MYSQL_DATABASE=optsicom
+  
+  optsicom-web:
+    image: codeurjc/optsicom-web:latest
+    ports:
+      - 5000:5000
+    depends_on:
+      - database
+    environment:
+      - OPTSICOM_DB_HOST=database
+      - OPTSICOM_DB_PORT=3306
+      - OPTSICOM_DB_SCHEMA=optsicom
+      - OPTSICOM_DB_USER=root
+      - OPTSCIOM_DB_SECRET=${OPTSCIOM_DB_SECRET}
+      - OPTSICOM_API_USER=${OPTSICOM_API_USER}
+      - OPTSICOM_API_SECRET=${OPTSICOM_API_SECRET}

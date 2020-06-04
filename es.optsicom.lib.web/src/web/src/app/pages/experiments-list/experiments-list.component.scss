@@ -1,0 +1,53 @@
+/* Personalised themes */
+@import '~@angular/material/theming';
+$header-table: mat-palette($mat-blue-gray, 800);
+
+.experiments-table table {
+    width: 100%;
+    margin-bottom: 2em;
+}
+
+.experiments-table .experiment-alerts {
+    text-align: center;
+}
+
+.experiments-table table th {
+    text-align: center;
+    background-color: mat-color($header-table);
+    color: white;
+}
+
+.experiments-table table a {
+    color: #069;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+::ng-deep .mat-sort-header-container {
+    display: flex;
+    justify-content: center;
+    color: white;
+}
+
+::ng-deep .mat-sort-header-arrow {
+    color: white;
+}
+
+.experiments-table table td {
+    text-align: center;
+}
+
+.experiments-table .search {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.experiments-table .search .spacer {
+    flex: 1 1 auto;
+}
+
+/* Search experiments */
+.search mat-icon {
+    position: relative;
+    top: 5px;
+}

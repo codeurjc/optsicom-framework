@@ -1,0 +1,103 @@
+<div *ngIf="loadingInfo" class="loading"></div>
+
+<mat-card>
+    <h2>{{experiment?.name}}</h2>
+
+    <div>
+        <button mat-raised-button color="accent" [routerLink]="['/experiments/' + experiment?.id + '/report']">Show
+            Report</button>
+
+        <span style="margin-left: 1em;"></span>
+
+        <button mat-raised-button color="accent" (click)="removeExperiment(experiment?.id)">Delete Experiment</button>
+    </div>
+</mat-card>
+
+<mat-card class="experiment-card">
+    <mat-card-content>
+        <div class="general-data">
+            <h2 class="mat-h2">General Data</h2>
+
+            <mat-divider></mat-divider>
+
+            <div style="overflow-x: auto;" class="content">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <td>{{experiment?.id}}</td>
+                        </tr>
+                        <tr>
+                            <th>Problem</th>
+                            <td>{{experiment?.problemName}}</td>
+                        </tr>
+                        <tr>
+                            <th>Rearcher</th>
+                            <td>{{experiment?.researcher.name}}</td>
+                        </tr>
+                        <tr>
+                            <th>Date</th>
+                            <td>{{experiment?.date | date: 'dd/MM/yyyy hh:mm:ss'}}</td>
+                        </tr>
+                        <tr>
+                            <th>Best Mode</th>
+                            <td>{{experiment?.problemBestMode | showExperimentMode}}</td>
+                        </tr>
+                        <tr>
+                            <th>Time Limit</th>
+                            <td>{{experiment?.timeLimit}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="experiment-methods">
+            <h2 class="mat-h2">Experiment Methods</h2>
+
+            <mat-divider></mat-divider>
+
+            <div *ngFor="let method of methods" class="method">
+                <p><b>{{method.name}}</b></p>
+
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%;">
+                        <tbody>
+                            <tr *ngFor="let property of method.method.properties.map | keyvalue">
+                                <td>{{property.key}}</td>
+                                <td>{{property.value}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="experiment-instances">
+            <h2 class="mat-h2">Instances</h2>
+
+            <mat-divider></mat-divider>
+
+            <div style="overflow-x: auto;" class="content">
+                <table matSort (matSortChange)="sortData($event)">
+                    <tbody>
+                        <tr>
+                            <th mat-sort-header="id">Id</th>
+                            <th mat-sort-header="name">Name</th>
+                            <th mat-sort-header="usecase">Use Case</th>
+                            <th mat-sort-header="filename">Filename</th>
+                        </tr>
+
+                        <tr *ngFor="let instance of instances">
+                            <td>{{instance?.id}}</td>
+                            <td>{{instance?.name}}</td>
+                            <td>{{instance?.properties.map["usecase"]}}</td>
+                            <td>{{instance?.properties.map["filename"]}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </mat-card-content>
+</mat-card>

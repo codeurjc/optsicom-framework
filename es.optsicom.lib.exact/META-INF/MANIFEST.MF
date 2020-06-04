@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JMH Exact
+Bundle-SymbolicName: es.optsicom.lib.exact
+Bundle-Version: 0.9.0.qualifier
+Export-Package: es.optsicom.lib.exact,
+ es.optsicom.lib.exact.bb,
+ es.optsicom.lib.exact.cplex
+Bundle-Vendor: For Research Group
+Import-Package: es.optsicom.lib,
+ es.optsicom.lib.experiment,
+ es.optsicom.lib.instancefile

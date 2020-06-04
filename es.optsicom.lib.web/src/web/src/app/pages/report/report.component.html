@@ -1,0 +1,39 @@
+<div *ngIf="loadingInfo" class="loading"></div>
+
+<mat-card class="report-card">
+    <mat-card-content>
+        <h2 class="mat-h2">Selected Methods</h2>
+
+        <button mat-raised-button (click)="updateSelectMethods()" color="accent">Update Report</button>
+
+        <section>
+            <ul style="list-style-type: none;">
+                <li>
+                    <mat-checkbox [(ngModel)]="bestValues">
+                        Best Values</mat-checkbox>
+                </li>
+
+                <li *ngFor="let showMethod of showMethods">
+                    <mat-checkbox [(ngModel)]="showMethod.selected">
+                        {{showMethod.toString()}}</mat-checkbox>
+                </li>
+            </ul>
+        </section>
+
+    </mat-card-content>
+</mat-card>
+
+<ng-container *ngFor="let blockReport of report?.blocksTable">
+    <mat-card class="report-card" *ngIf="blockReport.tables.length >= 1">
+        <mat-card-content>
+            <h2 class="mat-h2">{{blockReport.name}}</h2>
+
+            <div class="tables-page" *ngFor="let table of blockReport.tables" style="overflow-x: auto;">
+                <h3 *ngIf="blockReport.tables.length > 1"><b>{{table.title}}</b></h3>
+
+                <optsicom-table [table]="table"></optsicom-table>
+            </div>
+
+        </mat-card-content>
+    </mat-card>
+</ng-container>
