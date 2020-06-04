@@ -11,8 +11,8 @@ on:
 jobs:
   create_image:
     runs-on: ubuntu-18.04
-    container:
-      image: codeurjc/optsicom-builder
+    # container:
+    #   image: codeurjc/optsicom-builder
 
     steps:
       - uses: actions/checkout@v2
