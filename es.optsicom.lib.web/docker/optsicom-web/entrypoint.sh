@@ -28,11 +28,11 @@ EOF
 [ -z "${OPTSICOM_DB_PORT}" ] && OPTSICOM_DB_PORT=3306
 [ -z "${OPTSICOM_DB_SCHEMA}" ] && OPTSICOM_DB_SCHEMA=optsicom
 [ -z "${OPTSICOM_DB_USER}" ] && OPTSICOM_DB_USER=root
-[ -z "${OPTSCIOM_DB_SECRET}" ] && OPTSCIOM_DB_SECRET="0pts1c0m"
+[ -z "${OPTSCIOM_DB_SECRET}" ] && OPTSCIOM_DB_SECRET="MY_SECRET"
 
 # API Variables
 [ -z "${OPTSICOM_API_USER}" ] && OPTSICOM_API_USER="researcher"
-[ -z "${OPTSICOM_API_SECRET}" ] && OPTSICOM_API_SECRET="0pts1c0m"
+[ -z "${OPTSICOM_API_SECRET}" ] && OPTSICOM_API_SECRET="MY_SECRET"
 
 printf "\n  ======================================="
 printf "\n  =          INPUT VARIABLES            ="

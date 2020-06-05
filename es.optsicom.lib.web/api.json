@@ -142,7 +142,7 @@
 		"basic": [
 			{
 				"key": "password",
-				"value": "0pts1c0m",
+				"value": "MY_SECRET",
 				"type": "string"
 			},
 			{
