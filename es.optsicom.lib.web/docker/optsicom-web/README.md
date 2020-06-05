@@ -1,25 +1,31 @@
 
+# Optsicom Web
 
 ## Environment variables
 
+Optsicom Web is available the following enviroment variables. This variables are necessary for configure the Database and User/Password credentials.
+
 ### Database configuration
-- **OPTSICOM_DB_MODE**: [mysql | derby]
-- **OPTSICOM_DB_HOST**:
-- **OPTSICOM_DB_PORT**:
-- **OPTSCIOM_DB_SCHEMA**:
-- **OPTSCIOM_DB_USER**:
-- **OPTSCIOM_DB_SECRET**:
+- **OPTSICOM_DB_MODE**: [mysql | derby] This variable define the Databse that use the Optsicom Web. If you selected mysql mode you need configure "OPTSICOM_DB_HOST, OPTSICOM_DB_PORT, OPTSCIOM_DB_SCHEMA, OPTSCIOM_DB_USER, OPTSCIOM_DB_SECRET" for the MySQL Database. If you selected derby mode is not need to configure any more variables.
+- **OPTSICOM_DB_HOST**: This variable define the IP of MySQL
+- **OPTSICOM_DB_PORT**: This variable define the PORT of MySQL
+- **OPTSCIOM_DB_SCHEMA**: This variable define the Schema of MySQL
+- **OPTSCIOM_DB_USER**: This variable define the default USER of MySQL
+- **OPTSCIOM_DB_SECRET**: This variable define the PASSWORD of MySQL
 
 ### Web credentials
-- **OPTSICOM_API_USER**:
-- **OPTSICOM_API_SECRET**:
+- **OPTSICOM_API_USER**: This variable configures the USER to be use in Optsicom Web.
+- **OPTSICOM_API_SECRET**: This variable configures the PASSWORD to be use in Optsicom Web.
+
+# Execution Example
+
+The current version of Optsicom Web can be launched in MySQL mode or Derby mode. If you selected the MySQL mode you need a database with utf8 activated by default. In the next section we can observe a simple execution of a MySQL database in version 8.0.20 using docker.
 
 ## Database MySQL
 
 ```bash
 docker run -d --rm --name optsicom-database \
         -p 3306:3306 \
-        -v /home/ubuntu/database:/var/lib/mysql
         -e MYSQL_USER=root \
         -e MYSQL_ROOT_PASSWORD=MY_SECRET \
         -e MYSQL_DATABASE=optsicom \
@@ -27,6 +33,8 @@ docker run -d --rm --name optsicom-database \
 ```
 
 ## Optsicom Web
+
+For launched Optsicom Web using docker use the following command.
 
 ```bash
 docker run -d --rm --name optsicom-web \
