@@ -97,8 +97,6 @@ export class TableComponent implements OnChanges {
       }
     }
 
-    console.log(this.columnsTitles)
-
     // Selected columns
     this.allSelectColumns = new Array();
     let selectedColumns: Array<string> = new Array();
