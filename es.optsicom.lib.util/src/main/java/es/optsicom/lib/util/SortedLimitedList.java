@@ -36,6 +36,10 @@ public abstract class SortedLimitedList<T> {
 	public List<T> getList() {
 		return list;
 	}
+	
+	public boolean contains(T elem) {
+		return list.contains(elem);
+	}
 
 	public abstract void setMaxSize(int maxSize);
 
