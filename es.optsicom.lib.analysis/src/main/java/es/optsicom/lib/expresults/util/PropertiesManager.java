@@ -33,13 +33,21 @@ public class PropertiesManager {
 	}
 
 	public String getProperty(String key) {
-		String property = System.getProperty(key);
+		String keyEnvVariable = key.toUpperCase().replace(".", "_");
+		String property = System.getenv(keyEnvVariable);
 
 		if (property == null) {
-			property = properties.getProperty(key);
-			System.out.println("PropertiesManager.file.get." + key + "=" + property);
+			property = System.getProperty(key);
+
+			if (property == null) {
+				property = properties.getProperty(key);
+				
+				System.out.println("PropertiesManager.file.get." + key + "=" + property);
+			} else {
+				System.out.println("PropertiesManager.system.get." + key + "=" + property);
+			}
 		} else {
-			System.out.println("PropertiesManager.system.get." + key + "=" + property);
+			System.out.println("PropertiesManager.env.get." + keyEnvVariable + "=" + property);
 		}
 
 		return property;
