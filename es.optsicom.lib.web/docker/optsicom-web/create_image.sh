@@ -1,7 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-cp ../../target/es.optsicom.lib.web-*SNAPSHOT.jar ./optsicom-web.jar
-
-docker build -t codeurjc/optsicom-web .
-
-rm ./optsicom-web.jar
+# Go to father project folder
+cd ../../..
+docker build -t codeurjc/optsicom-web -f es.optsicom.lib.web/docker/optsicom-web/Dockerfile .

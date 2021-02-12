@@ -1,0 +1,12 @@
+es.optsicom.lib/target
+es.optsicom.lib.analysis/target
+es.optsicom.lib.approx/target
+es.optsicom.lib.exact/target
+es.optsicom.lib.npst/target
+es.optsicom.lib.util/target
+es.optsicom.lib.web/target
+es.optsicom.lib.web/src/web/node_modules
+es.optsicom.lib.web/src/main/resources/static
+adm-scripts
+.git
+.github

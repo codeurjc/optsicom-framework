@@ -1,25 +1,17 @@
 name: Optsicom Web Image
-  
+
 on:
   push:
     branches:
       - master
     paths:
       - 'es.optsicom.lib.web/**'
-      - '!es.optsicom.lib.web/docker/optsicom-builder/**'
 
 jobs:
   create_image:
     runs-on: ubuntu-18.04
-    container:
-      image: codeurjc/optsicom-builder
-
     steps:
       - uses: actions/checkout@v2
-      - name: Compile Optsicom Web
-        run: |
-          cd adm-scripts
-          ./compile_optsicom_web.sh install_dependencies
       - name: Docker login
         run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Build docker image
@@ -34,4 +26,3 @@ jobs:
         run: |
           docker push codeurjc/optsicom-web:master
           docker push codeurjc/optsicom-web:latest
-

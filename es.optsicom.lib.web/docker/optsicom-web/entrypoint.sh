@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 mysqlDB() {
 cat>optsicom.properties<<EOF
@@ -82,4 +82,4 @@ if [ "${OPTSICOM_DB_MODE}" = "mysql" ]; then
     done
 fi
 
-java -jar optsicom-web.jar
+java -jar /opt/optsicom-web/optsicom-web.jar
