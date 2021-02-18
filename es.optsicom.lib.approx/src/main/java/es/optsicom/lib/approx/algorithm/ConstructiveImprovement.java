@@ -58,7 +58,7 @@ public class ConstructiveImprovement<S extends Solution<I>, I extends Instance> 
 		// Clean feasible and infeasible solutions
 		feasibleSolutions = 0;
 		infeasibleSolutions = 0;
-		
+
 		if (improvementMethod != null) {
 			this.improvementMethod.setImprovementMethodListener(this);
 		}
@@ -75,16 +75,6 @@ public class ConstructiveImprovement<S extends Solution<I>, I extends Instance> 
 				S solution = constructive.createSolution();
 				// System.out.println("C: "+solution);
 
-				if (solution != null) {
-					if (solution.isFeasible()) {
-						feasibleSolutions++;
-					} else {
-						infeasibleSolutions++;
-					}
-				} else {
-					infeasibleSolutions++;
-				}
-
 				setIfBestSolution(solution);
 
 				if (solution != null && improvementMethod != null) {
@@ -93,6 +83,13 @@ public class ConstructiveImprovement<S extends Solution<I>, I extends Instance> 
 				}
 
 				setIfBestSolution(solution);
+
+				// Count feasible and infeasible solutions
+				if (solution != null && solution.isFeasible()) {
+					feasibleSolutions++;
+				} else {
+					infeasibleSolutions++;
+				}
 			}
 
 			iterationsPerformed = iterations;
@@ -106,18 +103,8 @@ public class ConstructiveImprovement<S extends Solution<I>, I extends Instance> 
 				S solution = constructive.createSolution();
 				// System.out.println("C: "+solution);
 
-				if (solution != null) {
-					if (solution.isFeasible()) {
-						feasibleSolutions++;
-					} else {
-						infeasibleSolutions++;
-					}
-				} else {
-					infeasibleSolutions++;
-				}
-
 				setIfBestSolution(solution);
-
+				
 				if (System.currentTimeMillis() > finishTime) {
 					break;
 				}
@@ -129,6 +116,13 @@ public class ConstructiveImprovement<S extends Solution<I>, I extends Instance> 
 
 				setIfBestSolution(solution);
 				iterationsPerformed++;
+				
+				// Count feasible and infeasible solutions
+				if (solution != null && solution.isFeasible()) {
+					feasibleSolutions++;
+				} else {
+					infeasibleSolutions++;
+				}
 
 				if (iterationsPerformed == iterations) {
 					break;
@@ -146,7 +140,7 @@ public class ConstructiveImprovement<S extends Solution<I>, I extends Instance> 
 		if (bestSolution == null) {
 			setNullSolution();
 		}
-		
+
 		CurrentExperiment.addEvent(ITERATIONS_PERFORMED_EVENT, iterationsPerformed);
 		CurrentExperiment.addEvent(ITERATIONS_FEASIBLE_EVENT, feasibleSolutions);
 		CurrentExperiment.addEvent(ITERATIONS_INFEASIBLE_EVENT, infeasibleSolutions);
