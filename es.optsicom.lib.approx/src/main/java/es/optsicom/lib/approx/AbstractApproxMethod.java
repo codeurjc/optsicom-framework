@@ -167,7 +167,8 @@ public abstract class AbstractApproxMethod<S extends Solution<I>, I extends Inst
 	@SuppressWarnings("unchecked")
 	protected boolean setIfBestSolution(S solution) {
 
-		if (bestSolution == null || solution.isBetterThan(bestSolution)) {
+		if (solution != null && solution.isFeasible() 
+				&& (bestSolution == null || solution.isBetterThan(bestSolution))) {
 
 			bestSolution = (S) solution.createCopy();
 			bestSolutionWeight = solution.getWeight();
@@ -184,6 +185,10 @@ public abstract class AbstractApproxMethod<S extends Solution<I>, I extends Inst
 		} else {
 			return false;
 		}
+	}
+	
+	protected void setNullSolution() {
+		approxMethodListener.solutionImproved(this, 99999999999999.0);
 	}
 
 	@Override

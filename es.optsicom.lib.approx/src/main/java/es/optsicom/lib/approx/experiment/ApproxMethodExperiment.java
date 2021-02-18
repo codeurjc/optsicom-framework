@@ -83,7 +83,7 @@ public class ApproxMethodExperiment<S extends Solution<I>, I extends Instance> e
 			long finishTime = System.currentTimeMillis() + experimentationDuration;
 
 			System.out.println(
-					"Experimentation time: " + DateFormat.getTimeInstance().format(new Date(experimentationDuration)));
+			        "Experimentation time: " + DateFormat.getTimeInstance().format(new Date(experimentationDuration)));
 			System.out.println("Finalization time: " + DateFormat.getDateTimeInstance().format(new Date(finishTime)));
 
 		}
@@ -92,7 +92,7 @@ public class ApproxMethodExperiment<S extends Solution<I>, I extends Instance> e
 
 	@Override
 	protected void executeExperiment(ExperimentSaver saver, I instance, int instanceIndex, long timeLimit,
-			List<OptsicomException> thrownExceptions, boolean localExecution) {
+	        List<OptsicomException> thrownExceptions, boolean localExecution) {
 
 		InstanceDescription instanceDesc = instance.getInstanceFile().createInstanceDescription();
 
@@ -130,7 +130,7 @@ public class ApproxMethodExperiment<S extends Solution<I>, I extends Instance> e
 					ExecutionResult executionResult = null;
 
 					DBExecutionSaver execSaver = saver.startExecution(method.createMethodDescription(), instanceDesc,
-							timeLimit);
+					        timeLimit);
 
 					// Remoto!!!!!
 
@@ -145,7 +145,7 @@ public class ApproxMethodExperiment<S extends Solution<I>, I extends Instance> e
 						if (recordEvolution) {
 
 							ExecutionApproxMethodListener<S, I> listener = new ExecutionApproxMethodListener<S, I>(
-									execSaver);
+							        execSaver);
 
 							method.setSolutionCalculatorListener(listener);
 
@@ -158,7 +158,7 @@ public class ApproxMethodExperiment<S extends Solution<I>, I extends Instance> e
 							executionResult = (ApproxExecResult) method.execute(timeLimit);
 
 							execSaver.finishExecution(executionResult.getBestSolution().getWeight(),
-									executionResult.getBestSolution().getInfoToSave());
+							        executionResult.getBestSolution().getInfoToSave());
 
 						}
 
@@ -173,10 +173,10 @@ public class ApproxMethodExperiment<S extends Solution<I>, I extends Instance> e
 
 						outprocess.startOutprocess(new RemoteExperimentExecutor(approxExpConfClass));
 						executionResult = (RemoteApproxExecResult) outprocess.execOperation("executeMethodInstance", j,
-								instanceIndex, newSeed);
+						        instanceIndex, newSeed);
 
 						execSaver.finishExecution(executionResult.getBestSolution().getWeight(),
-								executionResult.getBestSolution().getInfoToSave());
+						        executionResult.getBestSolution().getInfoToSave());
 
 					}
 
@@ -184,16 +184,22 @@ public class ApproxMethodExperiment<S extends Solution<I>, I extends Instance> e
 
 					Solution<?> bestSolution = executionResult.getBestSolution();
 
-					System.out.println();
-					System.out.format("\tTime: %d\t W:%.3f\r\n", execSaver.getExecutionTime(),
-							bestSolution.getWeight());
-					System.out.println("\tSolution: " + bestSolution);
+					if (bestSolution != null) {
+						System.out.println();
+						System.out.format("\tTime: %d\t W:%.3f\r\n", execSaver.getExecutionTime(),
+						        bestSolution.getWeight());
+						System.out.println("\tSolution: " + bestSolution);
 
-					double naiveWeight = bestSolution.calculateNaiveWeight();
-					if (Math.abs(naiveWeight - bestSolution.getWeight()) > EPSILON) {
-						System.out.println("\tNaive weight: " + naiveWeight);
-						System.out.println("\tSolution weight: " + bestSolution.getWeight());
-						System.out.println("\tERROR: Naive weight and solution weight are different !!!!!!!!!!!!!");
+						double naiveWeight = bestSolution.calculateNaiveWeight();
+						if (Math.abs(naiveWeight - bestSolution.getWeight()) > EPSILON) {
+							System.out.println("\tNaive weight: " + naiveWeight);
+							System.out.println("\tSolution weight: " + bestSolution.getWeight());
+							System.out.println("\tERROR: Naive weight and solution weight are different !!!!!!!!!!!!!");
+						}
+					} else {
+						System.out.println();
+						System.out.format("\tTime: %d\r\n", execSaver.getExecutionTime());
+						System.out.println("\tNo feasible solutions have been found");
 					}
 
 				} catch (Exception e) {

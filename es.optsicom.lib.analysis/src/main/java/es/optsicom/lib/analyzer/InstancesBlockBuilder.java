@@ -73,7 +73,19 @@ public class InstancesBlockBuilder extends BlockBuilder {
 						new LastEventRP("constructiveImprovement.iterationsPerformed"),
 						new Statistic[] { new Statistic(
 								new NonRelativizerStatisticCalc(SummarizeMode.AVERAGE, NumberType.INTEGER),
-								"#Const") }) };
+								"#Const") }),
+				
+				StatisticGroup.createMultipleStatisticGroup(
+						new LastEventRP("constructiveImprovement.feasibleSolutions"),
+						new Statistic[] { new Statistic(
+								new NonRelativizerStatisticCalc(SummarizeMode.AVERAGE, NumberType.INTEGER),
+								"#Feasible") }),
+				
+				StatisticGroup.createMultipleStatisticGroup(
+						new LastEventRP("constructiveImprovement.infeasibleSolutions"),
+						new Statistic[] { new Statistic(
+								new NonRelativizerStatisticCalc(SummarizeMode.AVERAGE, NumberType.INTEGER),
+								"#Infeasible") })};
 
 		CommonApproxAttributeTableCreator tableCreator = new CommonApproxAttributeTableCreator(statisticGroups);
 		configTableCreator(experimentResults, tableCreator);

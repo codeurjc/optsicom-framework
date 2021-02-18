@@ -73,5 +73,9 @@ public abstract class Solution<I extends Instance> implements IWeighed {
 	public double calculateNaiveWeight() {
 		return -1;
 	}
+	
+	public boolean isFeasible() {
+		return true;
+	}
 
 }

@@ -24,13 +24,17 @@ import es.optsicom.lib.util.description.Properties;
 public class ConstructiveImprovement<S extends Solution<I>, I extends Instance> extends AbstractApproxMethod<S, I> {
 
 	public static final String ITERATIONS_PERFORMED_EVENT = "constructiveImprovement.iterationsPerformed";
+	public static final String ITERATIONS_FEASIBLE_EVENT = "constructiveImprovement.feasibleSolutions";
+	public static final String ITERATIONS_INFEASIBLE_EVENT = "constructiveImprovement.infeasibleSolutions";
 	private Constructive<S, I> constructive;
 	private ImprovementMethod<S, I> improvementMethod;
 	private int iterationsPerformed = 0;
+	private int feasibleSolutions = 0;
+	private int infeasibleSolutions = 0;
 	private int iterations = 1;
 
 	public ConstructiveImprovement(Constructive<S, I> constructive, ImprovementMethod<S, I> improvementMethod,
-			int iterations) {
+	        int iterations) {
 		this.constructive = constructive;
 		this.improvementMethod = improvementMethod;
 		this.iterations = iterations;
@@ -51,6 +55,10 @@ public class ConstructiveImprovement<S extends Solution<I>, I extends Instance> 
 	@Override
 	protected void internalCalculateSolution(long duration) {
 
+		// Clean feasible and infeasible solutions
+		feasibleSolutions = 0;
+		infeasibleSolutions = 0;
+		
 		if (improvementMethod != null) {
 			this.improvementMethod.setImprovementMethodListener(this);
 		}
@@ -67,9 +75,19 @@ public class ConstructiveImprovement<S extends Solution<I>, I extends Instance> 
 				S solution = constructive.createSolution();
 				// System.out.println("C: "+solution);
 
+				if (solution != null) {
+					if (solution.isFeasible()) {
+						feasibleSolutions++;
+					} else {
+						infeasibleSolutions++;
+					}
+				} else {
+					infeasibleSolutions++;
+				}
+
 				setIfBestSolution(solution);
 
-				if (improvementMethod != null) {
+				if (solution != null && improvementMethod != null) {
 					improvementMethod.improveSolution(solution);
 					// System.out.println("I: "+solution);
 				}
@@ -88,13 +106,23 @@ public class ConstructiveImprovement<S extends Solution<I>, I extends Instance> 
 				S solution = constructive.createSolution();
 				// System.out.println("C: "+solution);
 
+				if (solution != null) {
+					if (solution.isFeasible()) {
+						feasibleSolutions++;
+					} else {
+						infeasibleSolutions++;
+					}
+				} else {
+					infeasibleSolutions++;
+				}
+
 				setIfBestSolution(solution);
 
 				if (System.currentTimeMillis() > finishTime) {
 					break;
 				}
 
-				if (improvementMethod != null) {
+				if (solution != null && improvementMethod != null) {
 					improvementMethod.improveSolution(solution, finishTime - System.currentTimeMillis());
 					// System.out.println("I: "+solution);
 				}
@@ -115,8 +143,13 @@ public class ConstructiveImprovement<S extends Solution<I>, I extends Instance> 
 			this.improvementMethod.setImprovementMethodListener(null);
 		}
 
+		if (bestSolution == null) {
+			setNullSolution();
+		}
+		
 		CurrentExperiment.addEvent(ITERATIONS_PERFORMED_EVENT, iterationsPerformed);
-
+		CurrentExperiment.addEvent(ITERATIONS_FEASIBLE_EVENT, feasibleSolutions);
+		CurrentExperiment.addEvent(ITERATIONS_INFEASIBLE_EVENT, infeasibleSolutions);
 	}
 
 	@Id
@@ -177,17 +210,17 @@ public class ConstructiveImprovement<S extends Solution<I>, I extends Instance> 
 	}
 
 	public static <S extends Solution<I>, I extends Instance> Method<S, I> create(Constructive<S, I> constructive,
-			ImprovementMethod<S, I> improvement) {
+	        ImprovementMethod<S, I> improvement) {
 		return new ConstructiveImprovement<S, I>(constructive, improvement);
 	}
 
 	public static <S extends Solution<I>, I extends Instance> Method<S, I> create(Constructive<S, I> constructive,
-			ImprovementMethod<S, I> improvement, int numIterations) {
+	        ImprovementMethod<S, I> improvement, int numIterations) {
 		return new ConstructiveImprovement<S, I>(constructive, improvement, numIterations);
 	}
 
 	public static <S extends Solution<I>, I extends Instance> Method<S, I> create(Constructive<S, I> constructive,
-			int numIterations) {
+	        int numIterations) {
 		return new ConstructiveImprovement<S, I>(constructive, numIterations);
 	}
 }
