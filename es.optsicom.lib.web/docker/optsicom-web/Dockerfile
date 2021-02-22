@@ -1,5 +1,5 @@
 # Multistage compile Frontend Application
-FROM node:lts-alpine3.11 as frontend-build
+FROM node:lts-alpine3.13 as frontend-build
 
 WORKDIR /build/frontend
 
