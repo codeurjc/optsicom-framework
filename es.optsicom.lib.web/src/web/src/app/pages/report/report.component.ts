@@ -16,7 +16,6 @@ export class ReportComponent implements OnInit {
   private expIds: Array<number> = new Array;
 
   public report: ReportRest;
-  public bestValues: boolean = false;
   public showMethods: Array<ShowMethod> = new Array;
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -41,10 +40,10 @@ export class ReportComponent implements OnInit {
     );
   }
 
-  loadReport(expIds: Array<number>, methodIds: Array<number> = undefined, bestValues: boolean = false) {
+  loadReport(expIds: Array<number>, methodIds: Array<number> = undefined) {
     this.loadingInfo = true;
 
-    this.reportService.getReport(expIds, methodIds, bestValues).subscribe(
+    this.reportService.getReport(expIds, methodIds).subscribe(
       report => {
         this.report = report;
         this.prepareMethods(report.configuration);
@@ -63,7 +62,7 @@ export class ReportComponent implements OnInit {
       }
     });
 
-    this.loadReport(this.expIds, methodIds, this.bestValues);
+    this.loadReport(this.expIds, methodIds);
   }
 
   private prepareMethods(configuration: ReportRestConfiguration) {

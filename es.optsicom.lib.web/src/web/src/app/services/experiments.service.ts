@@ -28,10 +28,10 @@ export class ExperimentsService {
   }
 
   public getExperiment(experimentId: number): Observable<ExperimentRest> {
-    return this.http.get<ExperimentRest>(baseAPI + "experiment/" + experimentId, { withCredentials: true });
+    return this.http.get<ExperimentRest>(baseAPI + "experiments/" + experimentId, { withCredentials: true });
   }
 
   public deleteExperiment(experimentId: number) {
-    return this.http.delete(baseAPI + "experiment/" + experimentId, { withCredentials: true });
+    return this.http.delete(baseAPI + "experiments/" + experimentId, { withCredentials: true });
   }
 }

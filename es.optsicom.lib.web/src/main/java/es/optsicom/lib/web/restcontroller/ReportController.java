@@ -1,7 +1,6 @@
 package es.optsicom.lib.web.restcontroller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.optsicom.lib.analyzer.tool.FusionerReportCreator;
-import es.optsicom.lib.analyzer.tool.FusionerReportCreator.ExperimentMethodConf;
 import es.optsicom.lib.expresults.manager.ExperimentManager;
 import es.optsicom.lib.expresults.model.Experiment;
 import es.optsicom.lib.expresults.model.MethodDescription;
@@ -26,7 +24,7 @@ import es.optsicom.lib.web.model.reportrest.ReportRestConfiguration;
 import es.optsicom.lib.web.service.ExperimentService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/reports")
 public class ReportController {
 
 	private static final Logger log = LoggerFactory.getLogger(ReportController.class);
@@ -38,19 +36,20 @@ public class ReportController {
 		this.experimentService = experimentService;
 	}
 
-	@GetMapping(value = "/report")
-	public ResponseEntity<ReportRest> getExperimentsExplicit(@RequestParam List<Long> expIds,
-			@RequestParam Optional<List<Long>> methodIds, @RequestParam Optional<Boolean> bestValues) {
+	@GetMapping
+	public ResponseEntity<ReportRest> getExperimentsExplicit(
+	        @RequestParam List<Long> expIds,
+	        @RequestParam Optional<List<Long>> methodIds) {
 
 		Experiment experiment = this.experimentService.findExperimentManagerById(expIds.get(0)).getExperiment();
 		FusionerReportCreator reportCreator = new FusionerReportCreator(experiment.getProblemName(), "",
-				experimentService.getDBManager());
+		        experimentService.getDBManager());
 
 		List<Long> selectedMethods = new ArrayList<>();
 		List<MethodName> methodNames = new ArrayList<>();
 
 		log.info("Create Report width Experiments Ids: " + expIds.toString() + " and Methods Ids: "
-				+ (methodIds.isPresent() ? methodIds.get().toString() : "All Methods"));
+		        + (methodIds.isPresent() ? methodIds.get().toString() : "All Methods"));
 
 		for (Long expId : expIds) {
 
@@ -67,13 +66,8 @@ public class ReportController {
 			}
 		}
 
-		if (bestValues.isPresent() && bestValues.get()) {
-			reportCreator.addExperimentMethods(Arrays.asList(new ExperimentMethodConf("predefined", "best_values")));
-		}
-
 		ReportRestBuilder reportRestBuilder = new ReportRestBuilder();
-		ReportRestConfiguration configuration = new ReportRestConfiguration(expIds, selectedMethods, methodNames,
-				(bestValues.isPresent() ? true : false));
+		ReportRestConfiguration configuration = new ReportRestConfiguration(expIds, selectedMethods, methodNames);
 		ReportRest report = reportRestBuilder.buildReportRest(configuration, reportCreator.createReportObject());
 
 		return ResponseEntity.ok().body(report);

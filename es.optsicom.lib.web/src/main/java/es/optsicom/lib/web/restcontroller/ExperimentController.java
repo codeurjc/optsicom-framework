@@ -21,25 +21,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RestController
-@RequestMapping("/api")
-public class ExperimentsController {
+@RequestMapping("/api/experiments")
+public class ExperimentController {
 
-	private static final Logger log = LoggerFactory.getLogger(ExperimentsController.class);
+	private static final Logger log = LoggerFactory.getLogger(ExperimentController.class);
 
 	private ExperimentService experimentService;
 
-	public ExperimentsController(ExperimentService experimentService) {
+	public ExperimentController(ExperimentService experimentService) {
 		this.experimentService = experimentService;
 	}
 
-	@GetMapping(value = "/experiments")
+	@GetMapping
 	public ResponseEntity<List<Experiment>> getExperimentsExplicit() {
 		log.info("Recovering experiments (/experiments)");
 
 		return ResponseEntity.ok().body(this.experimentService.findExperiments());
 	}
 
-	@GetMapping(value = "/experiment/{expId}")
+	@GetMapping(value = "/{expId}")
 	public ResponseEntity<ExperimentRest> getExperimentById(@PathVariable Long expId) {
 		log.info("Recovering experiment: " + expId);
 
@@ -57,7 +57,7 @@ public class ExperimentsController {
 		return ResponseEntity.ok().body(expInfo);
 	}
 
-	@DeleteMapping(value = "/experiment/{expId}")
+	@DeleteMapping(value = "/{expId}")
 	public ResponseEntity<Void> deleteExperimentById(@PathVariable Long expId) {
 		log.info("Removing experiment: " + expId);
 

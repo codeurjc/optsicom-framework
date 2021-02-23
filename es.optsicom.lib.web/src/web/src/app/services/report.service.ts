@@ -13,7 +13,7 @@ export class ReportService {
 
   constructor(private http: HttpClient) { }
 
-  public getReport(expIds: Array<number>, methodIds: Array<number> = undefined, bestValues: boolean = false): Observable<ReportRest> {
+  public getReport(expIds: Array<number>, methodIds: Array<number> = undefined): Observable<ReportRest> {
     let params = new HttpParams()
       .set('expIds', expIds.toString())
 
@@ -21,10 +21,6 @@ export class ReportService {
       params = params.set('methodIds', methodIds.toString());
     }
 
-    if (bestValues) {
-      params = params.set('bestValues', String(bestValues));
-    }
-
-    return this.http.get<ReportRest>(baseAPI + "report", { params: params, withCredentials: true });
+    return this.http.get<ReportRest>(baseAPI + "reports", { params: params, withCredentials: true });
   }
 }

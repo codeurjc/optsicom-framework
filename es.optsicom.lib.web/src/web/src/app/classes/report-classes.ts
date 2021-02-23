@@ -9,7 +9,6 @@ export class ReportRestConfiguration {
 	public expId: Array<number>;
 	public selectedMethods: Array<number>;
 	public methods: Array<MethodName>;
-	public bestValues: boolean;
 }
 
 export class ReportRestBlock {

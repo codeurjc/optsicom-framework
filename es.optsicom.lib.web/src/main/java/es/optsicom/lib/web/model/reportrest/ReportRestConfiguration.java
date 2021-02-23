@@ -9,21 +9,17 @@ public class ReportRestConfiguration {
 	private List<Long> expId;
 	private List<Long> selectedMethods;
 	private List<MethodName> methods;
-	private boolean bestValues;
 
 	public ReportRestConfiguration() {
 		this.expId = new ArrayList<>();
 		this.selectedMethods = new ArrayList<>();
 		this.methods = new ArrayList<>();
-		this.bestValues = false;
 	}
 
-	public ReportRestConfiguration(List<Long> expId, List<Long> selectedMethods, List<MethodName> methods,
-			boolean bestValues) {
+	public ReportRestConfiguration(List<Long> expId, List<Long> selectedMethods, List<MethodName> methods) {
 		this.expId = expId;
 		this.selectedMethods = selectedMethods;
 		this.methods = methods;
-		this.bestValues = bestValues;
 	}
 
 	public List<Long> getExpId() {
@@ -36,10 +32,6 @@ public class ReportRestConfiguration {
 
 	public List<MethodName> getMethods() {
 		return methods;
-	}
-
-	public boolean isBestValues() {
-		return bestValues;
 	}
 
 	public void addMethod(MethodName method) {
