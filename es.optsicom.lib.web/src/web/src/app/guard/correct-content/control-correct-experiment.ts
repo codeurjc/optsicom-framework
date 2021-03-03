@@ -14,7 +14,7 @@ export class ControlCorrectExperimentGuard implements CanActivate {
   constructor(private router: Router, private experimentsService: ExperimentsService, private authenticationService: AuthenticationService, private navigationService: NavigationService) { }
 
   canActivate(route: ActivatedRouteSnapshot) {
-    let experimentId = route.params["experimentId"];
+    let experimentId = route.params["expId"];
 
     if (experimentId == undefined) {
       this.router.navigate(['/error']);
@@ -22,14 +22,14 @@ export class ControlCorrectExperimentGuard implements CanActivate {
     }
 
     return this.experimentsService.getExperiment(experimentId).pipe(
-      map(experimentRest => {
-        this.experimentsService.setLoadExperimentRest(experimentRest);
-        this.navigationService.addExperimentName(experimentRest.experiment);
+      map(experiment => {
+        this.experimentsService.setLoadExperiment(experiment);
+        this.navigationService.addExperimentName(experiment);
 
         return true;
       }), catchError(error => {
         if (error.status === 401 || error.status === 0) {
-          if (this.authenticationService.isLogin) {
+          if (this.authenticationService.isLogged()) {
             this.router.navigate(['/errorpage']);
           } else {
             this.router.navigate(['/login']);

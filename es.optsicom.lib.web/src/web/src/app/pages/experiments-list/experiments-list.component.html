@@ -57,7 +57,7 @@
             <ng-container matColumnDef="instances">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Num Instances</th>
                 <td mat-cell *matCellDef="let experiment">
-                    {{experiment.instances.length}}
+                    {{experiment.nInstances}}
                 </td>
             </ng-container>
 
@@ -65,7 +65,7 @@
             <ng-container matColumnDef="methods">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Num Methods</th>
                 <td mat-cell *matCellDef="let experiment">
-                    {{experiment.methods.length}}
+                    {{experiment.nMethods}}
                 </td>
             </ng-container>
 
@@ -73,7 +73,7 @@
             <ng-container matColumnDef="researcher">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Researcher</th>
                 <td mat-cell *matCellDef="let experiment">
-                    {{experiment.researcher.name}}
+                    {{experiment.researcherName}}
                 </td>
             </ng-container>
 

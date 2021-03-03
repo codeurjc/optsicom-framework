@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import es.optsicom.lib.expresults.DBExperimentRepositoryManagerFactory;
 import es.optsicom.lib.expresults.ExperimentRepositoryFactory;
@@ -15,7 +15,7 @@ import es.optsicom.lib.expresults.manager.ExperimentManager;
 import es.optsicom.lib.expresults.manager.ExperimentRepositoryManager;
 import es.optsicom.lib.expresults.model.Experiment;
 
-@Component
+@Service
 public class ExperimentService {
 
 	private ExperimentRepositoryManager expRepoManager;
@@ -23,14 +23,12 @@ public class ExperimentService {
 
 	@PostConstruct
 	public void init() throws SQLException {
-
 		dbManager = DBManagerProvider.getDBManager();
 
 		ExperimentRepositoryFactory expRepoFactory = null;
 		expRepoFactory = new DBExperimentRepositoryManagerFactory(dbManager);
 
 		expRepoManager = expRepoFactory.createExperimentRepositoryManager();
-
 	}
 
 	public Experiment findExperimentById(long id) {
@@ -42,7 +40,6 @@ public class ExperimentService {
 	}
 
 	public void removeExperiment(long experimentId) {
-
 		expRepoManager.beginTx();
 		expRepoManager.removeExperiment(experimentId);
 		expRepoManager.commitTx();

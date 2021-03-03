@@ -1,16 +1,16 @@
-package es.optsicom.lib.web.model.reportrest;
+package es.optsicom.lib.web.dto;
 
-public class ReportRestAttribute {
+public class ReportAttributeResponseDTO {
 	
 	private String name;
 	private String value;
 
-	public ReportRestAttribute() {
+	public ReportAttributeResponseDTO() {
 		this.name = "";
 		this.value = "";
 	}
 
-	public ReportRestAttribute(String name, String value) {
+	public ReportAttributeResponseDTO(String name, String value) {
 		this.name = (name == null) ? "" : name;
 		this.value = (value == null) ? "null" : value;
 	}

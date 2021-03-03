@@ -1,18 +1,88 @@
 <div *ngIf="loadingInfo" class="loading"></div>
 
+<div class="control-buttons">
+    <button mat-raised-button (click)="updateSelectMethods()" color="accent">Update Report</button>
+</div>
+
 <mat-card class="report-card">
     <mat-card-content>
         <h2 class="mat-h2">Selected Methods</h2>
-
-        <button mat-raised-button (click)="updateSelectMethods()" color="accent">Update Report</button>
-
         <section>
-            <ul style="list-style-type: none;">
-                <li *ngFor="let showMethod of showMethods">
-                    <mat-checkbox [(ngModel)]="showMethod.selected">
-                        {{showMethod.toString()}}</mat-checkbox>
-                </li>
-            </ul>
+            <div *ngFor="let showExpMethod of showExpMethods">
+                <p><b>Experiment: </b><a [routerLink]="['/experiments/' + showExpMethod.id]">{{showExpMethod.name}}</a>
+                    <b> Id:</b> {{showExpMethod.id}}
+                </p>
+
+                <ul style="list-style-type: none;">
+                    <li *ngFor="let showMethod of showExpMethod.methods">
+                        <mat-checkbox [(ngModel)]="showMethod.selected">
+                            {{showMethod.name}}</mat-checkbox>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+    </mat-card-content>
+</mat-card>
+
+<mat-card class="report-card">
+    <mat-card-content>
+        <h2 class="mat-h2">Selected Instances</h2>
+
+        <section class="instance-table">
+            <div class="search">
+                <mat-form-field color="accent">
+                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Instances Search" #search>
+                </mat-form-field>
+                <mat-icon (click)="search.focus()" class="cursor-pointer">search</mat-icon>
+            </div>
+
+            <div>
+                <table mat-table matSort [dataSource]="dataSource">
+
+                    <!-- Problem Name Column -->
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+                        <td mat-cell *matCellDef="let instance">
+                            {{instance.id}}
+                        </td>
+                    </ng-container>
+
+                    <!-- Creation Date Column -->
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+                        <td mat-cell *matCellDef="let instance">
+                            {{instance.name}}
+                        </td>
+                    </ng-container>
+
+                    <!-- Checkbox Column -->
+                    <ng-container matColumnDef="select">
+                        <th mat-header-cell *matHeaderCellDef>
+                            <mat-checkbox (change)="$event ? masterToggle() : null"
+                                [checked]="selection?.hasValue() && isAllSelected()"
+                                [indeterminate]="selection?.hasValue() && !isAllSelected()">
+                            </mat-checkbox>
+                        </th>
+
+                        <td mat-cell *matCellDef="let instance">
+                            <mat-checkbox (click)="$event.stopPropagation()"
+                                (change)="$event ? selection?.toggle(instance) : null"
+                                [checked]="selection?.isSelected(instance)">
+                            </mat-checkbox>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+            </div>
+
+            <div *ngIf="noInstancesShow" class="no-instances-show">
+                <h3><b>No matches have been found</b></h3>
+            </div>
         </section>
 
     </mat-card-content>

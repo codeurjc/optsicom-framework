@@ -1,4 +1,4 @@
-import { ReportRestCell } from 'src/app/classes/report-classes';
+import { ReportCellResponseDTO } from 'src/app/classes/report';
 
 export class Column {
     public name: string;
@@ -27,12 +27,12 @@ export class Column {
 }
 
 export class CellValue {
-    public cell: ReportRestCell;
+    public cell: ReportCellResponseDTO;
     public colName: string;
     public synthetic: boolean;
     public ngStyle: object;
 
-    constructor(cell: ReportRestCell, colName: string, synthetic: boolean) {
+    constructor(cell: ReportCellResponseDTO, colName: string, synthetic: boolean) {
         this.cell = cell;
         this.colName = colName;
         this.synthetic = synthetic;

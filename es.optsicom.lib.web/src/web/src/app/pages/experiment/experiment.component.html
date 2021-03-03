@@ -33,7 +33,7 @@
                         </tr>
                         <tr>
                             <th>Rearcher</th>
-                            <td>{{experiment?.researcher.name}}</td>
+                            <td>{{experiment?.researcherName}}</td>
                         </tr>
                         <tr>
                             <th>Date</th>
@@ -58,12 +58,12 @@
             <mat-divider></mat-divider>
 
             <div *ngFor="let method of methods" class="method">
-                <p><b>{{method.name}}</b></p>
+                <p><b>{{method.methodNameExp}}</b></p>
 
                 <div style="overflow-x: auto;">
                     <table style="width: 100%;">
                         <tbody>
-                            <tr *ngFor="let property of method.method.properties.map | keyvalue">
+                            <tr *ngFor="let property of method.properties | keyvalue">
                                 <td>{{property.key}}</td>
                                 <td>{{property.value}}</td>
                             </tr>
@@ -91,8 +91,8 @@
                         <tr *ngFor="let instance of instances">
                             <td>{{instance?.id}}</td>
                             <td>{{instance?.name}}</td>
-                            <td>{{instance?.properties.map["usecase"]}}</td>
-                            <td>{{instance?.properties.map["filename"]}}</td>
+                            <td>{{instance?.useCase}}</td>
+                            <td>{{instance?.fileName}}</td>
                         </tr>
                     </tbody>
                 </table>

@@ -19,6 +19,7 @@ import { ShowRestCell } from './pipes/cell-values';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -63,6 +64,7 @@ import { LastPageVisitedService } from './services/last-page-visited.service';
     MatToolbarModule,
     MatCardModule,
     MatTableModule,
+    MatPaginatorModule,
     MatIconModule,
     MatButtonModule,
     MatCheckboxModule,
@@ -89,6 +91,7 @@ import { LastPageVisitedService } from './services/last-page-visited.service';
     MatToolbarModule,
     MatCardModule,
     MatTableModule,
+    MatPaginatorModule,
     MatIconModule,
     MatButtonModule,
     MatCheckboxModule,

@@ -1,19 +1,23 @@
-import { MethodName } from 'src/app/classes/experiment-clasess';
+export class ShowExperimentMethods {
+    public id: number;
+    public name: string;
+    public methods: Array<ShowMethod>;
+
+    constructor(id: number, name: string, methods: Array<ShowMethod>) {
+        this.id = id;
+        this.name = name;
+        this.methods = methods;
+    }
+}
 
 export class ShowMethod {
-    public methodName: MethodName;
+    public id: number;
+    public name: string;
     public selected: boolean;
 
-    constructor(methodName: MethodName, selected: boolean) {
-        this.methodName = methodName;
+    constructor(id: number, name: string, selected: boolean) {
+        this.id = id;
+        this.name = name;
         this.selected = selected;
-    }
-
-    public getMethodId() {
-        return this.methodName.method.id;
-    }
-
-    public toString(): string {
-        return this.methodName.name;
     }
 }

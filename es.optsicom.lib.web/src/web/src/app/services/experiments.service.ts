@@ -2,36 +2,36 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
-import { Experiment, ExperimentRest } from '../classes/experiment-clasess';
+import { ExperimentBasicResponseDTO, ExperimentExtendResponseDTO } from '../classes/experiment';
 
-const baseAPI = environment.baseAPI;
+const experimentsAPI = environment.baseAPI + "experiments/";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExperimentsService {
 
-  private experimentRest: ExperimentRest;
+  private experiment: ExperimentExtendResponseDTO;
 
   constructor(private http: HttpClient) { }
 
-  public getLoadExperimentRest(): ExperimentRest {
-    return this.experimentRest;
+  public getLoadExperiment(): ExperimentExtendResponseDTO {
+    return this.experiment;
   }
 
-  public setLoadExperimentRest(experimentRest: ExperimentRest) {
-    this.experimentRest = experimentRest;
+  public setLoadExperiment(experiment: ExperimentExtendResponseDTO) {
+    this.experiment = experiment;
   }
 
-  public getExperiments(): Observable<Array<Experiment>> {
-    return this.http.get<Experiment[]>(baseAPI + "experiments", { withCredentials: true });
+  public getExperiments(): Observable<Array<ExperimentBasicResponseDTO>> {
+    return this.http.get<ExperimentBasicResponseDTO[]>(experimentsAPI, { withCredentials: true });
   }
 
-  public getExperiment(experimentId: number): Observable<ExperimentRest> {
-    return this.http.get<ExperimentRest>(baseAPI + "experiments/" + experimentId, { withCredentials: true });
+  public getExperiment(experimentId: number): Observable<ExperimentExtendResponseDTO> {
+    return this.http.get<ExperimentExtendResponseDTO>(experimentsAPI + experimentId, { withCredentials: true });
   }
 
   public deleteExperiment(experimentId: number) {
-    return this.http.delete(baseAPI + "experiments/" + experimentId, { withCredentials: true });
+    return this.http.delete(experimentsAPI + experimentId, { withCredentials: true });
   }
 }

@@ -10,7 +10,7 @@
 
             <mat-divider [vertical]="true"></mat-divider>
 
-            <button *ngIf="authenticationService.isLogin" (click)="disconnect()" mat-raised-button>Disconnect</button>
+            <button *ngIf="authenticationService.isLogged()" (click)="disconnect()" mat-raised-button>Disconnect</button>
         </div>
     </mat-toolbar-row>
 </mat-toolbar>

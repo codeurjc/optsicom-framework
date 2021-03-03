@@ -1,5 +1,7 @@
 package es.optsicom.lib.web.restcontroller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,15 +9,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import es.optsicom.lib.expresults.manager.ExperimentManager;
 import es.optsicom.lib.expresults.model.Experiment;
-import es.optsicom.lib.expresults.model.MethodDescription;
-import es.optsicom.lib.web.model.experimentrest.ExperimentRest;
-import es.optsicom.lib.web.model.experimentrest.MethodName;
+import es.optsicom.lib.web.dto.ExperimentBasicResponseDTO;
+import es.optsicom.lib.web.dto.ExperimentExtendResponseDTO;
 import es.optsicom.lib.web.service.ExperimentService;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.persistence.NoResultException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,41 +30,50 @@ public class ExperimentController {
 
 	private ExperimentService experimentService;
 
+	@Autowired
 	public ExperimentController(ExperimentService experimentService) {
 		this.experimentService = experimentService;
 	}
 
-	@GetMapping
-	public ResponseEntity<List<Experiment>> getExperimentsExplicit() {
-		log.info("Recovering experiments (/experiments)");
+	@GetMapping("/")
+	public List<ExperimentBasicResponseDTO> getExperimentsExplicit() {
+		log.info("==> Recovering experiments (/api/experiments/)");
 
-		return ResponseEntity.ok().body(this.experimentService.findExperiments());
+		return this.experimentService.findExperiments()
+		        .stream()
+		        .map(exp -> new ExperimentBasicResponseDTO(exp))
+		        .collect(Collectors.toList());
 	}
 
 	@GetMapping(value = "/{expId}")
-	public ResponseEntity<ExperimentRest> getExperimentById(@PathVariable Long expId) {
-		log.info("Recovering experiment: " + expId);
+	public ResponseEntity<ExperimentExtendResponseDTO> getExperimentById(@PathVariable Long expId) {
+		log.info("==> Recovering experiment {} (/api/experiments/{}/)", expId, expId);
 
-		ExperimentManager expManager = this.experimentService.findExperimentManagerById(expId);
-		List<MethodName> methodNames = new ArrayList<MethodName>();
+		try {
+			return ResponseEntity.ok().body(
+			        new ExperimentExtendResponseDTO(this.experimentService.findExperimentManagerById(expId)));
 
-		for (MethodDescription method : expManager.getMethods()) {
-			log.info("\t Recovering methods: " + method.getName());
-			
-			methodNames.add(new MethodName(expManager.getExperimentMethodName(method), method));
+		} catch (NoResultException noResultException) {
+			log.error("\t==> Experiment not found");
+
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-
-		ExperimentRest expInfo = new ExperimentRest(expManager.getExperiment(), methodNames);
-
-		return ResponseEntity.ok().body(expInfo);
 	}
 
 	@DeleteMapping(value = "/{expId}")
-	public ResponseEntity<Void> deleteExperimentById(@PathVariable Long expId) {
-		log.info("Removing experiment: " + expId);
+	public ResponseEntity<ExperimentBasicResponseDTO> deleteExperimentById(@PathVariable Long expId) {
+		log.info("==> Removing experiment {} (/api/experiments/{}/)", expId, expId);
 
-		experimentService.removeExperiment(expId);
+		try {
+			Experiment exp = this.experimentService.findExperimentById(expId);
+			experimentService.removeExperiment(exp.getId());
 
-		return ResponseEntity.ok().build();
+			return ResponseEntity.ok().body(new ExperimentBasicResponseDTO(exp));
+
+		} catch (NoResultException noResultException) {
+			log.error("\t==> Experiment not found");
+
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 }

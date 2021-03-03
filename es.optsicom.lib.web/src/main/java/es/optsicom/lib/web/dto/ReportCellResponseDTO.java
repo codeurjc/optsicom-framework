@@ -1,25 +1,25 @@
-package es.optsicom.lib.web.model.reportrest;
+package es.optsicom.lib.web.dto;
 
 import java.awt.Color;
 
 import es.optsicom.lib.analyzer.report.table.CellFormat;
 
-public class ReportRestCell {
+public class ReportCellResponseDTO {
 
 	private Object value;
 	private CellFormat format;
 	private String color;
 
-	public ReportRestCell() {
+	public ReportCellResponseDTO() {
 	}
 
-	public ReportRestCell(Object value, CellFormat format, String color) {
+	public ReportCellResponseDTO(Object value, CellFormat format, String color) {
 		this.value = value;
 		this.format = format;
 		this.color = color;
 	}
 
-	public ReportRestCell(Object value, CellFormat format, Color color) {
+	public ReportCellResponseDTO(Object value, CellFormat format, Color color) {
 		this.value = value;
 		this.format = format;
 		this.color = format(color);

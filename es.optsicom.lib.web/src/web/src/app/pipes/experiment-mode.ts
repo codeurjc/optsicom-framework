@@ -1,13 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { BestMode } from '../classes/experiment-clasess';
-
 @Pipe({ name: 'showExperimentMode' })
 export class ShowExperimentMode implements PipeTransform {
-    transform(value) {
-        switch(value) {
-            case BestMode.MAX_IS_BEST:
+    transform(value: string) {
+        switch (value) {
+            case "max":
                 return "Maximization";
-            case BestMode.MIN_IS_BEST: 
+            case "min":
                 return "Minimization"
         }
     }

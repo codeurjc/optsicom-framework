@@ -17,17 +17,16 @@ public class LoginController {
 
 	@RequestMapping("/logIn")
 	public ResponseEntity<?> logIn() {
-		log.info("Loging user");
+		log.info("==> Loging user");
 		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@RequestMapping("/logOut")
 	public ResponseEntity<?> logOut(HttpSession session) {
-		log.info("Logout user");
-		
+		log.info("==> Logout user");
+
 		session.invalidate();
-		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

@@ -7,7 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
-import { Experiment } from 'src/app/classes/experiment-clasess';
+import { ExperimentBasicResponseDTO } from 'src/app/classes/experiment';
 
 @Component({
   selector: 'app-experiments-list',
@@ -24,8 +24,8 @@ export class ExperimentsListComponent implements OnInit {
   // Table
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   public displayedColumns: string[];
-  public dataSource: any;
-  public selection = new SelectionModel<Experiment>(true, []);
+  public dataSource: MatTableDataSource<ExperimentBasicResponseDTO>;
+  public selection = new SelectionModel<ExperimentBasicResponseDTO>(true, []);
 
   constructor(private router: Router,
     private experimentsService: ExperimentsService,
@@ -40,7 +40,7 @@ export class ExperimentsListComponent implements OnInit {
     this.loadingInfo = true;
 
     this.experimentsService.getExperiments().subscribe(
-      (experiments: Experiment[]) => {
+      (experiments: ExperimentBasicResponseDTO[]) => {
         if (experiments == null || experiments == undefined || experiments.length == 0) {
           this.experimentAlertsShow = true;
           this.experimentAlertsMessage = "No experiments created in database";
@@ -69,10 +69,10 @@ export class ExperimentsListComponent implements OnInit {
 
   private addFilter() {
     this.dataSource.filterPredicate =
-      (data: Experiment, filters: string) => {
+      (data: ExperimentBasicResponseDTO, filters: string) => {
         const matchFilter = [];
         const filterArray = filters.split(',');
-        const columns = [data.problemName, data.name, data.instances.length.toString(), data.methods.length.toString(), data.researcher.name];
+        const columns = [data.problemName, data.name, data.nInstances.toString(), data.nMethods.toString(), data.researcherName];
 
         //Main loop
         filterArray.forEach(filter => {
@@ -95,7 +95,7 @@ export class ExperimentsListComponent implements OnInit {
   public compareExperiments() {
     let compareIds: Array<number> = [];
     this.selection.selected.forEach(experiment => { compareIds.push(experiment.id) });
-    this.router.navigate(['/experiments/comparereport', {experimentsId: compareIds}]);
+    this.router.navigate(['/experiments/compare', {expIds: compareIds}]);
   }
 
   public removeExperiment(experimentId: number) {

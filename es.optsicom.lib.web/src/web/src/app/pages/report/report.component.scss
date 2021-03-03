@@ -1,7 +1,72 @@
+/* Personalised themes */
+@import '~@angular/material/theming';
+$header-table: mat-palette($mat-blue-gray, 800);
+
+.control-buttons {
+    margin-bottom: 2em;
+}
+
 .report-card {
     margin-bottom: 2em;
 }
 
 .report-card .tables-page {
     margin-top: 2em;
+}
+
+.report-card a {
+    color: #069;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+/* Instances Table */
+.instance-table table {
+    width: 100%;
+    margin-bottom: 2em;
+}
+
+.instance-table .experiment-alerts {
+    text-align: center;
+}
+
+.instance-table table th {
+    text-align: center;
+    background-color: mat-color($header-table);
+    color: white;
+}
+
+.instance-table table a {
+    color: #069;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+::ng-deep .mat-sort-header-container {
+    display: flex;
+    justify-content: center;
+    color: white;
+}
+
+::ng-deep .mat-sort-header-arrow {
+    color: white;
+}
+
+.instance-table table td {
+    text-align: center;
+}
+
+.instance-table .search {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.instance-table .no-instances-show {
+    text-align: center;
+}
+
+/* Search experiments */
+.search mat-icon {
+    position: relative;
+    top: 5px;
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BreadcrumbService } from '../common-components/breadcrumb/breadcrumb.service';
 import { Title } from '@angular/platform-browser';
-import { Experiment } from '../classes/experiment-clasess';
+import { ExperimentExtendResponseDTO } from '../classes/experiment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,14 +15,14 @@ export class NavigationService {
     this.breadcrumbService.addFriendlyNameForRoute("/login", "Login Page");
     this.breadcrumbService.addFriendlyNameForRoute("/errorpage", "Error Page");
     this.breadcrumbService.addFriendlyNameForRouteRegex(".*/report", "Report");
-    this.breadcrumbService.addFriendlyNameForRouteRegex(".*/comparereport", "Comparative Report");
+    this.breadcrumbService.addFriendlyNameForRouteRegex(".*/compare", "Comparative Report");
   }
 
   public setHeadTitle(title: string) {
     this.titleService.setTitle(title);
   }
 
-  public addExperimentName(experiment: Experiment) {
+  public addExperimentName(experiment: ExperimentExtendResponseDTO) {
     this.breadcrumbService.addFriendlyNameForRouteRegex('.*/experiments/' + experiment.id + '$', experiment.name);
   }
   

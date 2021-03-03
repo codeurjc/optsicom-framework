@@ -1,9 +1,9 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { ReportRestTable, ReportRestAttribute, ReportRestCell } from 'src/app/classes/report-classes';
 import { Sort } from '@angular/material/sort';
 import { Column, CellValue } from './table';
 import { FormControl } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
+import { ReportAttributeResponseDTO, ReportCellResponseDTO, ReportTableResponseDTO } from 'src/app/classes/report';
 
 @Component({
   selector: 'optsicom-table',
@@ -12,7 +12,7 @@ import { MatSelectChange } from '@angular/material/select';
 })
 export class TableComponent implements OnChanges {
 
-  @Input() table: ReportRestTable;
+  @Input() table: ReportTableResponseDTO;
 
   public showColumnsForm: FormControl;
   public allSelectColumns: Array<string>;
@@ -61,7 +61,7 @@ export class TableComponent implements OnChanges {
       let column = this.table.columnTitles[i];
 
       for (let j = 0; j < column.attributes.length; j++) {
-        let attribute: ReportRestAttribute = column.attributes[j];
+        let attribute: ReportAttributeResponseDTO = column.attributes[j];
         let value: string = attribute.value;
         let valueNextAtribute: string = undefined;
 
@@ -121,7 +121,7 @@ export class TableComponent implements OnChanges {
       this.table.rowTitles[i].attributes.forEach(attribute => {
         let colName = this.columnsTitles[this.columnsTitles.length - 1][nCol].name;
 
-        values.push(new CellValue(new ReportRestCell(attribute.value), colName, true));
+        values.push(new CellValue(new ReportCellResponseDTO(attribute.value), colName, true));
         nCol++;
       });
 

@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ReportRestCell, NumberType } from '../classes/report-classes';
+import { ReportCellResponseDTO, NumberType } from '../classes/report';
 
 @Pipe({ name: 'showRestCell' })
 export class ShowRestCell implements PipeTransform {
-    transform(cell: ReportRestCell) {
+    transform(cell: ReportCellResponseDTO) {
 
         if(cell.value == null || cell.value == undefined) {
             return "#";

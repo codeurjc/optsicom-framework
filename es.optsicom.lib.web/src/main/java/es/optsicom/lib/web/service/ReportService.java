@@ -1,8 +1,10 @@
-package es.optsicom.lib.web.model.reportrest;
+package es.optsicom.lib.web.service;
 
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 import es.optsicom.lib.analyzer.report.Report;
 import es.optsicom.lib.analyzer.report.ReportBlock;
@@ -12,20 +14,28 @@ import es.optsicom.lib.analyzer.report.table.CellFormat;
 import es.optsicom.lib.analyzer.report.table.Table;
 import es.optsicom.lib.analyzer.report.table.Title;
 import es.optsicom.lib.analyzer.tablecreator.atttable.Attribute;
+import es.optsicom.lib.web.dto.ReportAttributeResponseDTO;
+import es.optsicom.lib.web.dto.ReportBlockResponseDTO;
+import es.optsicom.lib.web.dto.ReportCellResponseDTO;
+import es.optsicom.lib.web.dto.ReportConfResponseDTO;
+import es.optsicom.lib.web.dto.ReportResponseDTO;
+import es.optsicom.lib.web.dto.ReportTableResponseDTO;
+import es.optsicom.lib.web.dto.ReportTitleResponseDTO;
 
-public class ReportRestBuilder {
+@Service
+public class ReportService {
 
-	public ReportRest buildReportRest(ReportRestConfiguration configuration, Report report) {
-		return new ReportRest(configuration, buildTables(report));
+	public ReportResponseDTO createReportRest(ReportConfResponseDTO configuration, Report report) {
+		return new ReportResponseDTO(configuration, buildTables(report));
 	}
 
-	public List<ReportRestBlock> buildTables(Report report) {
+	private List<ReportBlockResponseDTO> buildTables(Report report) {
 
-		List<ReportRestBlock> blocks = new ArrayList<>();
+		List<ReportBlockResponseDTO> blocks = new ArrayList<>();
 
 		for (ReportBlock reportBlock : report.getReportBlocks()) {
 			String blockName = reportBlock.getName();
-			List<ReportRestTable> tables = new ArrayList<>();
+			List<ReportTableResponseDTO> tables = new ArrayList<>();
 
 			for (ReportPage reportpage : reportBlock.getReportPages()) {
 				String tableTitle = reportpage.getName();
@@ -34,9 +44,9 @@ public class ReportRestBuilder {
 					Table table = (Table) reportElement;
 
 					// Transform cell values
-					List<List<ReportRestCell>> cellValues = new ArrayList<List<ReportRestCell>>();
+					List<List<ReportCellResponseDTO>> cellValues = new ArrayList<List<ReportCellResponseDTO>>();
 					for (int i = 0; i < table.getNumRows(); i++) {
-						List<ReportRestCell> cellRowValues = new ArrayList<ReportRestCell>();
+						List<ReportCellResponseDTO> cellRowValues = new ArrayList<ReportCellResponseDTO>();
 
 						for (int j = 0; j < table.getNumColumns(); j++) {
 							Object object;
@@ -61,57 +71,57 @@ public class ReportRestBuilder {
 								color = null;
 							}
 
-							cellRowValues.add(new ReportRestCell(object, cellFormat, color));
+							cellRowValues.add(new ReportCellResponseDTO(object, cellFormat, color));
 						}
 
 						cellValues.add(cellRowValues);
 					}
 
 					// Transform row titles
-					List<ReportRestTitle> rowTitles = new ArrayList<>();
+					List<ReportTitleResponseDTO> rowTitles = new ArrayList<>();
 					for (Title title : table.getRowTitles()) {
 						rowTitles.add(buildTitle(title));
 					}
 
 					// Transform column titles
-					List<ReportRestTitle> columnTitles = new ArrayList<>();
+					List<ReportTitleResponseDTO> columnTitles = new ArrayList<>();
 					for (Title title : table.getColumnTitles()) {
 						columnTitles.add(buildTitle(title));
 					}
 
-					tables.add(new ReportRestTable(tableTitle, cellValues, rowTitles, columnTitles));
+					tables.add(new ReportTableResponseDTO(tableTitle, cellValues, rowTitles, columnTitles));
 				}
 			}
 
-			blocks.add(new ReportRestBlock(blockName, tables));
+			blocks.add(new ReportBlockResponseDTO(blockName, tables));
 		}
 
 		return blocks;
 	}
 
-	private static ReportRestTitle buildTitle(Title title) {
+	private ReportTitleResponseDTO buildTitle(Title title) {
 		if (title == null) {
-			return new ReportRestTitle();
+			return new ReportTitleResponseDTO();
 		}
 
 		String infoTitle = (title.getTitle() == null) ? "" : title.getTitle();
-		List<ReportRestAttribute> attributes = new ArrayList<ReportRestAttribute>();
+		List<ReportAttributeResponseDTO> attributes = new ArrayList<ReportAttributeResponseDTO>();
 
 		for (Attribute attribute : title.getAttributes()) {
 			attributes.add(buildAttribute(attribute));
 		}
 
-		return new ReportRestTitle(attributes, infoTitle);
+		return new ReportTitleResponseDTO(attributes, infoTitle);
 	}
 
-	private static ReportRestAttribute buildAttribute(Attribute attribute) {
+	private ReportAttributeResponseDTO buildAttribute(Attribute attribute) {
 		if (attribute == null) {
-			return new ReportRestAttribute();
+			return new ReportAttributeResponseDTO();
 		}
 
 		String name = (attribute.getName() == null) ? "" : attribute.getName();
 		String value = (attribute.getTitle() == null) ? "null" : attribute.getTitle();
 
-		return new ReportRestAttribute(name, value);
+		return new ReportAttributeResponseDTO(name, value);
 	}
 }

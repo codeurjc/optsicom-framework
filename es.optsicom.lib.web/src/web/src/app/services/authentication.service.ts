@@ -2,14 +2,15 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-const baseAPI = environment.baseAPI;
+const loginAPI = environment.baseAPI + "logIn";
+const logoutAPI = environment.baseAPI + "logOut";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-  public isLogin: boolean = false;
+  private logged: boolean = false;
 
   constructor(private http: HttpClient) { }
 
@@ -23,16 +24,24 @@ export class AuthenticationService {
     return { withCredentials: true, headers };
   }
 
+  public isLogged(): boolean {
+    return this.logged;
+  }
+
+  public setLogged(logged: boolean) {
+    this.logged = logged;
+  }
+
   public login(name: string, pass: string) {
-    return this.http.get(baseAPI + "logIn", this.getHeadersLogin(name, pass));
+    return this.http.get(loginAPI, this.getHeadersLogin(name, pass));
   }
 
   public logout() {
-    return this.http.get(baseAPI + "logOut", { withCredentials: true });
+    return this.http.get(logoutAPI, { withCredentials: true });
   }
 
   public isConnected() {
-    return this.http.get(baseAPI + "logIn", { withCredentials: true });
+    return this.http.get(loginAPI, { withCredentials: true });
   }
 }
 

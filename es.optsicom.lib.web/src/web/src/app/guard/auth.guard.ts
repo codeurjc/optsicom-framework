@@ -20,10 +20,10 @@ export class AuthGuard implements CanActivate {
 
     return this.authenticationService.isConnected().pipe(
       map(() => {
-        this.authenticationService.isLogin = true;
-        
+        this.authenticationService.setLogged(true);
+
         return this.processLogin(true, URL);
-      }), catchError(error => {
+      }), catchError(() => {
         return observableOf(this.processLogin(false, URL));
       })
     );

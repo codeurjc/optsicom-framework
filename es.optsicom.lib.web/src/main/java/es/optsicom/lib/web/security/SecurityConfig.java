@@ -18,11 +18,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-
 		// API Authenticated URLS
 		configureUrlAuthorization(http);
 
-		// Disable CSRF protection (it is difficult to implement with ng2)
+		// Disable CSRF protection
 		http.csrf().disable();
 
 		// Use Http Basic Authentication
@@ -46,7 +45,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-
 		// Enable default password encoder (mandatory since Spring Security 5 to avoid
 		// storing passwords in plain text)
 		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();

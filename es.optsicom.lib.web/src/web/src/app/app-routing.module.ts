@@ -16,6 +16,7 @@ const routes: Routes = [
   /* Redirect principal page */
   { path: '', redirectTo: 'experiments', pathMatch: 'full' },
 
+  /* Experiments */
   {
     path: 'experiments',
     children: [
@@ -24,23 +25,23 @@ const routes: Routes = [
         path: '',
         component: ExperimentsListComponent,
       },
-      /* Compare experiments report page */
+      /* Report compare */
       {
-        path: 'comparereport',
+        path: 'compare',
         component: ReportComponent,
       },
       /* Experiment page */
       {
-        path: ':experimentId',
+        path: ':expId',
         component: ExperimentComponent,
         canActivate: [ControlCorrectExperimentGuard]
       },
-      /* Experiment single report page */
+      /* Report page */
       {
-        path: ':experimentId/report',
+        path: ':expId/report',
         component: ReportComponent,
         canActivate: [ControlCorrectExperimentGuard]
-      },
+      }
     ]
     , canActivate: [AuthGuard]
   },
@@ -49,8 +50,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
 
   /* Error pages */
-  { path: 'errorpage', component: ErrorPageComponent },
-  { path: '**', redirectTo: 'errorpage', pathMatch: 'full' }
+  // { path: 'errorpage', component: ErrorPageComponent },
+  // { path: '**', redirectTo: 'errorpage', pathMatch: 'full' }
 ];
 
 @NgModule({
