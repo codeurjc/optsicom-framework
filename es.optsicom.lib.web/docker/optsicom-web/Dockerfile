@@ -45,22 +45,29 @@ COPY --from=frontend-build /build/frontend/dist/optsicom-page \
 
 WORKDIR /build/backend
 RUN cd es.optsicom.lib.parent \
-    && mvn --batch-mode -o package -DskipTests \
-    && cd ../es.optsicom.lib.web/target \
-    && mv es.optsicom.lib.web-*SNAPSHOT.jar optsicom-web.jar
+    && mvn --batch-mode -o package -DskipTests
 
 ###
 
 # Optsicom Web Image
 FROM openjdk:11.0-jre-slim
 
+# Install dependencies
+RUN apt-get update \
+    && apt-get install -y netcat \
+    && rm -rf /var/lib/apt/lists/*
+
 # Copy necessaries files
-COPY es.optsicom.lib.web/docker/optsicom-web/entrypoint.sh /usr/local/bin
+COPY es.optsicom.lib.web/docker/optsicom-web/entrypoint.sh /opt/optsicom-web/
 COPY --from=backend-build /build/backend/es.optsicom.lib.web/target/optsicom-web.jar \
     /opt/optsicom-web/
 
+# Create optsicom user and add permissions into optsicom folder
+RUN useradd optsicom && \
+    chown -R optsicom:optsicom /opt/optsicom-web
+
+USER optsicom
+WORKDIR /opt/optsicom-web
 EXPOSE 5000
 
-WORKDIR /opt/optsicom-web
-
-CMD ["/usr/local/bin/entrypoint.sh"]
+CMD ["/opt/optsicom-web/entrypoint.sh"]
