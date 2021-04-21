@@ -17,10 +17,17 @@ services:
     depends_on:
       - database
     environment:
+      # Configure database
       - OPTSICOM_DB_HOST=database
       - OPTSICOM_DB_PORT=3306
       - OPTSICOM_DB_SCHEMA=optsicom
       - OPTSICOM_DB_USER=root
       - OPTSCIOM_DB_SECRET=${OPTSCIOM_DB_SECRET}
+
+      # Configure login for optsicom web
       - OPTSICOM_API_USER=${OPTSICOM_API_USER}
       - OPTSICOM_API_SECRET=${OPTSICOM_API_SECRET}
+
+      # Configure Java params
+      # Documentation: https://docs.oracle.com/cd/E37116_01/install.111210/e23737/configuring_jvm.htm#OUDIG00058
+      #- JAVA_OPTIONS=-Djava.security.egd=file:/dev/./urandom

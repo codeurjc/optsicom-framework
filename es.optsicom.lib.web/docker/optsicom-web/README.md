@@ -53,9 +53,10 @@ docker run -d --rm --name optsicom-web \
 
 If the application has time problems when answering we can pass the following variable to the JVM. References:
 
+- https://docs.oracle.com/cd/E37116_01/install.111210/e23737/configuring_jvm.htm#OUDIG00058
 - https://cwiki.apache.org/confluence/display/TOMCAT/HowTo+FasterStartUp#HowToFasterStartUp-EntropySource
 - https://blog.longyb.com/2019/06/09/tomcat_hang_creation_of_securerandom_instance_for_sessionid_english/
 
 ```bash
-JAVA_OPTIONS="-Djava.security.egd=file:/dev/./urandom"
+JAVA_OPTIONS=-Djava.security.egd=file:/dev/./urandom
 ```
