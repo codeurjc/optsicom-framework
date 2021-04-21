@@ -15,7 +15,7 @@ RUN npx ng build --prod
 ####
 
 # Multistage compile Backend Aplication
-FROM maven:3.6.3-openjdk-8 as backend-build
+FROM maven:3.6.3-openjdk-11 as backend-build
 
 # Download Dependencies
 COPY es.optsicom.lib/pom.xml /build/backend/es.optsicom.lib/
@@ -52,7 +52,7 @@ RUN cd es.optsicom.lib.parent \
 ###
 
 # Optsicom Web Image
-FROM openjdk:8-alpine
+FROM openjdk:11.0-jre-slim
 
 # Copy necessaries files
 COPY es.optsicom.lib.web/docker/optsicom-web/entrypoint.sh /usr/local/bin

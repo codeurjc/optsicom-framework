@@ -82,4 +82,8 @@ if [ "${OPTSICOM_DB_MODE}" = "mysql" ]; then
     done
 fi
 
-java -jar /opt/optsicom-web/optsicom-web.jar
+if [ -n "${JAVA_OPTIONS}" ]; then
+    printf "\n  Using java options: %s" "${JAVA_OPTIONS}"
+fi
+
+java ${JAVA_OPTIONS:-} -jar /opt/optsicom-web/optsicom-web.jar
