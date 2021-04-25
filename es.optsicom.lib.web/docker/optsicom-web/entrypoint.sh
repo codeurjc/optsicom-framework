@@ -8,7 +8,7 @@ mysql_local.host = ${OPTSICOM_DB_HOST}
 mysql_local.port = ${OPTSICOM_DB_PORT}
 mysql_local.schema = ${OPTSICOM_DB_SCHEMA}
 mysql_local.user = ${OPTSICOM_DB_USER}
-mysql_local.password = ${OPTSCIOM_DB_SECRET}
+mysql_local.password = ${OPTSICOM_DB_SECRET}
 EOF
 }
 
@@ -28,7 +28,7 @@ EOF
 [ -z "${OPTSICOM_DB_PORT}" ] && OPTSICOM_DB_PORT=3306
 [ -z "${OPTSICOM_DB_SCHEMA}" ] && OPTSICOM_DB_SCHEMA=optsicom
 [ -z "${OPTSICOM_DB_USER}" ] && OPTSICOM_DB_USER=root
-[ -z "${OPTSCIOM_DB_SECRET}" ] && OPTSCIOM_DB_SECRET="MY_SECRET"
+[ -z "${OPTSICOM_DB_SECRET}" ] && OPTSICOM_DB_SECRET="MY_SECRET"
 
 # API Variables
 [ -z "${OPTSICOM_API_USER}" ] && OPTSICOM_API_USER="researcher"

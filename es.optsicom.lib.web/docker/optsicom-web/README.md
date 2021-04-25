@@ -6,12 +6,12 @@
 Optsicom Web is available the following enviroment variables. This variables are necessary for configure the Database and User/Password credentials.
 
 ### Database configuration
-- **OPTSICOM_DB_MODE**: [mysql | derby] This variable define the Databse that use the Optsicom Web. If you selected mysql mode you need configure "OPTSICOM_DB_HOST, OPTSICOM_DB_PORT, OPTSCIOM_DB_SCHEMA, OPTSCIOM_DB_USER, OPTSCIOM_DB_SECRET" for the MySQL Database. If you selected derby mode is not need to configure any more variables.
+- **OPTSICOM_DB_MODE**: [mysql | derby] This variable define the Databse that use the Optsicom Web. If you selected mysql mode you need configure "OPTSICOM_DB_HOST, OPTSICOM_DB_PORT, OPTSICOM_DB_SCHEMA, OPTSICOM_DB_USER, OPTSICOM_DB_SECRET" for the MySQL Database. If you selected derby mode is not need to configure any more variables.
 - **OPTSICOM_DB_HOST**: This variable define the IP of MySQL
 - **OPTSICOM_DB_PORT**: This variable define the PORT of MySQL
-- **OPTSCIOM_DB_SCHEMA**: This variable define the Schema of MySQL
-- **OPTSCIOM_DB_USER**: This variable define the default USER of MySQL
-- **OPTSCIOM_DB_SECRET**: This variable define the PASSWORD of MySQL
+- **OPTSICOM_DB_SCHEMA**: This variable define the Schema of MySQL
+- **OPTSICOM_DB_USER**: This variable define the default USER of MySQL
+- **OPTSICOM_DB_SECRET**: This variable define the PASSWORD of MySQL
 
 ### Web credentials
 - **OPTSICOM_API_USER**: This variable configures the USER to be use in Optsicom Web.
@@ -45,7 +45,7 @@ docker run -d --rm --name optsicom-web \
         -e OPTSICOM_DB_PORT=3306 \
         -e OPTSICOM_DB_SCHEMA=optsicom \
         -e OPTSICOM_DB_USER=root \
-        -e OPTSCIOM_DB_SECRET=MY_SECRET \
+        -e OPTSICOM_DB_SECRET=MY_SECRET \
         -e OPTSICOM_API_USER=researcher \
         -e OPTSICOM_API_SECRET=MY_SECRET \
         codeurjc/optsicom-web

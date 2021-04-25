@@ -1,15 +1,16 @@
  
-version: '3.1'
-
+version: '3.9'
 services:
   database:
     image: mysql:8.0.20
     command: --character-set-server=utf8 --collation-server=utf8_general_ci
     environment:
-      - MYSQL_USER=root
+      - MYSQL_USER=${OPTSICOM_DB_USER}
       - MYSQL_ROOT_PASSWORD=${OPTSCIOM_DB_SECRET}
-      - MYSQL_DATABASE=optsicom
-  
+      - MYSQL_DATABASE=${OPTSICOM_DB_SCHEMA}
+    volumes:
+      - ${OPTSICOM_DB_DATA_PATH}:/var/lib/mysql
+
   optsicom-web:
     image: codeurjc/optsicom-web:latest
     ports:
@@ -20,14 +21,13 @@ services:
       # Configure database
       - OPTSICOM_DB_HOST=database
       - OPTSICOM_DB_PORT=3306
-      - OPTSICOM_DB_SCHEMA=optsicom
-      - OPTSICOM_DB_USER=root
-      - OPTSCIOM_DB_SECRET=${OPTSCIOM_DB_SECRET}
+      - OPTSICOM_DB_SCHEMA=${OPTSICOM_DB_SCHEMA}
+      - OPTSICOM_DB_USER=${OPTSICOM_DB_USER}
+      - OPTSICOM_DB_SECRET=${OPTSICOM_DB_SECRET}
 
       # Configure login for optsicom web
       - OPTSICOM_API_USER=${OPTSICOM_API_USER}
       - OPTSICOM_API_SECRET=${OPTSICOM_API_SECRET}
 
       # Configure Java params
-      # Documentation: https://docs.oracle.com/cd/E37116_01/install.111210/e23737/configuring_jvm.htm#OUDIG00058
-      #- JAVA_OPTIONS=-Djava.security.egd=file:/dev/./urandom
+      - JAVA_OPTIONS=${JAVA_OPTIONS:-}
