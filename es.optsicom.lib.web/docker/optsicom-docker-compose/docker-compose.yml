@@ -6,7 +6,7 @@ services:
     command: --character-set-server=utf8 --collation-server=utf8_general_ci
     environment:
       - MYSQL_USER=${OPTSICOM_DB_USER}
-      - MYSQL_ROOT_PASSWORD=${OPTSCIOM_DB_SECRET}
+      - MYSQL_ROOT_PASSWORD=${OPTSICOM_DB_SECRET}
       - MYSQL_DATABASE=${OPTSICOM_DB_SCHEMA}
     volumes:
       - ${OPTSICOM_DB_DATA_PATH}:/var/lib/mysql
