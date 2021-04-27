@@ -25,13 +25,13 @@ public class CommonApproxAttributeTableCreator extends AttributedTableCreator {
 
 		if (groups.length == 0) {
 			addStatisticGroup(StatisticGroup.createMultipleStatisticGroup(new LastEventRP(Event.OBJ_VALUE_EVENT),
-					new Statistic[] {
+			        new Statistic[] {
 
-							// TODO Buscar una mejor forma de configurar los
-							// informes al ejecutar los experimentos
-							new Statistic(new DevStatisticCalc(bestMode), "Dev"),
-							new Statistic(new NumBestStatisticCalc(bestMode), "#Best"),
-							new Statistic(new ScoreStatisticCalc(bestMode), "Score"),
+			                // TODO Buscar una mejor forma de configurar los
+			                // informes al ejecutar los experimentos
+			                new Statistic(new DevStatisticCalc(bestMode), "Dev"),
+			                new Statistic(new NumBestStatisticCalc(bestMode), "#Best"),
+			                new Statistic(new ScoreStatisticCalc(bestMode), "Score"),
 
 					// new Statistic(new FeasStatisticCalc(
 					// bestMode), "Feas"),
@@ -43,34 +43,46 @@ public class CommonApproxAttributeTableCreator extends AttributedTableCreator {
 					// bestMode), "Score"),
 					// new Statistic(new ScoreFeasStatisticCalc(
 					// bestMode), "ScoreFeas"),
-					}));
+			        }));
 
 			addStatisticGroup(
-					StatisticGroup
-							.createMultipleStatisticGroup(
-									new LastEventRP(Event.FINISH_TIME_EVENT)
-											.setSource(
-													LastEventRP.Source.TIMESTAMP),
-									new Statistic[] {
-											new Statistic(new NonRelativizerStatisticCalc(SummarizeMode.AVERAGE,
-													NumberType.DECIMAL, BestMode.MIN_IS_BEST), "Time") }));
+			        StatisticGroup
+			                .createMultipleStatisticGroup(
+			                        new LastEventRP(Event.FINISH_TIME_EVENT)
+			                                .setSource(
+			                                        LastEventRP.Source.TIMESTAMP),
+			                        new Statistic[] {
+			                                new Statistic(new NonRelativizerStatisticCalc(SummarizeMode.AVERAGE,
+			                                        NumberType.DECIMAL, BestMode.MIN_IS_BEST), "Time") }));
 
 			addStatisticGroup(
-					StatisticGroup
-							.createMultipleStatisticGroup(
-									new FirtsOfSameValueAsLastEventRP(Event.OBJ_VALUE_EVENT)
-											.setSource(FirtsOfSameValueAsLastEventRP.Source.TIMESTAMP),
-									new Statistic[] {
-											new Statistic(
-													new NonRelativizerStatisticCalc(SummarizeMode.AVERAGE,
-															NumberType.DECIMAL, BestMode.MIN_IS_BEST),
-													"Time to best") }));
+			        StatisticGroup
+			                .createMultipleStatisticGroup(
+			                        new FirtsOfSameValueAsLastEventRP(Event.OBJ_VALUE_EVENT)
+			                                .setSource(FirtsOfSameValueAsLastEventRP.Source.TIMESTAMP),
+			                        new Statistic[] {
+			                                new Statistic(
+			                                        new NonRelativizerStatisticCalc(SummarizeMode.AVERAGE,
+			                                                NumberType.DECIMAL, BestMode.MIN_IS_BEST),
+			                                        "Time to best") }));
 
 			addStatisticGroup(StatisticGroup
-					.createMultipleStatisticGroup(new LastEventRP("constructiveImprovement.iterationsPerformed"),
-							new Statistic[] { new Statistic(
-									new NonRelativizerStatisticCalc(SummarizeMode.AVERAGE, NumberType.INTEGER),
-									"#Const") }));
+			        .createMultipleStatisticGroup(new LastEventRP("constructiveImprovement.iterationsPerformed"),
+			                new Statistic[] { new Statistic(
+			                        new NonRelativizerStatisticCalc(SummarizeMode.AVERAGE, NumberType.INTEGER),
+			                        "#Const") }));
+
+			addStatisticGroup(StatisticGroup.createMultipleStatisticGroup(
+			        new LastEventRP("constructiveImprovement.feasibleSolutions"),
+			        new Statistic[] { new Statistic(
+			                new NonRelativizerStatisticCalc(SummarizeMode.AVERAGE, NumberType.INTEGER),
+			                "#Feasible") }));
+
+			addStatisticGroup(StatisticGroup.createMultipleStatisticGroup(
+			        new LastEventRP("constructiveImprovement.infeasibleSolutions"),
+			        new Statistic[] { new Statistic(
+			                new NonRelativizerStatisticCalc(SummarizeMode.AVERAGE, NumberType.INTEGER),
+			                "#Infeasible") }));
 
 		} else {
 			for (StatisticGroup group : groups) {

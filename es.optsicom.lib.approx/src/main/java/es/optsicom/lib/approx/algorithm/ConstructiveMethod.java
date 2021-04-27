@@ -14,16 +14,24 @@ import es.optsicom.lib.Instance;
 import es.optsicom.lib.Solution;
 import es.optsicom.lib.approx.AbstractApproxMethod;
 import es.optsicom.lib.approx.constructive.Constructive;
+import es.optsicom.lib.experiment.CurrentExperiment;
 import es.optsicom.lib.util.Id;
 import es.optsicom.lib.util.description.DescriptiveHelper;
 import es.optsicom.lib.util.description.Properties;
 
 public class ConstructiveMethod<S extends Solution<I>, I extends Instance> extends AbstractApproxMethod<S, I> {
 
+	public static final String ITERATIONS_PERFORMED_EVENT = "constructiveImprovement.iterationsPerformed";
+	public static final String ITERATIONS_FEASIBLE_EVENT = "constructiveImprovement.feasibleSolutions";
+	public static final String ITERATIONS_INFEASIBLE_EVENT = "constructiveImprovement.infeasibleSolutions";
+	
 	private Constructive<S, I> constructive;
 	private int numIterations = 0;
 	private int maxConstructions = 1;
-
+	
+	private int feasibleSolutions = 0;
+	private int infeasibleSolutions = 0;
+	
 	public ConstructiveMethod(Constructive<S, I> constructive, int maxConstructions) {
 		this.constructive = constructive;
 		this.maxConstructions = maxConstructions;
@@ -36,11 +44,22 @@ public class ConstructiveMethod<S extends Solution<I>, I extends Instance> exten
 	@Override
 	protected void internalCalculateSolution(long duration) {
 
+		// Clean feasible and infeasible solutions
+		feasibleSolutions = 0;
+		infeasibleSolutions = 0;
+		
 		if (duration == -1) {
 
 			for (int i = 0; i < maxConstructions; i++) {
 				S solution = constructive.createSolution();
 				setIfBestSolution(solution);
+				
+				// Count feasible and infeasible solutions
+				if (solution != null && solution.isFeasible()) {
+					feasibleSolutions++;
+				} else {
+					infeasibleSolutions++;
+				}
 			}
 
 			numIterations = maxConstructions;
@@ -55,9 +74,24 @@ public class ConstructiveMethod<S extends Solution<I>, I extends Instance> exten
 
 				setIfBestSolution(solution);
 				numIterations++;
+				
+				// Count feasible and infeasible solutions
+				if (solution != null && solution.isFeasible()) {
+					feasibleSolutions++;
+				} else {
+					infeasibleSolutions++;
+				}
 
 			} while (System.currentTimeMillis() < finishTime);
 		}
+		
+		if (bestSolution == null) {
+			setNullSolution();
+		}
+
+		CurrentExperiment.addEvent(ITERATIONS_PERFORMED_EVENT, numIterations);
+		CurrentExperiment.addEvent(ITERATIONS_FEASIBLE_EVENT, feasibleSolutions);
+		CurrentExperiment.addEvent(ITERATIONS_INFEASIBLE_EVENT, infeasibleSolutions);
 
 	}
 

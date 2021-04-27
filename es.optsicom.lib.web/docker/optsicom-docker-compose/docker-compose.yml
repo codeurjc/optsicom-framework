@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   database:
-    image: mysql:8.0.20
+    image: mysql:8.0.21
     command: --character-set-server=utf8 --collation-server=utf8_general_ci
     environment:
       - MYSQL_USER=${OPTSICOM_DB_USER}
