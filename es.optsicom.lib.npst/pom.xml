@@ -16,7 +16,7 @@
 	<parent>
 		<groupId>es.optsicom.lib</groupId>
 		<artifactId>es.optsicom.lib.parent</artifactId>
-		<version>0.12.0-SNAPSHOT</version>
+		<version>0.1.0</version>
 		<relativePath>../es.optsicom.lib.parent</relativePath>
 	</parent>
 
