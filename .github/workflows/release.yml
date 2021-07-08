@@ -1,0 +1,53 @@
+name: Release Maven
+
+on: 
+  workflow_dispatch:
+    inputs:
+      release_version: # New version
+        description: "Version of the new release"
+        required: true
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      OSSRH_USERNAME: optsicom
+      OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+      MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+        - uses: actions/checkout@v2
+
+        - name: Set up Apache Maven Central
+          uses: actions/setup-java@v2
+          with: # running setup-java to writes the settings.xml
+            java-version: '11'
+            distribution: 'adopt'
+            server-id: ossrh # Value of the distributionManagement/repository/id field of the pom.xml
+            server-username: OSSRH_USERNAME # env variable for username in deploy
+            server-password: OSSRH_PASSWORD # env variable for token in deploy
+            gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }} # Value of the GPG private key to import
+            gpg-passphrase: MAVEN_GPG_PASSPHRASE # env variable for GPG private key passphrase
+
+        - name: Publish package and commit in Github
+          run: sh ./adm-scripts/do_release.sh ${{ github.event.inputs.release_version }}
+
+        - name: Create Release
+          id: create_release
+          uses: actions/create-release@v1
+          with:
+            tag_name: ${{ github.event.inputs.release_version }}
+            release_name: Release ${{ github.event.inputs.release_version }}
+            draft: false
+            prerelease: false
+
+        - name: Upload Assets          
+          run: gh release upload ${{ github.event.inputs.release_version }} $ASSETS_TO_UPLOAD
+          env:
+            ASSETS_TO_UPLOAD: ./es.optsicom.lib/target/es.optsicom.lib-${{ github.event.inputs.release_version }}.jar
+              ./es.optsicom.lib.analysis/target/es.optsicom.lib.analysis-${{ github.event.inputs.release_version }}.jar
+              ./es.optsicom.lib.approx/target/es.optsicom.lib.approx-${{ github.event.inputs.release_version }}.jar
+              ./es.optsicom.lib.util/target/es.optsicom.lib.util-${{ github.event.inputs.release_version }}.jar
+              ./es.optsicom.lib.web/target/es.optsicom.lib.web-${{ github.event.inputs.release_version }}.jar
+              #./es.optsicom.lib.exact/target/es.optsicom.lib.exact-${{ github.event.inputs.release_version }}.jar

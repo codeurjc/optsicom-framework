@@ -5,7 +5,6 @@ WORKDIR /build/frontend
 
 # Download Dependencies
 COPY es.optsicom.lib.web/src/web/package.json /build/frontend/
-COPY es.optsicom.lib.web/src/web/package-lock.json /build/frontend/
 RUN npm install
 
 # Compile Project
@@ -45,8 +44,8 @@ COPY --from=frontend-build /build/frontend/dist/optsicom-page \
 
 WORKDIR /build/backend
 RUN cd es.optsicom.lib.parent \
-    && mvn --batch-mode -o package -DskipTests
-
+    && mvn --batch-mode -o package -DskipTests \
+    && rm -f /build/backend/es.optsicom.lib.web/target/es.optsicom.lib.web-*-javadoc.jar
 ###
 
 # Optsicom Web Image
@@ -59,8 +58,8 @@ RUN apt-get update \
 
 # Copy necessaries files
 COPY es.optsicom.lib.web/docker/optsicom-web/entrypoint.sh /opt/optsicom-web/
-COPY --from=backend-build /build/backend/es.optsicom.lib.web/target/optsicom-web.jar \
-    /opt/optsicom-web/
+COPY --from=backend-build /build/backend/es.optsicom.lib.web/target/es.optsicom.lib.web-*.jar \
+    /opt/optsicom-web/optsicom-web.jar
 
 # Create optsicom user and add permissions into optsicom folder
 RUN useradd optsicom && \
