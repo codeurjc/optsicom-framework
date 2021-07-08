@@ -8,8 +8,8 @@ set -ex
 cd ./es.optsicom.lib.parent
 
 mvn -B versions:set -DgenerateBackupPoms=false -DnewVersion="$VERSION"
-mvn -B clean package
-mvn -B clean deploy
+mvn -B -DperformRelease=true clean package
+mvn -B -DperformRelease=true clean deploy
 
 # Github commit
 
