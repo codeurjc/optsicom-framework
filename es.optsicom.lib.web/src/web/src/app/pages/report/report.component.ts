@@ -6,8 +6,11 @@ import { ReportConfResponseDTO, ReportResponseDTO } from 'src/app/classes/report
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { InstanceBasicResponseDTO } from 'src/app/classes/instance';
+import { JupyterDTO } from './../../classes/jupyter';
+import { JupyterService } from './../../services/jupyter.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatMenuModule} from '@angular/material/menu';
 
 const ReportMode = {
   SINGLE: 'single',
@@ -40,9 +43,12 @@ export class ReportComponent implements OnInit {
   public selection: SelectionModel<InstanceBasicResponseDTO>;
   public noInstancesShow: boolean = false;
 
+  public jupyterInfo: JupyterDTO;
+
   constructor(private router: Router,
     private activatedRoute: ActivatedRoute,
-    private reportService: ReportService) { }
+    private reportService: ReportService,
+    private jupyterService: JupyterService) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(
@@ -81,7 +87,7 @@ export class ReportComponent implements OnInit {
 
         this.prepareInstancesTable(report.configuration);
         this.prepareMethods(report.configuration);
-
+        this.prepareJupyter(report.configuration);
         this.loadingInfo = false;
       }
     );
@@ -178,7 +184,7 @@ export class ReportComponent implements OnInit {
     conf.instances
       .filter(instance => conf.selectedInstances.includes(instance.id))
       .forEach(instance => selectedInstances.push(instance));
-
+      
     this.selection = new SelectionModel<InstanceBasicResponseDTO>(true, selectedInstances);
   }
 
@@ -225,5 +231,16 @@ export class ReportComponent implements OnInit {
 
         return matchFilter.every(Boolean); // AND
       };
+  }
+
+  private prepareJupyter(conf: ReportConfResponseDTO){
+    this.jupyterService.getJupyterUrl().subscribe((params) =>{
+      if(params !== null){
+        this.jupyterInfo = params;
+        this.jupyterInfo.selectedInstances = conf.selectedInstances.toString();
+        this.jupyterInfo.selectedExperiments = conf.expId.toString();
+        this.jupyterInfo.selectedMethods = conf.selectedMethods.toString();
+      }
+    });
   }
 }

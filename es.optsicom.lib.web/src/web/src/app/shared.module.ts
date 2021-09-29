@@ -31,6 +31,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
+import { MatMenuModule} from '@angular/material/menu';
 
 /* MatDialogs */
 import { YesNoDialogComponent } from './common-dialogs/yes-no-dialog/yes-no-dialog.component';
@@ -75,7 +76,8 @@ import { LastPageVisitedService } from './services/last-page-visited.service';
     MatSortModule,
     MatInputModule,
     MatDividerModule,
-    MatListModule
+    MatListModule,
+    MatMenuModule
   ], exports: [
     /* Common components */
     BreadcrumbComponent,
@@ -102,7 +104,8 @@ import { LastPageVisitedService } from './services/last-page-visited.service';
     MatSortModule,
     MatInputModule,
     MatDividerModule,
-    MatListModule
+    MatListModule,
+    MatMenuModule
   ], entryComponents: [
     /* MatDialogs */
     YesNoDialogComponent

@@ -2,6 +2,19 @@
 
 <div class="control-buttons">
     <button mat-raised-button (click)="updateSelectMethods()" color="accent">Update Report</button>
+    <span *ngIf="jupyterInfo">
+        <span style="margin-left: 1em;"></span>
+        <button mat-raised-button [matMenuTriggerFor]="menu" color="accent">
+            Jupyter Analysis
+        </button>
+        <mat-menu #menu="matMenu">
+            <div *ngFor="let template of jupyterInfo.templates">
+                <a *ngIf="jupyterInfo"
+                    href="{{jupyterInfo.url}}/{{template}}?experiments={{jupyterInfo.selectedExperiments}}&instances={{jupyterInfo.selectedInstances}}&methods={{jupyterInfo.selectedMethods}}&autorun=true"
+                    target="_blank" mat-menu-item>{{template}}</a>
+            </div>
+        </mat-menu>
+    </span>
 </div>
 
 <mat-card class="report-card">
