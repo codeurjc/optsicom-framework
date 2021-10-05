@@ -41,13 +41,3 @@ jobs:
             release_name: Release ${{ github.event.inputs.release_version }}
             draft: false
             prerelease: false
-
-        - name: Upload Assets          
-          run: gh release upload ${{ github.event.inputs.release_version }} $ASSETS_TO_UPLOAD
-          env:
-            ASSETS_TO_UPLOAD: ./es.optsicom.lib/target/es.optsicom.lib-${{ github.event.inputs.release_version }}.jar
-              ./es.optsicom.lib.analysis/target/es.optsicom.lib.analysis-${{ github.event.inputs.release_version }}.jar
-              ./es.optsicom.lib.approx/target/es.optsicom.lib.approx-${{ github.event.inputs.release_version }}.jar
-              ./es.optsicom.lib.util/target/es.optsicom.lib.util-${{ github.event.inputs.release_version }}.jar
-              ./es.optsicom.lib.web/target/es.optsicom.lib.web-${{ github.event.inputs.release_version }}.jar
-              #./es.optsicom.lib.exact/target/es.optsicom.lib.exact-${{ github.event.inputs.release_version }}.jar
