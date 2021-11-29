@@ -56,11 +56,13 @@ public class StatisticBlockBuilder extends BlockBuilder {
 		for (int i = 0; i < methods.size() - 1; i++) {
 			for (int j = i + 1; j < methods.size(); j++) {
 				DataTable data = new DataTable(createDataTable(values[i], values[j]));
-				WilcoxonTest test = new WilcoxonTest(data);
-				test.doTest();
 				rowsTitles.add(new Title(experimentResults.getExperimentMethodName(methods.get(i)) + "\n"
 						+ experimentResults.getExperimentMethodName(methods.get(j))));
-				pvalues.add(test.getExactDoublePValue());
+				if(data.getRows() < 50) {
+					WilcoxonTest test = new WilcoxonTest(data);
+					test.doTest();
+					pvalues.add(test.getExactDoublePValue());
+				}
 			}
 		}
 
