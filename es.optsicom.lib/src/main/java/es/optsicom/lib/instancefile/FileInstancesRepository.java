@@ -94,7 +94,7 @@ public abstract class FileInstancesRepository extends InstancesRepository {
 								+ instancesDirOrZip.toAbsolutePath() + ")");
 			}
 
-			zipFs = FileSystems.newFileSystem(instancesDirOrZip, null);
+			zipFs = FileSystems.newFileSystem(instancesDirOrZip);
 			instanceFilesDir = zipFs.getPath("/");
 		}
 
