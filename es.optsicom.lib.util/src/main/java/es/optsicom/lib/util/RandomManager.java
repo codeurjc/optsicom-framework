@@ -48,6 +48,63 @@ public class RandomManager {
 		return nextDouble;
 	}
 
+	/**
+	 * Sample of a normal distribution with the mean and deviation specified
+	 * 
+	 * @param mean
+	 * @param stdev
+	 * @return double
+	 */
+	public static double nextGaussian(double mean, double stdev) {
+		double nextGaussian = random.nextGaussian() * stdev + mean;
+		return nextGaussian;
+	}
+
+	/**
+	 * Sample of a truncated normal distribution within the 95% interval of the mean
+	 * and deviation specified
+	 * 
+	 * @param mean
+	 * @param stdev
+	 * @return double
+	 */
+	public static double nextGaussianTruncated(double mean, double stdev) {
+		double lowerLimit = mean - (2 * stdev);
+		double upperLimit = mean + (2 * stdev);
+
+		double nextGaussian = nextGaussian(mean, stdev);
+
+		while (DoublePrecision.lessThan(nextGaussian, lowerLimit)
+		        || DoublePrecision.greaterThan(nextGaussian, upperLimit)) {
+
+			nextGaussian = nextGaussian(mean, stdev);
+		}
+
+		return nextGaussian;
+	}
+
+	/**
+	 * Sample of a truncated normal distribution within the interval of the mean and
+	 * deviation specified
+	 * 
+	 * @param mean
+	 * @param stdev
+	 * @param lowerLimit
+	 * @param upperLimit
+	 * @return double
+	 */
+	public static double nextGaussianTruncated(double mean, double stdev, double lowerLimit, double upperLimit) {
+		double nextGaussian = nextGaussian(mean, stdev);
+
+		while (DoublePrecision.lessThan(nextGaussian, lowerLimit)
+		        || DoublePrecision.greaterThan(nextGaussian, upperLimit)) {
+
+			nextGaussian = nextGaussian(mean, stdev);
+		}
+
+		return nextGaussian;
+	}
+
 	public static float nextFloat() {
 		float nextFloat = random.nextFloat();
 		return nextFloat;
@@ -78,7 +135,7 @@ public class RandomManager {
 	public static boolean nextBoolean() {
 		return RandomManager.nextInt(2) == 1 ? true : false;
 	}
-	
+
 	public static Random getRandom() {
 		return random;
 	}
